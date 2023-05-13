@@ -1,0 +1,14 @@
+# Extending your own package with gt
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+```
+
+## Creating display tables to augment data summaries
+
+
+## Providing wrapper functions to modify the table outputs
+
+
+## Implementation ideas
+
