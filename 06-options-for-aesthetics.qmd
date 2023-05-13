@@ -1,0 +1,30 @@
+# Taking control of different aesthetic and table structure options
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+```
+
+## Coloring data according to their values
+
+- `data_color()`
+
+
+## Adding style to various locations
+
+- `tab_style()` and the `cell_*()` style helpers
+- `tab_style_body()`
+- `opt_stylize()`
+
+
+## A smorgasbord of table options to choose from
+
+- `tab_options()`
+- `opt_table_font()`
+- `opt_*_padding()`
+- `opt_row_striping()`
+- `opt_all_caps()`
+
+
+## Making interactive HTML tables
+
+- `opt_interactive()`
