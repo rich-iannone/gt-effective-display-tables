@@ -1,0 +1,69 @@
+# Formatting the values within a table
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+```
+
+## Basic number formatting
+
+- `fmt_number()`
+- `fmt_integer()`
+- `fmt_percent()`
+
+
+## Scientific and engineering formats
+
+- `fmt_scientific()`
+- `fmt_engineering()`
+
+
+## Formatting numbers to currencies and various other units
+
+- `fmt_currency()`
+- `fmt_bytes()`
+- `fmt_partsper()`
+
+
+## Translating numbers to other forms
+
+- `fmt_index()`
+- `fmt_roman()`
+- `fmt_num_spelled()`
+
+
+## Date, time, and duration formats
+
+- `fmt_date()`
+- `fmt_time()`
+- `fmt_datetime()`
+- `fmt_duration()`
+
+
+## Formatting with Markdown, creating links, adding images
+
+- `fmt_markdown()`
+- `fmt_url()`
+- `fmt_image()`
+
+
+## Creating your own formatter
+
+- `fmt()`
+
+
+## Substitution Functions
+
+- `sub_missing()`
+- `sub_zero()`
+- `sub_small_vals()`
+- `sub_large_vals()`
+- `sub_values()`
+
+
+## Text transformations
+
+- `text_replace()`
+- `text_case_when()`
+- `text_case_match()`
+- `text_transform()`
+
