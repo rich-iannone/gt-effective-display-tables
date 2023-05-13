@@ -1,0 +1,33 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  twitter-card: true
+  title: "Creating Effective Display Tables with the gt Package"
+  author: "Richard Iannone"
+  search: true
+  chapters:
+    - index.qmd
+    - 01-what-is-gt-to-do.qmd
+    - 02-basic-components.qmd
+    - 03-formatting-values.qmd
+    - 04-modifying-columns.qmd
+    - 05-table-summary-rows.qmd
+    - 06-options-for-aesthetics.qmd
+    - 07-publishing-formats.qmd
+    - 08-case-studies.qmd
+    - 09-packages-that-extend.qmd
+    - 10-extending-your-own-package.qmd
+
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-link: true
+    code-line-numbers: false
+    code-annotations: below
+
+execute:
+  collapse: true
+
