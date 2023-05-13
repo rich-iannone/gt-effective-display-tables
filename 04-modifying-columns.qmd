@@ -1,0 +1,34 @@
+# Modifying aspects of the table columns
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+```
+
+## Labels, widths, alignments
+
+- `cols_label()`
+- `cols_label_with()`
+- `cols_width()`
+- `cols_align()`
+
+
+## Moving columns
+
+- `cols_move_to_start()`
+- `cols_move_to_end()`
+- `cols_move()`
+
+
+## Hiding columns
+
+- `cols_hide()`
+- `cols_unhide()`
+
+
+## Merging column data together
+
+- `cols_merge()`
+- `cols_merge_uncert()`
+- `cols_merge_range()`
+- `cols_merge_n_pct()`
+
