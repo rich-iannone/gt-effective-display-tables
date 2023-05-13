@@ -1,0 +1,21 @@
+# Publishing tables in different formats
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+```
+
+## HTML
+
+
+## LaTeX
+
+
+## RTF
+
+
+## Word
+
+
+## PNG images
+
+
