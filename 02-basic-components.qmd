@@ -484,11 +484,11 @@ pizzaplace |>
 
 - `tab_row_group()`
 
-Using a subset of the `gtcars` dataset, let's create a simple **gt** table
-with row labels (from the `model` column) inside of a stub. This eight-row
-table begins with no row groups at all but with a single use of the
-`tab_row_group()` function, we can specify a row group that will contain any
-rows where the car model begins with a number.
+Create a row group with a collection of rows. This requires specification of the rows to be included, either by supplying row labels, row indices, or through use of a select helper function like `starts_with()`. To modify the order of row groups, use the `row_group_order()` function.
+
+To set a default row group label for any rows not formally placed in a row group, we can use a separate call to `tab_options(row_group.default_label = <label>)`. If this is not done and there are rows that haven't been placed into a row group (where one or more row groups already exist), those rows will be automatically placed into a row group without a label. To restore labels for row groups not explicitly assigned a group, `tab_options(row_group.default_label = "")` can be used.
+
+Using a subset of the `gtcars` dataset, let's create a simple **gt** table with row labels (from the `model` column) inside of a stub. This eight-row table begins with no row groups at all but with a single use of the `tab_row_group()` function, we can specify a row group that will contain any rows where the car model begins with a number.
 
 ```{r}
 gtcars |>
@@ -607,10 +607,22 @@ the `md()` helper function makes it so that any Markdown provided for the
 `label` of a row group is faithfully rendered.
 
 - `row_group_order()`
+
 - `tab_stubhead()`
+
+Add a label to the stubhead of a **gt** table. The stubhead is the lone element that is positioned left of the column labels, and above the stub. If a stub does not exist, then there is no stubhead (so no change will be made when using this function in that case). We have the flexibility to use Markdown formatting for the stubhead label. Furthermore, if the table is intended for HTML output, we can use HTML for the stubhead label.
+
+Using a small subset of the `gtcars` dataset, we can create a **gt** table with row labels. Since we have row labels in the stub (via use of `rowname_col = "model"` in the `gt()` function call) we have a stubhead, so, let's add a stubhead label (`"car"`) with the `tab_stubhead()` function to describe what's in the stub.
+
+```{r}
+gtcars |>
+  dplyr::select(model, year, hp, trq) |>
+  dplyr::slice(1:5) |>
+  gt(rowname_col = "model") |>
+  tab_stubhead(label = "car")
+```
+
 - `tab_stub_indent()`
-
-
 
 
 ## Adding footnotes
