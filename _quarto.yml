@@ -31,3 +31,4 @@ format:
 execute:
   collapse: true
 
+html-table-processing: none
