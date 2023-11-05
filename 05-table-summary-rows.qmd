@@ -6,15 +6,15 @@ library(gt)
 
 ## Summarizing groups of rows
 
-- `summary_rows()`
+### `summary_rows()`
 
 
 ## Summarizing data across the entire table
 
-- `grand_summary_rows()`
+### `grand_summary_rows()`
 
 
 ## Extracting summary rows
 
-- `extract_summary()`
+### `extract_summary()`
 
