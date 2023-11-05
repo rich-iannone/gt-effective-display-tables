@@ -6,6 +6,7 @@ library(gt)
 
 ## Basic number formatting
 
+*** General introduction to basic number formatting
 
 ### `fmt_number()`
 
@@ -16,6 +17,7 @@ library(gt)
 
 ## Scientific and engineering formats
 
+*** General introduction to scientific and engineering number formatting
 
 ### `fmt_scientific()`
 
@@ -23,6 +25,8 @@ library(gt)
 
 
 ## Formatting numbers to currencies and various other units
+
+*** General introduction to currency and other symbol-adding formatting functions
 
 ### `fmt_currency()`
 
@@ -33,6 +37,8 @@ library(gt)
 
 ## Translating numbers to other forms
 
+*** General introduction to formatting whole numbers to different textual representations
+
 ### `fmt_index()`
 
 ### `fmt_roman()`
@@ -41,6 +47,8 @@ library(gt)
 
 
 ## Date, time, and duration formats
+
+*** General introduction to formatting as dates, times, and durations
 
 ### `fmt_date()`
 
