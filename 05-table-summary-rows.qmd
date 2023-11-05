@@ -4,6 +4,8 @@
 library(gt)
 ```
 
+*** General introduction to summary rows in a table
+
 ## Summarizing groups of rows
 
 ### `summary_rows()`
