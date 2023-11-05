@@ -4,22 +4,28 @@
 library(gt)
 ```
 
+*** General introduction to formatting aspects of the table columns
+
 ## Labels, widths, alignments
 
-###`cols_label()`
+*** General introduction to formatting column labels, column widths, and column alignments
+
+### `cols_label()`
 
 
-###`cols_label_with()`
+### `cols_label_with()`
 
 
-###`cols_width()`
+### `cols_width()`
 
 
-###`cols_align()`
+### `cols_align()`
 
 
 
 ## Moving columns
+
+*** General introduction to changing the positions of columns
 
 ### `cols_move_to_start()`
 
@@ -33,6 +39,8 @@ library(gt)
 
 ## Hiding columns
 
+*** General introduction to hiding columns
+
 ### `cols_hide()`
 
 
@@ -41,6 +49,8 @@ library(gt)
 
 
 ## Merging column data together
+
+*** General introduction to column merging
 
 ### `cols_merge()`
 
@@ -52,5 +62,4 @@ library(gt)
 
 
 ### `cols_merge_n_pct()`
-
 
