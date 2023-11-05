@@ -10,6 +10,8 @@ library(tidyr)
 
 When one provides table data to the `gt()` function, it generates a **gt** table object. This function is the initial step in a typical **gt** workflow. Once you possess the **gt** table object, you have the ability to perform styling transformations before rendering it as a display table of different formats.
 
+### `gt()`
+
 Let's use the `exibble` dataset for the next few examples, we'll learn how to make simple **gt** tables with the `gt()` function. The most basic thing to do is to just use `gt()` with the dataset as the input.
 
 ```{r}
@@ -88,9 +90,9 @@ In this example, the `fmt_number()` and `fmt_date()` functions understand that t
 
 ## The table header and footer
 
-- `tab_header()` and `opt_align_header()`
+It's possible to add a table header to the **gt** table, which includes a title and even a subtitle. The table header is an optional component of the table that appears above the column labels. You have the flexibility to use Markdown formatting for the header's title and subtitle, allowing for greater customization. Additionally, if you intend to use HTML output for the table, you may utilize HTML in either the title or subtitle.
 
-It is possible to add a table header to the **gt** table, which includes a title and even a subtitle. The table header is an optional component of the table that appears above the column labels. You have the flexibility to use Markdown formatting for the header's title and subtitle, allowing for greater customization. Additionally, if you intend to use HTML output for the table, you may utilize HTML in either the title or subtitle.
+### `tab_header()`
 
 Use the `gtcars` dataset to create a **gt** table. Add a header part to the
 table with the `tab_header()` function. We'll add a title and the optional
@@ -151,6 +153,8 @@ gtcars |>
   )
 ```
 
+### `opt_align_header()`
+
 The table header that is appended to a **gt** table typically has center alignment for both the title and subtitle elements. However, it is possible to adjust the horizontal alignment of the title and subtitle by utilizing the `align` argument. This function provides a quick and easy means to set the alignment to the left or right. It also serves as a convenient shortcut for `<gt_tbl> |> tab_options(heading.align = <align>)`.
 
 ```{r}
@@ -163,18 +167,20 @@ exibble |>
   opt_align_table_header(align = "left")
 ```
 
-- `tab_source_note()`
+## Adding *source notes* to the footer of the table
+
+*** General introduction to the table footer
+
+### `tab_source_note()`
 
 
 ## Grouping together column labels with spanners
 
-- `tab_spanner()`
+*** General introduction to table spanners
 
-Let's create a **gt** table using a small portion of the `gtcars` dataset.
-Over several columns (`hp`, `hp_rpm`, `trq`, `trq_rpm`, `mpg_c`, `mpg_h`)
-we'll use `tab_spanner()` to add a spanner with the label `"performance"`.
-This effectively groups together several columns related to car performance
-under a unifying label.
+### `tab_spanner()`
+
+Let's create a **gt** table using a small portion of the `gtcars` dataset. Over several columns (`hp`, `hp_rpm`, `trq`, `trq_rpm`, `mpg_c`, `mpg_h`) we'll use `tab_spanner()` to add a spanner with the label `"performance"`. This effectively groups together several columns related to car performance under a unifying label.
 
 ```{r}
 gtcars |>
@@ -192,17 +198,7 @@ gtcars |>
   )
 ```
 
-With the default `gather = TRUE` option, columns selected for a particular
-spanner will be moved so that there is no separation between them. This can
-be seen with the example below that uses a subset of the `towny` dataset.
-The starting column order is `name`, `latitude`, `longitude`,
-`population_2016`, `density_2016`, `population_2021`, and `density_2021`. The
-first two uses of `tab_spanner()` deal with making separate spanners for the
-two population and two density columns. After their use, the columns are
-moved to this new ordering: `name`, `latitude`, `longitude`,
-`population_2016`, `population_2021`, `density_2016`, and `density_2021`. The
-third and final call of `tab_spanner()` doesn't further affect the ordering
-of columns.
+With the default `gather = TRUE` option, columns selected for a particular spanner will be moved so that there is no separation between them. This can be seen with the example below that uses a subset of the `towny` dataset. The starting column order is `name`, `latitude`, `longitude`, `population_2016`, `density_2016`, `population_2021`, and `density_2021`. The first two uses of `tab_spanner()` deal with making separate spanners for the two population and two density columns. After their use, the columns are moved to this new ordering: `name`, `latitude`, `longitude`, `population_2016`, `population_2021`, `density_2016`, and `density_2021`. The third and final call of `tab_spanner()` doesn't further affect the ordering of columns.
 
 ```{r}
 towny |>
@@ -228,22 +224,9 @@ towny |>
   )
 ```
 
-While columns are moved, it is only the minimal amount of moving required
-(pulling in columns from the right) to ensure that columns are gathered under
-the appropriate spanners. With the last call, there are two more things to
-note: (1) `label` values can use the `md()` (or `html()`) helper functions to
-help create styled text, and (2) an `id` value may be supplied for reference
-later (e.g., for styling with `tab_style()` or applying footnotes with
-`tab_footnote()`).
+While columns are moved, it is only the minimal amount of moving required (pulling in columns from the right) to ensure that columns are gathered under the appropriate spanners. With the last call, there are two more things to note: (1) `label` values can use the `md()` (or `html()`) helper functions to help create styled text, and (2) an `id` value may be supplied for reference later (e.g., for styling with `tab_style()` or applying footnotes with `tab_footnote()`).
 
-It's possible to stack multiple spanners atop each other with consecutive
-calls of `tab_spanner()`. It's a bit like playing Tetris: putting a spanner
-down anywhere there is another spanner (i.e., there are one or more shared
-columns) means that second spanner will reside a level above prior. Let's
-look at a few examples at how this works, and we'll also explore a few
-lesser-known placement tricks. Let's use a cut down version of `exibble`
-for this, set up a few level-one spanners, and then place a level two spanner
-over two other spanners.
+It's possible to stack multiple spanners atop each other with consecutive calls of `tab_spanner()`. It's a bit like playing Tetris: putting a spanner down anywhere there is another spanner (i.e., there are one or more shared columns) means that second spanner will reside a level above prior. Let's look at a few examples at how this works, and we'll also explore a few lesser-known placement tricks. Let's use a cut down version of `exibble` for this, set up a few level-one spanners, and then place a level two spanner over two other spanners.
 
 ```{r}
 exibble_narrow <- exibble |> dplyr::slice_head(n = 3)
@@ -270,14 +253,7 @@ exibble_narrow |>
   )
 ```
 
-In the above example, we used the `spanners` argument to define where the
-`"Numbers and Text"`-labeled spanner should reside. For that, we supplied the
-`"num_spanner"` and `"text_spanner"` ID values for the two spanners
-associated with the `num`, `currency`, `char`, and `fctr` columns.
-Alternatively, we could have given those column names to the `columns`
-argument and achieved the same result. You could actually use a combination
-of `spanners` and `columns` to define where the spanner should be placed.
-Here is an example of just that:
+In the above example, we used the `spanners` argument to define where the `"Numbers and Text"`-labeled spanner should reside. For that, we supplied the `"num_spanner"` and `"text_spanner"` ID values for the two spanners associated with the `num`, `currency`, `char`, and `fctr` columns. Alternatively, we could have given those column names to the `columns` argument and achieved the same result. You could actually use a combination of `spanners` and `columns` to define where the spanner should be placed. Here is an example of just that:
 
 ```{r}
 exibble_narrow_gt <-
@@ -302,12 +278,7 @@ exibble_narrow_gt <-
 exibble_narrow_gt
 ```
 
-And, again, we could have solely supplied all of the column names to
-`columns` instead of using this hybrid approach, but it is interesting to
-express the definition of spanners with this flexible combination.
-What if you wanted to extend the above example and place a spanner above the
-`date`, `time`, and `datetime` columns? If you tried that in the manner as
-exemplified above, the spanner will be placed in the third level of spanners:
+And, again, we could have solely supplied all of the column names to `columns` instead of using this hybrid approach, but it is interesting to express the definition of spanners with this flexible combination. What if you wanted to extend the above example and place a spanner above the `date`, `time`, and `datetime` columns? If you tried that in the manner as exemplified above, the spanner will be placed in the third level of spanners:
 
 ```{r}
 exibble_narrow_gt |>
@@ -318,11 +289,7 @@ exibble_narrow_gt |>
   )
 ```
 
-Remember that the approach taken by `tab_spanner()` is to keep stacking atop
-existing spanners. But, there is space next to the `"Text Values"` spanner on
-the first level. You can either revise the order of `tab_spanner()` calls,
-or, use the `level` argument to force the spanner into that level (so long
-as there is space).
+Remember that the approach taken by `tab_spanner()` is to keep stacking atop existing spanners. But, there is space next to the `"Text Values"` spanner on the first level. You can either revise the order of `tab_spanner()` calls, or, use the `level` argument to force the spanner into that level (so long as there is space).
 
 ```{r}
 exibble_narrow_gt |>
@@ -334,15 +301,9 @@ exibble_narrow_gt |>
   )
 ```
 
-That puts the spanner in the intended level. If there aren't free locations
-available in the `level` specified you'll get an error stating which columns
-cannot be used for the new spanner (this can be circumvented, if necessary,
-with the `replace = TRUE` option). If you choose a level higher than the
-maximum occupied, then the spanner will be dropped down. Again, these
-behaviors are indicative of Tetris-like rules though they tend to work well
-for the application of spanners.
+That puts the spanner in the intended level. If there aren't free locations available in the `level` specified you'll get an error stating which columns cannot be used for the new spanner (this can be circumvented, if necessary, with the `replace = TRUE` option). If you choose a level higher than the maximum occupied, then the spanner will be dropped down. Again, these behaviors are indicative of Tetris-like rules though they tend to work well for the application of spanners.
 
-- `tab_spanner_delim()`
+### `tab_spanner_delim()`
 
 The `cols_spanner_delim()` function can take specially-crafted column names and generate one or more spanner column labels (along with relabeling the column labels). This is done by splitting the column name by a specified delimiter character (this is the `delim`) and placing the fragments from top to bottom (i.e., higher-level spanners to the column labels). Furthermore, the neighboring text fragments on different spanner levels will be coalesced together to put the span back into spanner. For instance, having the three side-by-side column names `rating_1`, `rating_2`, and `rating_3` will (in the default case at least) result in a spanner with the label `"rating"` above columns with the labels `"1"`, `"2"`, and `"3"`.
 
@@ -479,10 +440,12 @@ pizzaplace |>
 ```
 
 
-
 ## The stub and row groups
 
-- `tab_row_group()`
+*** General introduction to the table stub
+
+
+### `tab_row_group()`
 
 Create a row group with a collection of rows. This requires specification of the rows to be included, either by supplying row labels, row indices, or through use of a select helper function like `starts_with()`. To modify the order of row groups, use the `row_group_order()` function.
 
@@ -606,9 +569,10 @@ was done with the `tab_style()` invocations in the example above). The use of
 the `md()` helper function makes it so that any Markdown provided for the
 `label` of a row group is faithfully rendered.
 
-- `row_group_order()`
+### `row_group_order()`
 
-- `tab_stubhead()`
+
+### `tab_stubhead()`
 
 Add a label to the stubhead of a **gt** table. The stubhead is the lone element that is positioned left of the column labels, and above the stub. If a stub does not exist, then there is no stubhead (so no change will be made when using this function in that case). We have the flexibility to use Markdown formatting for the stubhead label. Furthermore, if the table is intended for HTML output, we can use HTML for the stubhead label.
 
@@ -622,12 +586,14 @@ gtcars |>
   tab_stubhead(label = "car")
 ```
 
-- `tab_stub_indent()`
+### `tab_stub_indent()`
 
 
 ## Adding footnotes
 
-- `tab_footnote()` and the `cells_*()` location helpers
+*** General introduction to footnotes
+
+### `tab_footnote()` and the `cells_*()` location helpers
 
 Using a subset of the `sza` dataset, let's create a new **gt** table. The `sza` column will get all of its cells filled with a background color according to data values (this is done with `data_color()`) and then the use of `tab_footnote()` lets us add a footnote to the `sza` column label (explaining what the color gradient signifies).
 
@@ -780,7 +746,7 @@ are italicized and set between square brackets (`"i[x]"`). The `spec_ftr`
 argument is for the footer representation of the footnote marks and as
 described in the call with `"x."`, it'll be the mark followed by a period.
 
-- `opt_footnote_*()`
+### `opt_footnote_*()`
 
 
 
