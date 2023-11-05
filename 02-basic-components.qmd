@@ -94,10 +94,43 @@ It's possible to add a table header to the **gt** table, which includes a title 
 
 ### `tab_header()`
 
-Use the `gtcars` dataset to create a **gt** table. Add a header part to the
-table with the `tab_header()` function. We'll add a title and the optional
-subtitle as well. With the `md()` helper function, we can make sure the
-Markdown formatting is interpreted and transformed.
+
+```r
+tab_header(
+  data,
+  title,
+  subtitle = NULL,
+  preheader = NULL
+)
+```
+
+<hr>
+
+**`title`**: *Header title*
+
+`scalar<character>` // **required**
+
+Text to be used in the table title. We can elect to use the `md()` and `html()` helper functions to style the text as Markdown or to retain HTML elements in the text.
+
+<hr>
+
+**`subtitle`**: *Header subtitle*
+
+`scalar<character>` // default: `NULL`, so *optional*
+
+Text to be used in the table subtitle. Again, we use the `md()` and `html()` helper functions as with `title`.
+
+<hr>
+
+**`preheader`**: *RTF preheader text*
+
+`vector<character>` // default: `NULL`, so *optional*
+
+Optional preheader content that is rendered above the table for RTF output. Can be supplied as a vector of text.
+
+<hr>
+
+Use the `gtcars` dataset to create a **gt** table. Add a header part to the table with the `tab_header()` function. We'll add a title and the optional subtitle as well. With the `md()` helper function, we can make sure the Markdown formatting is interpreted and transformed.
 
 ```{r}
 gtcars |>
@@ -110,10 +143,7 @@ gtcars |>
   )
 ```
 
-If the table is intended solely as an HTML table, you could introduce your
-own HTML elements into the header. You can even use the **htmltools** package
-to help arrange and generate the HTML. Here's an example of that, where two
-`<div>` elements are placed in a `htmltools::tagList()`.
+If the table is intended solely as an HTML table, you could introduce your own HTML elements into the header. You can even use the **htmltools** package to help arrange and generate the HTML. Here's an example of that, where two `<div>` elements are placed in a `htmltools::tagList()`.
 
 ```{r}
 gtcars |>
@@ -139,8 +169,7 @@ gtcars |>
   )
 ```
 
-If using HTML but doing something far simpler, we can use the `html()` helper
-function to declare that the text provided is HTML.
+If using HTML but doing something far simpler, we can use the `html()` helper function to declare that the text provided is HTML.
 
 ```{r}
 gtcars |>
@@ -171,32 +200,143 @@ exibble |>
 
 *** General introduction to the table footer
 
+A source note is useful for citing the data included in the table.
+
 ### `tab_source_note()`
 
+It's possible to add a source note to the footer part of the **gt** table with `tab_source_note()`. Several of these can be added to the footer and, to do that, we can simply use multiple calls of `tab_source_note()` (they will be inserted in the order provided). We can use Markdown formatting for the note, or, if the table is intended for HTML output, we can include HTML formatting.
+
+Here is the function's signature and descriptions of its arguments:
+
+```r
+tab_source_note(
+  data,
+  source_note
+)
+```
+
+<hr>
+
+**`source_note`**: *Source note text*
+
+`scalar<character>` // **required**
+
+The text to use for a source note. We can optionally use the `md()` or `html()` functions to style the text as Markdown or to retain HTML elements in the text.
+
+<hr>
+
+With three columns from the `gtcars` dataset, let's create a **gt** table. We can use the `tab_source_note()` function to add a source note to the table footer. Here we are citing the data source but this function can be used for any text you'd prefer to display in the footer section.
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, msrp) |>
+  dplyr::slice(1:5) |>
+  gt() |>
+  tab_source_note(source_note = "From edmunds.com")
+```
 
 ## Grouping together column labels with spanners
 
 *** General introduction to table spanners
 
+The part of the table that contains, at a minimum, column labels and, optionally, spanner labels is sometimes called the table boxhead. A spanner will occupy space over any number of contiguous column labels. With the `tab_spanner()` function, you can insert a spanner in the boxhead part of a **gt** table. This function allows for mapping to be defined by column names, existing spanner ID values, or a mixture of both. 
+
+
 ### `tab_spanner()`
+
+With the `tab_spanner()` function, you can insert a spanner above column labels or existing spanners in the boxhead part of a **gt** table.
+
+Here is the function's signature and descriptions of its arguments:
+
+```r
+tab_spanner(
+  data,
+  label,
+  columns = NULL,
+  spanners = NULL,
+  level = NULL,
+  id = label,
+  gather = TRUE,
+  replace = FALSE
+)
+```
+
+<hr>
+
+**`label`**: *Spanner label text*
+
+`scalar<character>` // **required**
+
+The text to use for the spanner label. We can optionally use the `md()` or `html()` functions to style the text as Markdown or to retain HTML elements in the text.
+
+<hr>
+
+**`columns`**: *Columns to target*
+
+`<column-targeting expression>` // default: `NULL`, so *optional*
+
+The columns to serve as components of the spanner.
+
+<hr>
+
+**`spanners`**: *Spanners to target*
+
+`vector<character>` // default: `NULL`, so *optional*
+
+The spanners that should be spanned over, should they already be defined. One or more spanner ID values (in quotes) can be supplied here. This argument works in tandem with the `columns` argument.
+
+<hr>
+
+**`level`**: *Spanner level for insertion*
+
+`scalar<numeric|integer>` // default: `NULL`, so *optional*
+
+An explicit level to which the spanner should be placed. If not provided, **gt** will choose the level based on the inputs provided within columns and spanners, placing the spanner label where it will fit. The first spanner level (right above the column labels) is `1`.
+
+<hr>
+
+**`id`**: *Spanner ID*
+
+`scalar<character>` // default: `label`
+
+The ID for the spanner. When accessing a spanner through the spanners argument of `tab_spanner()` or `cells_column_spanners()` (when using `tab_style()` or `tab_footnote()`) the `id` value is used as the reference (and not the label). If an `id` is not explicitly provided here, it will be taken from the label value. It is advisable to set an explicit `id` value if you plan to access this cell in a later function call and the label text is complicated (e.g., contains markup, is lengthy, or both). Finally, when providing an `id` value you must ensure that it is unique across all ID values set for spanner labels (the function will stop if `id` isn't unique).
+
+<hr>
+
+**`gather`**: *Gather columns together*
+
+`scalar<logical>` // default: `TRUE`
+
+An option to move the specified columns such that they are unified under the spanner. Ordering of the moved-into-place columns will be preserved in all cases.
+
+<hr>
+
+**`replace`**: *Replace existing spanners*
+
+`scalar<logical>` // default: `FALSE`
+
+Should new spanners be allowed to partially or fully replace existing spanners? (This is a possibility if setting spanners at an already populated level.) By default, this is set to `FALSE` and an error will occur if some replacement is attempted.
+
+<hr>
+
+The spanners are placed in the order of calling `tab_spanner()` so if a later call uses the same columns in its definition (or even a subset) as the first invocation, the second spanner will be overlaid atop the first. Options exist for forcibly inserting a spanner underneath other (with `level` as space permits) and with `replace`, which allows for full or partial spanner replacement.
 
 Let's create a **gt** table using a small portion of the `gtcars` dataset. Over several columns (`hp`, `hp_rpm`, `trq`, `trq_rpm`, `mpg_c`, `mpg_h`) we'll use `tab_spanner()` to add a spanner with the label `"performance"`. This effectively groups together several columns related to car performance under a unifying label.
 
 ```{r}
 gtcars |>
   dplyr::select(
-    -mfr, -trim, bdy_style,
-    -drivetrain, -trsmn, -ctry_origin
+    year, bdy_style, starts_with(c("hp", "trq", "mpg")), msrp
   ) |>
   dplyr::slice(1:8) |>
   gt(rowname_col = "model") |>
   tab_spanner(
     label = "performance",
-    columns = c(
-      hp, hp_rpm, trq, trq_rpm, mpg_c, mpg_h
-    )
+    columns = starts_with(c("hp", "trq", "mpg"))
   )
 ```
+
+Notice that in the above table code, we used the `starts_with()` selection helper in both the **dplyr** `select()` statement and in the **gt** `tab_spanner()` statement. Such use of tidyselect selection helpers is incredibly helpful for shortening the amount of code supplied in the `columns` argument across many **gt** functions.
 
 With the default `gather = TRUE` option, columns selected for a particular spanner will be moved so that there is no separation between them. This can be seen with the example below that uses a subset of the `towny` dataset. The starting column order is `name`, `latitude`, `longitude`, `population_2016`, `density_2016`, `population_2021`, and `density_2021`. The first two uses of `tab_spanner()` deal with making separate spanners for the two population and two density columns. After their use, the columns are moved to this new ordering: `name`, `latitude`, `longitude`, `population_2016`, `population_2021`, `density_2016`, and `density_2021`. The third and final call of `tab_spanner()` doesn't further affect the ordering of columns.
 
