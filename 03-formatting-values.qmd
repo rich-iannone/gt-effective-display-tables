@@ -4,15 +4,20 @@
 library(gt)
 ```
 
+*** General introduction to the formatting pipeline
+
 ## Basic number formatting
 
 *** General introduction to basic number formatting
 
 ### `fmt_number()`
 
+
 ### `fmt_integer()`
 
+
 ### `fmt_percent()`
+
 
 
 ## Scientific and engineering formats
@@ -21,7 +26,9 @@ library(gt)
 
 ### `fmt_scientific()`
 
+
 ### `fmt_engineering()`
+
 
 
 ## Formatting numbers to currencies and various other units
@@ -30,9 +37,12 @@ library(gt)
 
 ### `fmt_currency()`
 
+
 ### `fmt_bytes()`
 
+
 ### `fmt_partsper()`
+
 
 
 ## Translating numbers to other forms
@@ -41,9 +51,12 @@ library(gt)
 
 ### `fmt_index()`
 
+
 ### `fmt_roman()`
 
+
 ### `fmt_num_spelled()`
+
 
 
 ## Date, time, and duration formats
@@ -52,11 +65,15 @@ library(gt)
 
 ### `fmt_date()`
 
+
 ### `fmt_time()`
+
 
 ### `fmt_datetime()`
 
+
 ### `fmt_duration()`
+
 
 
 ## Formatting with Markdown, creating links, adding images
@@ -64,9 +81,12 @@ library(gt)
 
 ### `fmt_markdown()`
 
+
 ### `fmt_url()`
 
+
 ### `fmt_image()`
+
 
 
 ## Creating your own formatter
@@ -106,6 +126,4 @@ library(gt)
 
 
 ### `text_transform()`
-
-
 
