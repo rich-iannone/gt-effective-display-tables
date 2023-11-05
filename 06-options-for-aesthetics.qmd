@@ -4,27 +4,50 @@
 library(gt)
 ```
 
+*** General introduction to modifying the aesthetics of the table
+
 ## Coloring data according to their values
 
-- `data_color()`
+*** General introduction to body cell colorization
+
+### `data_color()`
 
 
 ## Adding style to various locations
 
-- `tab_style()` and the `cell_*()` style helpers
-- `tab_style_body()`
-- `opt_stylize()`
+*** General introduction to stylizing the table
+
+### `tab_style()` and the `cell_*()` style helpers
+
+
+### `tab_style_body()`
+
+
+### `opt_stylize()`
+
 
 
 ## A smorgasbord of table options to choose from
 
-- `tab_options()`
-- `opt_table_font()`
-- `opt_*_padding()`
-- `opt_row_striping()`
-- `opt_all_caps()`
+*** General introduction to setting table options
+
+### `tab_options()`
+
+
+### `opt_table_font()`
+
+
+### `opt_horizontal_padding()` and `opt_vertical_padding()`
+
+
+### `opt_row_striping()`
+
+
+### `opt_all_caps()`
 
 
 ## Making interactive HTML tables
 
-- `opt_interactive()`
+*** General introduction to interactive HTML tables
+
+### `opt_interactive()`
