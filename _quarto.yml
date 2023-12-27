@@ -15,10 +15,12 @@ book:
     - 04-modifying-columns.qmd
     - 05-table-summary-rows.qmd
     - 06-options-for-aesthetics.qmd
-    - 07-publishing-formats.qmd
-    - 08-case-studies.qmd
-    - 09-packages-that-extend.qmd
-    - 10-extending-your-own-package.qmd
+    - 07-incorporating-footnotes.qmd
+    - 08-adding-nanoplots.qmd
+    - 09-publishing-formats.qmd
+    - 10-case-studies.qmd
+    - 11-packages-that-extend.qmd
+    - 12-extending-your-own-package.qmd
 
 format:
   html:
