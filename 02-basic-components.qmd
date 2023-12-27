@@ -174,7 +174,7 @@ exibble |> gt(rowname_col = "row", auto_align = FALSE)
 
 What you'll get from that is center-alignment of all table body values and all column labels. Note that row labels in the the stub are still left-aligned; and auto_align has no effect on alignment within the table stub.
 
-However which way you generate the initial gt table object, you can use it with a huge variety of functions in the package to further customize the presentation. Formatting body cells is commonly done with the family of formatting functions (e.g., fmt_number(), fmt_date(), etc.). The package supports formatting with internationalization ('i18n' features) and so locale-aware functions come with a locale argument. To avoid having to use that argument repeatedly, the gt() function has its own locale argument. Setting a locale in that will make it available globally. Here's an example of how that works in practice when setting locale = "fr" in gt() and using formatting functions:
+However which way you generate the initial **gt** table object, you can use it with a huge variety of functions in the package to further customize the presentation. Formatting body cells is commonly done with the family of formatting functions (e.g., `fmt_number()`, `fmt_date()`, etc.). The package supports formatting with internationalization ('i18n' features) and so locale-aware functions come with a locale argument. To avoid having to use that argument repeatedly, the `gt()` function has its own locale argument. Setting a locale in that will make it available globally. Here's an example of how that works in practice when setting `locale = "fr"` in `gt()` and using formatting functions:
 
 ```{r}
 exibble |>
