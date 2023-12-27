@@ -1,0 +1,10 @@
+# Adding Nanoplots
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+```
+
+## Nanoplots
+
+*** General introduction to nanoplots
+

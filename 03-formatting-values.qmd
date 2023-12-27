@@ -12,6 +12,20 @@ library(gt)
 
 ### `fmt_number()`
 
+Number-based formatting in a **gt** table can be generally performed with the `fmt_number()` function. With this any targeted, numeric values can be rendered with a higher consideration for tabular presentation. What this means is that we have fine control over how numbers are going to appear, and here are some of the main features available in the function:
+
+- choice of the number of decimal places, option to drop trailing zeros, and a choice of the decimal symbol
+
+- the option to enable/disable digit separators and also to choose the separator symbol
+
+- we can choose to scale targeted values by a multiplier value
+
+- compact numbers: larger figures (thousands, millions, etc.) can be autoscaled and decorated with the appropriate suffixes
+
+- with a text pattern, the formatted values can be decorated with literal characters
+
+- locale-based formatting: providing a locale ID will result in number formatting specific to the chosen locale
+
 
 ### `fmt_integer()`
 
