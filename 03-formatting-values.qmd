@@ -6,6 +6,47 @@ library(gt)
 
 *** General introduction to the formatting pipeline
 
+The presentation of values in the body and in the stub of the table is undoubtedly important when it comes to making tables for display purposes. Whereas table components like the header, the footer, and the column labels also need attention, the data values comprise the bulk of the information. And information that is not carefully presented can be difficult for the reader to parse or, worse, misleading.
+
+The **gt** package takes a multi-stage approach to rendering values. In a latter part of the book we'll describe all of the stages (and do it in great detail) but at this point, it's important to outline how three groups of functions work within this build system. These functions are classified as:
+
+1. formatting functions (`fmt_*()`)
+2. substitution functions (`sub_*()`)
+3. text transformation functions (`text_*()`)
+
+And the rendering of values via functions in those groups operates in that order (i.e., formatting first, then substitution, then text transformation). Why such rigor and formality in what might be thought as a mundane operation? Well, we all want flexibility in how we present our data. After all, the presentation of data in the body is of paramount importance, so we need a system that gives us a wealth of functionality and opportunities for fine adjustments and tweaks where necessary. We also want **gt** to be easy to use, so the opportunity is there to use a little or a lot of this machinery.
+
+Here's an example where we modify a single column of values with a function from each of the groups:
+
+```r
+"Example"
+```
+
+
+
+Formatting body cells is commonly done with the family of formatting functions (e.g., `fmt_number()`, `fmt_date()`, etc.). The package supports formatting with internationalization ('i18n' features) and so any locale-aware functions (and many of the formatting variety) come with a `locale` argument. To avoid having to use that argument repeatedly, the `gt()` function has its own locale argument. Setting a locale in that will make it available globally. Here's an example of how that works in practice when setting `locale = "fr"` in `gt()` and using formatting functions:
+
+```{r}
+exibble |>
+  gt(
+    rowname_col = "row",
+    groupname_col = "group",
+    locale = "fr"
+  ) |>
+  fmt_number() |>
+  fmt_date(
+    columns = date,
+    date_style = "yMEd"
+  ) |>
+  fmt_datetime(
+    columns = datetime,
+    format = "EEEE, MMMM d, y",
+    locale = "en"
+  )
+```
+
+In this example, the `fmt_number()` and `fmt_date()` functions understand that the locale for this table is `"fr"` (French), so the appropriate formatting for that locale is apparent in the `num`, `currency`, and `date` columns. However in the `fmt_datetime()` call, we explicitly use the `"en"` (English) locale. This overrides the `"fr"` default set for this table and the end result is dates formatted with the English locale in the datetime column.
+
 ## Basic number formatting
 
 *** General introduction to basic number formatting
@@ -25,6 +66,30 @@ Number-based formatting in a **gt** table can be generally performed with the `f
 - with a text pattern, the formatted values can be decorated with literal characters
 
 - locale-based formatting: providing a locale ID will result in number formatting specific to the chosen locale
+
+
+```r
+fmt_number(
+  data,
+  columns = everything(),
+  rows = everything(),
+  decimals = 2,
+  n_sigfig = NULL,
+  drop_trailing_zeros = FALSE,
+  drop_trailing_dec_mark = TRUE,
+  use_seps = TRUE,
+  accounting = FALSE,
+  scale_by = 1,
+  suffixing = FALSE,
+  pattern = "{x}",
+  sep_mark = ",",
+  dec_mark = ".",
+  force_sign = FALSE,
+  system = c("intl", "ind"),
+  locale = NULL
+)
+```
+
 
 
 ### `fmt_integer()`
