@@ -6,7 +6,21 @@ library(dplyr)
 library(tidyr)
 ```
 
-## Making a **gt** table: the `gt()` function is the entry point
+It can be useful to identify the components that make up a table before getting into the nitty gritty of generating tables. Why? This will give us a language to speak about table composition and, in doing so, we'll discover the merits of the different components, how they work together, and finally understand how to make effective table visualizations when the time comes. Tabular presentation can serve several purposes. We may want to present raw data values in unvarnished form, so that others can perform analyses from that data. We could also prepare a set of summarized results and tabulate that; this provides the reader with the results of an analysis. We could even produce a table with varied information on a particular topic and present it in a visually appealing way. With creativity and an eye to aesthetics, the reader will linger for a bit and explore the presented data, perhaps leaving with heightened understanding of the topic at hand and a feeling of edification.  
+
+The **gt** package can make all of this possible. The general principle is that we combine table components together and refine the presentation bit by bit. We've prepared a basic diagram here, showing how the main components of a table (and their subcomponents) fit together:
+
+Here is a listing of the table components (from top to bottom):
+
+- the Table Header (optional; with a title and possibly a subtitle)
+- the Stub and the Stub Head (optional; contains row labels, optionally within row groups having row group labels and possibly summary labels when a summary is present)
+- the Column Labels (contains column labels, optionally under spanner column labels)
+- the Table Body (contains columns and rows of cells)
+- the Table Footer (optional; possibly with footnotes and source notes)
+
+Once we have the input data for the table to present, we need to decide which of these components should be used. This chapter will show you how to introduce the input data to **gt** and how to add the various components together. Generally, the functions that produce or modify these table components will begin with `tab_*()` and the components will only be displayed when there is content for them (e.g., there won't be a table footer unless you use a function that adds content to a footer). Now let's get to making **gt** tables by starting with the very important, entry-point function: `gt()`.
+
+## Making a **gt** table: start with `gt()`
 
 When one provides table data to the `gt()` function, it generates a **gt** table object. This function is the initial step in a typical **gt** workflow. Once you possess the **gt** table object, you have the ability to perform styling transformations before rendering it as a display table of different formats.
 
@@ -14,6 +28,8 @@ When one provides table data to the `gt()` function, it generates a **gt** table
 
 *** General introduction to the `gt()` function
 
+
+Here is the function’s signature:
 
 ```r
 gt(
