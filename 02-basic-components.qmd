@@ -134,32 +134,6 @@ tab_header(
 )
 ```
 
-<hr>
-
-**`title`**: *Header title*
-
-`scalar<character>` // **required**
-
-Text to be used in the table title. We can elect to use the `md()` and `html()` helper functions to style the text as Markdown or to retain HTML elements in the text.
-
-<hr>
-
-**`subtitle`**: *Header subtitle*
-
-`scalar<character>` // default: `NULL`, so *optional*
-
-Text to be used in the table subtitle. Again, we use the `md()` and `html()` helper functions as with `title`.
-
-<hr>
-
-**`preheader`**: *RTF preheader text*
-
-`vector<character>` // default: `NULL`, so *optional*
-
-Optional preheader content that is rendered above the table for RTF output. Can be supplied as a vector of text.
-
-<hr>
-
 Use the `gtcars` dataset to create a **gt** table. Add a header part to the table with the `tab_header()` function. We'll add a title and the optional subtitle as well. With the `md()` helper function, we can make sure the Markdown formatting is interpreted and transformed.
 
 ```{r}
@@ -221,16 +195,6 @@ opt_align_table_header(
   align = c("left", "center", "right")
 )
 ```
-
-<hr>
-
-**`align`**: *Header alignment*
-
-`singl-kw:[left|center|right]` // default: `"left"`
-
-The alignment of the title and subtitle elements in the table header. Options are `"left"` (the default), `"center"`, or `"right"`.
-
-<hr>
 
 The table header that is appended to a **gt** table typically has center alignment for both the title and subtitle elements. However, it is possible to adjust the horizontal alignment of the title and subtitle by utilizing the `align` argument. This function provides a quick and easy means to set the alignment to the left or right. It also serves as a convenient shortcut for `<gt_tbl> |> tab_options(heading.align = <align>)`.
 
@@ -439,48 +403,6 @@ tab_spanner_delim(
 )
 ```
 
-<hr>
-
-**`delim`**: *Delimiter for splitting*
-
-`scalar<character>` // **required**
-
-The delimiter to use to split an input column name. This should be a single character (e.g., `"_"`, `"."`, etc.).
-
-<hr>
-
-**`columns`**: *Columns to target*
-
-`<column-targeting expression>` // default: `everything()`
-
-The columns to consider for the splitting, relabeling, and spanner setting operations.
-
-<hr>
-
-**`split`**: *Splitting side*
-
-`singl-kw:[last|first]` // default: `"last"`
-
-Should the delimiter splitting occur from the `"last"` instance of the delim character or from the `"first"`? The default here uses the `"last"` keyword, and splitting begins at the last instance of the delimiter in the column name. This option only has some consequence when there is a limit value applied that is lesser than the number of delimiter characters for a given column name (i.e., number of splits is not the maximum possible number).
-
-<hr>
-
-**`limit`**: *Limit for splitting*
-
-`scalar<numeric|integer|character>` // default: `NULL`, so *optional*
-
-An optional limit to place on the splitting procedure. The default `NULL` means that a column name will be split as many times are there are delimiter characters. In other words, the default means there is no limit. If an integer value is given to limit then splitting will cease at the iteration given by limit. This works in tandem with split since we can adjust the number of splits from either the right side (`split = "last"`) or left side (`split = "first"`) of the column name.
-
-<hr>
-
-**`reverse`**: *Reverse vector of split names*
-
-`scalar<logical>` // default: `FALSE`
-
-Should the order of split names be reversed? By default, this is `FALSE`.
-
-<hr>
-
 This is done by splitting the column name by a specified delimiter character (this is the `delim`) and placing the fragments from top to bottom (i.e., higher-level spanners to the column labels). Furthermore, the neighboring text fragments on different spanner levels will be coalesced together to put the span back into spanner. For instance, having the three side-by-side column names `rating_1`, `rating_2`, and `rating_3` will (in the default case at least) result in a spanner with the label `"rating"` above columns with the labels `"1"`, `"2"`, and `"3"`.
 
 If we take a hypothetical table that includes the column names `province.NL_ZH.pop`, `province.NL_ZH.gdp`, `province.NL_NH.pop`, and `province.NL_NH.gdp`, we can see that we have a naming system that has a well-defined structure. We start with the more general to the left (`"province"`) and move to the more specific on the right (`"pop"`). If the columns are in the table in this exact order, then things are in an ideal state as the eventual spanner column labels will form from this neighboring. When using `tab_spanner_delim()` here with delim set as "." we get the following text fragments:
@@ -634,32 +556,6 @@ tab_row_group(
 )
 ```
 
-<hr>
-
-**`label`**: *Row group label text*
-
-`scalar<character>` // **required**
-
-The text to use for the row group label. We can optionally use the `md()` and `html()` functions to style the text as Markdown or to retain HTML elements in the text.
-
-<hr>
-
-**`rows`**: *Rows to target*
-
-`<row-targeting expression>` // **required**
-
-The rows to be made components of the row group. We can supply a vector of row captions within `c()`, a vector of row indices, or a select helper function. We can also use expressions to filter down to the rows we need (e.g., `[colname_1] > 100 & [colname_2] < 50`).
-
-<hr>
-
-**`id`**: *Row group ID*
-
-`scalar<character>` // default: `label`
-
-The ID for the row group. When accessing a row group through `cells_row_groups()` (when using `tab_style()` or `tab_footnote()`) the `id` value is used as the reference (and not the label). If an `id` is not explicitly provided here, it will be taken from the `label` value. It is advisable to set an explicit `id` value if you plan to access this cell in a later function call and the `label` text is complicated (e.g., contains markup, is lengthy, or both). Finally, when providing an `id` value you must ensure that it is unique across all ID values set for row groups (the function will stop if `id` isn't unique).
-
-<hr>
-
 To set a default row group label for any rows not formally placed in a row group, we can use a separate call to `tab_options(row_group.default_label = <label>)`. If this is not done and there are rows that haven't been placed into a row group (where one or more row groups already exist), those rows will be automatically placed into a row group without a label. To restore labels for row groups not explicitly assigned a group, `tab_options(row_group.default_label = "")` can be used.
 
 Using a subset of the `gtcars` dataset, let's create a simple **gt** table with row labels (from the `model` column) inside of a stub. This eight-row table begins with no row groups at all but with a single use of the `tab_row_group()` function, we can specify a row group that will contain any rows where the car model begins with a number.
@@ -769,15 +665,7 @@ row_group_order(
 )
 ```
 
-<hr>
 
-**`groups`**: *Specification of row group IDs*
-
-`vector<character>` // **required**
-
-A character vector of row group ID values corresponding to the revised ordering. While this vector must contain valid group ID values, it is not required to have all of the row group IDs within it; any omitted values will be added to the end while preserving the original ordering.
-
-<hr>
 
 ### `tab_stubhead()`
 
@@ -790,15 +678,6 @@ tab_stubhead(
 )
 ```
 
-<hr>
-
-**`label`**: *Stubhead label text*
-
-`scalar<character>` // **required**
-
-The text to be used as the stubhead label. We can optionally use the `md()` and `html()` functions to style the text as Markdown or to retain HTML elements in the text.
-
-<hr>
 
 Using a small subset of the `gtcars` dataset, we can create a **gt** table with row labels. Since we have row labels in the stub (via use of `rowname_col = "model"` in the `gt()` function call) we have a stubhead, so, let's add a stubhead label (`"car"`) with the `tab_stubhead()` function to describe what's in the stub.
 
@@ -822,23 +701,6 @@ tab_stub_indent(
 )
 ```
 
-<hr>
-
-**`rows`**: *Rows to target*
-
-`<row-targeting expression>` // **required**
-
-The rows to consider for the indentation change. We can supply a vector of row captions within `c()`, a vector of row indices, or a select helper function. We can also use expressions to filter down to the rows we need (e.g., `[colname_1] > 100 & [colname_2] < 50`).
-
-<hr>
-
-**`indent`**: *Indentation directive*
-
-`scalar<character|numeric|integer>` // default: `"increase"`
-
-An indentation directive either as a keyword describing the indentation change or as an explicit integer value for directly setting the indentation level. The keyword `"increase"` (the default) will increase the indentation level by one; `"decrease"` will do the same in the reverse direction. The starting indentation level of `0` means no indentation and this values serves as a lower bound. The upper bound for indentation is at level `5`.
-
-<hr>
 
 Let's use a summarized version of the `pizzaplace` dataset to create a **gt** table with row groups and row labels. With the `summary_rows()` function, we'll generate summary rows at the top of each row group. With `tab_stub_indent()` we can add indentation to the row labels in the stub.
 
