@@ -542,7 +542,7 @@ gtcars |>
  cols_label(model = "Model (Year)")
 ```
 
-Now each cell in the `model` column contains the model name followed by the year in parentheses, such as "GT (2017)" or "458 Speciale (2015)". The parentheses are literal characters in the pattern, demonstrating how you can embed any formatting you need. This is a common convention for displaying names with supplementary information.
+Now each cell in the `model` column contains the model name followed by the year in parentheses, such as `"GT (2017)"` or `"458 Speciale (2015)"`. The parentheses are literal characters in the pattern, demonstrating how you can embed any formatting you need. This is a common convention for displaying names with supplementary information.
 
 You can merge more than two columns:
 
