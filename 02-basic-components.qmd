@@ -124,6 +124,9 @@ It's possible to add a table header to the **gt** table, which includes a title 
 
 ### `tab_header()`
 
+The `tab_header()` function adds a header section to your **gt** table, which can include a title and subtitle. These elements appear above the column labels and help provide context for the data presented. The header is particularly useful for giving tables descriptive names, explaining their purpose, or noting important details about the data source or time period.
+
+Here is the function's signature:
 
 ```r
 tab_header(
@@ -186,8 +189,13 @@ gtcars |>
   )
 ```
 
+The `html()` helper function tells **gt** to interpret the provided text as raw HTML, allowing for direct use of HTML tags like `<strong>` for bold text and `<span>` with inline styles for colored text. This approach gives you precise control over formatting when creating HTML output.
+
 ### `opt_align_header()`
 
+By default, table headers are center-aligned, which works well for most tables. However, sometimes you may want to align the header text to the left or right to match your table's overall design or to create a specific visual effect.
+
+Here is the function's signature:
 
 ```r
 opt_align_table_header(
@@ -210,9 +218,7 @@ exibble |>
 
 ## Adding *source notes* to the footer of the table
 
-*** General introduction to the table footer
-
-A source note is useful for citing the data included in the table.
+The footer section of a table sits beneath the table body and provides space for supplementary information. Source notes are one type of footer content. They typically cite data origins, provide general disclaimers, or offer context that applies to the entire table. Unlike footnotes (which link to specific cells via marks), source notes stand alone as general commentary.
 
 ### `tab_source_note()`
 
@@ -239,10 +245,9 @@ gtcars |>
 
 ## Grouping together column labels with spanners
 
-*** General introduction to table spanners
+Column spanners are horizontal labels that stretch across multiple columns, grouping them under a common heading. They create visual hierarchy in the boxhead (the part of the table containing column labels) and help readers understand relationships between columns. For example, columns showing different years of population data might be grouped under a "Population" spanner, while density columns might share a "Density" spanner.
 
 The part of the table that contains, at a minimum, column labels and, optionally, spanner labels is sometimes called the table boxhead. A spanner will occupy space over any number of contiguous column labels. With the `tab_spanner()` function, you can insert a spanner in the boxhead part of a **gt** table. This function allows for mapping to be defined by column names, existing spanner ID values, or a mixture of both. 
-
 
 ### `tab_spanner()`
 
@@ -270,7 +275,7 @@ Let's create a **gt** table using a small portion of the `gtcars` dataset. Over 
 ```{r}
 gtcars |>
   dplyr::select(
-    year, bdy_style, starts_with(c("hp", "trq", "mpg")), msrp
+    year, model, bdy_style, starts_with(c("hp", "trq", "mpg")), msrp
   ) |>
   dplyr::slice(1:8) |>
   gt(rowname_col = "model") |>
@@ -391,6 +396,7 @@ That puts the spanner in the intended level. If there aren't free locations avai
 
 The `cols_spanner_delim()` function can take specially-crafted column names and generate one or more spanner column labels (along with relabeling the column labels).
 
+Here is the function's signature:
 
 ```r
 tab_spanner_delim(
@@ -540,12 +546,15 @@ pizzaplace |>
 
 ## The stub and row groups
 
-*** General introduction to the table stub
+The stub is a special column (or set of columns) on the left side of the table that holds row labels. When present, the stub serves as an identifier for each row, similar to how column labels identify columns. Row groups take this organization further by dividing rows into named sections, each with its own header row. Together, the stub and row groups create vertical structure in a table, making it easier to navigate and understand large datasets.
 
+The stub is created when you designate a column for row labels using `rowname_col` in `gt()`. Once a stub exists, you can add a stubhead label (a header for the stub column itself) and organize rows into groups. Row groups appear as labeled sections that visually separate different categories of data.
 
 ### `tab_row_group()`
 
-Create a row group with a collection of rows. This requires specification of the rows to be included, either by supplying row labels, row indices, or through use of a select helper function like `starts_with()`. 
+Create a row group with a collection of rows. This requires specification of the rows to be included, either by supplying row labels, row indices, or through use of a select helper function like `starts_with()`.
+
+Here is the function's signature:
 
 ```r
 tab_row_group(
@@ -657,6 +666,9 @@ Setting the `id` values for each of the row groups makes things easier since you
 
 ### `row_group_order()`
 
+By default, row groups appear in the order they were created with `tab_row_group()`. The `row_group_order()` function lets you rearrange them into any sequence you prefer.
+
+Here is the function's signature:
 
 ```r
 row_group_order(
@@ -665,11 +677,36 @@ row_group_order(
 )
 ```
 
+The `groups` argument takes a vector of row group ID values in the desired order. If a group was created without an explicit `id`, its label serves as the ID. The special value `NA` represents the default/unnamed group (rows not explicitly assigned to any group).
 
+```{r}
+gtcars |>
+  dplyr::select(model, mfr, year, hp, msrp) |>
+  dplyr::filter(
+    mfr %in% c("Audi", "Porsche", "Maserati", "Ford")
+  ) |>
+  gt(rowname_col = "model") |>
+  tab_row_group(
+    label = "German",
+    rows = mfr %in% c("Audi", "Porsche"),
+    id = "german"
+  ) |>
+  tab_row_group(
+    label = "Italian",
+    rows = mfr == "Maserati",
+    id = "italian"
+  ) |>
+  row_group_order(groups = c("italian", "german", NA)) |>
+  cols_hide(columns = mfr)
+```
+
+Here, Italian manufacturers appear first, followed by German, with any remaining rows in the unnamed group at the bottom. The `cols_hide()` call removes the `mfr` column since that information is now conveyed by the row group labels.
 
 ### `tab_stubhead()`
 
 Add a label to the stubhead of a **gt** table. The stubhead is the lone element that is positioned left of the column labels, and above the stub. If a stub does not exist, then there is no stubhead (so no change will be made when using this function in that case). We have the flexibility to use Markdown formatting for the stubhead label. Furthermore, if the table is intended for HTML output, we can use HTML for the stubhead label.
+
+Here is the signature for `tab_stubhead()`:
 
 ```r
 tab_stubhead(
@@ -677,7 +714,6 @@ tab_stubhead(
   label
 )
 ```
-
 
 Using a small subset of the `gtcars` dataset, we can create a **gt** table with row labels. Since we have row labels in the stub (via use of `rowname_col = "model"` in the `gt()` function call) we have a stubhead, so, let's add a stubhead label (`"car"`) with the `tab_stubhead()` function to describe what's in the stub.
 
@@ -693,6 +729,8 @@ gtcars |>
 
 Indentation of row labels is an effective way for establishing structure in a table stub. The `tab_stub_indent()` function allows for fine control over row label indentation in the stub. We can use an explicit definition of an indentation level, or, employ an indentation directive using keywords.
 
+Here is the function's signature:
+
 ```r
 tab_stub_indent(
   data,
@@ -700,7 +738,6 @@ tab_stub_indent(
   indent = "increase"
 )
 ```
-
 
 Let's use a summarized version of the `pizzaplace` dataset to create a **gt** table with row groups and row labels. With the `summary_rows()` function, we'll generate summary rows at the top of each row group. With `tab_stub_indent()` we can add indentation to the row labels in the stub.
 
@@ -735,3 +772,326 @@ pizzaplace |>
   )
 ```
 
+The `indent` argument accepts either a numeric value (0 through 5) or the keywords `"increase"` or `"decrease"`. When using numeric values, `0` means no indentation and `5` is the maximum. The keywords adjust indentation relative to the current level, which is useful when building tables programmatically.
+
+```{r}
+exibble |>
+  dplyr::select(row, group, num, currency) |>
+  gt(rowname_col = "row", groupname_col = "group") |>
+  tab_stub_indent(rows = c("row_1", "row_5"), indent = 1) |>
+  tab_stub_indent(rows = c("row_2", "row_6"), indent = 2) |>
+  tab_stub_indent(rows = c("row_3", "row_7"), indent = 3) |>
+  tab_stub_indent(rows = c("row_4", "row_8"), indent = 4)
+```
+
+Progressive indentation creates a visual hierarchy within each group, useful for showing parent-child relationships or levels of detail.
+
+## Column labels
+
+Column labels appear at the top of each column and identify the data within. While **gt** uses column names from your data as default labels, you'll often want to provide cleaner, more descriptive labels for presentation. Several functions help manage column labels: `cols_label()` for setting labels directly, `cols_label_with()` for applying transformations, and `cols_move()` family functions for reordering.
+
+### `cols_label()`
+
+The `cols_label()` function assigns display labels to columns. These labels appear in the table while the underlying column names remain unchanged (useful for referencing columns in subsequent **gt** function calls).
+
+Here's the signature of `cols_label()`:
+
+```r
+cols_label(
+  data,
+  ...,
+  .list = list2(...),
+  .fn = NULL,
+  .process_md = FALSE,
+  .process_units = FALSE
+)
+```
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, year, hp, mpg_c, mpg_h) |>
+  dplyr::slice_head(n = 5) |>
+  gt() |>
+  cols_label(
+    mfr = "Manufacturer",
+    model = "Model",
+    year = "Year",
+    hp = "Horsepower",
+    mpg_c = "City MPG",
+    mpg_h = "Highway MPG"
+  )
+```
+
+The labels can include Markdown or HTML formatting when wrapped with the appropriate helper functions:
+
+```{r}
+towny |>
+  dplyr::select(name, population_2021, density_2021, land_area_km2) |>
+  dplyr::slice_head(n = 5) |>
+  gt(rowname_col = "name") |>
+  fmt_integer(columns = c(population_2021, density_2021)) |>
+  fmt_number(columns = land_area_km2, decimals = 1) |>
+  cols_label(
+    population_2021 = md("**Population**"),
+    density_2021 = md("Density *(per km²)*"),
+    land_area_km2 = html("Area (km<sup>2</sup>)")
+  )
+```
+
+#### Incorporating units with **gt**'s units notation
+
+Measurement units frequently appear in column labels, and it's often clearer to include them in the label itself rather than using other methods to convey unit information. While the `cols_units()` function provides one approach, **gt** also supports a built-in units notation system that allows you to define units directly within column labels.
+
+To use this notation, surround the portion of text representing the units with `{{` and `}}`. This tells **gt** to interpret that text as a units definition and render it appropriately.
+
+The units notation uses a succinct, ASCII-friendly syntax for writing measurement units. While it may feel somewhat familiar, it's specifically designed for this purpose. Each component (unit names, parentheses, symbols) is treated as a separate entity, and you can flexibly add subscripts and exponents. Here are the key rules and examples:
+
+**Basic units and division:**
+
+- `"m/s"` and `"m / s"` both render as "m/s" with proper formatting
+- spaces around operators are optional and ignored
+- `"m /s"` gives the same result, since `"/<unit>"` is equivalent to `"<unit>^-1"`
+
+**Exponents:**
+
+- `"m s^-1"` displays with the "-1" as a proper exponent
+- `"t_i^2.5"` shows a *t* with an "*i*" subscript and a "2.5" exponent
+- exponents are specified with the `^` character
+
+**Subscripts:**
+
+- `"E_h"` renders as *E* with an "*h*" subscript
+- use the `_` character for subscripts
+- `"m[_0^2]"` uses brackets with overstriking to set both subscript and superscript vertically aligned
+
+**Chemical formulas:**
+
+- `"g/L %C6H12O6%"` encloses a chemical formula in `%` characters
+- numbers in formulas are automatically subscripted (e.g., C₆H₁₂O₆)
+- useful for biochemistry and chemistry tables
+
+**Automatic symbol conversions:**
+
+- the letter "u" in `"ug"`, `"um"`, `"uL"`, and `"umol"` converts to the Greek mu symbol (µ)
+- `"degC"` and `"degF"` render with a proper degree symbol (°C, °F)
+- these shortcuts make typing common units easier
+
+**Greek letters:**
+
+- enclose Greek letter names in colons (e.g., `:beta:`, `:sigma:`)
+- lowercase: `:alpha:`, `:beta:`, `:gamma:`, `:delta:`, etc.
+- uppercase: `:Alpha:`, `:Beta:`, `:Gamma:`, `:Delta:`, etc.
+- works for the full Greek alphabet
+
+**Special symbols:**
+
+- shorthand names enclosed in colons convert to proper symbols
+- examples: `:angstrom:`, `:ohm:`, `:micro:`, `:degree:`
+- provides access to scientific and mathematical symbols
+
+**Text formatting:**
+
+- surround text with `*` for italics: `"*m*/s"` renders *m*/s
+- surround text with `**` for bold: `"**kg**"` renders **kg**
+- can be applied to unit names, subscripts, or exponents partially or fully
+- useful for emphasizing specific components
+
+We can use units notation to cleanly express measurement units in column labels. By enclosing units in double braces (`{{` and `}}`), **gt** automatically formats them with proper typography:
+
+```{r}
+towny |>
+  dplyr::select(name, land_area_km2, density_2021) |>
+  dplyr::slice_head(n = 5) |>
+  gt(rowname_col = "name") |>
+  fmt_number(columns = land_area_km2, decimals = 1) |>
+  fmt_integer(columns = density_2021) |>
+  cols_label(
+    land_area_km2 = "Land Area {{km^2}}",
+    density_2021 = "Density {{people/km^2}}"
+  )
+```
+
+This example demonstrates the units notation in action. The `{{km^2}}` syntax automatically renders with proper superscript formatting for the squared kilometer unit, while `{{people/km^2}}` renders as a clean fraction with the exponent properly formatted. The resulting table displays professional-looking column headers with mathematically correct unit notation.
+
+Here's a more complex example showing various features of units notation:
+
+```{r}
+data.frame(
+  measurement = c("Sample A", "Sample B", "Sample C"),
+  velocity = c(15.2, 18.7, 12.4),
+  energy = c(4.5, 5.2, 3.8),
+  concentration = c(2.3, 3.1, 2.7),
+  temperature = c(25, 30, 22)
+) |>
+  gt(rowname_col = "measurement") |>
+  cols_label(
+    velocity = "Velocity {{m/s}}",
+    energy = "Energy {{E_h}}",
+    concentration = "Concentration {{umol/L}}",
+    temperature = "Temperature {{degC}}"
+  ) |>
+  fmt_number(columns = c(velocity, energy, concentration), decimals = 1) |>
+  fmt_number(columns = temperature, decimals = 0)
+```
+
+This notation system makes it straightforward to include properly formatted units without needing to manually construct HTML or Unicode characters.
+
+### `cols_label_with()`
+
+When you need to transform many column labels programmatically, `cols_label_with()` applies a function to generate labels:
+
+```r
+cols_label_with(
+  data,
+  columns = everything(),
+  fn
+)
+```
+
+Rather than manually specifying labels for each column with `cols_label()`, this function applies a transformation function to column names to automatically generate readable labels. This is especially valuable when working with datasets that have systematic naming conventions.
+
+Let's see this in action with a subset of the `towny` dataset, which contains columns with underscored names like `population_2021`, `density_2021`, and `land_area_km2`. We'll use `cols_label_with()` to automatically convert these technical column names into proper display labels:
+
+```{r}
+towny |>
+  dplyr::select(name, population_2021, density_2021, land_area_km2) |>
+  dplyr::slice_head(n = 5) |>
+  gt(rowname_col = "name") |>
+  cols_label_with(
+    fn = ~ gsub("_", " ", .x) |> tools::toTitleCase()
+  )
+```
+
+In this example, the transformation function does two things: first, `gsub("_", " ", .x)` replaces all underscores with spaces, converting `"population_2021"` to `"population 2021"`. Then `tools::toTitleCase()` applies title case formatting, resulting in clean labels like `"Population 2021"`, `"Density 2021"`, and `"Land Area Km2"`. The function is applied to all columns by default (you can limit it with the `columns` argument if needed).
+
+This approach is particularly useful when column names follow a consistent pattern that can be transformed into readable labels. It saves considerable time compared to manually labeling each column, especially in tables with many columns that follow naming conventions.
+
+### Hiding columns with `cols_hide()`
+
+Sometimes you need columns for calculations or row grouping but don't want them displayed. The `cols_hide()` function removes columns from the visual output while keeping them accessible for other **gt** operations:
+
+```r
+cols_hide(
+ data,
+  columns
+)
+```
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, year, hp) |>
+  dplyr::slice_head(n = 6) |>
+  gt(rowname_col = "model", groupname_col = "mfr") |>
+  cols_hide(columns = mfr) |>
+  tab_style(
+    style = cell_fill(color = "lightblue"),
+    locations = cells_body(columns = hp, rows = hp > 500)
+  )
+```
+
+The `mfr` column is hidden but still serves as the grouping variable. Hidden columns can be referenced in `tab_style()`, `fmt_*()` functions, and other operations.
+
+## Inspecting table structure with `tab_info()`
+
+As tables grow complex with multiple spanners, row groups, and customizations, it becomes helpful to inspect their structure. The `tab_info()` function generates a summary table showing column names, indices, and IDs for all table elements:
+
+```r
+tab_info(data)
+```
+
+```{r}
+gtcars |>
+  dplyr::select(model, mfr, year, hp, trq) |>
+  dplyr::slice_head(n = 5) |>
+  gt(rowname_col = "model") |>
+  tab_spanner(
+    label = "Power Metrics",
+    columns = c(hp, trq),
+    id = "power"
+  ) |>
+  tab_row_group(
+    label = "High Performance",
+    rows = hp > 500,
+    id = "high_perf"
+  ) |>
+  tab_info()
+```
+
+The output reveals:
+
+- column indices and their current names
+- spanner IDs (useful for styling or footnotes)
+- row group IDs and their indices
+- other structural metadata
+
+This information is invaluable when you need to reference specific elements in `tab_style()`, `tab_footnote()`, or other location-based functions.
+
+## Putting it all together
+
+Let's combine the components covered in this chapter to create a well-structured table:
+
+```{r}
+pizzaplace |>
+  dplyr::filter(type %in% c("classic", "veggie")) |>
+  dplyr::group_by(type, size) |>
+  dplyr::summarize(
+    orders = dplyr::n(),
+    revenue = sum(price),
+    avg_price = mean(price),
+    .groups = "drop"
+  ) |>
+  gt(rowname_col = "size", groupname_col = "type") |>
+  tab_header(
+    title = md("**Pizza Sales Summary**"),
+    subtitle = "Classic and Veggie varieties, 2015"
+  ) |>
+  tab_spanner(
+    label = "Sales Metrics",
+    columns = c(orders, revenue)
+  ) |>
+  tab_spanner(
+    label = "Pricing",
+    columns = avg_price
+  ) |>
+  cols_label(
+    orders = "Orders",
+    revenue = "Revenue",
+    avg_price = "Avg. Price"
+  ) |>
+  fmt_integer(columns = orders) |>
+  fmt_currency(columns = c(revenue, avg_price)) |>
+  tab_stubhead(label = "Size") |>
+  tab_source_note(
+    source_note = md("Data from the `pizzaplace` dataset in **gt**")
+  ) |>
+  tab_stub_indent(rows = everything(), indent = 1) |>
+  opt_align_table_header(align = "left") |>
+  tab_options(
+    row_group.background.color = "#FFF8E7",
+    column_labels.font.weight = "bold"
+  )
+```
+
+This table demonstrates:
+
+- a header with title and subtitle
+- row groups (pizza types) with a stub (sizes)
+- a stubhead label
+- column spanners grouping related metrics
+- custom column labels
+- formatted values (integers and currency)
+- a source note in the footer
+- stub indentation for visual polish
+- table options for styling
+
+## Conclusion
+
+In this chapter, we've covered the essential structural components that form the foundation of every **gt** table. These building blocks (from the basic `gt()` function to headers, footers, spanners, stubs, and row groups) provide the scaffolding upon which all table presentation rests. 
+
+Understanding these components is crucial because they establish the logical organization of your data before any formatting or styling is applied. The header gives context, the stub and row groups create vertical structure, column labels and spanners organize the horizontal dimension, and the footer provides additional information. Each component serves a specific purpose in making data more accessible and interpretable to your readers.
+
+We've explored many functions such as `gt()`, `tab_header()`, `tab_source_note()`, `tab_spanner()`, `tab_row_group()`, `cols_label()`, and others. They'll appear repeatedly throughout your **gt** workflow. They form the vocabulary you'll use to describe and build table structure, whether you're creating simple data displays or complex analytical presentations.
+
+As you progress through subsequent chapters, you'll see how these structural foundations support more advanced capabilities. The formatting functions in *Chapter 3* will build upon the column organization you establish here. The styling techniques in *Chapter 6* will leverage the component structure to apply visual enhancements precisely where needed. When you add footnotes in *Chapter 7*, you'll reference the structural elements defined in this chapter. Even the advanced features for incorporating charts and customizing for different output formats depend on the solid structural foundation established by these basic components.
+
+Master these fundamentals now, and the more sophisticated table-building techniques ahead will feel like natural extensions of what you already know. The time invested in understanding table structure will pay dividends in every **gt** table you create going forward.
