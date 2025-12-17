@@ -2,64 +2,754 @@
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
+library(dplyr)
 ```
 
-*** General introduction to formatting aspects of the table columns
+While formatting functions operate on the values *within* cells, sometimes we need to modify the structure and arrangement of the columns themselves. The **gt** package provides a comprehensive set of `cols_*()` functions that allow us to relabel columns, set their widths, control alignment, reorder their positions, hide and reveal them, and even merge data from multiple columns into a single column. These operations are essential for transforming raw data into polished, presentation-ready tables.
+
+In this chapter, we'll explore each of these column modification functions in detail. We'll see how `cols_label()` and `cols_label_with()` allow us to create human-readable column headers, how `cols_width()` and `cols_align()` give us control over the visual presentation, how the `cols_move*()` family lets us rearrange columns, how `cols_hide()` and `cols_unhide()` manage column visibility, and finally how the `cols_merge*()` functions allow us to combine data from multiple columns into single, information-rich cells.
 
 ## Labels, widths, alignments
 
-*** General introduction to formatting column labels, column widths, and column alignments
+The column labels in a **gt** table serve as the reader's guide to understanding the data. By default, **gt** uses the column names from your data frame, which are often abbreviated, in snake_case, or otherwise not ideal for presentation purposes. Similarly, the default column widths and alignments may not always be optimal for your particular data. This section covers the functions that give you fine-grained control over these presentational aspects.
 
 ### `cols_label()`
+ 
+The `cols_label()` function is your primary tool for assigning human-readable labels to columns. It accepts a set of column-label pairs, where you provide the column name (or use tidyselect) and the label you'd like to assign.
 
+Here is the function's signature:
+
+```r
+cols_label(
+ data,
+ ...,
+ .list = list2(...),
+ .fn = NULL,
+ .process_units = TRUE
+)
+```
+
+Let's create a table using a subset of the `gtcars` dataset and give the columns more descriptive labels:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, mpg_c, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_label(
+   mfr = "Manufacturer",
+   model = "Model",
+   year = "Year",
+   hp = "Horsepower",
+   mpg_c = "MPG (City)",
+   msrp = "Price (USD)"
+ )
+```
+
+The resulting table is immediately more readable. Where `mfr` might leave readers guessing, "Manufacturer" communicates clearly. The transformation from `mpg_c` to "MPG (City)" not only spells out the abbreviation but also clarifies that this is the city fuel economy figure (as opposed to highway). These small touches make a substantial difference in how quickly readers can interpret the data.
+
+You can also use the `md()` and `html()` helper functions to add formatting to your labels. This is particularly useful for adding units, subscripts, or other stylistic touches:
+ 
+```{r}
+sp500 |>
+ dplyr::slice(1:5) |>
+ dplyr::select(date, open, high, low, close, volume) |>
+ gt() |>
+ cols_label(
+   date = "Date",
+   open = md("**Open**"),
+   high = md("*High*"),
+   low = md("*Low*"),
+   close = md("**Close**"),
+   volume = html("Volume<br><small>(shares)</small>")
+ )
+```
+
+In this table, we've used Markdown formatting to make the "Open" and "Close" labels bold (arguably the most important prices for traders), while "High" and "Low" appear in italics. The volume label demonstrates the power of using raw HTML: the `<br>` creates a line break and `<small>` renders the unit clarification in a smaller font size. This kind of rich formatting in column labels can guide the reader's attention and provide additional context without cluttering the data cells themselves.
+
+For columns with measurement units, **gt** supports a convenient notation using curly braces. When `.process_units = TRUE` (the default), text within `{{...}}` is automatically formatted as units:
+
+```{r}
+exibble |>
+ dplyr::select(num, currency) |>
+ dplyr::slice(1:4) |>
+ gt() |>
+ cols_label(
+   num = "Value {{m/s^2}}",
+   currency = "Amount {{USD}}"
+ )
+```
+
+The units notation provides a clean, consistent way to display measurement units. Notice how `m/s^2` is rendered with proper superscript formatting for the exponent (this happens automatically when using the double-curly-brace syntax). The result is scientifically accurate notation without requiring you to write HTML or Markdown.
 
 ### `cols_label_with()`
 
+When you need to apply a transformation function to multiple column labels at once, `cols_label_with()` is the more efficient approach. Rather than specifying each label individually, you provide a function that will be applied to the selected column names.
+
+Here is the function's signature:
+
+```r
+cols_label_with(
+ data,
+ columns = everything(),
+ fn
+)
+```
+
+A common use case is converting snake_case column names to Title Case:
+
+```{r}
+towny |>
+ dplyr::select(name, population_2021, density_2021, land_area_km2) |>
+ dplyr::slice_head(n = 5) |>
+ gt() |>
+ cols_label_with(
+   columns = everything(),
+   fn = ~ gsub("_", " ", .x) |> tools::toTitleCase()
+ )
+```
+
+The anonymous function (specified using the `~` syntax) performs two operations: first, `gsub("_", " ", .x)` replaces all underscores with spaces, and then `tools::toTitleCase()` capitalizes the first letter of each word. The result transforms `population_2021` into "Population 2021" and `land_area_km2` into "Land Area Km2". This approach is far more efficient than manually specifying labels for each column, especially when dealing with datasets that have many columns following consistent naming conventions.
+
+You can also be selective about which columns to transform. Here, we use `starts_with()` to only modify certain columns:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, hp, hp_rpm, trq, trq_rpm) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_label(
+   mfr = "Manufacturer",
+   model = "Model"
+ ) |>
+ cols_label_with(
+   columns = starts_with(c("hp", "trq")),
+   fn = ~ toupper(gsub("_", " ", .x))
+ )
+```
+
+Here we combine two approaches: explicit labeling with `cols_label()` for the `mfr` and `model` columns (which need specific human-friendly names), and programmatic labeling with `cols_label_with()` for the performance-related columns. The `starts_with()` selector targets only columns beginning with "hp" or "trq", converting them to uppercase with spaces. This results in labels like "HP", "HP RPM", "TRQ", and "TRQ RPM", which are appropriate for technical specifications where abbreviations are standard.
+
+The `cols_label_with()` function is particularly powerful when combined with custom functions. For example, you could create a function that looks up labels from a data dictionary or applies domain-specific formatting rules.
 
 ### `cols_width()`
 
+The `cols_width()` function allows you to explicitly set the widths of one or more columns. This is especially useful when you want consistent column sizing across tables, when dealing with long text that might cause awkward wrapping, or when certain columns deserve more visual prominence.
+
+Here is the function's signature:
+
+```r
+cols_width(
+ data,
+ ...,
+ .list = list2(...)
+)
+```
+
+The width values can be specified using the `px()` helper for pixel values or `pct()` for percentages. Let's see a basic example:
+
+```{r}
+exibble |>
+ dplyr::select(char, fctr, date, time) |>
+ dplyr::slice(1:4) |>
+ gt() |>
+ cols_width(
+   char ~ px(150),
+   fctr ~ px(100),
+   date ~ px(120),
+   time ~ px(100)
+ )
+```
+
+By setting explicit pixel widths, we ensure that the columns maintain consistent sizing regardless of the content they contain. The `char` column receives the most space at 150 pixels since character data often varies in length, while `fctr` and `time` are narrower at 100 pixels. This explicit control prevents the table from looking unbalanced when some cells contain much more content than others.
+
+Using percentage-based widths ensures that columns scale proportionally with the table's overall width:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_label(
+   mfr = "Manufacturer",
+   model = "Model",
+   year = "Year",
+   hp = "HP",
+   msrp = "Price"
+ ) |>
+ cols_width(
+   mfr ~ pct(20),
+   model ~ pct(35),
+   year ~ pct(10),
+   hp ~ pct(10),
+   msrp ~ pct(25)
+ )
+```
+
+With percentage-based widths totaling 100%, the columns will proportionally fill the available table width. The `model` column receives the largest share (35%) since car model names tend to be longer, while `year` and `hp` get just 10% each since they contain short numeric values. This approach is particularly valuable for responsive layouts where the table width may vary depending on the viewing context.
+
+You can use tidyselect helpers to apply widths to multiple columns at once:
+
+```{r}
+towny |>
+ dplyr::select(name, starts_with("population"), starts_with("density")) |>
+ dplyr::slice_head(n = 5) |>
+ gt() |>
+ cols_width(
+   name ~ px(200),
+   starts_with("population") ~ px(120),
+   starts_with("density") ~ px(100)
+ )
+```
+
+The `starts_with()` helper elegantly handles all population columns and all density columns with single rules, assigning 120 pixels to each population column and 100 pixels to each density column. This is considerably more maintainable than specifying widths for each column individually, and it automatically accommodates any new columns that might be added to the dataset later (provided they follow the same naming convention).
 
 ### `cols_align()`
 
+By default, **gt** automatically aligns columns based on their data types: numeric columns are right-aligned and text columns are left-aligned. The `cols_align()` function lets you override this behavior when needed.
+
+Here is the function's signature:
+
+```r
+cols_align(
+ data,
+ align = c("auto", "left", "center", "right"),
+ columns = everything()
+)
+```
+
+Let's see how to center-align specific columns:
+
+```{r}
+exibble |>
+ dplyr::select(char, num, currency, date) |>
+ dplyr::slice(1:4) |>
+ gt() |>
+ cols_align(
+   align = "center",
+   columns = c(char, date)
+ )
+```
+
+In this table, the `char` and `date` columns are now center-aligned, while `num` and `currency` retain their default right-alignment. Notice how the center alignment affects only the body cells; the column labels remain in their default positions. Centering text columns can create a more balanced visual appearance, though it may reduce readability for longer text values (so use this technique judiciously).
+
+You might want to center all columns for a more symmetrical appearance, particularly in summary tables:
+
+```{r}
+gtcars |>
+ dplyr::count(mfr, name = "n_models") |>
+ dplyr::arrange(desc(n_models)) |>
+ dplyr::slice_head(n = 8) |>
+ gt() |>
+ cols_label(
+   mfr = "Manufacturer",
+   n_models = "Number of Models"
+ ) |>
+ cols_align(
+   align = "center",
+   columns = everything()
+ )
+```
+
+For this summary table showing model counts by manufacturer, center alignment creates a clean, symmetrical presentation. Since the table has only two columns and relatively short values in each, center alignment works well. The `everything()` selector applies the alignment to all columns in one call, keeping the code concise.
+
+For numeric values that benefit from decimal alignment, **gt** offers `cols_align_decimal()`. This function aligns values along their decimal points, making it easier to compare values across rows:
+
+```{r}
+dplyr::tibble(
+ item = c("Widget A", "Widget B", "Widget C", "Total"),
+ price = c(1.5, 24.99, 199.00, 225.49),
+ quantity = c(100, 50, 5, 155)
+) |>
+ gt() |>
+ cols_align_decimal(columns = price)
+```
+
+The `price` column now has its values aligned on the decimal point, making it easy to compare prices at a glance. Without decimal alignment, the varying number of digits before the decimal would make visual comparison more difficult. This is especially valuable in financial tables, scientific data, or any context where precise numeric comparison matters.
 
 
 ## Moving columns
 
-*** General introduction to changing the positions of columns
+The order in which columns appear can significantly impact how readers interpret and navigate a table. While you could reorder columns in your source data before passing it to `gt()`, the `cols_move*()` functions provide a convenient way to rearrange columns as part of your table-building pipeline. This is especially useful when the order that makes sense for analysis differs from the order that works best for presentation.
 
 ### `cols_move_to_start()`
 
+The `cols_move_to_start()` function moves one or more columns to the beginning of the column series (i.e., to the left side of the table).
+
+Here is the function's signature:
+
+```r
+cols_move_to_start(
+ data,
+ columns
+)
+```
+
+Let's say we have a dataset where we want to emphasize certain columns by placing them first:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, bdy_style, hp, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_move_to_start(columns = msrp)
+```
+
+The `msrp` column (which originally appeared last in our selection) now leads the table. If price is the primary point of interest for our readers, placing it first ensures they see that information immediately. The remaining columns maintain their relative order, simply shifted one position to the right.
+
+You can move multiple columns at once. They will appear in the order you specify:
+
+```{r}
+exibble |>
+ dplyr::select(-row, -group) |>
+ dplyr::slice(1:4) |>
+ gt() |>
+ cols_move_to_start(columns = c(date, time, datetime))
+```
+
+All three temporal columns now appear at the beginning of the table, in the order we specified: `date`, then `time`, then `datetime`. This reorganization groups related information together, which is often more logical for the reader than the arbitrary order that might result from the original data structure.
 
 ### `cols_move_to_end()`
 
+Conversely, `cols_move_to_end()` moves columns to the end of the column series (i.e., to the right side of the table). This is often useful for placing less important columns or summary columns at the end.
+
+Here is the function's signature:
+
+```r
+cols_move_to_end(
+ data,
+ columns
+)
+```
+
+In the following example, we move the identifying columns to the end so that the numeric data appears first:
+
+```{r}
+sp500 |>
+ dplyr::select(date, open, high, low, close, volume) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_move_to_end(columns = date)
+```
+
+By moving `date` to the end, the numeric trading data (open, high, low, close, volume) takes center stage. This arrangement might be preferred when the focus is on price movements rather than the specific dates (perhaps in a context where readers already know the time period being examined).
+
+Multiple columns can be moved together:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, trq, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_move_to_end(columns = c(mfr, model))
+```
+
+Now the numeric specifications (`year`, `hp`, `trq`, `msrp`) appear first, followed by the identifying information (`mfr`, `model`). This layout prioritizes the data over the labels, a presentation choice that might suit analytical contexts where readers are comparing specifications across vehicles.
 
 ### `cols_move()`
 
+For more precise control over column placement, `cols_move()` allows you to position columns after a specified reference column.
+
+Here is the function's signature:
+
+```r
+cols_move(
+ data,
+ columns,
+ after
+)
+```
+
+This function is particularly useful when you want to group related columns together:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, hp_rpm, trq, trq_rpm, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_move(
+   columns = msrp,
+   after = model
+ )
+```
+
+The `msrp` column is now positioned immediately after `model`, giving readers the price information right alongside the vehicle identification. The `after` argument specifies the reference column; the moved column(s) will appear directly to its right. This flexibility is valuable when you need to interleave columns rather than simply push them to the start or end.
+
+Here's another example where we reorder columns to group performance metrics together:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, mpg_c, mpg_h, hp, trq) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_move(
+   columns = c(hp, trq),
+   after = year
+ )
+```
+
+Both `hp` and `trq` have been moved to follow `year`, grouping the power-related metrics together. The fuel economy columns (`mpg_c`, `mpg_h`) now appear at the end. By thoughtfully arranging columns, you help readers understand the logical structure of your data. In this case, suggesting a grouping of identity information, power metrics, and efficiency metrics.
+
+Using tidyselect helpers with `cols_move()` can be quite powerful for organizing tables with many columns:
+
+```{r}
+towny |>
+ dplyr::select(name, latitude, longitude, starts_with("population"), starts_with("density")) |>
+ dplyr::slice_head(n = 5) |>
+ gt() |>
+ cols_move(
+   columns = starts_with("density"),
+   after = name
+ )
+```
+
+The `starts_with("density")` selector captures all density-related columns and positions them immediately after `name`. The original column order placed population columns before density columns, but now density comes first. When working with wide datasets that have many similarly-named columns, tidyselect helpers make reorganization straightforward and your code more resilient to future changes in the underlying data.
 
 
 ## Hiding columns
 
-*** General introduction to hiding columns
+There are situations where you want to retain columns in your data for reference or for use in calculations, but you don't want them to appear in the rendered table. The `cols_hide()` function makes columns invisible while keeping them available for other **gt** operations. This is particularly useful when you need a column's data for conditional formatting, merging operations, or calculations, but displaying that column would clutter the table.
 
 ### `cols_hide()`
 
+The `cols_hide()` function takes one or more columns and hides them from the table display. The columns remain part of the underlying **gt** object and can still be referenced in other function calls.
+
+Here is the function's signature:
+
+```r
+cols_hide(
+ data,
+ columns
+)
+```
+
+Let's create a table where we use a column for sorting but don't want to display it:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, msrp) |>
+ dplyr::arrange(desc(hp)) |>
+ dplyr::slice(1:8) |>
+ gt() |>
+ cols_hide(columns = year)
+```
+
+The table displays the top 8 cars by horsepower, but the `year` column is no longer visible. We retain the data in our pipeline (and could use it for other operations like conditional formatting), but it doesn't appear in the rendered output. This is cleaner than removing the column entirely from the source data, especially when the column might be needed for other purposes.
+
+A common use case is hiding columns that have been merged into other columns. When you use `cols_merge()` (discussed later), the source columns remain in the table unless explicitly hidden:
+
+```{r}
+exibble |>
+ dplyr::select(char, fctr, num, currency) |>
+ dplyr::slice(1:4) |>
+ gt() |>
+ cols_hide(columns = c(fctr, currency))
+```
+
+Only `char` and `num` remain visible; `fctr` and `currency` are hidden. The data is still present in the **gt** object, but it simply isn't rendered. This technique is particularly useful when you want to keep auxiliary data available for reference while presenting a simplified view to the reader.
+
+You can use tidyselect helpers to hide multiple related columns:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, hp_rpm, trq, trq_rpm, mpg_c, mpg_h) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_hide(columns = ends_with("_rpm"))
+```
+
+The `ends_with("_rpm")` selector hides both `hp_rpm` and `trq_rpm` in a single statement. The table shows horsepower and torque values without the RPM figures (perhaps the RPM data is too technical for a general audience, or it's being reserved for a more detailed companion table). Either way, the data remains accessible within the **gt** object should you need it.
 
 ### `cols_unhide()`
 
+The `cols_unhide()` function reverses the hiding operation, making previously hidden columns visible again. This is useful in programmatic contexts where you might conditionally show or hide columns, or when you've inherited a **gt** table object and want to reveal certain columns.
+
+Here is the function's signature:
+
+```r
+cols_unhide(
+ data,
+ columns
+)
+```
+
+Let's demonstrate a workflow where we hide and then selectively unhide columns:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, trq, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_hide(columns = c(year, hp, trq)) |>
+ cols_unhide(columns = hp)
+```
+
+We first hide three columns (`year`, `hp`, `trq`), then selectively reveal `hp`. The result is a table showing `mfr`, `model`, `hp`, and `msrp` (with `year` and `trq` remaining hidden). This pattern demonstrates the composability of **gt** operations: you can hide broadly and then unhide specifically, which can be useful when building tables programmatically or when adapting templates for different contexts.
+
+The `cols_unhide()` function is particularly valuable when working with functions that return **gt** tables. You can receive a table, inspect which columns are hidden, and then unhide specific ones as needed. This follows the general **gt** philosophy that table construction operations should be reversible and composable.
 
 
 ## Merging column data together
 
-*** General introduction to column merging
+One of the more powerful column modification capabilities in **gt** is the ability to merge data from multiple columns into a single column. This is achieved through the `cols_merge*()` family of functions. Merging is useful when you want to present related information together in a compact format (for example, combining a value with its uncertainty, showing a range from two values, or displaying a count alongside its percentage).
+
+It's important to understand that when columns are merged, the data from the source columns is combined into a target column. The source columns are not automatically hidden; you typically want to use `cols_hide()` afterward if you don't want the source columns to remain visible. However, some of the specialized merge functions handle this automatically.
 
 ### `cols_merge()`
 
+The `cols_merge()` function provides a flexible way to combine values from multiple columns using a pattern string. The pattern uses column indices (e.g., `{1}`, `{2}`) to reference the columns being merged.
+
+Here is the function's signature:
+
+```r
+cols_merge(
+ data,
+ columns,
+ rows = everything(),
+ hide_columns = columns[-1],
+ pattern = NULL,
+ sep = " "
+)
+```
+
+Let's combine manufacturer and model into a single column:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_merge(
+   columns = c(mfr, model),
+   pattern = "{1} {2}"
+ ) |>
+ cols_label(mfr = "Vehicle")
+```
+
+The manufacturer and model names are now combined into a single "Vehicle" column, with values like "Ford GT" and "Ferrari 458 Speciale". The `{1}` and `{2}` placeholders in the pattern refer to the first and second columns specified, respectively. Notice that the `model` column has been automatically hidden (the default behavior), leaving us with a cleaner four-column table.
+
+The pattern string is quite flexible. You can include any literal text between the placeholders:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_merge(
+   columns = c(model, year),
+   pattern = "{1} ({2})"
+ ) |>
+ cols_label(model = "Model (Year)")
+```
+
+Now each cell in the `model` column contains the model name followed by the year in parentheses, such as "GT (2017)" or "458 Speciale (2015)". The parentheses are literal characters in the pattern, demonstrating how you can embed any formatting you need. This is a common convention for displaying names with supplementary information.
+
+You can merge more than two columns:
+
+```{r}
+gtcars |>
+ dplyr::select(mfr, model, year, hp, msrp) |>
+ dplyr::slice(1:5) |>
+ gt() |>
+ cols_merge(
+   columns = c(mfr, model, year),
+   pattern = "{1} {2}, {3}"
+ ) |>
+ cols_label(mfr = "Vehicle Information")
+```
+
+All three identifying pieces of information (manufacturer, model, and year) are now combined into a single column, producing entries like "Ford GT, 2017". This aggressive consolidation reduces the table from five columns to three, creating a more compact presentation when the identifying information is secondary to the numeric data.
+
+Note that by default, `cols_merge()` hides all columns except the first one specified in `columns`. If you want to retain visibility of certain columns, you can adjust the `hide_columns` argument.
 
 ### `cols_merge_uncert()`
 
+When presenting scientific or statistical data, it's common to show a value along with its uncertainty (e.g., error bounds). The `cols_merge_uncert()` function is specifically designed for this purpose, creating nicely formatted value ± uncertainty presentations.
+
+Here is the function's signature:
+
+```r
+cols_merge_uncert(
+ data,
+ col_val,
+ col_uncert,
+ rows = everything(),
+ sep = " +/- ",
+ autohide = TRUE
+)
+```
+
+Let's create a dataset with values and their uncertainties:
+
+```{r}
+measurements <- dplyr::tibble(
+ sample = c("A", "B", "C", "D"),
+ value = c(12.4, 8.7, 15.2, 10.1),
+ uncertainty = c(0.3, 0.2, 0.5, 0.4)
+)
+
+measurements |>
+ gt() |>
+ cols_merge_uncert(
+   col_val = value,
+   col_uncert = uncertainty
+ ) |>
+ cols_label(value = "Measurement")
+```
+
+Each measurement now displays with its associated uncertainty using the conventional ± notation: "12.4 ± 0.3", "8.7 ± 0.2", and so on. This format is standard in scientific literature and immediately communicates both the measured value and its precision. The `uncertainty` column has been automatically hidden thanks to the `autohide = TRUE` default.
+
+The function uses ` ± ` as the default separator, which is standard notation for uncertainties. By default, `autohide = TRUE` means the uncertainty column is automatically hidden after merging.
+
+You can also use asymmetric uncertainties by providing two uncertainty columns in `col_uncert`:
+
+```{r}
+asymmetric_data <- dplyr::tibble(
+ experiment = c("Trial 1", "Trial 2", "Trial 3"),
+ result = c(50.2, 48.9, 51.5),
+ lower_bound = c(2.1, 1.8, 2.5),
+ upper_bound = c(3.2, 2.4, 3.1)
+)
+
+asymmetric_data |>
+ gt() |>
+ cols_merge_uncert(
+   col_val = result,
+   col_uncert = c(lower_bound, upper_bound)
+ ) |>
+ cols_label(result = "Result")
+```
+
+When uncertainties differ above and below the measured value, providing two uncertainty columns produces asymmetric notation like "50.2 (+3.2/−2.1)". This format accurately represents situations where error bounds are not symmetric (common in fields like particle physics, astrophysics, and certain statistical analyses where confidence intervals are naturally asymmetric).
 
 ### `cols_merge_range()`
 
+The `cols_merge_range()` function combines two columns that represent the bounds of a range (e.g., minimum and maximum values) into a single column with appropriate range notation.
+
+Here is the function's signature:
+
+```r
+cols_merge_range(
+ data,
+ col_begin,
+ col_end,
+ rows = everything(),
+ sep = NULL,
+ autohide = TRUE,
+ locale = NULL
+)
+```
+
+This function is perfect for displaying ranges like price ranges, temperature ranges, or date ranges:
+
+```{r}
+price_ranges <- dplyr::tibble(
+ product = c("Basic", "Standard", "Premium", "Enterprise"),
+ min_price = c(9.99, 29.99, 79.99, 199.99),
+ max_price = c(19.99, 49.99, 149.99, 499.99)
+)
+
+price_ranges |>
+ gt() |>
+ cols_merge_range(
+   col_begin = min_price,
+   col_end = max_price
+ ) |>
+ cols_label(min_price = "Price Range") |>
+ fmt_currency(columns = min_price, decimals = 2)
+```
+
+Each product tier now shows its price range in a single column with values like "$9.99–$19.99". The en-dash (–) separator is the typographically correct character for ranges, and `cols_merge_range()` uses it by default. By applying `fmt_currency()` to the target column, both the minimum and maximum values in each cell receive currency formatting.
+
+Note that when you apply formatting functions like `fmt_currency()`, you should apply them to the target column (the first column in the merge operation) for the formatting to take effect on the merged result.
+
+Here's another example using the `gtcars` dataset to show horsepower ranges by manufacturer:
+
+```{r}
+gtcars |>
+ dplyr::group_by(mfr) |>
+ dplyr::summarize(
+   min_hp = min(hp),
+   max_hp = max(hp),
+   n_models = n(),
+   .groups = "drop"
+ ) |>
+ dplyr::slice_head(n = 8) |>
+ gt() |>
+ cols_merge_range(
+   col_begin = min_hp,
+   col_end = max_hp
+ ) |>
+ cols_label(
+   mfr = "Manufacturer",
+   min_hp = "Horsepower Range",
+   n_models = "Models"
+ )
+```
+
+This summary table shows the range of horsepower values for each manufacturer's lineup, presented as entries like "245–647" for Audi or "562–691" for Ferrari. At a glance, readers can see which manufacturers offer broader or narrower performance ranges. The compact range notation conveys the same information as two separate columns but in a more digestible format.
 
 ### `cols_merge_n_pct()`
+
+A very common table pattern is showing counts alongside their percentages. The `cols_merge_n_pct()` function automates this, creating entries like "150 (25.0%)" from separate count and percentage columns.
+
+Here is the function's signature:
+
+```r
+cols_merge_n_pct(
+ data,
+ col_n,
+ col_pct,
+ rows = everything(),
+ autohide = TRUE
+)
+```
+
+Let's create a frequency table showing counts and percentages:
+
+```{r}
+gtcars |>
+ dplyr::count(bdy_style, name = "n") |>
+ dplyr::mutate(pct = n / sum(n) * 100) |>
+ gt() |>
+ cols_merge_n_pct(
+   col_n = n,
+   col_pct = pct
+ ) |>
+ cols_label(
+   bdy_style = "Body Style",
+   n = "Count (Percentage)"
+ )
+```
+
+The table now shows entries like "coupe: 18 (34.62%)" and "sedan: 12 (23.08%)", communicating both the raw count and its proportion of the total. This dual presentation helps readers understand both the absolute frequency and relative importance of each category. The function automatically formats the percentage and wraps it in parentheses, following the conventional notation used in statistical and research publications.
+
+This function is particularly useful for survey results, categorical summaries, and any situation where you want to show both absolute and relative frequencies:
+
+```{r}
+towny |>
+ dplyr::mutate(
+   size_category = dplyr::case_when(
+     population_2021 >= 100000 ~ "Large",
+     population_2021 >= 20000 ~ "Medium",
+     TRUE ~ "Small"
+   )
+ ) |>
+ dplyr::count(size_category, name = "count") |>
+ dplyr::mutate(percentage = count / sum(count) * 100) |>
+ dplyr::arrange(desc(count)) |>
+ gt() |>
+ cols_merge_n_pct(
+   col_n = count,
+   col_pct = percentage
+ ) |>
+ cols_label(
+   size_category = "Municipality Size",
+   count = "Count (Pct)"
+ )
+```
+
+This categorical summary of Ontario municipalities shows how many fall into each size category along with the percentage. We can immediately see that "Small" municipalities dominate the dataset while "Large" municipalities are relatively rare. The merged format prevents the table from becoming unwieldy with separate count and percentage columns, while still conveying the complete picture.
+
+The `cols_merge_n_pct()` function handles the formatting of the percentage values and applies appropriate parentheses automatically, creating a clean and professional appearance for your frequency tables.
 
