@@ -1,7 +1,5 @@
 # Creating Effective Display Tables with the gt Package
 
-[![Render and Publish](https://github.com/riannone/gt-effective-display-tables/actions/workflows/quarto-publish.yml/badge.svg)](https://github.com/riannone/gt-effective-display-tables/actions/workflows/quarto-publish.yml)
-
 This is the repository for the book "Creating Effective Display Tables with the gt Package", a comprehensive guide to building professional, publication-ready tables in R using the **gt** package.
 
 ## About this book
