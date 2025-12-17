@@ -9,7 +9,7 @@ book:
   search: true
   chapters:
     - index.qmd
-    - 01-what-is-gt-to-do.qmd
+    - 01-introduction.qmd
     - 02-basic-components.qmd
     - 03-formatting-values.qmd
     - 04-modifying-columns.qmd
