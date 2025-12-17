@@ -747,7 +747,8 @@ The use of column spanners ("Quarters" and "Summary") helps readers understand t
 Scientific publications typically require summary statistics like means, standard deviations, and sample sizes for experimental data. This example shows how `summary_rows()` can present multiple statistics for each treatment group, formatted appropriately for each measure.
 
 ```{r}
-set.seed(42)
+set.seed(23)
+
 dplyr::tibble(
   treatment = rep(c("Control", "Treatment A", "Treatment B"), each = 4),
   replicate = rep(1:4, 3),
