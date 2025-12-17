@@ -44,21 +44,21 @@ The resulting HTML file is self-contained and can be opened directly in any web 
 
 ### Use cases
 
-HTML output excels in these scenarios:
+HTML output is great in these scenarios:
 
-- **Web publishing**: Blogs, websites, dashboards, and web applications
-- **Interactive reports**: Quarto/R Markdown documents rendered to HTML
-- **Email newsletters**: HTML emails with embedded tables
-- **Documentation**: Package documentation websites (pkgdown)
-- **Shiny applications**: Dynamic tables in interactive web apps
+- web publishing: blogs, websites, dashboards, and web applications
+- interactive reports: Quarto/R Markdown documents rendered to HTML
+- email newsletters: HTML emails with embedded tables
+- documentation: package documentation websites (pkgdown)
+- Shiny applications: dynamic tables in interactive web apps
 
 ### Advantages
 
 HTML format provides several distinct benefits:
 
-Every gt feature works in HTML output. Colors, fonts, borders, images, nanoplots, complex formatting, and interactive elements all render correctly. This complete feature support makes HTML the most versatile output format.
+Every **gt** feature works in HTML output. Colors, fonts, borders, images, nanoplots, complex formatting, and interactive elements all render correctly. This complete feature support makes HTML the most versatile output format.
 
-CSS styling gives precise control over every visual aspect. The `tab_style()` and `tab_options()` functions leverage CSS properties, enabling sophisticated designs. Tables can adapt to different screen sizes through CSS. While gt doesn't provide automatic responsive behavior, the HTML output structure allows custom responsive styling.
+CSS styling gives precise control over every visual aspect. The `tab_style()` and `tab_options()` functions leverage CSS properties, enabling sophisticated designs. Tables can adapt to different screen sizes through CSS. While **gt** doesn't provide automatic responsive behavior, the HTML output structure allows custom responsive styling.
 
 HTML tables can contain images, icons, formatted text with HTML tags, and even embedded SVG graphics for nanoplots. This embedded content capability makes HTML tables rich and expressive.
 
@@ -114,7 +114,7 @@ LaTeX output suits these contexts:
 
 ### Advantages
 
-LaTeX brings several benefits for table presentation. It excels at producing publication-quality output with precise positioning, professional typography, and consistent spacing. Since LaTeX is designed for mathematical typesetting, tables containing equations integrate seamlessly with surrounding mathematical content.
+LaTeX brings several benefits for table presentation. It is really good at producing publication-quality output with precise positioning, professional typography, and consistent spacing. Since LaTeX is designed for mathematical typesetting, tables containing equations integrate seamlessly with surrounding mathematical content.
 
 LaTeX's cross-referencing system allows tables to be numbered, labeled, and cited throughout a document. Many academic publishers require or prefer LaTeX submission, making LaTeX tables essential for scholarly communication. LaTeX-generated PDFs are stable, widely compatible, and suitable for archival purposes.
 
@@ -220,7 +220,7 @@ For more complex document assembly with multiple tables and other content, gener
 
 Word remains the dominant format in many professional settings, making it essential for workflows where compatibility with Microsoft Office ecosystems is expected or required. Understanding when to choose Word output helps ensure your tables reach their audience in the most appropriate format.
 
-Word output excels in corporate and business environments where Word is the standard document format. This includes business reports destined for executives or clients, documents that require review and editing by multiple stakeholders who work primarily in Word, and situations where recipients explicitly require Word format for submission or compliance purposes. The ability to open, review, and comment on tables directly in Word's familiar interface makes this format ideal for collaborative workflows where non-technical users need to interact with the content.
+Word output is good in corporate and business environments where Word is the standard document format. This includes business reports destined for executives or clients, documents that require review and editing by multiple stakeholders who work primarily in Word, and situations where recipients explicitly require Word format for submission or compliance purposes. The ability to open, review, and comment on tables directly in Word's familiar interface makes this format ideal for collaborative workflows where non-technical users need to interact with the content.
 
 Word format also serves well when tables are part of larger documents that combine text, images, charts, and other elements. If you're populating existing Word templates with data tables or assembling reports where tables appear alongside narrative content, the native `.docx` format ensures smooth integration. The format is particularly valuable when tables need further refinement or customization within Word after initial generation, as recipients can modify table structure, styling, and content using Word's native table editing tools.
 
