@@ -6,7 +6,7 @@ library(dplyr)
 library(tidyr)
 ```
 
-The visual appearance of a **gt** table has a tremendous impact on how effectively it communicates its data. While a table may contain valuable information, poor aesthetic choices can obscure important patterns or make comparisons difficult. Conversely, thoughtful styling decisions such as selective use of color, appropriate typography, judicious borders, and effective spacing can transform raw data into a compelling visual narrative.
+The visual appearance of a **gt** table has a tremendous impact on how effectively it communicates its data. While a table may contain valuable information, poor aesthetic choices can obscure important patterns or make comparisons difficult. Conversely, styling decisions such as selective use of color, appropriate typography, judicious borders, and effective spacing can transform raw data into a compelling visual narrative.
  
 This chapter explores the rich set of tools **gt** provides for controlling the aesthetic dimensions of tables. We begin with data-driven coloring, where cell colors communicate quantitative relationships. We then examine precision styling through `tab_style()`, which permits targeted modifications to any table location. The `tab_options()` function opens up a vast landscape of global table settings, while various `opt_*()` convenience functions provide quick access to commonly desired configurations. Finally, we explore interactive HTML tables, which offer readers additional ways to explore and understand tabular data.
 
@@ -14,7 +14,7 @@ These aesthetic controls exist not merely for decoration but to enhance comprehe
 
 ## Coloring data according to their values
 
-Color represents one of the most powerful visual channels available for encoding data. When applied thoughtfully to table cells, background colors can reveal patterns, highlight outliers, and provide an immediate sense of magnitude that numbers alone cannot convey. The human visual system excels at perceiving color gradients and categorical distinctions, making data coloring an effective technique for enhancing table comprehension.
+Color represents one of the most powerful visual channels available for encoding data. When applied thoughtfully to table cells, background colors can reveal patterns, highlight outliers, and provide an immediate sense of magnitude that numbers alone cannot convey. The human visual system is good at perceiving color gradients and categorical distinctions, making data coloring an effective technique for enhancing table comprehension.
 
 The `data_color()` function in **gt** provides sophisticated mechanisms for mapping data values to colors. It supports multiple coloring methods (numeric interpolation, binning, quantiles, and categorical factors) and offers extensive palette options ranging from built-in R palettes to the rich collections available through viridis and RColorBrewer packages, as well as the vast selection accessible via the paletteer package. The function also handles practical concerns like automatic text recoloring for accessibility and flexible targeting of specific cells.
 
