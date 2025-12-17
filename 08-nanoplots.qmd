@@ -72,39 +72,39 @@ The first format spreads values across multiple columns, as we just saw with the
 
 ```{r}
 # Multi-column format: each column is one value
-tibble::tibble(
-  product = c("Widget", "Gadget", "Gizmo"),
-  q1_sales = c(120, 85, 210),
-  q2_sales = c(135, 92, 198),
-  q3_sales = c(142, 88, 225),
-  q4_sales = c(156, 95, 245)
+dplyr::tibble(
+    product = c("Widget", "Gadget", "Gizmo"),
+    q1_sales = c(120, 85, 210),
+    q2_sales = c(135, 92, 198),
+    q3_sales = c(142, 88, 225),
+    q4_sales = c(156, 95, 245)
 ) |>
-  gt(rowname_col = "product") |>
-  tab_header(title = "Quarterly Sales") |>
-  cols_nanoplot(
-    columns = starts_with("q"),
-    new_col_name = "trend",
-    new_col_label = "Quarterly Trend"
-  ) |>
-  cols_width(trend ~ px(100))
+    gt(rowname_col = "product") |>
+    tab_header(title = "Quarterly Sales") |>
+    cols_nanoplot(
+        columns = starts_with("q"),
+        new_col_name = "trend",
+        new_col_label = "Quarterly Trend"
+    ) |>
+    cols_width(trend ~ px(100))
 ```
 
 The second format packs all values for a row into a single column as a delimited string. This is particularly useful when different rows have varying numbers of data points, or when your data arrives in this format from external sources:
 
 ```{r}
 # Value stream format: comma-separated values in one column
-tibble::tibble(
-  product = c("Widget", "Gadget", "Gizmo"),
-  sales_stream = c("120, 135, 142, 156", "85, 92, 88, 95", "210, 198, 225, 245")
+dplyr::tibble(
+    product = c("Widget", "Gadget", "Gizmo"),
+    sales_stream = c("120, 135, 142, 156", "85, 92, 88, 95", "210, 198, 225, 245")
 ) |>
-  gt(rowname_col = "product") |>
-  tab_header(title = "Quarterly Sales") |>
-  cols_nanoplot(
-    columns = sales_stream,
-    new_col_name = "trend",
-    new_col_label = "Quarterly Trend"
-  ) |>
-  cols_width(trend ~ px(100))
+    gt(rowname_col = "product") |>
+    tab_header(title = "Quarterly Sales") |>
+    cols_nanoplot(
+        columns = sales_stream,
+        new_col_name = "trend",
+        new_col_label = "Quarterly Trend"
+    ) |>
+    cols_width(trend ~ px(100))
 ```
 
 Both formats produce identical nanoplots. The multi-column approach works well when your table already has the data structured that way and you want to show those columns alongside the nanoplot. The value stream approach excels when you need flexibility in the number of data points per row or want to keep your table structure simple. Commas, spaces, or semicolons can all serve as delimiters in value streams.
@@ -233,21 +233,21 @@ By default, nanoplots space data points evenly along the x-axis. For line plots,
 
 ```{r}
 # Create sample data with irregular time intervals
-tibble::tibble(
-  category = c("Product A", "Product B", "Product C"),
-  times = c("1,3,4,8,12", "2,5,6,9,15", "1,2,7,10,14"),
-  values = c("10,15,13,20,25", "8,12,15,11,18", "5,8,12,15,20")
+dplyr::tibble(
+    category = c("Product A", "Product B", "Product C"),
+    times = c("1,3,4,8,12", "2,5,6,9,15", "1,2,7,10,14"),
+    values = c("10,15,13,20,25", "8,12,15,11,18", "5,8,12,15,20")
 ) |>
-  gt(rowname_col = "category") |>
-  tab_header(title = "Sales at Irregular Intervals") |>
-  cols_nanoplot(
-    columns = values,
-    columns_x_vals = times,
-    new_col_name = "trend",
-    new_col_label = "Sales Trend",
-    expand_x = c(0, 16)
-  ) |>
-  cols_width(trend ~ px(150))
+    gt(rowname_col = "category") |>
+    tab_header(title = "Sales at Irregular Intervals") |>
+    cols_nanoplot(
+        columns = values,
+        columns_x_vals = times,
+        new_col_name = "trend",
+        new_col_label = "Sales Trend",
+        expand_x = c(0, 16)
+    ) |>
+    cols_width(trend ~ px(150))
 ```
 
 The x values position points according to their actual timing rather than equally spacing them. The `expand_x` argument ensures all plots share the same x-axis range for valid comparison.
@@ -339,28 +339,28 @@ By default, **gt** renders positive and negative bars with distinct fill colors,
 
 ```{r}
 # Create data with positive and negative changes
-tibble::tibble(
-  metric = c("Revenue", "Costs", "Margin", "Volume"),
-  q1_change = c(12.5, -3.2, 8.1, -1.5),
-  q2_change = c(-2.1, 5.8, -4.3, 6.2),
-  q3_change = c(7.8, -1.9, 3.2, -2.8),
-  q4_change = c(4.2, 2.1, -1.5, 8.9)
+dplyr::tibble(
+    metric = c("Revenue", "Costs", "Margin", "Volume"),
+    q1_change = c(12.5, -3.2, 8.1, -1.5),
+    q2_change = c(-2.1, 5.8, -4.3, 6.2),
+    q3_change = c(7.8, -1.9, 3.2, -2.8),
+    q4_change = c(4.2, 2.1, -1.5, 8.9)
 ) |>
-  gt(rowname_col = "metric") |>
-  tab_header(title = "Quarterly Percent Changes") |>
-  cols_nanoplot(
-    columns = ends_with("change"),
-    plot_type = "bar",
-    new_col_name = "quarterly",
-    new_col_label = "Q1–Q4 Changes",
-    options = nanoplot_options(
-      data_bar_fill_color = "#2ECC71",
-      data_bar_stroke_color = "#1E8449",
-      data_bar_negative_fill_color = "#E74C3C",
-      data_bar_negative_stroke_color = "#922B21"
-    )
-  ) |>
-  cols_width(quarterly ~ px(120))
+    gt(rowname_col = "metric") |>
+    tab_header(title = "Quarterly Percent Changes") |>
+    cols_nanoplot(
+        columns = ends_with("change"),
+        plot_type = "bar",
+        new_col_name = "quarterly",
+        new_col_label = "Q1–Q4 Changes",
+        options = nanoplot_options(
+            data_bar_fill_color = "#2ECC71",
+            data_bar_stroke_color = "#1E8449",
+            data_bar_negative_fill_color = "#E74C3C",
+            data_bar_negative_stroke_color = "#922B21"
+        )
+    ) |>
+    cols_width(quarterly ~ px(120))
 ```
 
 Positive changes appear in green while negative changes display in red, making it immediately apparent which quarters saw gains versus losses for each metric.
@@ -429,21 +429,22 @@ Each box plot summarizes that day's order timing distribution. The box spans the
 
 ```{r}
 # Generate sample distribution data
-set.seed(42)
-tibble::tibble(
-  group = LETTERS[1:5],
-  values = purrr::map_chr(1:5, ~ paste(round(rnorm(30, mean = .x * 10, sd = 5), 1), collapse = ","))
+set.seed(23)
+
+dplyr::tibble(
+    group = LETTERS[1:5],
+    values = purrr::map_chr(1:5, ~ paste(round(rnorm(30, mean = .x * 10, sd = 5), 1),     collapse = ","))
 ) |>
-  gt(rowname_col = "group") |>
-  tab_header(title = "Distribution Comparison") |>
-  cols_nanoplot(
-    columns = values,
-    plot_type = "boxplot",
-    autoscale = TRUE,
-    new_col_name = "dist",
-    new_col_label = "Distribution"
-  ) |>
-  cols_width(dist ~ px(180))
+    gt(rowname_col = "group") |>
+    tab_header(title = "Distribution Comparison") |>
+    cols_nanoplot(
+        columns = values,
+        plot_type = "boxplot",
+        autoscale = TRUE,
+        new_col_name = "dist",
+        new_col_label = "Distribution"
+    ) |>
+    cols_width(dist ~ px(180))
 ```
 
 The `autoscale = TRUE` option ensures all box plots share the same scale, making cross-row comparisons valid. Without this, each box plot would scale independently to its own data range.
@@ -584,22 +585,22 @@ Real data often contains missing values. The `missing_vals` argument controls ho
 ### Gap strategy (default)
 
 ```{r}
-tibble::tibble(
-  item = c("A", "B", "C"),
-  v1 = c(10, 8, NA),
-  v2 = c(15, NA, 12),
-  v3 = c(NA, 14, 15),
-  v4 = c(20, 16, 18),
-  v5 = c(18, 12, NA)
+dplyr::tibble(
+    item = c("A", "B", "C"),
+    v1 = c(10, 8, NA),
+    v2 = c(15, NA, 12),
+    v3 = c(NA, 14, 15),
+    v4 = c(20, 16, 18),
+    v5 = c(18, 12, NA)
 ) |>
-  gt(rowname_col = "item") |>
-  tab_header(title = "Missing Values: Gap Strategy") |>
-  cols_nanoplot(
-    columns = starts_with("v"),
-    missing_vals = "gap",
-    new_col_name = "trend",
-    new_col_label = "Values"
-  )
+    gt(rowname_col = "item") |>
+    tab_header(title = "Missing Values: Gap Strategy") |>
+    cols_nanoplot(
+        columns = starts_with("v"),
+        missing_vals = "gap",
+        new_col_name = "trend",
+        new_col_label = "Values"
+    )
 ```
 
 Gaps appear where data is missing. Lines discontinue and resume, clearly indicating where observations are absent.
@@ -609,22 +610,22 @@ Gaps appear where data is missing. Lines discontinue and resume, clearly indicat
 The marker strategy works like the gap strategy but adds special visual markers at the locations of missing values. This draws even more attention to the fact that data is absent:
 
 ```{r}
-tibble::tibble(
-  item = c("A", "B", "C"),
-  v1 = c(10, 8, NA),
-  v2 = c(15, NA, 12),
-  v3 = c(NA, 14, 15),
-  v4 = c(20, 16, 18),
-  v5 = c(18, 12, NA)
+dplyr::tibble(
+    item = c("A", "B", "C"),
+    v1 = c(10, 8, NA),
+    v2 = c(15, NA, 12),
+    v3 = c(NA, 14, 15),
+    v4 = c(20, 16, 18),
+    v5 = c(18, 12, NA)
 ) |>
-  gt(rowname_col = "item") |>
-  tab_header(title = "Missing Values: Marker Strategy") |>
-  cols_nanoplot(
-    columns = starts_with("v"),
-    missing_vals = "marker",
-    new_col_name = "trend",
-    new_col_label = "Values"
-  )
+    gt(rowname_col = "item") |>
+    tab_header(title = "Missing Values: Marker Strategy") |>
+    cols_nanoplot(
+        columns = starts_with("v"),
+        missing_vals = "marker",
+        new_col_name = "trend",
+        new_col_label = "Values"
+    )
 ```
 
 Like gaps, but with prominent markers at missing data locations. This makes missingness even more visible.
@@ -634,22 +635,22 @@ Like gaps, but with prominent markers at missing data locations. This makes miss
 The zero strategy treats missing values as zeros. This approach is appropriate when absence of data genuinely means zero (for instance, missing order counts likely mean no orders occurred):
 
 ```{r}
-tibble::tibble(
-  item = c("A", "B", "C"),
-  v1 = c(10, 8, NA),
-  v2 = c(15, NA, 12),
-  v3 = c(NA, 14, 15),
-  v4 = c(20, 16, 18),
-  v5 = c(18, 12, NA)
+dplyr::tibble(
+    item = c("A", "B", "C"),
+    v1 = c(10, 8, NA),
+    v2 = c(15, NA, 12),
+    v3 = c(NA, 14, 15),
+    v4 = c(20, 16, 18),
+    v5 = c(18, 12, NA)
 ) |>
-  gt(rowname_col = "item") |>
-  tab_header(title = "Missing Values: Zero Strategy") |>
-  cols_nanoplot(
-    columns = starts_with("v"),
-    missing_vals = "zero",
-    new_col_name = "trend",
-    new_col_label = "Values"
-  )
+    gt(rowname_col = "item") |>
+    tab_header(title = "Missing Values: Zero Strategy") |>
+    cols_nanoplot(
+        columns = starts_with("v"),
+        missing_vals = "zero",
+        new_col_name = "trend",
+        new_col_label = "Values"
+    )
 ```
 
 Missing values are replaced with zeros. Use this when zeros are meaningful substitutes (e.g., missing sales might truly mean zero sales).
@@ -659,22 +660,22 @@ Missing values are replaced with zeros. Use this when zeros are meaningful subst
 The remove strategy excludes missing values entirely from the plot, connecting the remaining points directly. This can be useful when you want to focus only on observed values without calling attention to gaps:
 
 ```{r}
-tibble::tibble(
-  item = c("A", "B", "C"),
-  v1 = c(10, 8, NA),
-  v2 = c(15, NA, 12),
-  v3 = c(NA, 14, 15),
-  v4 = c(20, 16, 18),
-  v5 = c(18, 12, NA)
+dplyr::tibble(
+    item = c("A", "B", "C"),
+    v1 = c(10, 8, NA),
+    v2 = c(15, NA, 12),
+    v3 = c(NA, 14, 15),
+    v4 = c(20, 16, 18),
+    v5 = c(18, 12, NA)
 ) |>
-  gt(rowname_col = "item") |>
-  tab_header(title = "Missing Values: Remove Strategy") |>
-  cols_nanoplot(
-    columns = starts_with("v"),
-    missing_vals = "remove",
-    new_col_name = "trend",
-    new_col_label = "Values"
-  )
+    gt(rowname_col = "item") |>
+    tab_header(title = "Missing Values: Remove Strategy") |>
+    cols_nanoplot(
+        columns = starts_with("v"),
+        missing_vals = "remove",
+        new_col_name = "trend",
+        new_col_label = "Values"
+    )
 ```
 
 Missing values are simply removed, and remaining values connect directly. The plots may have different numbers of points, but no gaps appear.
@@ -705,22 +706,22 @@ Values are collected left-to-right in the order columns are specified.
 Value streams pack multiple values into a single column as delimited strings:
 
 ```{r}
-tibble::tibble(
-  product = c("Widget", "Gadget", "Gizmo"),
-  weekly_sales = c(
-    "120, 135, 142, 128, 156, 149, 163",
-    "85, 92, 88, 95, 101, 98, 105",
-    "210, 198, 225, 232, 218, 245, 238"
-  )
+dplyr::tibble(
+    product = c("Widget", "Gadget", "Gizmo"),
+    weekly_sales = c(
+        "120, 135, 142, 128, 156, 149, 163",
+        "85, 92, 88, 95, 101, 98, 105",
+        "210, 198, 225, 232, 218, 245, 238"
+    )
 ) |>
-  gt(rowname_col = "product") |>
-  tab_header(title = "Weekly Sales Trends") |>
-  cols_nanoplot(
-    columns = weekly_sales,
-    new_col_name = "trend",
-    new_col_label = "7-Day Trend"
-  ) |>
-  cols_width(trend ~ px(120))
+    gt(rowname_col = "product") |>
+    tab_header(title = "Weekly Sales Trends") |>
+    cols_nanoplot(
+        columns = weekly_sales,
+        new_col_name = "trend",
+        new_col_label = "7-Day Trend"
+    ) |>
+    cols_width(trend ~ px(120))
 ```
 
 Commas, spaces, or semicolons can separate values. Value streams are useful when different rows have varying numbers of observations, since each row's string can contain however many values exist for that row.
@@ -730,24 +731,24 @@ Commas, spaces, or semicolons can separate values. Value streams are useful when
 Value streams can also contain ISO 8601 datetimes, which are automatically converted to numeric values:
 
 ```{r}
-tibble::tibble(
-  event = c("Launch", "Update", "Sale"),
-  timestamps = c(
-    "2024-01-15 09:00:00, 2024-01-15 14:30:00, 2024-01-15 18:45:00",
-    "2024-02-20 08:15:00, 2024-02-20 11:00:00, 2024-02-20 16:30:00, 2024-02-20 20:00:00",
-    "2024-03-10 10:00:00, 2024-03-10 12:00:00, 2024-03-10 15:00:00"
-  ),
-  activity = c("50, 120, 85", "30, 75, 95, 60", "200, 350, 280")
+dplyr::tibble(
+    event = c("Launch", "Update", "Sale"),
+    timestamps = c(
+        "2024-01-15 09:00:00, 2024-01-15 14:30:00, 2024-01-15 18:45:00",
+        "2024-02-20 08:15:00, 2024-02-20 11:00:00, 2024-02-20 16:30:00, 2024-02-20 20:00:00",
+        "2024-03-10 10:00:00, 2024-03-10 12:00:00, 2024-03-10 15:00:00"
+    ),
+    activity = c("50, 120, 85", "30, 75, 95, 60", "200, 350, 280")
 ) |>
-  gt(rowname_col = "event") |>
-  tab_header(title = "Activity Over Time") |>
-  cols_nanoplot(
-    columns = activity,
-    columns_x_vals = timestamps,
-    new_col_name = "timeline",
-    new_col_label = "Activity Pattern"
-  ) |>
-  cols_width(timeline ~ px(140))
+    gt(rowname_col = "event") |>
+    tab_header(title = "Activity Over Time") |>
+    cols_nanoplot(
+        columns = activity,
+        columns_x_vals = timestamps,
+        new_col_name = "timeline",
+        new_col_label = "Activity Pattern"
+    ) |>
+    cols_width(timeline ~ px(140))
 ```
 
 The datetime strings become x-axis positions, accurately representing the timing of observations.
@@ -805,20 +806,20 @@ Now the visual heights accurately represent population magnitudes relative to ot
 The `expand_x` and `expand_y` arguments extend plot boundaries beyond the data range:
 
 ```{r}
-tibble::tibble(
-  scenario = c("Optimistic", "Baseline", "Pessimistic"),
-  projections = c("105, 112, 120, 130", "100, 102, 105, 108", "100, 95, 88, 80")
+dplyr::tibble(
+    scenario = c("Optimistic", "Baseline", "Pessimistic"),
+    projections = c("105, 112, 120, 130", "100, 102, 105, 108", "100, 95, 88, 80")
 ) |>
-  gt(rowname_col = "scenario") |>
-  tab_header(title = "Revenue Projections (Indexed to 100)") |>
-  cols_nanoplot(
-    columns = projections,
-    expand_y = c(70, 140),
-    reference_line = 100,
-    new_col_name = "projection",
-    new_col_label = "4-Year Outlook"
-  ) |>
-  cols_width(projection ~ px(120))
+    gt(rowname_col = "scenario") |>
+    tab_header(title = "Revenue Projections (Indexed to 100)") |>
+    cols_nanoplot(
+        columns = projections,
+        expand_y = c(70, 140),
+        reference_line = 100,
+        new_col_name = "projection",
+        new_col_label = "4-Year Outlook"
+    ) |>
+    cols_width(projection ~ px(120))
 ```
 
 The fixed y-axis range (70–140) and reference line at 100 provide consistent context across all scenarios, making it easy to see which projections exceed or fall below the baseline.
@@ -924,21 +925,21 @@ data_point_radius = NULL,
 Some options accept vectors to style individual data points differently:
 
 ```{r}
-tibble::tibble(
-  quarter = c("Q1", "Q2", "Q3", "Q4"),
-  revenue = c("100, 110, 105, 120")
+dplyr::tibble(
+    quarter = c("Q1", "Q2", "Q3", "Q4"),
+    revenue = c("100, 110, 105, 120")
 ) |>
-  gt(rowname_col = "quarter") |>
-  cols_nanoplot(
-    columns = revenue,
-    new_col_name = "trend",
-    options = nanoplot_options(
-      data_point_fill_color = c("gray", "gray", "gray", "gold"),
-      data_point_radius = c(5, 5, 5, 10),
-      data_point_stroke_color = "black",
-      data_line_stroke_color = "gray"
+    gt(rowname_col = "quarter") |>
+    cols_nanoplot(
+        columns = revenue,
+        new_col_name = "trend",
+        options = nanoplot_options(
+            data_point_fill_color = c("gray", "gray", "gray", "gold"),
+            data_point_radius = c(5, 5, 5, 10),
+            data_point_stroke_color = "black",
+            data_line_stroke_color = "gray"
+        )
     )
-  )
 ```
 
 The final point (Q4) is highlighted with a larger golden marker, drawing attention to the most recent value.
@@ -982,24 +983,24 @@ Both nanoplot columns share the same minimal styling, creating visual consistenc
 For financial data, specify a currency code:
 
 ```{r}
-tibble::tibble(
-  product = c("Basic", "Pro", "Enterprise"),
-  monthly_revenue = c("1200, 1350, 1280, 1420, 1510",
-                      "4500, 4800, 5100, 4950, 5300",
-                      "12000, 13500, 14200, 15800, 16500")
-) |>
-  gt(rowname_col = "product") |>
-  tab_header(title = "Monthly Revenue Trends") |>
-  cols_nanoplot(
-    columns = monthly_revenue,
-    reference_line = "mean",
-    new_col_name = "trend",
-    new_col_label = "5-Month Trend",
-    options = nanoplot_options(
-      currency = "USD"
+dplyr::tibble(
+    product = c("Basic", "Pro", "Enterprise"),
+    monthly_revenue = c(
+        "1200, 1350, 1280, 1420, 1510",
+        "4500, 4800, 5100, 4950, 5300",
+        "12000, 13500, 14200, 15800, 16500"
     )
-  ) |>
-  cols_width(trend ~ px(140))
+) |>
+    gt(rowname_col = "product") |>
+    tab_header(title = "Monthly Revenue Trends") |>
+    cols_nanoplot(
+        columns = monthly_revenue,
+        reference_line = "mean",
+        new_col_name = "trend",
+        new_col_label = "5-Month Trend",
+        options = nanoplot_options(currency = "USD")
+    ) |>
+    cols_width(trend ~ px(140))
 ```
 
 Hovering over data points displays values formatted as currency (e.g., "$1,350" instead of "1350").
@@ -1050,24 +1051,25 @@ This financial summary table combines key statistics with a visual representatio
 ### Distribution comparison table
 
 ```{r}
-set.seed(123)
-tibble::tibble(
-  treatment = c("Control", "Drug A", "Drug B", "Drug C"),
-  responses = purrr::map_chr(
-    c(50, 55, 48, 62),
-    ~ paste(round(rnorm(25, mean = .x, sd = 10), 1), collapse = ",")
-  )
+set.seed(23)
+
+dplyr::tibble(
+    treatment = c("Control", "Drug A", "Drug B", "Drug C"),
+    responses = purrr::map_chr(
+        c(50, 55, 48, 62),
+        ~ paste(round(rnorm(25, mean = .x, sd = 10), 1), collapse = ",")
+    )
 ) |>
-  gt(rowname_col = "treatment") |>
-  tab_header(title = "Treatment Response Distributions") |>
-  cols_nanoplot(
-    columns = responses,
-    plot_type = "boxplot",
-    autoscale = TRUE,
-    new_col_name = "distribution",
-    new_col_label = "Response Distribution"
-  ) |>
-  cols_width(distribution ~ px(200))
+    gt(rowname_col = "treatment") |>
+    tab_header(title = "Treatment Response Distributions") |>
+    cols_nanoplot(
+        columns = responses,
+        plot_type = "boxplot",
+        autoscale = TRUE,
+        new_col_name = "distribution",
+        new_col_label = "Response Distribution"
+    ) |>
+    cols_width(distribution ~ px(200))
 ```
 
 Box plots reveal distributional differences between treatments (not just central tendency but spread and outliers). The shared scale (via `autoscale`) enables valid visual comparison.
@@ -1076,53 +1078,55 @@ Box plots reveal distributional differences between treatments (not just central
 
 ```{r}
 # Simulated performance metrics
-tibble::tibble(
-  server = c("prod-1", "prod-2", "prod-3"),
-  cpu = c("45,52,48,61,55,49,53", "78,82,79,85,81,77,80", "32,35,38,34,36,33,37"),
-  memory = c("62,65,64,68,66,63,67", "71,74,72,76,73,70,75", "55,58,56,60,57,54,59"),
-  requests = c("1200,1350,1280,1420,1380,1250,1310",
-               "890,920,905,940,915,885,910",
-               "1580,1620,1595,1650,1610,1570,1605")
+dplyr::tibble(
+    server = c("prod-1", "prod-2", "prod-3"),
+    cpu = c("45,52,48,61,55,49,53", "78,82,79,85,81,77,80", "32,35,38,34,36,33,37"),
+    memory = c("62,65,64,68,66,63,67", "71,74,72,76,73,70,75", "55,58,56,60,57,54,59"),
+    requests = c(
+        "1200,1350,1280,1420,1380,1250,1310",
+        "890,920,905,940,915,885,910",
+        "1580,1620,1595,1650,1610,1570,1605"
+    )
 ) |>
-  gt(rowname_col = "server") |>
-  tab_header(title = "Server Performance (Last 7 Hours)") |>
-  cols_nanoplot(
-    columns = cpu,
-    autoscale = TRUE,
-    new_col_name = "cpu_plot",
-    new_col_label = "CPU %",
-    options = nanoplot_options(
-      show_data_area = FALSE,
-      data_line_stroke_color = "#E74C3C",
-      data_point_fill_color = "#E74C3C"
+    gt(rowname_col = "server") |>
+    tab_header(title = "Server Performance (Last 7 Hours)") |>
+    cols_nanoplot(
+        columns = cpu,
+        autoscale = TRUE,
+        new_col_name = "cpu_plot",
+        new_col_label = "CPU %",
+        options = nanoplot_options(
+            show_data_area = FALSE,
+            data_line_stroke_color = "#E74C3C",
+            data_point_fill_color = "#E74C3C"
+        )
+    ) |>
+    cols_nanoplot(
+        columns = memory,
+        autoscale = TRUE,
+        new_col_name = "mem_plot",
+        new_col_label = "Memory %",
+        options = nanoplot_options(
+            show_data_area = FALSE,
+            data_line_stroke_color = "#3498DB",
+            data_point_fill_color = "#3498DB"
+        )
+    ) |>
+    cols_nanoplot(
+        columns = requests,
+        plot_type = "bar",
+        autoscale = TRUE,
+        new_col_name = "req_plot",
+        new_col_label = "Requests/hr",
+        options = nanoplot_options(
+            data_bar_fill_color = "#2ECC71",
+            data_bar_stroke_color = "#27AE60"
+        )
+    ) |>
+    cols_width(
+        c(cpu_plot, mem_plot) ~ px(100),
+        req_plot ~ px(80)
     )
-  ) |>
-  cols_nanoplot(
-    columns = memory,
-    autoscale = TRUE,
-    new_col_name = "mem_plot",
-    new_col_label = "Memory %",
-    options = nanoplot_options(
-      show_data_area = FALSE,
-      data_line_stroke_color = "#3498DB",
-      data_point_fill_color = "#3498DB"
-    )
-  ) |>
-  cols_nanoplot(
-    columns = requests,
-    plot_type = "bar",
-    autoscale = TRUE,
-    new_col_name = "req_plot",
-    new_col_label = "Requests/hr",
-    options = nanoplot_options(
-      data_bar_fill_color = "#2ECC71",
-      data_bar_stroke_color = "#27AE60"
-    )
-  ) |>
-  cols_width(
-    c(cpu_plot, mem_plot) ~ px(100),
-    req_plot ~ px(80)
-  )
 ```
 
 This dashboard-style table uses color-coded nanoplots to show multiple metrics per server. Line plots suit the percentage metrics while bar plots work well for discrete request counts.
