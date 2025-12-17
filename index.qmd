@@ -1,3 +1,35 @@
 ## Welcome {.unnumbered}
 
-This is an introduction.
+Welcome to "Creating Effective Display Tables with the **gt** Package", your comprehensive guide to building professional, publication-ready tables in R. This book is designed to take you from basic table creation to advanced customization techniques using the **gt** package, one of the most powerful and flexible table-making tools in the R ecosystem.
+
+Data presentation is often the final, crucial step in any analysis. While R excels at data manipulation and statistical modeling, transforming results into clear, compelling tables has historically been challenging. The **gt** package addresses this by providing an intuitive, layered approach to table construction that emphasizes both functionality and design. With **gt**, you can build tables systematically, adding components and styling incrementally to achieve precisely the presentation you need.
+
+In this book, you'll master the art and science of table design. You'll learn how to structure data effectively for tabular presentation, apply consistent formatting that enhances readability, and create visual hierarchies that guide readers through complex information. Whether you're preparing tables for academic publications, business reports, web dashboards, or presentations, this book will give you the skills to create tables that not only display data accurately but also communicate insights effectively.
+
+## What you'll learn
+
+This book covers the complete **gt** workflow, from fundamental concepts to advanced customization:
+
+- understanding the anatomy of tables and how **gt**'s component-based approach lets you build complex layouts systematically
+- transforming raw values into reader-friendly formats with proper number formatting, date/time presentation, and currency display
+- applying colors, fonts, borders, and spacing to create tables that are both functional and aesthetically pleasing  
+- adding footnotes, source notes, and conditional formatting that provide additional context without cluttering
+- incorporating sparklines and small multiples, creating summary statistics, and building custom themes
+- tailoring tables for different formats (HTML, PDF, Word, etc.) and understanding how design choices affect readability across contexts
+- learning when and how to use different table features to maximize clarity and minimize cognitive load for readers
+
+Throughout the book, you'll work with real datasets and practical examples that demonstrate not just how to use **gt** functions, but when and why to use them. You'll develop an eye for effective table design and learn to make principled decisions about formatting, layout, and visual emphasis.
+
+## Who this book is for
+
+This book is written for R users who want to elevate their table-making skills. Whether you're a data analyst creating reports, a researcher preparing manuscripts, a consultant building client presentations, or a student learning best practices for data communication, you'll find practical guidance and techniques you can apply immediately.
+
+While some familiarity with R and basic data manipulation (using **dplyr** or similar tools) is helpful, the book includes sufficient background to get you started. More importantly, it focuses on the thinking behind good table design. These principles will serve you well regardless of your technical background.
+
+## About this resource
+
+This website is free to use and will remain freely available. The content is designed to be both a linear tutorial you can read from start to finish and a reference guide you can return to when working on specific table challenges. Each chapter builds on previous concepts while also standing alone for readers who need to solve particular problems.
+
+The book emphasizes reproducible examples throughout. All code is provided in full, and datasets are either built into R packages or clearly documented for download. This means you can follow along, experiment with variations, and adapt the techniques to your own data and design requirements.
+
+Whether you're creating your first **gt** table or looking to push the boundaries of what's possible with table design in R, this book will help you build tables that not only present data clearly but also engage and inform your audience effectively.
