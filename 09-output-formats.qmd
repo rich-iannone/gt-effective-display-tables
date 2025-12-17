@@ -234,23 +234,11 @@ Recipients can view and edit tables using Word's familiar interface. Word's coll
 
 Tables can be inserted into Word templates with existing styles and formatting. Word's caption and cross-reference features work with gt-generated tables.
 
-### Limitations
+### Limitations and best practices
 
-Word format has several constraints:
+Word format has several constraints. Not all **gt** features translate to Word. Complex styling may be simplified or lost. Word tables cannot display **gt**'s nanoplots or embedded visualizations. Recipients need Microsoft Word or compatible software (LibreOffice, Google Docs) to view the tables within `.docx` files. And different Word versions may render tables slightly differently. The `.docx` format is complex, and programmatic manipulation of generated Word files requires much care.
 
-Not all gt features translate to Word. Complex styling may be simplified or lost.
-
-Word tables cannot display gt's nanoplots or embedded visualizations. Recipients need Microsoft Word or compatible software (LibreOffice, Google Docs) to view `.docx` files.
-
-Different Word versions may render tables slightly differently. The `.docx` format is complex, and programmatic manipulation of generated Word files requires external tools.
-
-### Best practices
-
-For effective Word output:
-
-Open generated Word files to verify tables appear correctly and formatting is preserved. If you need to create documents with multiple tables and other content, generate individual table files and assemble them in Word, or save tables to intermediate formats that can be imported into your document assembly workflow.
-
-Avoid extremely complex styling that may not translate well to Word's table model. If recipients will edit tables, structure them for easy modification in Word.
+For effective Word output, open generated Word files to verify tables appear correctly and formatting is preserved. If you need to create documents with multiple tables and other content, generate individual table files and assemble them in Word, or save tables to intermediate formats that can be imported into your document assembly workflow. It's better to avoid extremely complex styling that may not translate well to Word's table model. If recipients will edit tables, structure them for easy modification in Word.
 
 ## PNG images
 
