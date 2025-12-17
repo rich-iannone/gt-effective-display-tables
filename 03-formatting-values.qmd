@@ -369,7 +369,7 @@ fmt_number(
 )
 ```
 
-Let's use the `exibble` dataset to create a gt table. With `fmt_number()`, we'll format the `num` column to have three decimal places (with `decimals = 3`) and omit the use of digit separators (with `use_seps = FALSE`).
+Let's use the `exibble` dataset to create a **gt** table. With `fmt_number()`, we'll format the `num` column to have three decimal places (with `decimals = 3`) and omit the use of digit separators (with `use_seps = FALSE`).
 
 ```{r}
 exibble |>
@@ -877,7 +877,7 @@ exibble |>
 
 The Euro symbol now appears after the value, separated by a space (the convention used in many European countries).
 
-To discover which currencies are available, use the `info_currencies()` function, which displays a gt table listing all supported currencies with their codes, symbols, and names:
+To discover which currencies are available, use the `info_currencies()` function, which displays a **gt** table listing all supported currencies with their codes, symbols, and names:
 
 ```{r}
 #| eval: false
