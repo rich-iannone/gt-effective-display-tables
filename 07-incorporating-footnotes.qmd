@@ -2,11 +2,20 @@
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
+library(dplyr)
 ```
 
-## Adding footnotes
+Tables often need to convey more than what fits neatly in rows and columns. A value might require clarification. A column heading might benefit from a definition. The data source might need acknowledgment. Footnotes and source notes address these needs, providing a structured way to add supplementary information without cluttering the main table body.
 
-*** General introduction to footnotes
+In **gt**, the footer section accommodates two types of annotations: footnotes (linked to specific table locations via marks) and source notes (general citations or commentary). This chapter explores how to add both, how to target specific table locations for footnote attachment, and how to customize the appearance of footnote marks and the footer layout.
+
+## The footer section
+
+The footer sits beneath the table body and serves as the home for supplementary text. It's divided conceptually into two areas: footnotes appear first, followed by source notes. Both are optional as a table might have neither, one, or both.
+
+Footnotes connect to specific content through marks (typically numbers, letters, or symbols). A reader sees the mark in the table, then finds the corresponding explanation in the footer. Source notes, by contrast, stand alone without marks; they provide general context such as data provenance.
+
+## Adding footnotes
 
 ### `tab_footnote()` and the `cells_*()` location helpers
 
@@ -183,6 +192,823 @@ sp500 |>
 
 Aside from changing the footnote marks to be `"LETTERS"`, we've also changed the way the marks are formatted. In `opt_footnote_spec()` the `spec_ref` option, governing the footnote marks across the table, describes marks that are italicized and set between square brackets (`"i[x]"`). The `spec_ftr` argument is for the footer representation of the footnote marks and as described in the call with `"x."`, it'll be the mark followed by a period.
 
-### `opt_footnote_*()`
+## Location helpers for footnotes
 
+The power of `tab_footnote()` lies in its ability to target virtually any part of the table. The `locations` argument accepts various `cells_*()` helper functions, each designed to select specific table regions.
 
+### Targeting column labels with `cells_column_labels()`
+
+Column labels are common footnote targets and they often benefit from definitions or clarifications:
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, hp, mpg_c, mpg_h) |>
+  dplyr::slice_head(n = 5) |>
+  gt() |>
+  cols_label(
+    mfr = "Manufacturer",
+    model = "Model",
+    hp = "Horsepower",
+    mpg_c = "City MPG",
+    mpg_h = "Highway MPG"
+  ) |>
+  tab_footnote(
+    footnote = "Miles per gallon in city driving conditions.",
+    locations = cells_column_labels(columns = mpg_c)
+  ) |>
+  tab_footnote(
+    footnote = "Miles per gallon on highway.",
+    locations = cells_column_labels(columns = mpg_h)
+  )
+```
+
+Each column label receives its own footnote mark, and the footer displays both explanations. The `columns` argument in `cells_column_labels()` accepts column names, indices, or tidyselect helpers.
+
+### Targeting multiple columns at once
+
+When several columns share a common characteristic, you can attach one footnote to all of them:
+ 
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, mpg_c, mpg_h) |>
+  dplyr::slice_head(n = 5) |>
+  gt() |>
+  cols_label(
+    mfr = "Manufacturer",
+    model = "Model",
+    mpg_c = "City",
+    mpg_h = "Highway"
+  ) |>
+  tab_spanner(
+    label = "Fuel Economy (MPG)",
+    columns = starts_with("mpg")
+  ) |>
+  tab_footnote(
+    footnote = "EPA estimated values.",
+    locations = cells_column_labels(columns = c(mpg_c, mpg_h))
+  )
+```
+
+Both "City" and "Highway" column labels receive the same footnote mark, and only one entry appears in the footer. This demonstrates **gt**'s intelligent handling of duplicate footnotes.
+
+### Targeting body cells with `cells_body()`
+
+Footnotes can attach to specific data values when individual cells need explanation:
+
+```{r}
+exibble |>
+  dplyr::select(row, num, currency) |>
+  gt(rowname_col = "row") |>
+  fmt_number(columns = num, decimals = 2) |>
+  fmt_currency(columns = currency) |>
+  tab_footnote(
+    footnote = "Highest value in dataset.",
+    locations = cells_body(columns = num, rows = num == max(num, na.rm = TRUE))
+  ) |>
+  tab_footnote(
+    footnote = "Missing data point.",
+    locations = cells_body(columns = num, rows = is.na(num))
+  )
+```
+
+The `rows` argument accepts logical conditions, row numbers, or row names. Here, we identify cells programmatically: one by value comparison, another by detecting missingness.
+
+### Targeting stub cells with `cells_stub()`
+
+When rows have labels (a stub column), those labels can receive footnotes:
+
+```{r}
+pizzaplace |>
+  dplyr::count(type, name = "orders") |>
+  dplyr::arrange(desc(orders)) |>
+  gt(rowname_col = "type") |>
+  fmt_integer(columns = orders) |>
+  tab_header(title = "Pizza Orders by Type") |>
+  tab_footnote(
+    footnote = "Traditional Italian-American style.",
+    locations = cells_stub(rows = "classic")
+  ) |>
+  tab_footnote(
+    footnote = "Specialty recipes with premium toppings.",
+    locations = cells_stub(rows = "supreme")
+  )
+```
+
+Row labels in the stub serve as identifiers, so you can reference them directly by name.
+
+### Targeting row group labels with `cells_row_groups()`
+
+When tables have grouped rows, the group labels can also receive footnotes:
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, year, hp) |>
+  dplyr::filter(mfr %in% c("Ferrari", "Lamborghini", "Maserati")) |>
+  gt(rowname_col = "model", groupname_col = "mfr") |>
+  tab_footnote(
+    footnote = "Part of the Fiat Chrysler Automobiles group.",
+    locations = cells_row_groups(groups = c("Ferrari", "Maserati"))
+  )
+```
+
+Multiple row groups can share the same footnote when they have something in common.
+
+### Targeting titles with `cells_title()`
+
+The header section, containing a title and a subtitle, can also host footnotes:
+
+```{r}
+countrypops |>
+  dplyr::filter(
+    country_name %in% c("United States", "China", "India"),
+    year == 2022
+  ) |>
+  dplyr::select(country_name, population) |>
+  gt(rowname_col = "country_name") |>
+  fmt_number(columns = population, suffixing = TRUE) |>
+  tab_header(
+    title = "World's Most Populous Countries",
+    subtitle = "Population estimates for 2022"
+  ) |>
+  tab_footnote(
+    footnote = "Based on UN World Population Prospects.",
+    locations = cells_title(groups = "subtitle")
+  )
+```
+ 
+The `groups` argument specifies whether to target `"title"` or `"subtitle"`.
+
+### Targeting column spanners with `cells_column_spanners()`
+
+Column spanners, labels that span multiple columns, can receive footnotes too:
+
+```{r}
+illness |>
+  dplyr::slice_head(n = 5) |>
+  dplyr::select(test, units, day_3, day_4, day_5) |>
+  gt(rowname_col = "test") |>
+  tab_spanner(
+    label = "Mid-Week Measurements",
+    columns = starts_with("day")
+  ) |>
+  cols_label(
+    units = "Units",
+    day_3 = "Day 3",
+    day_4 = "Day 4", 
+    day_5 = "Day 5"
+  ) |>
+  tab_footnote(
+    footnote = "Values collected between 8-10am daily.",
+    locations = cells_column_spanners(spanners = "Mid-Week Measurements")
+  )
+```
+
+The `spanners` argument takes the spanner label text.
+
+### Targeting the stubhead with `cells_stubhead()`
+
+If your table has both a stub and a stubhead label, that label can receive footnotes:
+
+```{r}
+towny |>
+  dplyr::select(name, population_2021, density_2021) |>
+  dplyr::slice_max(population_2021, n = 5) |>
+  gt(rowname_col = "name") |>
+  tab_stubhead(label = "Municipality") |>
+  fmt_integer() |>
+  cols_label(
+    population_2021 = "Population",
+    density_2021 = "Density"
+  ) |>
+  tab_footnote(
+    footnote = "Census subdivisions classified as cities or towns.",
+    locations = cells_stubhead()
+  )
+```
+
+The `cells_stubhead()` helper takes no arguments as there's only one stubhead per table.
+
+### Targeting summary rows
+
+Summary rows (created with `summary_rows()` or `grand_summary_rows()`) can receive footnotes using `cells_summary()`, `cells_grand_summary()`, `cells_stub_summary()`, or `cells_stub_grand_summary()`:
+
+```{r}
+pizzaplace |>
+  dplyr::filter(date <= "2015-01-07") |>
+  dplyr::summarize(
+    revenue = sum(price),
+    orders = dplyr::n(),
+    .by = date
+  ) |>
+  gt(rowname_col = "date") |>
+  fmt_date(columns = stub(), date_style = "yMMMd") |>
+  fmt_currency(columns = revenue) |>
+  fmt_integer(columns = orders) |>
+  grand_summary_rows(
+    fns = list(
+      Total ~ sum(.),
+      Average ~ mean(.)
+    ),
+    fmt = ~ fmt_number(., decimals = 0, use_seps = TRUE)
+  ) |>
+  tab_footnote(
+    footnote = "Simple arithmetic mean across days.",
+    locations = cells_grand_summary(columns = revenue, rows = "Average")
+  )
+```
+
+### Combining multiple locations
+
+A single footnote can attach to multiple locations by wrapping `cells_*()` calls in a list:
+
+```{r}
+exibble |>
+  dplyr::select(row, num, currency, group) |>
+  gt(rowname_col = "row", groupname_col = "group") |>
+  fmt_number(columns = num, decimals = 1) |>
+  fmt_currency(columns = currency) |>
+  tab_footnote(
+    footnote = "Numeric measurements in consistent units.",
+    locations = list(
+      cells_column_labels(columns = num),
+      cells_column_labels(columns = currency)
+    )
+  )
+```
+
+Both column labels receive the same footnote mark, consolidating related information.
+
+## Unmarked footnotes
+
+Sometimes you want footer text without a corresponding mark in the table. Omitting the `locations` argument creates an unmarked footnote:
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, year, msrp) |>
+  dplyr::slice_head(n = 5) |>
+  gt() |>
+  fmt_currency(columns = msrp, decimals = 0) |>
+  cols_label(
+    mfr = "Make",
+    model = "Model",
+    year = "Year",
+    msrp = "MSRP"
+  ) |>
+  tab_footnote(footnote = "All prices in US dollars.") |>
+  tab_footnote(footnote = "Data current as of 2016.")
+```
+
+Unmarked footnotes appear in the footer without any superscript reference. They're useful for general notes that apply to the entire table.
+
+## Footnote mark placement
+
+The `placement` argument controls where the footnote mark appears relative to cell content:
+
+```{r}
+sp500 |>
+  dplyr::filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  dplyr::select(date, open, close) |>
+  dplyr::mutate(change = close - open) |>
+  gt() |>
+  fmt_date(columns = date, date_style = "yMMMd") |>
+  fmt_currency(columns = c(open, close, change)) |>
+  tab_footnote(
+    footnote = "Largest daily loss.",
+    locations = cells_body(columns = change, rows = 1),
+    placement = "right"
+  ) |>
+  tab_footnote(
+    footnote = "Smallest opening price.",
+    locations = cells_body(columns = open, rows = 3),
+    placement = "left"
+  )
+```
+
+By default (`placement = "auto"`), **gt** places marks on the left for right-aligned content (to preserve numeric alignment) and on the right for left-aligned content. You can override this with explicit `"left"` or `"right"` values.
+
+## Source notes with `tab_source_note()`
+
+Source notes provide citations or general commentary without linking to specific table locations. They appear beneath any footnotes in the footer.
+
+**Function Signature**
+
+```r
+tab_source_note(
+  data,
+  source_note
+)
+```
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, year, hp, msrp) |>
+  dplyr::slice_head(n = 5) |>
+  gt() |>
+  fmt_currency(columns = msrp, decimals = 0) |>
+  cols_label(
+    mfr = "Make",
+    model = "Model", 
+    year = "Year",
+    hp = "HP",
+    msrp = "Price"
+  ) |>
+  tab_source_note(
+    source_note = "Data from edmunds.com, collected in 2016."
+  )
+```
+
+Source notes support markdown and HTML formatting:
+
+```{r}
+countrypops |>
+  dplyr::filter(country_name == "United States", year >= 2018) |>
+  dplyr::select(year, population) |>
+  gt() |>
+  fmt_number(columns = population, suffixing = TRUE) |>
+  tab_header(title = "US Population Growth") |>
+  tab_source_note(
+    source_note = md("Source: *UN World Population Prospects* (2022 revision)")
+  ) |>
+  tab_source_note(
+    source_note = md("Available at [population.un.org](https://population.un.org)")
+  )
+```
+
+Multiple `tab_source_note()` calls add additional source notes, appearing in the order they're called.
+
+## Customizing footnote marks with `opt_footnote_marks()`
+
+The default numeric footnote marks (1, 2, 3...) can be changed to letters, symbols, or custom sequences.
+
+**Function Signature**
+
+```r
+opt_footnote_marks(
+  data,
+  marks = "numbers"
+)
+```
+
+### Preset mark sequences
+
+Several keywords provide common mark styles:
+
+```{r}
+sza |>
+  dplyr::filter(latitude == 20, month == "jan", !is.na(sza)) |>
+  dplyr::select(-latitude, -month) |>
+  gt() |>
+  tab_footnote(
+    footnote = "True Solar Time in hours.",
+    locations = cells_column_labels(columns = tst)
+  ) |>
+  tab_footnote(
+    footnote = "Solar Zenith Angle in degrees.",
+    locations = cells_column_labels(columns = sza)
+  ) |>
+  opt_footnote_marks(marks = "letters")
+```
+
+Available keywords:
+
+- `"numbers"`: 1, 2, 3... (default)
+- `"letters"`: a, b, c...
+- `"LETTERS"`: A, B, C...
+- `"standard"`: *, †, ‡, § (four traditional symbols)
+- `"extended"`: *, †, ‡, §, ‖, ¶ (six symbols)
+
+### Using standard symbols
+
+Traditional academic publishing often uses symbols for footnotes:
+
+```{r}
+exibble |>
+  dplyr::select(row, char, num) |>
+  gt(rowname_col = "row") |>
+  tab_footnote(
+    footnote = "Character strings of varying length.",
+    locations = cells_column_labels(columns = char)
+  ) |>
+  tab_footnote(
+    footnote = "Numeric values with decimal precision.",
+    locations = cells_column_labels(columns = num)
+  ) |>
+  tab_footnote(
+    footnote = "Row identifiers for reference.",
+    locations = cells_stubhead()
+  ) |>
+  tab_stubhead(label = "Row") |>
+  opt_footnote_marks(marks = "standard")
+```
+
+When more footnotes exist than symbols, marks double (**, ††, etc.) then triple, and so on.
+
+### Custom mark sequences
+
+You can provide any character vector as custom marks:
+
+```{r}
+towny |>
+  dplyr::select(name, population_2021, land_area_km2) |>
+  dplyr::slice_head(n = 5) |>
+  gt(rowname_col = "name") |>
+  fmt_integer(columns = population_2021) |>
+  fmt_number(columns = land_area_km2, decimals = 1) |>
+  cols_label(
+    population_2021 = "Population",
+    land_area_km2 = "Land Area"
+  ) |>
+  tab_footnote(
+    footnote = "2021 Canadian Census.",
+    locations = cells_column_labels(columns = population_2021)
+  ) |>
+  tab_footnote(
+    footnote = "Square kilometers.",
+    locations = cells_column_labels(columns = land_area_km2)
+  ) |>
+  opt_footnote_marks(marks = c("†", "‡"))
+```
+
+Unicode symbols, emoji, or any text can serve as custom marks.
+
+## Formatting footnote marks with `opt_footnote_spec()`
+
+Beyond choosing which marks to use, you can control how they're formatted (superscript, bold, italicized, or enclosed in brackets).
+
+**Function Signature**
+
+```r
+opt_footnote_spec(
+  data,
+  spec_ref = NULL,  
+  spec_ftr = NULL   
+)
+```
+
+The specification string uses control characters:
+
+- `^`: Superscript
+- `b`: Bold
+- `i`: Italic
+- `(`, `)`: Parentheses
+- `[`, `]`: Square brackets
+- `.`: Period after mark
+- `x`: Placeholder for the mark itself (optional)
+
+### Customizing mark appearance
+
+The specification string lets you combine multiple formatting options. For example, you might want marks in the table to be superscript and bold for visibility, while marks in the footer use a different style to fit the surrounding text.
+
+```{r}
+illness |>
+  dplyr::slice_head(n = 5) |>
+  dplyr::select(test, units, day_3, day_4) |>
+  gt(rowname_col = "test") |>
+  cols_label(
+    units = "Units",
+    day_3 = "Day 3",
+    day_4 = "Day 4"
+  ) |>
+  fmt_units(columns = units) |>
+  tab_footnote(
+    footnote = "Standard international units.",
+    locations = cells_column_labels(columns = units)
+  ) |>
+  tab_footnote(
+    footnote = "Morning measurement.",
+    locations = cells_column_labels(columns = day_3)
+  ) |>
+  opt_footnote_spec(
+    spec_ref = "^bx",
+    spec_ftr = "(x)"
+  )
+```
+
+Here, marks in the table are superscript and bold (`^b`), while marks in the footer appear in parentheses (`(x)`).
+
+### Academic-style footnotes
+
+Academic journals often have specific requirements for footnote formatting. A common convention uses superscript italic letters in the table body with a period following each mark in the footer.
+
+```{r}
+sp500 |>
+  dplyr::filter(date >= "2015-03-01" & date <= "2015-03-05") |>
+  dplyr::select(date, open, high, low, close) |>
+  gt() |>
+  fmt_date(columns = date, date_style = "yMMMd") |>
+  fmt_currency(columns = c(open, high, low, close)) |>
+  tab_footnote(
+    footnote = "New York Stock Exchange opening bell.",
+    locations = cells_column_labels(columns = open)
+  ) |>
+  tab_footnote(
+    footnote = "Intraday high.",
+    locations = cells_column_labels(columns = high)
+  ) |>
+  opt_footnote_marks(marks = "letters") |>
+  opt_footnote_spec(
+    spec_ref = "^i",
+    spec_ftr = "x."
+  )
+```
+
+Superscript italicized letters in the table, with a trailing period in the footer, a common academic convention.
+
+### Bracketed footnotes
+
+Technical documentation and some scientific fields prefer bracketed numbers over superscripts. This style keeps marks at baseline level, which some readers find less disruptive to reading flow.
+
+```{r}
+pizzaplace |>
+  dplyr::count(size, name = "orders") |>
+  gt(rowname_col = "size") |>
+  fmt_integer(columns = orders) |>
+  tab_stubhead(label = "Size") |>
+  tab_footnote(
+    footnote = "S=Small, M=Medium, L=Large, XL=Extra Large, XXL=Double Extra Large",
+    locations = cells_stubhead()
+  ) |>
+  tab_footnote(
+    footnote = "Total orders for 2015.",
+    locations = cells_column_labels(columns = orders)
+  ) |>
+  cols_label(orders = "Orders") |>
+  opt_footnote_marks(marks = "numbers") |>
+  opt_footnote_spec(
+    spec_ref = "[x]",
+    spec_ftr = "[x]"
+  )
+```
+
+Bracketed numbers appear both in the table and footer (useful for technical documents).
+
+## Controlling footnote order with `opt_footnote_order()`
+
+When a table has both marked and unmarked footnotes, you can control their relative ordering in the footer.
+
+**Function Signature**
+
+```r
+opt_footnote_order(
+  data,
+  order = "marks_last"
+)
+```
+
+Keywords:
+
+- `"marks_last"`: Unmarked footnotes appear first, marked footnotes follow (default)
+- `"marks_first"`: Marked footnotes appear first, unmarked follow
+- `"preserve_order"`: Footnotes appear in the order `tab_footnote()` was called
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, hp, mpg_c) |>
+  dplyr::slice_head(n = 5) |>
+  gt() |>
+  cols_label(
+    mfr = "Make",
+    model = "Model",
+    hp = "HP",
+    mpg_c = "MPG"
+  ) |>
+  tab_footnote(footnote = "All specifications from manufacturer.") |>
+  tab_footnote(
+    footnote = "Brake horsepower.",
+    locations = cells_column_labels(columns = hp)
+  ) |>
+  tab_footnote(footnote = "EPA city driving estimate.") |>
+  tab_footnote(
+    footnote = "City fuel economy.",
+    locations = cells_column_labels(columns = mpg_c)
+  ) |>
+  opt_footnote_order(order = "marks_first")
+```
+
+With `"marks_first"`, the two marked footnotes (for HP and MPG) appear before the two unmarked footnotes.
+
+## Styling the footer
+
+The footer, comprising both footnotes and source notes, can be styled using `tab_style()` with the `cells_footnotes()` and `cells_source_notes()` location helpers.
+
+### Styling footnotes
+
+Footnote text can be styled to visually distinguish it from the main table content. Common choices include smaller font sizes, muted colors, or subtle background fills that signal the supplementary nature of the information.
+
+```{r}
+sza |>
+  dplyr::filter(latitude == 20, month == "jan", !is.na(sza)) |>
+  dplyr::select(-latitude, -month) |>
+  dplyr::slice_head(n = 8) |>
+  gt() |>
+  data_color(
+    columns = sza,
+    palette = c("white", "yellow", "navyblue"),
+    domain = c(0, 90)
+  ) |>
+  tab_footnote(
+    footnote = "Color gradient indicates solar zenith angle magnitude.",
+    locations = cells_column_labels(columns = sza)
+  ) |>
+  tab_style(
+    style = list(
+      cell_text(size = "small", color = "gray40"),
+      cell_fill(color = "gray95")
+    ),
+    locations = cells_footnotes()
+  )
+```
+
+The footnote text becomes smaller, gray, with a light background (visually distinguished from the main table).
+
+### Styling source notes
+
+Source notes often benefit from even more subdued styling than footnotes, since they provide attribution rather than essential clarifications. Italic text at a smaller size is a common convention for citations.
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, msrp) |>
+  dplyr::slice_head(n = 5) |>
+  gt() |>
+  fmt_currency(columns = msrp, decimals = 0) |>
+  cols_label(mfr = "Make", model = "Model", msrp = "Price") |>
+  tab_source_note(source_note = "From edmunds.com") |>
+  tab_style(
+    style = cell_text(
+      color = "#666666",
+      style = "italic",
+      size = "x-small"
+    ),
+    locations = cells_source_notes()
+  )
+```
+
+Source notes styled as small, italic, gray text clearly indicate their supplementary nature.
+
+## Footer layout options
+
+Several `tab_options()` settings control footer appearance:
+
+### Single-line vs. multi-line footnotes
+
+By default, each footnote starts on a new line. For compact tables, you can consolidate them:
+
+```{r}
+exibble |>
+  dplyr::select(row, num, char, currency) |>
+  gt(rowname_col = "row") |>
+  tab_footnote(
+    footnote = "Numeric values.",
+    locations = cells_column_labels(columns = num)
+  ) |>
+  tab_footnote(
+    footnote = "Text strings.",
+    locations = cells_column_labels(columns = char)
+  ) |>
+  tab_footnote(
+    footnote = "Currency amounts.",
+    locations = cells_column_labels(columns = currency)
+  ) |>
+  tab_options(footnotes.multiline = FALSE)
+```
+
+All footnotes flow together in a single block, separated by spaces.
+
+### Footer padding and borders
+
+The spacing around footnotes and source notes, along with any dividing lines, can be adjusted to match your table's overall design. Tighter padding creates a more compact appearance, while borders can separate the footer from the table body or distinguish footnotes from source notes.
+
+```{r}
+towny |>
+  dplyr::select(name, population_2021) |>
+  dplyr::slice_head(n = 5) |>
+  gt(rowname_col = "name") |>
+  fmt_integer(columns = population_2021) |>
+  cols_label(population_2021 = "Population") |>
+  tab_footnote(
+    footnote = "2021 Canadian Census data.",
+    locations = cells_column_labels(columns = population_2021)
+  ) |>
+  tab_source_note(source_note = "Source: Statistics Canada") |>
+  tab_options(
+    footnotes.padding = px(8),
+    footnotes.border.bottom.color = "gray70",
+    source_notes.padding = px(6),
+    source_notes.border.bottom.color = "transparent"
+  )
+```
+
+Fine control over padding and borders helps integrate the footer with your overall table design.
+
+## Practical examples
+
+The techniques covered in this chapter come together in real-world tables where footnotes serve multiple purposes simultaneously. The following examples demonstrate how to combine location targeting, mark customization, and footer styling to create polished, professional tables.
+
+### Comprehensive financial table
+
+Financial reports often require extensive annotation: definitions for technical terms, clarifications for unusual values, and source citations for data provenance. This example shows how multiple footnote types work together in a single table.
+
+```{r}
+sp500 |>
+  dplyr::filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  dplyr::select(date, open, high, low, close, volume) |>
+  dplyr::mutate(
+    change = close - open,
+    pct_change = (close - open) / open
+  ) |>
+  gt() |>
+  tab_header(
+    title = "S&P 500 Daily Performance",
+    subtitle = "First trading week of 2015"
+  ) |>
+  fmt_date(columns = date, date_style = "yMMMd") |>
+  fmt_currency(columns = c(open, high, low, close, change)) |>
+  fmt_percent(columns = pct_change, decimals = 2) |>
+  fmt_number(columns = volume, suffixing = TRUE) |>
+  cols_label(
+    date = "Date",
+    open = "Open",
+    high = "High",
+    low = "Low", 
+    close = "Close",
+    volume = "Volume",
+    change = "Change",
+    pct_change = "% Change"
+  ) |>
+  tab_footnote(
+    footnote = "New York Stock Exchange opening price.",
+    locations = cells_column_labels(columns = open)
+  ) |>
+  tab_footnote(
+    footnote = "Intraday trading range.",
+    locations = cells_column_labels(columns = c(high, low))
+  ) |>
+  tab_footnote(
+    footnote = "Shares traded (approximate).",
+    locations = cells_column_labels(columns = volume)
+  ) |>
+  tab_footnote(
+    footnote = "Worst single-day performance of the week.",
+    locations = cells_body(columns = pct_change, rows = pct_change == min(pct_change))
+  ) |>
+  tab_footnote(footnote = "All values in USD.") |>
+  tab_source_note(
+    source_note = md("Data: *Yahoo Finance* via the **gt** package")
+  ) |>
+  opt_footnote_marks(marks = "standard") |>
+  opt_footnote_spec(spec_ref = "^", spec_ftr = "x —") |>
+  tab_options(footnotes.multiline = FALSE)
+```
+
+This financial table demonstrates multiple footnote targets, both marked and unmarked footnotes, customized marks, and styled footer elements.
+ 
+### Research table with citations
+
+Scientific and clinical publications have their own footnote conventions, often favoring letters or symbols over numbers and requiring precise citation formatting. This example shows a clinical laboratory report with footnotes on column spanners, stub cells, and a properly formatted source citation.
+
+```{r}
+illness |>
+  dplyr::slice_head(n = 6) |>
+  dplyr::select(test, units, norm_l, norm_u, day_3, day_7) |>
+  gt(rowname_col = "test") |>
+  tab_header(
+    title = "Clinical Laboratory Results",
+    subtitle = "Seven-day patient monitoring"
+  ) |>
+  tab_spanner(
+    label = "Reference Range",
+    columns = c(norm_l, norm_u)
+  ) |>
+  tab_spanner(
+    label = "Patient Values",
+    columns = c(day_3, day_7)
+  ) |>
+  cols_label(
+    units = "Units",
+    norm_l = "Lower",
+    norm_u = "Upper",
+    day_3 = "Admission",
+    day_7 = "Discharge"
+  ) |>
+  tab_footnote(
+    footnote = "Reference ranges from clinical guidelines.",
+    locations = cells_column_spanners(spanners = "Reference Range")
+  ) |>
+  tab_footnote(
+    footnote = "Day 3 = admission; Day 7 = planned discharge.",
+    locations = cells_column_spanners(spanners = "Patient Values")
+  ) |>
+  tab_footnote(
+    footnote = md("Hb = Hemoglobin; PLT = Platelet count"),
+    locations = cells_stub(rows = c("Hb", "PLT"))
+  ) |>
+  tab_source_note(
+    source_note = md("Laboratory procedures per *Clinical Chemistry* standards (2023)")
+  ) |>
+  opt_footnote_marks(marks = "letters") |>
+  opt_footnote_spec(spec_ref = "^i", spec_ftr = "^x^")
+```
+
+This clinical research table uses superscript italic marks, attaches footnotes to spanners and stub cells, and includes a properly cited source note.
+
+Footnotes transform tables from bare data presentations into documented, contextualized reports. Whether explaining methodology, defining terms, citing sources, or highlighting anomalies, the footer section provides structured space for the supplementary information that readers need. With **gt**'s flexible location helpers and extensive customization options, you can craft footnotes that integrate seamlessly with any table design.
