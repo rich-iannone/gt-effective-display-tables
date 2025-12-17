@@ -2,11 +2,375 @@
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
+library(dplyr)
 ```
+
+The **gt** package has inspired the creation of extension packages that build upon its foundation to solve specialized problems. These packages demonstrate the flexibility of **gt**'s architecture and provide ready-made solutions for common table-making tasks in specific domains. In this chapter, we'll explore two of the most impactful extension packages: gtsummary for clinical and analytical summary tables, and **gtExtras** for enhanced visual elements and styling.
+
+Both packages follow a similar philosophy: they wrap **gt**'s functionality to provide sensible defaults for their target use cases while still allowing full access to **gt**'s customization capabilities. This means you can use these packages to quickly generate professional tables and then further refine them using the **gt** functions you've already learned.
 
 ## **gtsummary**
 
+The **gtsummary** package provides an elegant way to create publication-ready summary tables and regression model results. Originally developed for biomedical research, it has become an indispensable tool for anyone who needs to present descriptive statistics or model outputs in a professional format.
+
+### The problem **gtsummary** solves
+
+Creating a proper "Table 1" for a research paper involves many tedious steps. You need to calculate summary statistics for continuous and categorical variables, handle missing data appropriately, compare groups using the right statistical tests, and format everything consistently. Before **gtsummary**, this process typically required hundreds of lines of code and careful attention to formatting details. The **gtsummary** package reduces this to just a few lines while producing tables that meet the exacting standards of medical journals.
+
+The package automatically detects variable types and calculates appropriate descriptive statistics. Continuous variables get medians and interquartile ranges (or means and standard deviations), while categorical variables get counts and percentages. Missing values are tracked and reported. When comparing groups, the package selects appropriate statistical tests based on data characteristics.
+
+### Summarizing data with `tbl_summary()`
+
+The `tbl_summary()` function is the workhorse of **gtsummary**. It takes a data frame and produces a formatted summary table with minimal code. The package includes a trial dataset for demonstrating its capabilities, which contains simulated data from 200 patients receiving chemotherapy treatments.
+
+```{r}
+#| label: gtsummary-basic
+#| message: false
+
+library(gtsummary)
+
+trial |>
+  select(trt, age, grade, response) |>
+  tbl_summary()
+```
+
+This simple call produces a table with properly formatted statistics, clear labels, and handling of missing values. The `age` variable is summarized with median and interquartile range because **gtsummary** detected it as continuous. The `grade` variable shows counts and percentages because it's categorical. Missing values are reported as `"Unknown"` at the bottom of each variable's section.
+
+The real power of `tbl_summary()` emerges when comparing groups. By specifying a `by` variable, you can split your summary statistics across treatment arms or other groupings. Adding `add_p()` automatically selects and applies appropriate statistical tests for each variable.
+
+```{r}
+#| label: gtsummary-comparison
+
+trial |>
+  select(trt, age, grade, response) |>
+  tbl_summary(
+    by = trt,
+    missing = "ifany",
+    label = list(
+      age ~ "Patient Age (years)",
+      grade ~ "Tumor Grade",
+      response ~ "Tumor Response"
+    )
+  ) |>
+  add_p() |>
+  add_overall() |>
+  modify_header(label = "**Characteristic**") |>
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Treatment Group**") |>
+  bold_labels()
+```
+
+This example demonstrates several of **gtsummary**'s customization options. The `label` argument provides custom variable names. The `add_overall()` function adds a column with statistics for all patients combined. The `modify_header()` and `modify_spanning_header()` functions adjust column labels. Finally, `bold_labels()` applies bold formatting to variable names.
+
+### Presenting regression results with `tbl_regression()`
+
+Clinical research frequently involves regression modeling, and **gtsummary** provides `tbl_regression()` to present model results in publication-ready format. The function works with many model types including linear models, logistic regression, Cox proportional hazards models, and mixed effects models.
+
+```{r}
+#| label: gtsummary-regression
+
+# Fit a logistic regression model
+model <- glm(
+  response ~ age + stage + grade,
+  data = trial,
+  family = binomial
+)
+
+# Create a formatted table of results
+model |>
+  tbl_regression(
+    exponentiate = TRUE,
+    label = list(
+      age ~ "Patient Age",
+      stage ~ "T Stage",
+      grade ~ "Tumor Grade"
+    )
+  ) |>
+  bold_labels()
+```
+
+The `exponentiate = TRUE` argument transforms coefficients to odds ratios, which is the standard presentation for logistic regression. Reference categories are automatically identified and marked. The package also provides functions like `add_global_p()` to add overall p-values for categorical variables with multiple levels, though these require additional dependencies.
+
+### Combining multiple tables
+
+Research papers often present multiple models side by side or combine different analyses into a single display. The **gtsummary** package provides `tbl_merge()` and `tbl_stack()` for these situations.
+
+```{r}
+#| label: gtsummary-merge
+
+# Create two regression tables
+model1 <- glm(response ~ age + grade, data = trial, family = binomial)
+model2 <- glm(response ~ age + stage, data = trial, family = binomial)
+
+tbl1 <- tbl_regression(model1, exponentiate = TRUE)
+tbl2 <- tbl_regression(model2, exponentiate = TRUE)
+
+# Merge them side by side
+tbl_merge(
+  tbls = list(tbl1, tbl2),
+  tab_spanner = c("**Model 1**", "**Model 2**")
+)
+```
+
+This approach is particularly useful for showing how results change as you add or remove covariates, or for presenting models with different outcomes.
+
+### Converting to **gt** for additional customization
+
+Every **gtsummary** table can be converted to a **gt** object using `as_gt()`, which opens up all of gt's formatting capabilities. This is useful when you need styling options beyond what gtsummary provides natively.
+
+```{r}
+#| label: gtsummary-to-gt
+
+trial |>
+  select(trt, age, marker) |>
+  tbl_summary(by = trt) |>
+  add_p() |>
+  as_gt() |>
+  tab_header(
+    title = md("**Patient Characteristics by Treatment**"),
+    subtitle = "Simulated Clinical Trial Data"
+  ) |>
+  tab_source_note("Data simulated for demonstration purposes")
+```
+
+This workflow demonstrates how **gtsummary** and **gt** complement each other. You get the convenience of **gtsummary**'s automatic calculations and sensible defaults, then add **gt**'s rich formatting options for the final presentation.
 
 ## **gtExtras**
 
+While **gtsummary** focuses on statistical summaries, **gtExtras** enhances **gt**'s visual capabilities. **gtExtras** provides functions for adding inline graphics, applying publication-quality themes, and handling common formatting tasks that would otherwise require repetitive code.
+
+### Themes for instant polish
+
+One of **gtExtras**' most immediately useful features is its collection of themes. These functions apply comprehensive styling to transform a basic **gt** table into something that looks like it belongs in a major publication! Each theme adjusts fonts, colors, borders, and spacing to match the visual identity of well-known outlets.
+
+```{r}
+#| label: gtextras-themes
+
+library(gtExtras)
+
+# Create a simple summary table
+car_data <- 
+  mtcars |>
+  tibble::rownames_to_column("car") |>
+  head(8) |>
+  select(car, mpg, hp, wt)
+
+# Apply the FiveThirtyEight theme
+car_data |>
+  gt() |>
+  gt_theme_538() |>
+  tab_header(title = "Vehicle Specifications")
+```
+
+The `gt_theme_538()` function applies styling inspired by FiveThirtyEight's data journalism. Other available themes include `gt_theme_nytimes()` for New York Times styling, `gt_theme_espn()` for sports-focused tables, and `gt_theme_guardian()` for The Guardian's aesthetic. There's even `gt_theme_excel()` for those times when you need that familiar spreadsheet look.
+
+```{r}
+#| label: gtextras-nytimes
+
+car_data |>
+  gt() |>
+  gt_theme_nytimes() |>
+  tab_header(title = "Vehicle Specifications")
+```
+
+These themes handle the tedious details of professional table design, including font choices, cell padding, border styles, and color schemes. They're particularly valuable when you need consistent styling across multiple tables in a report or presentation.
+
+### Inline visualizations with sparklines and bar charts
+
+Tables are really good at showing exact values, while charts reveal patterns and relationships. The **gtExtras** package bridges this gap by embedding small visualizations directly within table cells. These inline graphics help readers quickly grasp trends and comparisons without leaving the tabular format.
+
+Sparklines are miniature line charts that show the shape of data over time or across observations. To create them, you first need to prepare your data so that each row contains a list-column of values to plot.
+
+```{r}
+#| label: gtextras-sparklines
+
+# Prepare data with list columns for plotting
+car_summary <- mtcars |>
+  group_by(cyl) |>
+  summarize(
+    n = n(),
+    avg_mpg = mean(mpg),
+    mpg_data = list(mpg),
+    hp_data = list(hp),
+    .groups = "drop"
+  )
+
+# Create table with sparklines
+car_summary |>
+  gt() |>
+  gt_plt_sparkline(mpg_data, same_limit = TRUE, label = FALSE) |>
+  gt_plt_sparkline(hp_data, same_limit = FALSE, label = FALSE) |>
+  fmt_number(avg_mpg, decimals = 1) |>
+  cols_label(
+    cyl = "Cylinders",
+    n = "Count",
+    avg_mpg = "Avg MPG",
+    mpg_data = "MPG Distribution",
+    hp_data = "HP Distribution"
+  ) |>
+  tab_header(title = "Vehicle Statistics by Cylinder Count")
+```
+
+The `gt_plt_sparkline()` function converts each list-column into a small line chart. The `same_limit` argument controls whether all sparklines share the same y-axis scale (useful for direct comparisons) or each gets its own scale (useful for showing patterns regardless of magnitude).
+
+For categorical comparisons, bar charts often work better than line charts. The `gt_plt_bar_pct()` function creates horizontal bars that represent values as percentages of the maximum.
+
+```{r}
+#| label: gtextras-bars
+
+mtcars |>
+  tibble::rownames_to_column("car") |>
+  select(car, mpg, hp) |>
+  head(8) |>
+  gt() |>
+  gt_plt_bar_pct(mpg, fill = "steelblue", scaled = FALSE) |>
+  gt_plt_bar_pct(hp, fill = "darkred", scaled = FALSE) |>
+  cols_width(
+    mpg ~ px(120),
+    hp ~ px(120)
+  )
+```
+
+These bar visualizations make it immediately apparent which cars have the highest or lowest values for each metric, without requiring readers to mentally compare numbers.
+
+### Distribution plots
+
+Sometimes you want to show not just the values themselves but their distribution. The `gt_plt_dist()` function can create density plots or histograms within table cells, giving readers insight into the spread and shape of your data.
+
+```{r}
+#| label: gtextras-dist
+
+mtcars |>
+  group_by(cyl) |>
+  summarize(
+    n = n(),
+    mean_mpg = mean(mpg),
+    mpg_dist = list(mpg),
+    .groups = "drop"
+  ) |>
+  gt() |>
+  gt_plt_dist(mpg_dist, type = "density", line_color = "darkblue", fill_color = "lightblue") |>
+  fmt_number(mean_mpg, decimals = 1) |>
+  cols_label(
+    cyl = "Cylinders",
+    n = "Count",
+    mean_mpg = "Mean MPG",
+    mpg_dist = "Distribution"
+  )
+```
+
+Distribution plots are especially valuable when comparing groups. At a glance, you can see not just the central tendency but also the spread and shape of each group's data.
+
+### Color scales and conditional formatting
+
+The **gtExtras** package provides several functions for applying color scales to numeric data. The `gt_color_rows()` function applies a color gradient across specified columns, making it easy to spot high and low values.
+
+```{r}
+#| label: gtextras-colors
+
+mtcars |>
+  tibble::rownames_to_column("car") |>
+  select(car, mpg, hp, wt, qsec) |>
+  head(10) |>
+  gt() |>
+  gt_color_rows(
+    mpg,
+    palette = "ggsci::green_material"
+  ) |>
+  gt_color_rows(
+    hp,
+    palette = "ggsci::red_material"
+  ) |>
+  gt_color_rows(
+    wt:qsec,
+    palette = "ggsci::blue_material"
+  )
+```
+
+The `palette` argument accepts color palettes from the paletteer package, giving you access to hundreds of carefully designed color schemes. You can also specify custom colors using the standard **gt** approach.
+
+For a more distinctive look, `gt_hulk_col_numeric()` applies a purple-to-green gradient that works well for highlighting ranges of values.
+
+```{r}
+#| label: gtextras-hulk
+
+mtcars |>
+  tibble::rownames_to_column("car") |>
+  select(car, mpg, hp, wt) |>
+  head(8) |>
+  gt() |>
+  gt_hulk_col_numeric(mpg) |>
+  gt_hulk_col_numeric(hp) |>
+  gt_hulk_col_numeric(wt)
+```
+
+### Merging and stacking cells
+
+The **gtExtras** package includes helper functions for common cell manipulations. The `gt_merge_stack()` function combines two columns into one, with the second value displayed below the first in a smaller font. This technique is useful for showing primary and secondary information without using extra columns.
+
+```{r}
+#| label: gtextras-merge
+
+mtcars |>
+  tibble::rownames_to_column("car") |>
+  mutate(
+    car_info = car,
+    car_detail = paste(cyl, "cyl,", gear, "gear")
+  ) |>
+  select(car_info, car_detail, mpg, hp) |>
+  head(8) |>
+  gt() |>
+  gt_merge_stack(col1 = car_info, col2 = car_detail) |>
+  cols_label(car_info = "Vehicle")
+```
+
+This stacked presentation saves horizontal space while keeping related information visually connected.
+
+### Highlighting rows and columns
+
+When you want to draw attention to specific parts of your table, `gt_highlight_rows()` and `gt_highlight_cols()` provide quick ways to apply background colors.
+
+```{r}
+#| label: gtextras-highlight
+
+mtcars |>
+  tibble::rownames_to_column("car") |>
+  select(car, mpg, hp, wt) |>
+  head(8) |>
+  gt() |>
+  gt_highlight_rows(
+    rows = mpg > 20,
+    fill = "lightgreen",
+    bold_target_only = TRUE,
+    target_col = mpg
+  )
+```
+
+The `bold_target_only` argument lets you emphasize the value that triggered the highlighting while keeping other columns in their normal weight.
+
+### Adding images and icons
+
+Tables in modern reports often need to include images, logos, or icons. The **gtExtras** package simplifies this with functions like `gt_img_rows()` for embedding images and `gt_fa_rating()` for adding icon-based ratings.
+
+```{r}
+#| label: gtextras-icons
+
+data.frame(
+  product = c("Widget A", "Widget B", "Widget C"),
+  rating = c(4, 3, 5),
+  trend = c("up", "down", "same")
+) |>
+  gt() |>
+  gt_fa_rating(rating, icon = "star", color = "gold") |>
+  gt_fa_rank_change(trend, font_color = "match")
+```
+
+The `gt_fa_rating()` function converts numeric ratings to filled icons, while `gt_fa_rank_change()` adds directional arrows or indicators based on categorical values.
+
+### When to use each package
+
+The **gtsummary** and **gtExtras** packages serve different but complementary purposes. Use **gtsummary** when you need to present statistical summaries or regression results, particularly in clinical or research contexts. The package's automatic calculations and journal-ready defaults will save significant time and reduce errors. Use **gtExtras** when you need enhanced visual elements like sparklines, color scales, or themed styling. The package excels at making data patterns visible within a tabular format.
+
+Many projects benefit from both packages. You might use **gtsummary** to create a baseline characteristics table, then use **gtExtras** themes to style it consistently with other tables in your report. Or you might start with a **gtExtras**-styled data table and add it alongside **gtsummary** regression results. Since both packages ultimately produce **gt** objects, you can combine their outputs using **gt**'s own functions for merging and arranging tables.
+
+As you develop your table-making skills, these extension packages become valuable tools in your toolkit. They handle common tasks efficiently while remaining flexible enough for customization. In the next chapter, we'll explore how you can create your own **gt** extensions to share solutions with the broader community.
 
