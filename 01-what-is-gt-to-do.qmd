@@ -1,8 +1,0 @@
-# Display tables and what **gt** is trying to do with them
-
-When we contemplate tables, our thoughts often gravitate towards immaculate grids of values. We intuitively know that each cell within the grid assumes a clear purpose based on its placement. A label positioned above each cell, and possibly another adjacent to it, makes it clear to the reader the significance of every individual fragment of data. Though tables can take on various forms, our familiarity with them allows us to instinctively interpret their contents. Consequently, articulating the precise attributes of a table may seem somewhat awkward. Nevertheless, despite our potential lack of comprehensive knowledge, we can collectively agree that that referring to a table as a grid of values serves as a satisfactory starting point.
-
-Let's contemplate this further. Data tables serve as a fundamental instrument in the realm of data analysis and representation, providing a structured format for the organization and presentation of information. They assume the shape of a tabular structure, wherein rows are employed to portray individual observations or cases, while columns represent variables or attributes. Their purpose lies in offering a concise and systematic approach to displaying data, facilitating effortless comparison, sorting, and analysis. Unlike plots or graphs that present data visually, data tables provide a thorough and comprehensive view of the underlying values. They prove particularly valuable when precision of numerical values takes precedence, empowering researchers, analysts, and decision-makers to discern patterns and draw accurate conclusions.
-
-
-
