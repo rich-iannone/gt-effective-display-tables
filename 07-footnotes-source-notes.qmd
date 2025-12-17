@@ -19,13 +19,13 @@ Footnotes connect to specific content through marks (typically numbers, letters,
 
 ### `tab_footnote()` and the `cells_*()` location helpers
 
-The `tab_footnote()` function can make it a painless process to add a footnote to a **gt** table. There are commonly two components to a footnote: (1) a footnote mark that is attached to the targeted cell content, and (2) the footnote text itself that is placed in the table's footer area. Each unit of footnote text in the footer is linked to an element of text or otherwise through the footnote mark. The footnote system in gt presents footnotes in a way that matches the usual expectations, where:
+The `tab_footnote()` function can make it a painless process to add a footnote to a **gt** table. There are commonly two components to a footnote: (1) a footnote mark that is attached to the targeted cell content, and (2) the footnote text itself that is placed in the table's footer area. Each unit of footnote text in the footer is linked to an element of text or otherwise through the footnote mark. The footnote system in **gt** presents footnotes in a way that matches the usual expectations, where:
 
 1. footnote marks have a sequence, whether they are symbols, numbers, or letters
 
 2. multiple footnotes can be applied to the same content (and marks are always presented in an ordered fashion)
 
-3. footnote text in the footer is never exactly repeated, gt reuses footnote marks where needed throughout the table
+3. footnote text in the footer is never exactly repeated, **gt** reuses footnote marks where needed throughout the table
 
 4. footnote marks are ordered across the table in a consistent manner (left to right, top to bottom)
 
