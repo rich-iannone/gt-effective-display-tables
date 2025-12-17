@@ -1,4 +1,4 @@
-# Generating summary rows and columns
+# Summary rows and columns
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

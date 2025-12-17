@@ -1,4 +1,4 @@
-# Publishing tables in different formats
+# Output formats
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

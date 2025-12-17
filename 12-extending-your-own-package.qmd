@@ -1,4 +1,4 @@
-# Extending your own package with gt
+# Creating extensions
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

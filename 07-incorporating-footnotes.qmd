@@ -1,4 +1,4 @@
-# Incorporating Footnotes
+# Footnotes and source notes
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

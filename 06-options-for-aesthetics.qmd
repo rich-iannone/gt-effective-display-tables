@@ -1,4 +1,4 @@
-# Taking control of different aesthetic and table structure options
+# Table options
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

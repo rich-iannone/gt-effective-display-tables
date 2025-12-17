@@ -1,4 +1,4 @@
-# Basic components of a table and how to incorporate those
+# Table components
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

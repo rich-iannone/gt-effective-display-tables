@@ -1,4 +1,4 @@
-# Adding Nanoplots
+# Nanoplots
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

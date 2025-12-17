@@ -1,4 +1,4 @@
-# Modifying aspects of the table columns
+# Modifying columns
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)

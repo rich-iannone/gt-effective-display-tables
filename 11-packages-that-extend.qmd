@@ -1,4 +1,4 @@
-# Packages that extend gt
+# Extension packages
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
