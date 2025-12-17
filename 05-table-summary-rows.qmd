@@ -1,22 +1,803 @@
-# Generating table summary rows
+# Generating summary rows and columns
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
+library(dplyr)
 ```
 
-*** General introduction to summary rows in a table
+Tables often need more than just raw data. They frequently require summary statistics that help readers understand the data at a glance: totals, averages, minimums, maximums, and other aggregations. In **gt**, we have powerful tools for adding these summaries both vertically (as summary rows) and horizontally (as summary columns).
 
-## Summarizing groups of rows
+The summary functions in **gt** address a common frustration in table-making: the disconnect between calculating summary statistics and presenting them elegantly. In many workflows, you might calculate means and totals in your data manipulation code, then manually position them in your table, style them differently from the data rows, and hope nothing breaks when the data changes. The **gt** approach is different. Summary rows and columns are computed from the table data itself, positioned automatically, and can be styled and formatted independently of the body data. When your underlying data changes, the summaries update automatically.
 
-### `summary_rows()`
+This chapter covers three primary functions: `summary_rows()` for adding summaries within row groups, `grand_summary_rows()` for adding summaries across the entire table, and `summary_columns()` for adding computed columns that aggregate across rows. We'll also cover `extract_summary()`, which lets you pull out summary data for use elsewhere. Together, these functions provide a complete toolkit for building tables that don't just present data but help readers understand it.
 
+## The role of summary rows in tables
 
-## Summarizing data across the entire table
+Before diving into the mechanics of creating summary rows, it's worth considering when and why you might use them. Summary rows serve several distinct purposes.
 
-### `grand_summary_rows()`
+First, they provide context. A column of sales figures means more when you can see the total at the bottom. A list of response times becomes interpretable when you know the average. Summary rows transform raw data into information by providing reference points.
 
+Second, they enable comparison. When data is organized into groups, summary rows for each group allow readers to compare not just individual values but aggregate performance. How does this quarter compare to last quarter? How does the East region compare to the West? Summary rows answer these questions at a glance.
 
-## Extracting summary rows
+Third, they support verification. In financial and accounting contexts, totals serve as check figures. Readers (and auditors) expect to see them, and their presence signals that the table has been carefully prepared.
 
-### `extract_summary()`
+Finally, they reduce cognitive load. Rather than requiring readers to mentally calculate averages or identify maximums, summary rows do the work for them. This is especially valuable when tables will be scanned quickly rather than studied carefully.
 
+The **gt** package supports two types of summary rows: group summaries (created with `summary_rows()`) that appear within or alongside each row group, and grand summaries (created with `grand_summary_rows()`) that summarize the entire table. Both types can include multiple summary statistics, can be positioned at the top or bottom of their respective sections, and can be formatted independently of the body data.
+
+## Adding group-level summaries with `summary_rows()`
+
+The `summary_rows()` function adds summary rows to row groups in your table. This requires that your table actually has row groups, which you typically create by specifying a `groupname_col` in `gt()` or by using `tab_row_group()`. The summary rows appear within each group, providing statistics calculated from just that group's data.
+
+Let's start with a practical example. We'll use the `sp500` dataset, which contains daily stock market data, and create a table with weekly row groups:
+
+```{r}
+sp500 |>
+  filter(date >= "2015-01-05" & date <= "2015-01-16") |>
+  arrange(date) |>
+  mutate(week = paste0("W", strftime(date, format = "%V"))) |>
+  select(-adj_close, -volume) |>
+  gt(
+    rowname_col = "date",
+    groupname_col = "week"
+  ) |>
+  summary_rows(
+    fns = list("min", "max", "mean"),
+    fmt = ~ fmt_number(., decimals = 2, use_seps = FALSE)
+  )
+```
+
+This table shows daily stock prices grouped by week, with minimum, maximum, and mean values calculated for each week. The summary rows appear at the bottom of each group by default, clearly labeled with the function names.
+
+### Specifying aggregation functions
+
+The `fns` argument is where you tell `summary_rows()` what statistics to calculate. There are several ways to specify aggregation functions, ranging from simple to highly customized.
+
+The simplest approach is to provide function names as quoted strings:
+
+```{r}
+sp500 |>
+  filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  select(date, open, high, low, close) |>
+  gt(rowname_col = "date") |>
+  tab_row_group(label = "First Week", rows = everything()) |>
+  summary_rows(
+    fns = list("min", "max", "sum"),
+    fmt = ~ fmt_number(., decimals = 2)
+  )
+```
+
+For convenience, **gt** automatically adds `na.rm = TRUE` to common aggregation functions when you specify them as strings. This applies to `"min"`, `"max"`, `"mean"`, `"median"`, `"sd"`, and `"sum"`. This saves you from writing out the full expression every time.
+
+When you need more control, you can use formula syntax. The right-hand side (RHS) of the formula contains the aggregation expression, where `.` represents the column data:
+
+```{r}
+sp500 |>
+  filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  select(date, open, close) |>
+  gt(rowname_col = "date") |>
+  tab_row_group(label = "First Week", rows = everything()) |>
+  summary_rows(
+    fns = list(
+      range = ~ max(.) - min(.),
+      avg = ~ mean(., na.rm = TRUE)
+    ),
+    fmt = ~ fmt_number(., decimals = 2)
+  )
+```
+
+The named list elements become both the ID and the label for each summary row. In this example, we calculate a custom range statistic (the difference between maximum and minimum) alongside the average.
+
+For maximum flexibility, you can provide a double-sided formula where the left-hand side (LHS) specifies the ID and label:
+
+```{r}
+sp500 |>
+  filter(date >= "2015-01-05" & date <= "2015-01-09") |>
+  select(date, open, close) |>
+  gt(rowname_col = "date") |>
+  tab_row_group(label = "First Week", rows = everything()) |>
+  summary_rows(
+    fns = list(
+      list(id = "daily_range", label = md("**Daily Range**")) ~ max(.) - min(.),
+      list(id = "average", label = md("*Average*")) ~ mean(., na.rm = TRUE)
+    ),
+    fmt = ~ fmt_number(., decimals = 2)
+  )
+```
+
+This approach lets you use different values for the row's ID (used for targeting in other functions like `tab_style()`) and its label (displayed in the table). The label can include Markdown formatting via `md()` or HTML via `html()`.
+
+### Targeting specific columns
+
+By default, `summary_rows()` calculates aggregations for all columns. This is rarely what you want, especially when your table includes non-numeric columns or columns where aggregation doesn't make sense.
+
+The `columns` argument lets you specify which columns should receive summary calculations:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list("sum", "mean"),
+    fmt = ~ fmt_number(., decimals = 1)
+  )
+```
+
+You can use any tidyselect expression in `columns`:
+
+```{r}
+exibble |>
+  select(group, num, currency, char) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = where(is.numeric),
+    fns = list("sum"),
+    fmt = ~ fmt_number(., decimals = 1)
+  )
+```
+
+Using `where(is.numeric)` ensures that only numeric columns receive summary calculations, even if the table structure changes later.
+
+### Targeting specific groups
+
+Sometimes you only want summary rows for certain groups, not all of them. The `groups` argument controls which row groups receive summaries:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    groups = "grp_a",
+    columns = c(num, currency),
+    fns = list("sum"),
+    fmt = ~ fmt_number(., decimals = 1)
+  )
+```
+
+This adds a sum row only to `grp_a`, leaving `grp_b` without summaries. The `groups` argument accepts group IDs as strings, vectors of strings, or tidyselect helpers like `starts_with()` or `matches()`.
+
+### Positioning summary rows
+
+By default, summary rows appear at the bottom of each group. The `side` argument lets you place them at the top instead:
+
+```{r}
+countrypops |>
+  filter(country_code_2 %in% c("BR", "RU", "IN", "CN")) |>
+  filter(year %in% c(2000, 2010, 2020)) |>
+  select(country_name, year, population) |>
+  tidyr::pivot_wider(names_from = year, values_from = population) |>
+  gt(rowname_col = "country_name") |>
+  tab_row_group(label = "BRIC Nations", rows = everything()) |>
+  summary_rows(
+    fns = list(label = md("**TOTAL**"), id = "total", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "top"
+  )
+```
+
+Placing totals at the top is common in financial reporting, where readers want to see the bottom line first. The summary row appears before the detail rows, inviting readers to drill down into the components.
+
+### Formatting summary values
+
+The `fmt` argument accepts formatting expressions that control how summary values appear. You can use any **gt** formatting function:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list("sum", "mean"),
+    fmt = list(
+      ~ fmt_number(., decimals = 0, use_seps = TRUE),
+      ~ fmt_currency(., currency = "USD")
+    )
+  )
+```
+
+When you provide a list of formatting expressions, they're applied in order to the summary rows. In this example, the sum row uses `fmt_number()` and the mean row uses `fmt_currency()`.
+
+You can also target specific columns within the formatting expression:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list("sum"),
+    fmt = ~ fmt_number(., columns = num, decimals = 1) |>
+           fmt_currency(columns = currency, currency = "EUR")
+  )
+```
+
+For group-specific formatting, use a two-sided formula where the LHS identifies the group:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list("sum"),
+    fmt = list(
+      "grp_a" ~ fmt_number(., decimals = 0),
+      "grp_b" ~ fmt_number(., decimals = 2)
+    )
+  )
+```
+
+This technique is useful when groups have different precision requirements. Perhaps one group contains whole-number counts while another contains measurements that warrant decimal places. The two-sided formula syntax keeps these formatting rules close to the summary definition, making the code easier to maintain.
+
+### Handling missing values
+
+When aggregation produces `NA` values (for example, when all values in a column are `NA`), the `missing_text` argument controls what appears in the cell:
+
+```{r}
+dplyr::tibble(
+  group = c("A", "A", "B", "B"),
+  value = c(1, 2, NA, NA)
+) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = value,
+    fns = list("mean"),
+    missing_text = "No data"
+  )
+```
+
+The default `missing_text` is `"---"`, which provides a visual placeholder that clearly indicates the absence of a calculable value (an em dash).
+
+## Adding table-level summaries with `grand_summary_rows()`
+
+While `summary_rows()` operates on individual row groups, `grand_summary_rows()` calculates aggregations across all data in the table, regardless of grouping. Grand summary rows typically appear at the very bottom (or top) of the table, providing overall totals or averages.
+
+```{r}
+sp500 |>
+  filter(date >= "2015-01-05" & date <= "2015-01-16") |>
+  arrange(date) |>
+  mutate(week = paste0("W", strftime(date, format = "%V"))) |>
+  select(-adj_close, -volume) |>
+  gt(
+    rowname_col = "date",
+    groupname_col = "week"
+  ) |>
+  summary_rows(
+    fns = list("min", "max"),
+    fmt = ~ fmt_number(., decimals = 2, use_seps = FALSE)
+  ) |>
+  grand_summary_rows(
+    columns = c(open, high, low, close),
+    fns = list(
+      list(id = "grand_min", label = "Overall Min") ~ min(.),
+      list(id = "grand_max", label = "Overall Max") ~ max(.),
+      list(id = "grand_avg", label = "Overall Avg") ~ mean(.)
+    ),
+    fmt = ~ fmt_number(., decimals = 2, use_seps = FALSE)
+  )
+```
+
+This table now has both group-level summaries (min and max for each week) and grand summaries (overall min, max, and average for the entire period). The grand summary rows span all groups, summarizing the complete dataset.
+
+### Arguments and usage
+
+The `grand_summary_rows()` function shares most of its arguments with `summary_rows()`:
+
+- `columns`: Which columns to aggregate (defaults to all)
+- `fns`: Aggregation expressions (same syntax as `summary_rows()`)
+- `fmt`: Formatting expressions
+- `side`: `"bottom"` (default) or `"top"`
+- `missing_text`: Text for `NA` values (default: `"---"`)
+
+The key difference is that `grand_summary_rows()` has no `groups` argument, since it always operates on all data.
+
+```{r}
+countrypops |>
+  filter(country_code_2 %in% c("BE", "NL", "LU")) |>
+  filter(year %% 10 == 0) |>
+  select(country_name, year, population) |>
+  tidyr::pivot_wider(names_from = year, values_from = population) |>
+  gt(rowname_col = "country_name") |>
+  tab_header(title = "Populations of the Benelux Countries") |>
+  tab_spanner(columns = everything(), label = "Year") |>
+  fmt_integer() |>
+  grand_summary_rows(
+    fns = list(label = "TOTALS", id = "totals", fn = "sum"),
+    fmt = ~ fmt_integer(.),
+    side = "top"
+  ) |>
+  tab_style(
+    locations = cells_grand_summary(),
+    style = cell_fill(color = "lightblue")
+  )
+```
+
+In this example, the grand summary row appears at the top of the table (a common convention for totals) and is styled with a light blue background to distinguish it from the data rows.
+
+### Combining group and grand summaries
+
+Many real-world tables require multiple levels of aggregation. A financial report might show subtotals for each department and a grand total for the entire organization. A sales analysis might present regional summaries alongside company-wide figures. A scientific study might report group means as well as overall statistics. In these situations, you need both `summary_rows()` and `grand_summary_rows()` working together.
+
+The key to making multi-level summaries work is visual differentiation. When readers encounter two or three types of summary rows in a single table, they need clear cues to distinguish subtotals from grand totals from data rows. This typically means using different background colors, text weights, or indentation levels for each type. Without such differentiation, the hierarchy becomes confusing and the summaries lose their communicative value.
+
+The following example demonstrates this pattern with population data for two groups of countries:
+
+```{r}
+countrypops |>
+  filter(
+    country_code_2 %in% c("BR", "RU", "IN", "CN", "FR", "DE", "IT", "GB")
+  ) |>
+  filter(year %% 10 == 0) |>
+  select(country_name, year, population) |>
+  tidyr::pivot_wider(names_from = year, values_from = population) |>
+  gt(rowname_col = "country_name") |>
+  tab_row_group(
+    label = md("*BRIC*"),
+    rows = c("Brazil", "Russia", "India", "China"),
+    id = "bric"
+  ) |>
+  tab_row_group(
+    label = md("*Big Four*"),
+    rows = c("France", "Germany", "Italy", "United Kingdom"),
+    id = "big4"
+  ) |>
+  row_group_order(groups = c("bric", "big4")) |>
+  tab_stub_indent(rows = everything()) |>
+  tab_header(title = "Populations of the BRIC and Big Four Countries") |>
+  tab_spanner(columns = everything(), label = "Year") |>
+  fmt_number(n_sigfig = 3, suffixing = TRUE) |>
+  summary_rows(
+    fns = list(label = md("**Subtotal**"), id = "subtotal", fn = "sum"),
+    fmt = ~ fmt_number(., n_sigfig = 3, suffixing = TRUE),
+    side = "bottom"
+  ) |>
+  grand_summary_rows(
+    fns = list(label = md("**GRAND TOTAL**"), id = "grand_total", fn = "sum"),
+    fmt = ~ fmt_number(., n_sigfig = 3, suffixing = TRUE)
+  ) |>
+  tab_style(
+    locations = cells_summary(),
+    style = cell_fill(color = "lightgray")
+  ) |>
+  tab_style(
+    locations = cells_grand_summary(),
+    style = list(
+      cell_fill(color = "steelblue"),
+      cell_text(color = "white")
+    )
+  )
+```
+
+This table shows populations for two groups of countries (BRIC and Big Four), with subtotals for each group and a grand total for all countries combined. The styling distinguishes the different types of summary rows, making the table's structure immediately clear.
+
+## Adding summary columns with `summary_columns()`
+ 
+While summary rows aggregate data vertically (down columns), summary columns aggregate data horizontally (across rows). The `summary_columns()` function computes row-wise aggregations and adds them as new columns to your table. This is useful when you want to show totals, averages, or other statistics that combine values from multiple columns within each row.
+
+```{r}
+exibble |>
+  select(row, num, currency) |>
+  gt(rowname_col = "row") |>
+  summary_columns(
+    columns = c(num, currency),
+    fns = ~ sum(., na.rm = TRUE),
+    new_col_names = "total",
+    new_col_labels = md("**Total**")
+  )
+```
+
+This adds a "Total" column that sums the `num` and `currency` values for each row. The new column appears on the right side of the table by default and can be formatted, styled, and manipulated like any other column.
+
+### Specifying aggregation functions
+
+The `fns` argument works similarly to the summary row functions, but the aggregation happens across columns rather than down rows. This horizontal aggregation is particularly useful for time-series data where columns represent periods (months, quarters, years) and you want to show totals or averages for each row. It's also valuable when columns represent categories or components that naturally sum to a meaningful whole.
+
+Unlike summary rows, which aggregate many observations into fewer summary values, summary columns preserve the row structure while adding derived values. Each row in your original data still appears in the output; you're simply enriching it with computed statistics. This makes summary columns ideal for dashboards and reports where readers want to see both the details and the row-level summaries side by side.
+
+```{r}
+dplyr::tibble(
+  product = c("Widget", "Gadget", "Sprocket"),
+  q1_sales = c(150, 200, 175),
+  q2_sales = c(180, 190, 160),
+  q3_sales = c(200, 210, 190),
+  q4_sales = c(220, 205, 210)
+) |>
+  gt(rowname_col = "product") |>
+  summary_columns(
+    columns = ends_with("_sales"),
+    fns = list(
+      ~ sum(.),
+      ~ mean(.)
+    ),
+    new_col_names = c("annual_total", "quarterly_avg"),
+    new_col_labels = c("Annual Total", "Quarterly Avg")
+  ) |>
+  fmt_number(columns = quarterly_avg, decimals = 1)
+```
+
+You can add multiple summary columns at once by providing a list of functions. Each function generates a separate column, and you can specify names and labels for each.
+
+### Custom aggregation expressions
+
+Simple aggregations like sums and means cover many use cases, but sometimes you need calculations that involve multiple columns in more complex ways. Perhaps you want to compute a percentage change between two columns, calculate a ratio, or apply a formula that references specific column positions. The bracket notation in `summary_columns()` makes this possible.
+
+When you write `.[1]`, `.[2]`, and so on in your formula, you're referring to the columns in the order they appear in your `columns` argument. This positional reference system lets you build arbitrarily complex expressions. The trade-off is readability: bracket notation is concise but can be cryptic if you're not careful. For complex calculations, consider adding a comment in your code explaining what each position represents.
+
+```{r}
+countrypops |>
+  arrange(country_name, year) |>
+  group_by(country_name, country_code_2) |>
+  summarize(
+    pop_1960 = first(population),
+    pop_2024 = last(population),
+    years = n(),
+    .groups = "drop"
+  ) |>
+  filter(!is.na(pop_1960), !is.na(pop_2024)) |>
+  slice_max(pop_2024 - pop_1960, n = 5) |>
+  select(country_name, pop_1960, pop_2024, years) |>
+  gt(rowname_col = "country_name") |>
+  summary_columns(
+    columns = c(pop_1960, pop_2024, years),
+    fns = ~ (.[2] - .[1]) / (.[3] - 1),
+    new_col_names = "avg_annual_change",
+    new_col_labels = md("**Avg. Annual Change**")
+  ) |>
+  fmt_integer() |>
+  cols_label(
+    pop_1960 = "1960 Pop.",
+    pop_2024 = "2024 Pop.",
+    years = "Years"
+  )
+```
+
+In this expression, `.[1]` refers to the first selected column (`pop_1960`), `.[2]` to the second (`pop_2024`), and `.[3]` to the third (`years`). This allows complex calculations that reference multiple columns.
+
+### Formatting summary columns
+
+Summary columns often require different formatting than the source columns they're derived from. A column of quarterly sales figures might use integer formatting, but the average of those quarters might warrant one decimal place. A column showing year-over-year change might need percentage formatting even when the source columns are raw numbers. The `fmt` argument lets you apply formatting to the new column immediately, without a separate formatting step.
+
+This inline formatting is particularly convenient because it keeps the summary column's definition self-contained. Everything about the column (what it calculates, what it's called, and how it's displayed) is specified in a single function call. This makes the code easier to read and maintain, especially when you're creating multiple summary columns with different formatting requirements.
+
+```{r}
+dplyr::tibble(
+  item = c("Revenue", "Expenses", "Profit"),
+  jan = c(10000, 8000, 2000),
+  feb = c(12000, 8500, 3500),
+  mar = c(11000, 8200, 2800)
+) |>
+  gt(rowname_col = "item") |>
+  summary_columns(
+    columns = c(jan, feb, mar),
+    fns = ~ mean(.),
+    new_col_names = "avg",
+    new_col_labels = "Q1 Average",
+    fmt = ~ fmt_currency(., currency = "USD", decimals = 0)
+  ) |>
+  fmt_currency(columns = c(jan, feb, mar), currency = "USD", decimals = 0)
+```
+
+The summary column displays the Q1 average for each row, formatted as currency to match the source columns. By handling the formatting within `summary_columns()`, the new column integrates seamlessly with the rest of the table. Readers see consistent dollar formatting across all columns, whether they contain original data or computed summaries.
+
+## Styling summary rows
+
+Summary rows can be styled like any other table element using `tab_style()`. The location helper functions `cells_summary()` and `cells_grand_summary()` target summary rows specifically.
+
+### Styling all summary rows
+
+Summary rows serve a different purpose than data rows, and that difference should be visible. Readers scanning a table need to immediately distinguish totals and averages from individual observations. Without visual differentiation, summary rows blend into the data, and readers may misinterpret aggregated values as additional data points.
+
+The most common styling choices for summary rows include background fills (light gray is a classic choice), bold text, borders above or below the row, and italic styling for certain types of summaries like averages. The goal is distinction without distraction: the styling should set summary rows apart without overwhelming the table's visual hierarchy.
+
+To apply uniform styling to all summary rows across all groups, use `cells_summary()` without any filtering arguments:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list("sum", "mean"),
+    fmt = ~ fmt_number(., decimals = 1)
+  ) |>
+  tab_style(
+    locations = cells_summary(),
+    style = list(
+      cell_fill(color = "lightgray"),
+      cell_text(weight = "bold")
+    )
+  )
+```
+
+The gray background and bold text make the summary rows immediately identifiable. This blanket styling approach works well when all summary rows serve the same purpose and deserve equal visual weight.
+
+### Targeting specific summary rows
+
+You can target specific summary rows by their ID using the `rows` argument in `cells_summary()`:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list(
+      list(id = "total", label = "Total") ~ sum(., na.rm = TRUE),
+      list(id = "average", label = "Average") ~ mean(., na.rm = TRUE)
+    ),
+    fmt = ~ fmt_number(., decimals = 1)
+  ) |>
+  tab_style(
+    locations = cells_summary(rows = "total"),
+    style = cell_fill(color = "lightblue")
+  ) |>
+  tab_style(
+    locations = cells_summary(rows = "average"),
+    style = cell_text(style = "italic")
+  )
+```
+
+By assigning IDs to summary rows in the `fns` argument, you gain precise control over their styling. Here, totals receive a blue background to signal their importance as definitive figures, while averages use italic text to suggest they're derived statistics rather than absolute values. This kind of semantic styling helps readers interpret the numbers correctly.
+
+### Targeting specific groups and columns
+
+The `cells_summary()` function accepts `groups` and `columns` arguments for precise targeting:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list("sum"),
+    fmt = ~ fmt_number(., decimals = 1)
+  ) |>
+  tab_style(
+    locations = cells_summary(
+      groups = "grp_a",
+      columns = currency
+    ),
+    style = cell_fill(color = "lightgreen")
+  )
+```
+
+This level of precision is useful when you want to highlight specific values (perhaps a particularly important group, a column that exceeded targets, or a combination that warrants the reader's attention). The `cells_summary()` helper accepts any combination of `groups`, `columns`, and `rows` arguments, giving you fine-grained control over exactly which cells receive styling.
+
+### Styling grand summary rows
+
+Grand summary rows use the `cells_grand_summary()` location helper:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  grand_summary_rows(
+    columns = c(num, currency),
+    fns = list(
+      list(id = "grand_total", label = md("**Grand Total**")) ~ sum(., na.rm = TRUE)
+    ),
+    fmt = ~ fmt_number(., decimals = 1)
+  ) |>
+  tab_style(
+    locations = cells_grand_summary(),
+    style = list(
+      cell_fill(color = "navy"),
+      cell_text(color = "white", weight = "bold")
+    )
+  )
+```
+
+The dark background with white text creates strong visual emphasis appropriate for a grand total (the single most important number in many tables). Like `cells_summary()`, the `cells_grand_summary()` helper accepts `columns` and `rows` arguments for more targeted styling when needed.
+
+## Adding footnotes to summary rows
+
+Footnotes can be attached to summary rows using `tab_footnote()` with the appropriate location helpers:
+
+```{r}
+exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list(
+      list(id = "avg", label = "Average") ~ mean(., na.rm = TRUE)
+    ),
+    fmt = ~ fmt_number(., decimals = 2)
+  ) |>
+  tab_footnote(
+    footnote = "Arithmetic mean excluding missing values",
+    locations = cells_summary(
+      groups = everything(),
+      columns = num,
+      rows = "avg"
+    )
+  )
+```
+
+The footnote appears on every "Average" row across all groups, clarifying the calculation method. This is particularly important for summary statistics where multiple calculation methods exist (arithmetic vs. geometric mean, sample vs. population standard deviation) or where the handling of missing values affects interpretation. Footnotes on summary rows serve the same documentary purpose as footnotes elsewhere in the table, providing essential context without cluttering the display.
+
+## Extracting summary data with `extract_summary()`
+
+Sometimes you need to access the computed summary values programmatically, rather than just displaying them in a table. The `extract_summary()` function retrieves summary data from a **gt** table as a list of data frames.
+ 
+```{r}
+gt_table <- exibble |>
+  select(group, num, currency) |>
+  gt(groupname_col = "group") |>
+  summary_rows(
+    columns = c(num, currency),
+    fns = list("sum", "mean"),
+    fmt = ~ fmt_number(., decimals = 2)
+  ) |>
+  grand_summary_rows(
+    columns = c(num, currency),
+    fns = list("sum"),
+    fmt = ~ fmt_number(., decimals = 2)
+  )
+
+extract_summary(gt_table)
+```
+
+The returned list contains one data frame per row group (including a `"::grand_summary"` element for grand summaries if present). Each data frame includes the row names, group information, and the formatted summary values.
+
+This is useful for:
+
+- Reusing summary calculations in other analyses
+- Creating custom visualizations of summary data  
+- Validating that summaries are calculated correctly
+- Building composite tables from multiple sources
+
+## Practical examples
+
+The techniques covered in this chapter come together most clearly in real-world scenarios. The following examples demonstrate how summary rows and columns can be combined to create tables that serve specific professional purposes. Each example illustrates different aspects of the summary system and shows how formatting and styling choices reinforce the table's communicative goals.
+
+### Financial statement with subtotals
+
+Financial statements are perhaps the most natural application for summary rows. Accountants and financial analysts expect to see subtotals for logical groupings (revenue, expenses, assets, liabilities) along with grand totals that tie everything together. The following example creates a simplified income statement that demonstrates these conventions.
+
+```{r}
+dplyr::tibble(
+  category = c(
+    "Revenue", "Revenue", "Revenue",
+    "Expenses", "Expenses", "Expenses", "Expenses"
+  ),
+  item = c(
+    "Product Sales", "Service Revenue", "Licensing",
+    "Cost of Goods", "Salaries", "Marketing", "Operations"
+  ),
+  amount = c(500000, 150000, 75000, -180000, -220000, -45000, -80000)
+) |>
+  gt(
+    rowname_col = "item",
+    groupname_col = "category"
+  ) |>
+  fmt_currency(columns = amount, currency = "USD", accounting = TRUE) |>
+  summary_rows(
+    fns = list(
+      list(id = "subtotal", label = md("*Subtotal*")) ~ sum(.)
+    ),
+    fmt = ~ fmt_currency(., currency = "USD", accounting = TRUE)
+  ) |>
+  grand_summary_rows(
+    fns = list(
+      list(id = "net_income", label = md("**Net Income**")) ~ sum(.)
+    ),
+    fmt = ~ fmt_currency(., currency = "USD", accounting = TRUE)
+  ) |>
+  tab_style(
+    locations = cells_summary(),
+    style = cell_text(style = "italic")
+  ) |>
+  tab_style(
+    locations = cells_grand_summary(),
+    style = list(
+      cell_fill(color = "lightgray"),
+      cell_text(weight = "bold")
+    )
+  ) |>
+  tab_header(
+    title = "Income Statement",
+    subtitle = "Fiscal Year 2024"
+  )
+```
+
+Notice how accounting notation (parentheses for negative values) is applied consistently to both the data rows and the summary rows. The subtotals use italic styling to distinguish them from line items, while the grand total (Net Income) receives bold text and a background fill to mark it as the bottom line. This visual hierarchy guides readers from detail to summary.
+
+### Sales report with multiple statistics
+
+Business reports often need to show both detailed breakdowns and summary statistics. This example combines `summary_columns()` for row-wise totals and averages with `grand_summary_rows()` for column-wise company totals. The result is a table that answers multiple questions at once: How did each region perform? What were the quarterly trends? What's the company-wide picture?
+
+```{r}
+dplyr::tibble(
+  region = rep(c("North", "South", "East", "West"), each = 3),
+  quarter = rep(c("Q1", "Q2", "Q3"), 4),
+  sales = c(
+    120, 135, 142,
+    98, 105, 118,
+    156, 148, 162,
+    88, 95, 102
+  )
+) |>
+  tidyr::pivot_wider(names_from = quarter, values_from = sales) |>
+  gt(rowname_col = "region") |>
+  summary_columns(
+    columns = c(Q1, Q2, Q3),
+    fns = list(~ sum(.), ~ mean(.)),
+    new_col_names = c("total", "avg"),
+    new_col_labels = c("Total", "Avg"),
+    fmt = ~ fmt_number(., decimals = 0)
+  ) |>
+  grand_summary_rows(
+    columns = c(Q1, Q2, Q3, total, avg),
+    fns = list(
+      list(id = "company_total", label = "Company Total") ~ sum(.)
+    ),
+    fmt = ~ fmt_number(., decimals = 0)
+  ) |>
+  tab_spanner(label = "Quarters", columns = c(Q1, Q2, Q3)) |>
+  tab_spanner(label = "Summary", columns = c(total, avg)) |>
+  tab_header(title = "Regional Sales Report")
+```
+
+The use of column spanners ("Quarters" and "Summary") helps readers understand the table's structure at a glance. The summary columns on the right provide immediate context for each region's performance, while the grand summary row at the bottom gives the company-wide view. A manager scanning this table can quickly identify that East is the top-performing region and that sales have been trending upward across quarters.
+
+### Scientific data with statistical summaries
+
+Scientific publications typically require summary statistics like means, standard deviations, and sample sizes for experimental data. This example shows how `summary_rows()` can present multiple statistics for each treatment group, formatted appropriately for each measure.
+
+```{r}
+set.seed(42)
+dplyr::tibble(
+  treatment = rep(c("Control", "Treatment A", "Treatment B"), each = 4),
+  replicate = rep(1:4, 3),
+  response = c(
+    rnorm(4, mean = 10, sd = 2),
+    rnorm(4, mean = 15, sd = 2),
+    rnorm(4, mean = 13, sd = 2)
+  )
+) |>
+  gt(
+    rowname_col = "replicate",
+    groupname_col = "treatment"
+  ) |>
+  fmt_number(columns = response, decimals = 2) |>
+  summary_rows(
+    columns = response,
+    fns = list(
+      list(id = "mean", label = "Mean") ~ mean(.),
+      list(id = "sd", label = "SD") ~ sd(.),
+      list(id = "n", label = "n") ~ length(.)
+    ),
+    fmt = list(
+      ~ fmt_number(., decimals = 2),
+      ~ fmt_number(., decimals = 2),
+      ~ fmt_integer(.)
+    )
+  ) |>
+  tab_style(
+    locations = cells_summary(),
+    style = cell_fill(color = "lightyellow")
+  ) |>
+  tab_header(
+    title = "Experimental Results",
+    subtitle = "Response variable by treatment group"
+  )
+```
+
+Each treatment group receives the same three summary statistics, formatted according to their nature: means and standard deviations show two decimal places, while sample sizes appear as integers. The light yellow background on summary rows distinguishes them from the raw data, making it easy for readers to find the statistics they need. This format is common in scientific papers and lab reports, where reviewers expect to see both the underlying data and its statistical summary.
+
+These three examples illustrate the versatility of **gt**'s summary system. Whether you're preparing financial reports, business analyses, or scientific publications, the same core functions adapt to meet domain-specific conventions and reader expectations.
+
+## Summary
+
+The summary functions in **gt** provide a comprehensive system for adding aggregated data to your tables:
+
+- **`summary_rows()`** adds summary rows within each row group, useful for subtotals and group-level statistics
+- **`grand_summary_rows()`** adds summary rows that aggregate across the entire table, useful for overall totals and grand statistics
+- **`summary_columns()`** adds computed columns that aggregate across rows, useful for row totals and row-wise calculations
+- **`extract_summary()`** retrieves summary data for use outside the table
+
+All three summary functions share a consistent interface with the `fns` argument for specifying aggregations, the `fmt` argument for formatting results, and the `side` argument for positioning. Summary elements can be styled and annotated using the standard **gt** functions with the `cells_summary()` and `cells_grand_summary()` location helpers.
+
+By separating the calculation of summaries from their presentation, **gt** ensures that your tables remain reproducible and maintainable. When data changes, summaries update automatically. When you need different formatting, you can adjust it without recalculating. This approach embodies the **gt** philosophy: express your intent clearly, and let the package handle the details.
