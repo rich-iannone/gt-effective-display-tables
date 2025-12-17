@@ -204,7 +204,7 @@ The styling approach in **gt** separates concerns into three components: *what* 
 
 ### `tab_style()` and the `cell_*()` style helpers
 
-The `tab_style()` function serves as the primary mechanism for applying custom styles to gt tables. It takes two main arguments: `style` (what styling to apply) and `locations` (where to apply it).
+The `tab_style()` function serves as the primary mechanism for applying custom styles to **gt** tables. It takes two main arguments: `style` (what styling to apply) and `locations` (where to apply it).
 
 **Function Signature**
 
@@ -547,7 +547,7 @@ The scope of `tab_options()` can feel overwhelming at first, but the parameters 
 
 ### `tab_options()`
 
-The `tab_options()` function modifies the global settings of a gt table. Its parameter list is extensive, covering table dimensions, fonts, colors, borders, and padding for every table component.
+The `tab_options()` function modifies the global settings of a **gt** table. Its parameter list is extensive, covering table dimensions, fonts, colors, borders, and padding for every table component.
 
 **Function Signature (Selected Parameters)**
 
