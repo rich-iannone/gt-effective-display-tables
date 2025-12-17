@@ -6,7 +6,7 @@ This is the repository for the book "Creating Effective Display Tables with the 
 
 The **gt** package provides a powerful and flexible system for creating display tables in R. This book teaches you how to use **gt** effectively, from basic table construction to advanced customization techniques.
 
-**Read the book online:** https://riannone.github.io/gt-effective-display-tables/
+**Read the book online:** https://rich-iannone.github.io/gt-effective-display-tables/
 
 ## What you'll learn
 
@@ -20,7 +20,7 @@ The **gt** package provides a powerful and flexible system for creating display 
 
 ## Contributing
 
-Found a typo or an error? Have a suggestion for improvement? Please [open an issue](https://github.com/riannone/gt-effective-display-tables/issues) or submit a pull request.
+Found a typo or an error? Have a suggestion for improvement? Please [open an issue](https://github.com/rich-iannone/gt-effective-display-tables/issues) or submit a pull request.
 
 ## License
 
