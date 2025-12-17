@@ -644,19 +644,19 @@ This function is perfect for displaying ranges like price ranges, temperature ra
 
 ```{r}
 price_ranges <- dplyr::tibble(
- product = c("Basic", "Standard", "Premium", "Enterprise"),
- min_price = c(9.99, 29.99, 79.99, 199.99),
- max_price = c(19.99, 49.99, 149.99, 499.99)
+  product = c("Basic", "Standard", "Premium", "Enterprise"),
+  min_price = c(9.99, 29.99, 79.99, 199.99),
+  max_price = c(19.99, 49.99, 149.99, 499.99)
 )
 
 price_ranges |>
- gt() |>
- cols_merge_range(
-   col_begin = min_price,
-   col_end = max_price
- ) |>
- cols_label(min_price = "Price Range") |>
- fmt_currency(columns = min_price, decimals = 2)
+  gt() |>
+  cols_merge_range(
+    col_begin = min_price,
+    col_end = max_price
+  ) |>
+  cols_label(min_price = "Price Range") |>
+  fmt_currency(columns = min_price, decimals = 2)
 ```
 
 Each product tier now shows its price range in a single column with values like "$9.99–$19.99". The en-dash (–) separator is the typographically correct character for ranges, and `cols_merge_range()` uses it by default. By applying `fmt_currency()` to the target column, both the minimum and maximum values in each cell receive currency formatting.
