@@ -11,17 +11,16 @@ book:
   chapters:
     - index.qmd
     - 01-introduction.qmd
-    - 02-basic-components.qmd
+    - 02-table-components.qmd
     - 03-formatting-values.qmd
     - 04-modifying-columns.qmd
-    - 05-table-summary-rows.qmd
-    - 06-options-for-aesthetics.qmd
-    - 07-incorporating-footnotes.qmd
-    - 08-adding-nanoplots.qmd
-    - 09-publishing-formats.qmd
-    - 10-case-studies.qmd
-    - 11-packages-that-extend.qmd
-    - 12-extending-your-own-package.qmd
+    - 05-summary-rows-columns.qmd
+    - 06-table-options.qmd
+    - 07-footnotes-source-notes.qmd
+    - 08-nanoplots.qmd
+    - 09-output-formats.qmd
+    - 10-extension-packages.qmd
+    - 11-creating-extensions.qmd
 
 format:
   html:
