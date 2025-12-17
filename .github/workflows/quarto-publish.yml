@@ -36,6 +36,9 @@ jobs:
             any::tidyr
             any::knitr
             any::rmarkdown
+            any::hms
+            any::downlit
+            any::xml2
 
       - name: Render Quarto Project
         uses: quarto-dev/quarto-actions/render@v2
