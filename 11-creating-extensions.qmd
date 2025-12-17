@@ -6,9 +6,9 @@ library(dplyr)
 library(tidyr)
 ```
 
-The packages explored in the previous chapter demonstrate what becomes possible when developers build upon **gt**. The **gtsummary** package transforms statistical models and data summaries into publication-ready tables. The **gtExtras** package provides themes, helper functions, and enhanced visualizations. Each package identified gaps between what analysts needed and what **gt** alone provided, then filled those gaps with thoughtful extensions.
+The **gt** ecosystem includes packages that demonstrate what becomes possible when developers build upon its foundation. Packages like [**gtsummary**](https://github.com/ddsjoberg/gtsummary) transform statistical models and data summaries into publication-ready tables. Others like [**gtExtras**](https://github.com/jthomasmock/gtExtras) provide themes, helper functions, and enhanced visualizations. The [**pointblank**](https://github.com/rstudio/pointblank) package uses **gt** to generate comprehensive data validation reports, presenting quality checks and test results in well-formatted tables. Each identified gaps between what analysts needed and what **gt** alone provided, then filled those gaps with useful extensions.
 
-This chapter turns the lens inward. Rather than surveying what others have built, we'll explore how you might create your own extensions. Perhaps you work in a domain with specialized reporting requirements. Perhaps your organization has established table styles that should be applied consistently. Perhaps you've found yourself copying the same sequences of **gt** function calls across projects and want to encapsulate that workflow. Whatever the motivation, extending **gt** through your own package opens possibilities that using **gt** directly cannot match.
+In this chapter, we'll explore how you might create your own extensions. Perhaps you work in a domain with specialized reporting requirements. Perhaps your organization has established table styles that should be applied consistently. Perhaps you've found yourself copying the same sequences of **gt** function calls across projects and want to encapsulate that workflow. Whatever the motivation, extending **gt** through your own package opens possibilities that using **gt** directly cannot match.
 
 The rewards extend beyond personal convenience. A well-designed extension package creates institutional value. New team members can produce properly formatted tables without learning every **gt** option. Reports maintain visual consistency across authors and time periods. Domain-specific conventions become encoded in functions rather than documented in style guides that may not be followed. The investment in creating such a package pays dividends far exceeding the initial effort.
 
@@ -335,7 +335,7 @@ The grouped version organizes results by drivetrain type, making comparisons acr
 
 ## Providing wrapper functions to modify the table outputs
 
-Not every extension needs to create tables from scratch. Sometimes the greater need is to modify existing tables in consistent ways. A wrapper function takes a **gt** table as input, applies transformations, and returns the modified table. This approach excels when you want to enforce organizational styling, add standard elements like logos or disclaimers, or provide convenient shortcuts for common formatting patterns.
+Not every extension needs to create tables from scratch. Sometimes the greater need is to modify existing tables in consistent ways. A wrapper function takes a **gt** table as input, applies transformations, and returns the modified table. This approach is great when you want to enforce organizational styling, add standard elements like logos or disclaimers, or provide convenient shortcuts for common formatting patterns.
 
 ### A theming function for organizational branding
 
@@ -1017,15 +1017,9 @@ quality_test |>
 
 The examples in this chapter are presented as standalone functions, but their true power emerges when packaged for reuse. An R package provides structure for documentation, testing, and distribution. It ensures that your extensions are available wherever you work and can be shared with colleagues.
 
-Creating a package from extension functions follows standard R package development practices. Place your functions in the `R/` directory. Document them with roxygen2 comments that explain parameters and provide examples. Write tests that verify the functions produce expected outputs. Declare **gt** as an import in your `DESCRIPTION` file.
+Creating a package from extension functions follows standard R package development practices. The mechanics of package creation (directory structure, documentation with roxygen2, testing, dependency management) are thoroughly covered in [R Packages](https://r-pkgs.org) by Hadley Wickham and Jennifer Bryan. That book provides comprehensive guidance on everything from initial setup to publication on CRAN.
 
-Consider organizing functions logically. Functions that create tables from scratch might go in one file. Wrapper functions that modify existing tables might go in another. Theme functions might get their own file. This organization helps users understand what your package offers and helps you maintain the code over time.
-
-Documentation deserves particular attention. Each function should have clear descriptions of all parameters, meaningful examples showing typical usage, and notes about any limitations or requirements. Since your functions produce visual outputs, consider including example tables in vignettes where readers can see exactly what the functions produce.
-
-Version your package thoughtfully. As **gt** evolves, your extension may need updates. Documenting what versions of **gt** your package supports helps users avoid compatibility issues. When **gt** adds new features, you may want to incorporate them into your extensions, which warrants a new version of your own package.
-
-Think about scope. A package focused on a specific domain (financial reporting, academic publishing, healthcare analytics) will be more useful than a grab bag of unrelated utilities. Users can more easily understand and adopt a package when its purpose is clear. That said, even a small collection of utilities that serve your own needs justifies the packaging effort; the discipline of creating a package improves the code itself.
+For **gt** extensions specifically, a few considerations warrant attention. Document your functions with clear parameter descriptions and meaningful examples. Since your functions produce visual outputs, consider including example tables in vignettes where readers can see exactly what the functions produce. Think about scope: a package focused on a specific domain (financial reporting, academic publishing, healthcare analytics) will be more useful than a grab bag of unrelated utilities. Even a small collection of utilities that serve your own needs justifies the packaging effort; the discipline of creating a package improves the code itself.
 
 ## Beyond basic extensions
 
@@ -1039,4 +1033,4 @@ The key is identifying needs that arise repeatedly in your work and addressing t
 
 Creating extensions for **gt** is an exercise in understanding both the package and your own requirements. It demands clarity about what you want to achieve and how **gt** can help achieve it. The resulting functions, when well designed, become multipliers of your effectiveness. They transform tasks that once required careful attention into operations that happen correctly by default.
 
-The packages discussed in the previous chapter began exactly this way. Someone recognized a gap, built functions to address it, and shared the result. Your extensions might start as personal utilities and grow into resources that benefit a wider community. Even if they remain private to your organization, they contribute to better, more consistent, more maintainable reporting. That contribution is the purpose of extending **gt**: not extension for its own sake but extension in service of clearer communication through better tables.
+Many successful **gt** extension packages began exactly this way. Someone recognized a gap, built functions to address it, and shared the result. Your extensions might start as personal utilities and grow into resources that benefit a wider community. Even if they remain private to your organization, they contribute to better, more consistent, more maintainable reporting. That contribution is the purpose of extending **gt**: not extension for its own sake but extension in service of clearer communication through better tables.
