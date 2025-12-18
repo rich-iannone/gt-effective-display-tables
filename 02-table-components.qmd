@@ -29,18 +29,23 @@ Here is the function’s signature:
 ```r
 gt(
   data,
-  rowname_col = "rowname",
+  rowname_col = NULL,
   groupname_col = dplyr::group_vars(data),
+  omit_na_group = FALSE,
   process_md = FALSE,
   caption = NULL,
   rownames_to_stub = FALSE,
   row_group_as_column = FALSE,
   auto_align = TRUE,
   id = NULL,
-  locale = NULL,
+  locale = getOption("gt.locale"),
   row_group.sep = getOption("gt.row_group.sep", " - ")
 )
 ```
+
+The `rowname_col` argument is particularly powerful because it can accept multiple column names, creating a hierarchical stub layout. When you provide a vector of column names, values from the leftmost column form the highest level of the hierarchy, proceeding to individual row identifiers in the rightmost column. This multi-column stub feature is useful for displaying nested categories or hierarchical data structures.
+
+The `omit_na_group` argument controls how rows with `NA` values in the `groupname_col` are handled. By default (`FALSE`), such rows are assigned to a group labeled `"NA"`. Setting this to `TRUE` causes those rows to appear as ungrouped rows in the table body, which is useful when you want to include header or separator rows that shouldn't belong to any row group.
 
 Let's use the `exibble` dataset for the next few examples, we'll learn how to make simple **gt** tables with the `gt()` function. The most basic thing to do is to just use `gt()` with the dataset as the input.
 
@@ -80,6 +85,40 @@ exibble |>
 ```
 
 This could be done later if need be, and using `tab_options(row_group.as_column = TRUE)` would be the way to do it outside of the `gt()` call.
+
+### Multi-column stubs for hierarchical row labels
+
+When your data has natural hierarchical structure, you can create a multi-column stub by passing a vector of column names to `rowname_col`. This feature is particularly useful for financial reports with account hierarchies, clinical trial tables with multiple levels of categorization, or any situation where rows have parent-child relationships.
+
+Let's create a dataset with a two-level hierarchy (region and category) and display it with a multi-column stub:
+
+```{r}
+sales_data <- dplyr::tibble(
+  region = c("North", "North", "North", "South", "South", "South"),
+  category = c("Electronics", "Clothing", "Food", "Electronics", "Clothing", "Food"),
+  Q1 = c(45000, 32000, 28000, 38000, 41000, 35000),
+  Q2 = c(48000, 35000, 30000, 42000, 39000, 37000),
+  Q3 = c(52000, 38000, 32000, 45000, 43000, 39000),
+  Q4 = c(58000, 42000, 35000, 48000, 46000, 41000)
+)
+
+sales_data |>
+  gt(rowname_col = c("region", "category")) |>
+  tab_header(
+    title = "Quarterly Sales by Region and Category",
+    subtitle = "All values in USD"
+  ) |>
+  fmt_currency(columns = everything(), currency = "USD", decimals = 0) |>
+  tab_stubhead(label = c("Region", "Category")) |>
+  tab_style(
+    style = cell_fill(color = "gray95"),
+    locations = cells_stub()
+  )
+```
+
+The multi-column stub creates a clean visual hierarchy. Notice that repeating values in the first stub column (the region) are automatically consolidated, making it clear which categories belong to each region. The `tab_stubhead()` function also accepts a vector of labels, one for each level of the hierarchy.
+
+This feature works seamlessly with formatting and styling functions. The stub columns are treated as a unit, allowing you to apply styles to the entire stub area while still being able to reference individual stub columns when needed.
 
 Some datasets have rownames built in; `mtcars` famously has the car model names as the rownames. To use those rownames as row labels in the stub, the `rownames_to_stub = TRUE` option will prove to be useful.
 
