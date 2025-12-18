@@ -40,6 +40,8 @@ jobs:
             any::downlit
             any::xml2
             any::gtsummary
+            any::broom
+            any::broom.helpers
 
       - name: Render Quarto Project
         uses: quarto-dev/quarto-actions/render@v2
