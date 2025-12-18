@@ -409,6 +409,24 @@ countrypops |>
   fmt_number(suffixing = TRUE, n_sigfig = 3)
 ```
 
+When different rows require different precision levels, use `from_column()` to specify the number of decimal places dynamically. This is particularly useful when displaying measurements with varying precision requirements:
+
+```{r}
+dplyr::tibble(
+  measurement = c("Length", "Weight", "Temperature", "Voltage"),
+  value = c(12.5, 0.4532, 98.6, 3.3),
+  precision = c(1, 4, 1, 2)
+) |>
+  gt() |>
+  fmt_number(
+    columns = value,
+    decimals = from_column("precision")
+  ) |>
+  cols_hide(columns = precision)
+```
+
+Each measurement displays with its appropriate precision: length with 1 decimal, weight with 4 decimals for higher accuracy, and so on. The `from_column()` helper makes it easy to handle heterogeneous data where a one-size-fits-all approach to formatting won't work.
+
 Using `n_sigfig = 3` ensures each value displays exactly three significant figures, providing appropriate precision for population estimates without spurious digits.
 
 ### `fmt_integer()`
@@ -768,18 +786,78 @@ fmt_number_si(
   data,
   columns = everything(),
   rows = everything(),
+  unit = NULL,
+  prefix_mode = c("engineering", "decimal"),
   decimals = 2,
+  n_sigfig = NULL,
   drop_trailing_zeros = FALSE,
   drop_trailing_dec_mark = TRUE,
+  use_seps = TRUE,
   scale_by = 1,
-  suffixing = TRUE,
   pattern = "{x}",
   sep_mark = ",",
   dec_mark = ".",
   force_sign = FALSE,
+  incl_space = TRUE,
   locale = NULL
 )
 ```
+
+The `unit` argument lets you append a unit symbol after the SI prefix (e.g., `"g"` for grams, `"W"` for watts, `"Hz"` for hertz). This is particularly useful for storage capacities, transfer speeds, and other technical measurements:
+
+```{r}
+dplyr::tibble(
+  device = c("USB Drive", "Laptop SSD", "External HDD", "NAS Server", "Cloud Storage"),
+  capacity_bytes = c(32e9, 512e9, 2e12, 16e12, 100e12),
+  transfer_speed = c(150e6, 3500e6, 180e6, 1000e6, 500e6)
+) |>
+  gt() |>
+  tab_header(title = "Storage Device Specifications") |>
+  cols_label(
+    device = "Device",
+    capacity_bytes = "Capacity",
+    transfer_speed = "Transfer Speed"
+  ) |>
+  fmt_number_si(
+    columns = capacity_bytes,
+    unit = "B",
+    decimals = 0
+  ) |>
+  fmt_number_si(
+    columns = transfer_speed,
+    unit = "B/s",
+    decimals = 0
+  )
+```
+
+The function automatically selects the appropriate SI prefix to keep numbers readable. A 32 billion byte USB drive becomes `"32 GB"` and a 3.5 billion bytes per second transfer rate becomes `"4 GB/s"`. This eliminates the need for manual scaling and prefix selection.
+
+When different rows require different units, you can use `from_column()` to pull unit values from another column. This is useful when a single measurement column contains values with varying units:
+
+```{r}
+dplyr::tibble(
+  substance = c("Glucose", "Vitamin C", "Caffeine", "Water"),
+  amount = c(0.0051, 0.000075, 0.0002, 0.250),
+  unit = c("g", "g", "g", "L")
+) |>
+  gt() |>
+  fmt_number_si(
+    columns = amount,
+    unit = from_column("unit"),
+    n_sigfig = 2
+  ) |>
+  cols_hide(columns = unit) |>
+  cols_label(
+    substance = "Substance",
+    amount = "Amount"
+  )
+```
+
+The `from_column()` helper retrieves unit values row by row, so glucose shows as `"5.1 mg"` while water displays as `"250 mL"`. The `cols_hide()` call removes the now-redundant unit column from the final output.
+
+The `prefix_mode` argument controls which SI prefixes are used. The default `"engineering"` mode uses only prefixes for powers of 1000 (k, M, G, T, m, μ, n, p, etc.), which is the most common convention in scientific and engineering contexts. The `"decimal"` mode includes all SI prefixes, adding da (deca), h (hecto), d (deci), and c (centi) for powers of 10 and 100.
+
+Here's the basic usage without units:
 
 ```{r}
 dplyr::tibble(
@@ -790,7 +868,7 @@ dplyr::tibble(
   fmt_number_si(columns = value)
 ```
 
-The values are now displayed with SI prefixes: 4.70k (kilo), 22.00μ (micro), 2.40G (giga), and 550.00n (nano). For anyone working in electronics, physics, or engineering, this is the most natural way to express these quantities and it's how values appear on component labels and in technical specifications.
+The values are now displayed with SI prefixes: `"4.70k"` (kilo), `"22.00μ"` (micro), `"2.40G"` (giga), and `"550.00n"` (nano). For anyone working in electronics, physics, or engineering, this is the most natural way to express these quantities and it's how values appear on component labels and in technical specifications.
 
 Compare this to the same data formatted with `fmt_engineering()`:
 
@@ -810,7 +888,6 @@ dplyr::tibble(
 ```
 
 Both formats convey the same information, but the SI prefix format is more compact and more familiar in practical contexts. A 2.4 GHz processor clock speed is more recognizable than 2.40 × 10^9 Hz.
-
 
 ## Formatting numbers to currencies and various other units
 
@@ -877,6 +954,28 @@ exibble |>
 
 The Euro symbol now appears after the value, separated by a space (the convention used in many European countries).
 
+When working with international data where different rows represent different currencies, the `from_column()` helper lets you specify currency codes dynamically:
+
+```{r}
+dplyr::tibble(
+  country = c("United States", "Japan", "Germany", "United Kingdom"),
+  price = c(29.99, 3500, 24.99, 19.99),
+  currency_code = c("USD", "JPY", "EUR", "GBP")
+) |>
+  gt() |>
+  fmt_currency(
+    columns = price,
+    currency = from_column("currency_code")
+  ) |>
+  cols_hide(columns = currency_code) |>
+  cols_label(
+    country = "Country",
+    price = "Price"
+  )
+```
+
+Each row is formatted with its appropriate currency: USD with a dollar sign and two decimals, JPY with a yen symbol and no decimals (as is conventional), EUR with a euro symbol, and GBP with a pound symbol. The `cols_hide()` call removes the currency code column since that information is now embedded in the formatted values.
+
 To discover which currencies are available, use the `info_currencies()` function, which displays a **gt** table listing all supported currencies with their codes, symbols, and names:
 
 ```{r}
@@ -884,7 +983,7 @@ To discover which currencies are available, use the `info_currencies()` function
 info_currencies()
 ```
 
-The function supports over 100 currencies, specified by their three-letter ISO 4217 codes (like "USD", "EUR", "GBP", "JPY") or by common names (like "dollar", "euro", "pound", "yen"). You can also create custom currency symbols using the `currency()` helper function for currencies not in the built-in list.
+The function supports over 100 currencies, specified by their three-letter ISO 4217 codes (like `"USD"`, `"EUR"`, `"GBP"`, `"JPY"`) or by common names (like `"dollar"`, `"euro"`, `"pound"`, `"yen"`). You can also create custom currency symbols using the `currency()` helper function for currencies not in the built-in list.
 
 ### `fmt_bytes()`
 
@@ -1177,7 +1276,6 @@ dplyr::tibble(
 
 The period surrounded by spaces becomes a centered dot (·), the standard notation for waters of hydration and other addition compounds.
 
-
 ## Translating numbers to other forms
 
 Sometimes numeric data is better expressed in alternative forms. **gt** provides functions to convert numbers into indexed characters, Roman numerals, and spelled-out words.
@@ -1344,7 +1442,6 @@ dplyr::tibble(
 
 The `TRUE` and `FALSE` values are replaced with "Yes" and "No", which are more accessible to general readers. The `tf_style` argument offers several alternatives including checkmarks, circles, and other symbols.
 
-
 ## Date, time, and duration formats
 
 Temporal data presents unique formatting challenges. The same date can be expressed in dozens of valid formats, and the choice depends on audience, locale, and context. **gt** provides `fmt_date()`, `fmt_time()`, `fmt_datetime()`, and `fmt_duration()` to handle these cases with support for 41 preset date styles and extensive localization.
@@ -1402,7 +1499,59 @@ exibble |>
   )
 ```
 
-This table demonstrates four different date styles from the same source data. The "flexible" styles (like "yMd") automatically adapt to the specified locale.
+This table demonstrates four different date styles from the same source data. The "flexible" styles (like `"yMd"`) automatically adapt to the specified locale.
+
+To explore all 41 available date styles, use `info_date_style()`, which displays an informative **gt** table showing each style's name, a description, and whether it's locale-flexible:
+
+```{r}
+#| eval: false
+info_date_style()
+```
+
+For reports that combine data from different regional sources, you can use `from_column()` to apply different date styles per row:
+
+```{r}
+dplyr::tibble(
+  region = c("United States", "United Kingdom", "Japan", "Germany"),
+  report_date = as.Date(c("2025-03-15", "2025-03-15", "2025-03-15", "2025-03-15")),
+  date_format = c("month_day_year", "day_month_year", "y.M.d", "day_month_year")
+) |>
+  gt() |>
+  fmt_date(
+    columns = report_date,
+    date_style = from_column("date_format")
+  ) |>
+  cols_hide(columns = date_format) |>
+  cols_label(
+    region = "Region",
+    report_date = "Report Date"
+  )
+```
+
+Each row displays the date in the format conventional for that region: "March 15, 2025" for the US, "15 March 2025" for the UK, and so on. This technique is valuable when creating localized reports or when displaying historical data that was originally recorded in different regional formats.
+
+You can also use `from_column()` to switch locales, which affects how month and day names are rendered. When combined with flexible date styles (like `"yMMMd"` or `"yMMMEd"`), locales also change the *ordering* of date components to match regional conventions:
+
+```{r}
+dplyr::tibble(
+  country = c("United States", "France", "Germany", "Japan", "China"),
+  event_date = as.Date("2025-06-15"),
+  locale_code = c("en_US", "fr", "de", "ja", "zh")
+) |>
+  gt() |>
+  fmt_date(
+    columns = event_date,
+    date_style = "yMMMd",
+    locale = from_column("locale_code")
+  ) |>
+  cols_hide(columns = locale_code) |>
+  cols_label(
+    country = "Country",
+    event_date = "Event Date"
+  )
+```
+
+Notice that it's not just translation: the US format puts the month before the day ("Jun 15, 2025"), while European locales put the day first ("15 juin 2025" in French). Asian locales typically use year-month-day order. The flexible date styles automatically adapt to each locale's conventions for both component ordering and separators.
 
 ### `fmt_time()`
 
@@ -1433,9 +1582,18 @@ exibble |>
 
 The times now display in 12-hour format with AM/PM indicators, a common format for general audiences.
 
+To see all available time styles, use `info_time_style()`:
+
+```{r}
+#| eval: false
+info_time_style()
+```
+
+Like date styles, some time styles are locale-flexible (adapting to 12-hour or 24-hour conventions based on the locale), while others produce fixed output regardless of locale.
+
 ### `fmt_datetime()`
 
-When you have full datetime values, `fmt_datetime()` combines date and time formatting.
+When you have full datetime values, `fmt_datetime()` combines date and time formatting. This function offers two approaches: using preset styles for the date and time components separately, or using a custom `format` string for complete control over the output.
 
 Here is the function's signature:
 
@@ -1448,10 +1606,13 @@ fmt_datetime(
   time_style = "iso",
   sep = " ",
   format = NULL,
+  tz = NULL,
   pattern = "{x}",
   locale = NULL
 )
 ```
+
+The simplest approach combines preset `date_style` and `time_style` values:
 
 ```{r}
 exibble |>
@@ -1464,7 +1625,111 @@ exibble |>
   )
 ```
 
-The datetime column now shows both the date (in "Feb 29, 2000" style) and time (in 24-hour format), providing complete temporal information.
+The datetime column now shows both the date (in "Feb 29, 2000" style) and time (in 24-hour format), providing complete temporal information. The `sep` argument controls the separator between date and time (defaults to a single space).
+
+#### Custom formatting with the `format` argument
+
+For complete control over datetime output, the `format` argument accepts formatting strings in two different syntaxes: CLDR (Common Locale Data Repository) datetime patterns and `strptime` format codes. Both are powerful, but CLDR patterns offer better locale support and more formatting options.
+
+**CLDR datetime patterns** use pattern characters that repeat to indicate output width. Here are some examples using a datetime of `"2018-07-04T22:05:09"`:
+
+- `"EEEE, MMMM d, y"` → `"Wednesday, July 4, 2018"`
+- `"MMM d, y 'at' h:mm a"` → `"Jul 4, 2018 at 10:05 PM"`
+- `"y-MM-dd HH:mm"` → `"2018-07-04 22:05"`
+
+The key CLDR pattern characters include:
+
+| Character | Meaning | Examples |
+|-----------|---------|----------|
+| `y` | Year | `y` → "2018", `yy` → "18" |
+| `M` | Month | `M` → "7", `MM` → "07", `MMM` → "Jul", `MMMM` → "July" |
+| `d` | Day of month | `d` → "4", `dd` → "04" |
+| `E` | Day of week | `E` → "Wed", `EEEE` → "Wednesday" |
+| `H` | Hour (0-23) | `H` → "22", `HH` → "22" |
+| `h` | Hour (1-12) | `h` → "10", `hh` → "10" |
+| `m` | Minute | `m` → "5", `mm` → "05" |
+| `s` | Second | `s` → "9", `ss` → "09" |
+| `a` | AM/PM | `a` → "PM" |
+
+Literal text can be included by surrounding it with single quotes:
+
+```{r}
+exibble |>
+  dplyr::select(datetime) |>
+  dplyr::slice(1:4) |>
+  gt() |>
+  fmt_datetime(
+    columns = datetime,
+    format = "EEEE, MMMM d, y 'at' h:mm a"
+  )
+```
+
+**`strptime` format codes** use a `%` prefix for each component. The same datetime formatted with `strptime` codes:
+
+- `"%A, %B %e, %Y"` → `"Wednesday, July 4, 2018"`
+- `"%b %e, %Y at %I:%M %p"` → `"Jul 4, 2018 at 10:05 PM"`
+- `"%Y-%m-%d %H:%M"` → `"2018-07-04 22:05"`
+
+Common `strptime` codes include:
+
+| Code | Meaning | Example |
+|------|---------|---------|
+| `%Y` | 4-digit year | "2018" |
+| `%y` | 2-digit year | "18" |
+| `%m` | Month number (zero-padded) | "07" |
+| `%b` | Abbreviated month name | "Jul" |
+| `%B` | Full month name | "July" |
+| `%d` | Day (zero-padded) | "04" |
+| `%e` | Day (space-padded) | " 4" |
+| `%A` | Full weekday name | "Wednesday" |
+| `%H` | Hour 0-23 | "22" |
+| `%I` | Hour 1-12 | "10" |
+| `%M` | Minute | "05" |
+| `%S` | Second | "09" |
+| `%p` | AM/PM | "PM" |
+
+Here's the same friendly datetime format from before, now using `strptime` codes instead of CLDR patterns:
+
+```{r}
+exibble |>
+  dplyr::select(datetime) |>
+  dplyr::slice(1:4) |>
+  gt() |>
+  fmt_datetime(
+    columns = datetime,
+    format = "%A, %B %e, %Y at %I:%M %p"
+  )
+```
+
+The output is nearly identical to the CLDR version. The `"%A"` gives the full weekday name, `"%B"` the full month name, `"%e"` the day without zero-padding, and `"%I:%M %p"` produces 12-hour time with AM/PM.
+
+#### Working with time zones
+
+The `tz` argument lets you convert datetimes to a specific time zone for display. This is particularly useful when your data is stored in UTC but you want to display it in local time:
+
+```{r}
+exibble |>
+  dplyr::select(datetime) |>
+  dplyr::slice(1:3) |>
+  gt() |>
+  fmt_datetime(
+    columns = datetime,
+    format = "EEEE, MMMM d, y 'at' h:mm a (zzzz)",
+    tz = "America/Vancouver"
+  )
+```
+
+The `"zzzz"` pattern character displays the full time zone name. You can use shorter variants like `"z"` (abbreviated) or `"Z"` (UTC offset).
+
+#### CLDR vs strptime: which to choose?
+
+CLDR patterns are generally preferred because they have:
+
+1. better locale support, where patterns adapt to locale conventions automatically
+2. more options: patterns for eras, quarters, flexible day periods ("in the afternoon"), and more
+3. richer time zone display options
+
+Use `strptime` when you need compatibility with R's base date formatting functions or when working with existing format strings from other code.
 
 ### `fmt_duration()`
 
