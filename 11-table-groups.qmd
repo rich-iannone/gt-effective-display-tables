@@ -1,0 +1,472 @@
+# Working with table groups
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+library(dplyr)
+```
+
+Sometimes you need to work with multiple related tables rather than a single table. The **gt** package provides the `gt_group` class and associated functions for bundling multiple **gt** tables together. This enables you to apply common options across tables, manage collections programmatically, and output them together as a cohesive unit.
+
+## Why use table groups?
+
+Table groups are useful when you have:
+
+- related tables that should be presented together (e.g., results by category)
+- multiple views of the same data (e.g., summary and detail tables)
+- paginated content where a large table needs to be split across pages
+- consistent styling requirements across a set of tables
+
+When you print a `gt_group` object in HTML, tables are separated by line breaks. In paginated formats (PDF, Word), they're separated by page breaks. This makes table groups ideal for reports that need multiple tables with consistent formatting.
+
+## Creating table groups
+
+### `gt_group()`
+
+The `gt_group()` function creates a container that holds multiple **gt** tables. You can pass tables directly or add them later.
+
+Here is the function's signature:
+
+```r
+gt_group(
+  ...,
+  .list = list2(...)
+)
+```
+
+Let's create a simple group of two tables:
+
+```{r}
+# Create individual tables
+table_north <- 
+  dplyr::tibble(
+    city = c("New York", "Boston", "Chicago"),
+    sales = c(125000, 87000, 95000)
+  ) |>
+  gt() |>
+  tab_header(title = "North Region Sales") |>
+  fmt_currency(columns = sales, currency = "USD")
+
+table_south <- 
+  dplyr::tibble(
+    city = c("Miami", "Atlanta", "Dallas"),
+    sales = c(110000, 78000, 92000)
+  ) |>
+  gt() |>
+  tab_header(title = "South Region Sales") |>
+  fmt_currency(columns = sales, currency = "USD")
+
+# Combine into a group
+sales_group <- gt_group(table_north, table_south)
+sales_group
+```
+
+The two tables are now bundled together and will display sequentially.
+
+### Creating groups from lists
+
+When you have tables stored in a list, use the `.list` argument:
+
+```{r}
+# Create a list of tables programmatically
+regions <- c("East", "West", "Central")
+region_data <- list(
+  dplyr::tibble(store = c("Store A", "Store B"), revenue = c(50000, 45000)),
+  dplyr::tibble(store = c("Store C", "Store D"), revenue = c(62000, 58000)),
+  dplyr::tibble(store = c("Store E", "Store F"), revenue = c(41000, 39000))
+)
+
+# Create tables with consistent formatting
+region_tables <- lapply(seq_along(regions), function(i) {
+  region_data[[i]] |>
+    gt() |>
+    tab_header(title = paste(regions[i], "Region")) |>
+    fmt_currency(columns = revenue, currency = "USD")
+})
+
+# Combine into a group
+regional_group <- gt_group(.list = region_tables)
+regional_group
+```
+
+This pattern is particularly useful when generating tables from grouped data frames or when the number of tables is determined dynamically.
+
+## Splitting tables into groups
+
+### `gt_split()`
+
+The `gt_split()` function divides a single **gt** table into multiple tables based on row count. This is useful for pagination or when you need to break up large tables.
+
+Here is the function's signature:
+
+```r
+gt_split(
+  data,
+  row_every_n = NULL,
+  row_slice_i = NULL,
+  col_slice_at = NULL
+)
+```
+
+Let's split a large table into smaller chunks:
+
+```{r}
+# Create a table with many rows
+large_table <- 
+  gtcars |>
+  dplyr::select(mfr, model, year, hp, mpg_c) |>
+  dplyr::slice(1:12) |>
+  gt() |>
+  tab_header(title = "Performance Vehicles") |>
+  fmt_integer(columns = c(year, hp)) |>
+  fmt_number(columns = mpg_c, decimals = 1)
+
+# Split into groups of 4 rows each
+split_tables <- gt_split(large_table, row_every_n = 4)
+split_tables
+```
+
+The original 12-row table is now split into three tables of 4 rows each. Headers and formatting are preserved in each split table.
+
+#### Custom row slices
+
+For more control over where splits occur, use `row_slice_i` with a vector of row indices:
+
+```{r}
+# Split at specific points
+custom_split <- gt_split(
+  large_table,
+  row_slice_i = c(5, 9)  
+)
+custom_split
+```
+
+This creates three tables: rows 1-4, rows 5-8, and rows 9-12. This is useful when you want splits at logical breakpoints rather than fixed intervals.
+
+## Managing tables in a group
+
+### `grp_add()`
+
+Add one or more tables to an existing group with `grp_add()`.
+
+Here is the function's signature:
+
+```r
+grp_add(
+  data,
+  ...,
+  .list = list2(...)
+)
+```
+
+```{r}
+# Start with a group
+base_group <- gt_group(table_north)
+
+# Add another table
+expanded_group <- grp_add(base_group, table_south)
+
+# Add multiple tables at once
+another_table <- 
+  dplyr::tibble(
+    city = c("Seattle", "Portland"),
+    sales = c(65000, 48000)
+  ) |>
+  gt() |>
+  tab_header(title = "Pacific Northwest Sales") |>
+  fmt_currency(columns = sales, currency = "USD")
+
+final_group <- grp_add(expanded_group, another_table)
+final_group
+```
+
+Tables are added at the end of the group by default.
+
+### `grp_pull()`
+
+Extract a specific table from a group with `grp_pull()`. This returns a standard **gt** object that you can modify further.
+
+Here is the function's signature:
+
+```r
+grp_pull(
+  data,
+  which
+)
+```
+
+```{r}
+# Extract the second table from the group
+second_table <- grp_pull(sales_group, which = 2)
+second_table
+```
+
+The `which` argument specifies the position (1-indexed) of the table to extract.
+
+### `grp_replace()`
+
+Replace a table in the group with a new one using `grp_replace()`.
+
+Here is the function's signature:
+
+```r
+grp_replace(
+  data,
+  ...,
+  .list = list2(...)
+)
+```
+
+```{r}
+# Create an updated version of the south table
+updated_south <- 
+  dplyr::tibble(
+    city = c("Miami", "Atlanta", "Dallas", "Houston"),
+    sales = c(115000, 82000, 98000, 105000)
+  ) |>
+  gt() |>
+  tab_header(title = "South Region Sales (Updated)") |>
+  fmt_currency(columns = sales, currency = "USD")
+
+# Replace the second table in the group
+updated_group <- grp_replace(sales_group, updated_south, .which = 2)
+updated_group
+```
+
+The `.which` argument specifies which table position to replace.
+
+### `grp_rm()`
+
+Remove one or more tables from a group with `grp_rm()`.
+
+Here is the function's signature:
+
+```r
+grp_rm(
+  data,
+  which
+)
+```
+
+```{r}
+# Create a group with three tables
+three_table_group <- gt_group(table_north, table_south, another_table)
+
+# Remove the middle table
+two_table_group <- grp_rm(three_table_group, which = 2)
+two_table_group
+```
+
+The remaining tables are renumbered automatically.
+
+### `grp_clone()`
+
+Create copies of tables within a group using `grp_clone()`. This is useful when you want variations of the same base table.
+
+Here is the function's signature:
+
+```r
+grp_clone(
+  data,
+  which
+)
+```
+
+```{r}
+# Clone the first table
+cloned_group <- grp_clone(sales_group, which = 1)
+cloned_group
+```
+
+The cloned table is added at the end of the group. You can then modify it with `grp_pull()`, make changes, and use `grp_replace()` to update it.
+
+## Applying options across a group
+
+### `grp_options()`
+
+Apply `tab_options()` settings to all tables in a group at once with `grp_options()`. This ensures consistent styling across your table collection.
+
+Here is the function's signature:
+
+```r
+grp_options(
+  data,
+  ...
+)
+```
+
+```{r}
+# Apply consistent styling to all tables in the group
+styled_group <- 
+  sales_group |>
+  grp_options(
+    heading.background.color = "steelblue",
+    heading.title.font.size = px(16),
+    column_labels.font.weight = "bold",
+    table.font.size = px(12)
+  )
+styled_group
+```
+
+All tables in the group now share the same styling options. This is more efficient than applying options to each table individually, and it ensures consistency.
+
+#### Common styling patterns
+
+Here's a pattern for creating a professionally styled group:
+
+```{r}
+# Create a base style function
+apply_corporate_style <- function(group) {
+  group |>
+    grp_options(
+      table.border.top.color = "#003366",
+      table.border.top.width = px(3),
+      heading.background.color = "#003366",
+      heading.title.font.size = px(14),
+      column_labels.background.color = "#E6E6E6",
+      row.striping.include_table_body = TRUE
+    )
+}
+
+# Apply to any group
+corporate_group <- apply_corporate_style(sales_group)
+corporate_group
+```
+
+## Practical workflows
+
+### Generating tables from grouped data
+
+A common pattern is creating a table for each group in your data:
+
+```{r}
+# Group data and create a table for each group
+tables_by_mfr <- 
+  gtcars |>
+  dplyr::filter(mfr %in% c("Ferrari", "Lamborghini", "Porsche")) |>
+  dplyr::select(mfr, model, year, hp, msrp) |>
+  dplyr::group_by(mfr) |>
+  dplyr::group_split() |>
+  lapply(function(df) {
+    manufacturer <- unique(df$mfr)
+    df |>
+      dplyr::select(-mfr) |>
+      gt() |>
+      tab_header(title = paste(manufacturer, "Models")) |>
+      fmt_integer(columns = c(year, hp)) |>
+      fmt_currency(columns = msrp, currency = "USD", decimals = 0)
+  })
+
+# Combine into a group with consistent styling
+supercar_group <- 
+  gt_group(.list = tables_by_mfr) |>
+  grp_options(
+    heading.background.color = "#1a1a1a",
+    column_labels.font.weight = "bold"
+  )
+supercar_group
+```
+
+### Creating summary and detail table pairs
+
+Another common pattern is pairing summary tables with detailed views:
+
+```{r}
+# Summary table
+summary_table <- 
+  gtcars |>
+  dplyr::group_by(mfr) |>
+  dplyr::summarize(
+    n_models = n(),
+    avg_hp = mean(hp),
+    avg_price = mean(msrp),
+    .groups = "drop"
+  ) |>
+  dplyr::slice_max(n_models, n = 5) |>
+  gt() |>
+  tab_header(
+    title = "Top Manufacturers by Model Count",
+    subtitle = "Summary Statistics"
+  ) |>
+  fmt_integer(columns = c(n_models, avg_hp)) |>
+  fmt_currency(columns = avg_price, currency = "USD", decimals = 0) |>
+  cols_label(
+    mfr = "Manufacturer",
+    n_models = "Models",
+    avg_hp = "Avg HP",
+    avg_price = "Avg Price"
+  )
+
+# Detail table
+detail_table <- 
+  gtcars |>
+  dplyr::filter(mfr == "Porsche") |>
+  dplyr::select(model, year, hp, msrp) |>
+  gt() |>
+  tab_header(
+    title = "Porsche Model Details",
+    subtitle = "Full specification list"
+  ) |>
+  fmt_integer(columns = c(year, hp)) |>
+  fmt_currency(columns = msrp, currency = "USD", decimals = 0)
+
+# Combine into a report
+report_group <- gt_group(summary_table, detail_table)
+report_group
+```
+
+### Building comparative tables
+
+When comparing multiple categories or time periods:
+
+```{r}
+# Create comparison tables for different years
+years <- c(2015, 2016, 2017)
+
+year_tables <- lapply(years, function(yr) {
+  gtcars |>
+    dplyr::filter(year == yr) |>
+    dplyr::group_by(mfr) |>
+    dplyr::summarize(
+      models = n(),
+      avg_hp = mean(hp),
+      .groups = "drop"
+    ) |>
+    dplyr::slice_max(models, n = 3) |>
+    gt() |>
+    tab_header(title = paste(yr, "Top Manufacturers")) |>
+    fmt_integer(columns = c(models, avg_hp)) |>
+    cols_label(
+      mfr = "Manufacturer",
+      models = "Models",
+      avg_hp = "Avg HP"
+    )
+})
+
+comparison_group <- 
+  gt_group(.list = year_tables) |>
+  grp_options(
+    column_labels.background.color = "#f0f0f0"
+  )
+comparison_group
+```
+
+## Output considerations
+
+When outputting table groups:
+
+- **HTML**: Tables are separated by `<br>` tags (line breaks)
+- **PDF/LaTeX**: Tables are separated by page breaks
+- **Word**: Tables are separated by page breaks
+- **RTF**: Tables are separated by page breaks
+
+This behavior makes table groups ideal for generating reports where each table should appear on its own page in printed output.
+
+```{r}
+#| eval: false
+# Save a table group to different formats
+gtsave(sales_group, "sales_report.html")
+gtsave(sales_group, "sales_report.pdf")
+gtsave(sales_group, "sales_report.docx")
+```
+
+Each output format handles the group appropriately for its medium.
