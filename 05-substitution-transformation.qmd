@@ -1,0 +1,652 @@
+# Substitution and text transformation
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+library(dplyr)
+```
+
+After formatting functions have processed your data, two additional stages allow you to refine the presentation further: **substitution** and **text transformation**. These stages operate on formatted values, giving you fine-grained control over how specific values appear in your final table.
+
+The three-stage rendering pipeline works as follows:
+
+1. **Formatting** (`fmt_*()` functions) converts raw values to formatted strings
+2. **Substitution** (`sub_*()` functions) replaces specific values with alternative text
+3. **Text transformation** (`text_*()` functions) modifies the final string representation
+
+Each stage builds on the previous one, allowing you to progressively refine your table's presentation.
+
+## Substitution functions
+
+Substitution functions replace specific values with alternative text or symbols. This is particularly useful for handling missing data, zero values, and extreme values that need special treatment.
+
+### `sub_missing()`
+
+Missing values (`NA`) are common in real-world data, but displaying "NA" in a table is often undesirable. The `sub_missing()` function replaces missing values with more meaningful or visually appropriate text.
+
+Here is the function's signature:
+
+```r
+sub_missing(
+  data,
+  columns = everything(),
+  rows = everything(),
+  missing_text = "---"
+)
+```
+
+Let's replace missing values in the `exibble` dataset with em-dashes:
+
+```{r}
+exibble |>
+  dplyr::select(num, char, currency) |>
+  gt() |>
+  sub_missing(columns = everything())
+```
+
+The `NA` values are now displayed as em-dashes (the `"---"` default for `missing_text` signifies an em dash), a common typographic convention for missing data that's cleaner than displaying `"NA"`.
+
+You can customize the replacement text for different contexts:
+
+```{r}
+exibble |>
+  dplyr::select(num, char, currency) |>
+  gt() |>
+  sub_missing(columns = num, missing_text = "N/A") |>
+  sub_missing(columns = char, missing_text = "(none)") |>
+  sub_missing(columns = currency, missing_text = "---")
+```
+
+Different columns now display their missing values differently: numeric columns show "N/A", character columns show "(none)", and currency columns show an em-dash. This contextual approach can make your tables more intuitive.
+
+The `rows` argument lets you target specific rows:
+
+```{r}
+exibble |>
+  dplyr::select(row, num, char) |>
+  gt() |>
+  sub_missing(
+    columns = everything(),
+    rows = row %in% c("row_1", "row_2"),
+    missing_text = "pending"
+  ) |>
+  sub_missing(
+    columns = everything(),
+    missing_text = "---"
+  )
+```
+
+This applies different substitutions based on row context, with early rows showing "pending" and others showing an em-dash.
+
+### `sub_zero()`
+
+Zero values sometimes represent "no data" or "not applicable" rather than a meaningful quantity. The `sub_zero()` function replaces zeros with alternative text.
+
+Here is the function's signature:
+
+```r
+sub_zero(
+  data,
+  columns = everything(),
+  rows = everything(),
+  zero_text = "nil"
+)
+```
+
+Let's replace zero counts with an en-dash for clearer presentation:
+
+```{r}
+dplyr::tibble(
+  category = c("A", "B", "C", "D", "E"),
+  count = c(42, 0, 17, 0, 8)
+) |>
+  gt() |>
+  sub_zero(columns = count, zero_text = "--")
+```
+
+The zero counts are replaced with en-dashes, making it immediately clear that these represent "none" rather than a meaningful zero value.
+
+Different contexts might call for different zero representations:
+
+```{r}
+dplyr::tibble(
+  product = c("Widget A", "Widget B", "Widget C"),
+  in_stock = c(150, 0, 75),
+  on_order = c(0, 200, 0)
+) |>
+  gt() |>
+  fmt_integer() |>
+  sub_zero(columns = in_stock, zero_text = "Out of stock") |>
+  sub_zero(columns = on_order, zero_text = "---")
+```
+
+The `in_stock` column shows a descriptive message for zeros, while `on_order` uses a simple dash. This helps readers quickly understand the significance of each zero.
+
+### `sub_small_vals()`
+  
+Very small values can be difficult to display meaningfully, especially when they approach the limits of measurement precision. The `sub_small_vals()` function replaces values below a threshold with "less than" statements.
+
+Here is the function's signature:
+
+```r
+sub_small_vals(
+  data,
+  columns = everything(),
+  rows = everything(),
+  threshold = 0.01,
+  small_pattern = "<{x}",
+  sign = ""
+)
+```
+
+```{r}
+dplyr::tibble(
+  measurement = c("Sample A", "Sample B", "Sample C", "Sample D"),
+  concentration = c(0.5, 0.008, 0.0002, 0.15)
+) |>
+  gt() |>
+  fmt_number(columns = concentration, decimals = 3) |>
+  sub_small_vals(columns = concentration, threshold = 0.01)
+```
+
+Values below `0.01` are replaced with "<0.01", acknowledging their presence without implying false precision. This is standard practice in scientific and analytical reporting.
+
+The `small_pattern` argument customizes the replacement format:
+
+```{r}
+dplyr::tibble(
+  analyte = c("Lead", "Mercury", "Cadmium", "Arsenic"),
+  level_ppb = c(2.5, 0.003, 0.0001, 1.2)
+) |>
+  gt() |>
+  fmt_number(columns = level_ppb, decimals = 2) |>
+  sub_small_vals(
+    columns = level_ppb, 
+    threshold = 0.01,
+    small_pattern = "< LOD"
+  )
+```
+
+Here, values below the threshold are replaced with "< LOD" (Limit of Detection), a common notation in analytical chemistry.
+
+### `sub_large_vals()`
+
+Similarly, extremely large values might need special handling, especially when they exceed a meaningful display range. The `sub_large_vals()` function caps values above a threshold.
+
+Here is the function's signature:
+
+```r
+sub_large_vals(
+  data,
+  columns = everything(),
+  rows = everything(),
+  threshold = 1E12,
+  large_pattern = ">={x}",
+  sign = ""
+)
+```
+
+```{r}
+dplyr::tibble(
+  metric = c("Normal", "High", "Very High", "Extreme"),
+  value = c(500, 50000, 500000, 5000000)
+) |>
+  gt() |>
+  fmt_number(columns = value) |>
+  sub_large_vals(columns = value, threshold = 100000)
+```
+
+Values exceeding 100,000 are replaced with `"≥100,000"`, indicating they're beyond the displayed scale. This is useful for tables where exact values above a certain point aren't meaningful.
+
+The pattern can be customized:
+
+```{r}
+dplyr::tibble(
+  test = c("Control", "Test A", "Test B", "Test C"),
+  response = c(85, 120, 9999, 145)
+) |>
+  gt() |>
+  fmt_integer(columns = response) |>
+  sub_large_vals(
+    columns = response,
+    threshold = 1000,
+    large_pattern = "> max"
+  )
+```
+
+Values above the threshold show "> max", indicating they exceeded the measurement range.
+
+### `sub_values()`
+
+For more general substitution needs, `sub_values()` can replace any values matching specified conditions. This is the most flexible substitution function, accepting either specific values to match or a custom function.
+
+Here is the function's signature:
+
+```r
+sub_values(
+  data,
+  columns = everything(),
+  rows = everything(),
+  values = NULL,
+  fn = NULL,
+  replacement = NULL
+)
+```
+
+#### Replacing specific values
+
+```{r}
+dplyr::tibble(
+  status = c("active", "inactive", "pending", "active", "archived"),
+  count = c(10, 5, 3, 8, 2)
+) |>
+  gt() |>
+  sub_values(
+    columns = status,
+    values = "inactive",
+    replacement = "⏸ inactive"
+  ) |>
+  sub_values(
+    columns = status,
+    values = "archived",
+    replacement = "📁 archived"
+  )
+```
+
+Specific values are decorated with emoji indicators, making status categories visually distinct.
+
+#### Using a function for conditional replacement
+
+```{r}
+dplyr::tibble(
+  product = c("Alpha", "Beta", "Gamma", "Delta"),
+  score = c(92, 45, 78, 38)
+) |>
+  gt() |>
+  sub_values(
+    columns = score,
+    fn = function(x) x < 50,
+    replacement = "⚠️ Below threshold"
+  )
+```
+
+The function-based approach lets you define complex conditions. Here, any score below 50 is flagged with a warning.
+
+#### Multiple value replacement
+
+```{r}
+dplyr::tibble(
+  day = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
+  hours = c(8, 8, 8, 8, 8, 0, 0)
+) |>
+  gt() |>
+  sub_values(
+    columns = day,
+    values = c("Sat", "Sun"),
+    replacement = "Weekend"
+  )
+```
+
+Multiple values can be replaced with a single substitute, useful for grouping or categorization.
+
+## Text transformation functions
+
+Text transformation functions operate on the final string representation of cell values, after formatting and substitution have been applied. They provide powerful tools for pattern-based modifications and conditional text changes.
+
+### `text_replace()`
+
+For targeted string replacements using regular expressions, `text_replace()` finds and replaces patterns within cell text.
+
+Here is the function's signature:
+
+```r
+text_replace(
+  data,
+  locations,
+  pattern,
+  replacement
+)
+```
+
+```{r}
+dplyr::tibble(
+  description = c(
+    "Model ABC-123",
+    "Model DEF-456", 
+    "Model GHI-789"
+  )
+) |>
+  gt() |>
+  text_replace(
+    locations = cells_body(columns = description),
+    pattern = "Model ",
+    replacement = "Type: "
+  )
+```
+
+All occurrences of "Model " are replaced with "Type: ", transforming the presentation without modifying the source data.
+
+#### Using regular expressions
+
+The `pattern` argument supports full regular expression syntax:
+
+```{r}
+dplyr::tibble(
+  code = c("SKU-001-A", "SKU-002-B", "SKU-003-C"),
+  name = c("Widget", "Gadget", "Sprocket")
+) |>
+  gt() |>
+  text_replace(
+    locations = cells_body(columns = code),
+    pattern = "-([A-Z])$",
+    replacement = " (Variant \\1)"
+  )
+```
+
+The regex pattern `-([A-Z])$` matches a hyphen followed by a capital letter at the end of the string. The replacement uses `\\1` to reference the captured group, transforming "SKU-001-A" into "SKU-001 (Variant A)".
+
+#### Applying to multiple locations
+
+```{r}
+exibble |>
+  dplyr::select(row, char) |>
+  dplyr::slice(1:4) |>
+  gt(rowname_col = "row") |>
+  text_replace(
+    locations = cells_stub(),
+    pattern = "row_",
+    replacement = "R"
+  )
+```
+
+The transformation applies to the stub column, shortening row labels from "row_1" to "R1".
+
+### `text_case_when()`
+
+For conditional text replacements based on complex logic, `text_case_when()` evaluates expressions and applies different replacements based on the results.
+
+Here is the function's signature:
+
+```r
+text_case_when(
+  data,
+  .default = NULL,
+  .locations = cells_body(),
+  ...
+)
+```
+
+The function uses a formula syntax where the left side is a condition and the right side is the replacement. The variable `x` represents the current cell value.
+
+```{r}
+dplyr::tibble(
+  student = c("Alice", "Bob", "Carol", "David", "Eve"),
+  grade = c("A", "B", "A+", "C", "F")
+) |>
+  gt() |>
+  text_case_when(
+    x == "A+" ~ "★★ A+",
+    x == "A" ~ "★ A",
+    x == "F" ~ "✗ F",
+    .default = x,
+    .locations = cells_body(columns = grade)
+  )
+```
+
+Different grades receive different decorations based on conditional logic. The `.default = x` ensures unmatched values pass through unchanged.
+
+#### Numeric comparisons in text
+
+Even though text transformations operate on strings, you can perform numeric comparisons:
+
+```{r}
+dplyr::tibble(
+  metric = c("Revenue", "Costs", "Profit", "Tax"),
+  value = c(100000, 75000, 25000, 5000)
+) |>
+  gt() |>
+  fmt_currency(columns = value, currency = "USD") |>
+  text_case_when(
+    as.numeric(gsub("[^0-9.]", "", x)) >= 50000 ~ paste0("📈 ", x),
+    as.numeric(gsub("[^0-9.]", "", x)) < 10000 ~ paste0("📉 ", x),
+    .default = x,
+    .locations = cells_body(columns = value)
+  )
+```
+
+This adds emoji indicators based on the underlying numeric values, even after currency formatting has been applied.
+
+#### Multiple conditions
+
+```{r}
+dplyr::tibble(
+  task = c("Design", "Development", "Testing", "Deployment"),
+  status = c("done", "in_progress", "not_started", "blocked")
+) |>
+  gt() |>
+  text_case_when(
+    x == "done" ~ "✅ Complete",
+    x == "in_progress" ~ "🔄 In Progress",
+    x == "not_started" ~ "⏳ Pending",
+    x == "blocked" ~ "🚫 Blocked",
+    .default = x,
+    .locations = cells_body(columns = status)
+  )
+```
+
+Each status value is transformed into a more descriptive, emoji-decorated representation.
+
+### `text_case_match()`
+
+For simpler one-to-one replacements without complex conditions, `text_case_match()` provides a cleaner syntax similar to `dplyr::case_match()`.
+
+Here is the function's signature:
+
+```r
+text_case_match(
+  data,
+  .default = NULL,
+  .replace = NULL,
+  .locations = cells_body(),
+  ...
+)
+```
+
+```{r}
+dplyr::tibble(
+  feature = c("API", "Dashboard", "Reports", "Settings"),
+  available = c("Y", "N", "Y", "P")
+) |>
+  gt() |>
+  text_case_match(
+    "Y" ~ "✓ Yes",
+    "N" ~ "✗ No",
+    "P" ~ "◐ Partial",
+    .default = x,
+    .locations = cells_body(columns = available)
+  )
+```
+
+Single-character codes are expanded to readable values with visual indicators. This is more concise than `text_case_when()` when you're doing simple value matching.
+
+#### Partial replacements with `.replace`
+
+The `.replace` argument enables partial text replacement within cells:
+
+```{r}
+dplyr::tibble(
+  item = c("file_report.pdf", "file_data.csv", "file_image.png"),
+  size = c("2.5 MB", "150 KB", "4.1 MB")
+) |>
+  gt() |>
+  text_case_match(
+    "file_" ~ "📄 ",
+    .replace = "partial",
+    .locations = cells_body(columns = item)
+  )
+```
+
+Instead of replacing the entire cell value, only the matched portion ("file_") is replaced with the emoji, preserving the rest of the filename.
+
+#### Multiple matches in sequence
+
+```{r}
+dplyr::tibble(
+  code = c("US-CA", "UK-LN", "DE-BE", "FR-PA"),
+  sales = c(15000, 12000, 9500, 11000)
+) |>
+  gt() |>
+  text_case_match(
+    "US" ~ "🇺🇸",
+    "UK" ~ "🇬🇧", 
+    "DE" ~ "🇩🇪",
+    "FR" ~ "🇫🇷",
+    .replace = "partial",
+    .locations = cells_body(columns = code)
+  ) |>
+  fmt_currency(columns = sales, currency = "USD")
+```
+
+Country codes are replaced with flag emojis while preserving the city codes that follow.
+
+### `text_transform()`
+
+For maximum flexibility, `text_transform()` applies arbitrary functions to cell text. This is the most powerful (and most flexible) of the text transformation tools.
+
+Here is the function's signature:
+
+```r
+text_transform(
+  data,
+  locations,
+  fn
+)
+```
+
+#### Basic transformations
+
+```{r}
+dplyr::tibble(
+  name = c("john smith", "mary jones", "bob wilson")
+) |>
+  gt() |>
+  text_transform(
+    locations = cells_body(columns = name),
+    fn = function(x) tools::toTitleCase(x)
+  )
+```
+
+The names are transformed to title case, correcting the formatting of the source data for display purposes.
+
+#### Complex transformations
+
+```{r}
+dplyr::tibble(
+  product = c("widget-standard", "gadget-premium", "sprocket-basic"),
+  price = c(29.99, 49.99, 19.99)
+) |>
+  gt() |>
+  text_transform(
+    locations = cells_body(columns = product),
+    fn = function(x) {
+      parts <- strsplit(x, "-")
+      sapply(parts, function(p) {
+        paste0(
+          tools::toTitleCase(p[1]), 
+          " (", 
+          toupper(p[2]), 
+          ")"
+        )
+      })
+    }
+  ) |>
+  fmt_currency(columns = price, currency = "USD")
+```
+
+This complex transformation splits the product string, applies different formatting to each part, and reassembles them into a more readable format.
+
+#### Conditional formatting with external data
+
+```{r}
+sales_data <- dplyr::tibble(
+  region = c("North", "South", "East", "West"),
+  sales = c(150000, 85000, 120000, 95000),
+  target = c(100000, 100000, 100000, 100000)
+)
+
+sales_data |>
+  gt() |>
+  fmt_currency(columns = c(sales, target), currency = "USD") |>
+  text_transform(
+    locations = cells_body(columns = region),
+    fn = function(x) {
+      # Access the original data to make decisions
+      ifelse(
+        sales_data$sales > sales_data$target,
+        paste0("✅ ", x),
+        paste0("⚠️ ", x)
+      )
+    }
+  )
+```
+
+The transformation function can reference external data to make decisions, adding indicators based on whether each region met its target.
+
+#### Transforming multiple columns together
+
+```{r}
+dplyr::tibble(
+  first = c("John", "Mary", "Bob"),
+  last = c("Smith", "Jones", "Wilson"),
+  email = c("jsmith", "mjones", "bwilson")
+) |>
+  gt() |>
+  text_transform(
+    locations = cells_body(columns = email),
+    fn = function(x) paste0(x, "@company.com")
+  )
+```
+
+Email usernames are transformed into complete email addresses.
+
+## Combining stages effectively
+
+The power of gt's rendering pipeline comes from combining formatting, substitution, and transformation stages. Here's a comprehensive example:
+
+```{r}
+dplyr::tibble(
+  product = c("alpha_widget", "beta_gadget", "gamma_sprocket", "delta_tool"),
+  status = c("active", "discontinued", "active", "pending"),
+  stock = c(150, 0, NA, 25),
+  price = c(29.99, 19.99, 0.001, 49.99)
+) |>
+  gt() |>
+  # Stage 1: Formatting
+  fmt_integer(columns = stock) |>
+  fmt_currency(columns = price, currency = "USD") |>
+  # Stage 2: Substitution
+  sub_missing(columns = stock, missing_text = "N/A") |>
+  sub_zero(columns = stock, zero_text = "Out of stock") |>
+  sub_small_vals(columns = price, threshold = 1, small_pattern = "Call for price") |>
+  # Stage 3: Text transformation
+  text_transform(
+    locations = cells_body(columns = product),
+    fn = function(x) {
+      x <- gsub("_", " ", x)
+      tools::toTitleCase(x)
+    }
+  ) |>
+  text_case_match(
+    "active" ~ "🟢 Active",
+    "discontinued" ~ "🔴 Discontinued",
+    "pending" ~ "🟡 Pending",
+    .locations = cells_body(columns = status)
+  )
+```
+
+This example demonstrates all three stages working together:
+
+1. **Formatting**: Numbers are formatted as integers and currency
+2. **Substitution**: Missing values, zeros, and small values receive special treatment
+3. **Transformation**: Product names are cleaned up and status values are decorated
+
+Each stage builds on the previous one, creating a polished final presentation from raw data.
