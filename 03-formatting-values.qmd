@@ -55,281 +55,6 @@ exibble |>
 
 In this example, the `fmt_number()` and `fmt_date()` functions understand that the locale for this table is `"fr"` (French), so the appropriate formatting for that locale is apparent in the `num`, `currency`, and `date` columns. However in the `fmt_datetime()` call, we explicitly use the `"en"` (English) locale. This overrides the `"fr"` default set for this table and the end result is dates formatted with the English locale in the datetime column.
 
-## Accounting notation
-
-Several numeric formatting functions in **gt** share an `accounting` argument: `fmt_number()`, `fmt_integer()`, `fmt_percent()`, and `fmt_currency()`. When `accounting = TRUE`, negative values are displayed in parentheses rather than with a minus sign (a convention widely used in financial reporting and accounting documents).
-
-```{r}
-dplyr::tibble(
-  item = c("Revenue", "Cost of Goods", "Operating Expenses", "Net Income"),
-  amount = c(150000, -85000, -42000, 23000)
-) |>
-  gt() |>
-  fmt_currency(
-    columns = amount,
-    currency = "USD",
-    accounting = TRUE
-  )
-```
-
-The negative values for "Cost of Goods" and "Operating Expenses" now appear wrapped in parentheses, `($85,000.00)` and `($42,000.00)`, rather than with leading minus signs. This formatting convention has deep roots in financial practice: parentheses are more visually distinct than a small minus sign, making it easier to scan a column and quickly identify debits or losses. Many accountants and financial analysts expect this notation, and using it in your tables signals professionalism and adherence to established conventions.
-
-The accounting style works consistently across the numeric formatting functions:
-
-```{r}
-dplyr::tibble(
-  metric = c("Growth Rate", "Margin", "Change"),
-  value = c(0.125, -0.034, -0.089)
-) |>
-  gt() |>
-  fmt_percent(
-    columns = value,
-    decimals = 1,
-    accounting = TRUE
-  )
-```
-
-Here, the negative percentages are displayed as `(3.4%)` and `(8.9%)` rather than `-3.4%` and `-8.9%`. This consistency across functions means you can apply accounting notation throughout a financial report, regardless of whether you're displaying raw numbers, currencies, or percentages.
-
-## Significant figures
-
-When presenting scientific or measured data, the number of decimal places isn't always the right way to express precision. Consider these three measurements: 0.00234, 1.52, and 1520. If we format all of them to two decimal places, we get 0.00, 1.52, and 1520.00. The first value loses all meaningful information, while the last gains spurious precision. What we often want instead is to express each value with a consistent number of *significant figures* (also called significant digits).
-
-Significant figures are the digits in a number that carry meaningful information about its precision. They include all non-zero digits, zeros between non-zero digits, and trailing zeros after a decimal point. Leading zeros (those before the first non-zero digit) are not significant, they just indicate the position of the decimal point.
-
-Several **gt** formatting functions support the `n_sigfig` argument: `fmt_number()`, `fmt_scientific()`, `fmt_engineering()`, and `fmt_bytes()`. When you specify `n_sigfig`, the function formats values to display exactly that many significant figures, which is often more appropriate than a fixed number of decimal places for data with varying magnitudes.
-
-```{r}
-dplyr::tibble(
-  measurement = c("Trace element", "Minor component", "Major component"),
-  concentration = c(0.00234, 1.52, 1520)
-) |>
-  gt() |>
-  fmt_number(
-    columns = concentration,
-    n_sigfig = 3
-  )
-```
-
-All three values now display with three significant figures: 0.00234, 1.52, and 1,520. The formatting adapts to each value's magnitude while maintaining consistent precision. This is precisely what scientists and engineers expect when reporting measured quantities: the number of significant figures communicates the precision of the measurement itself.
-
-Let's contrast this with fixed decimal formatting:
- 
-```{r}
-dplyr::tibble(
-  measurement = c("Trace element", "Minor component", "Major component"),
-  concentration = c(0.00234, 1.52, 1520)
-) |>
-  gt() |>
-  fmt_number(
-    columns = concentration,
-    decimals = 2
-  )
-```
-
-With `decimals = 2`, the trace element concentration rounds to 0.00 (losing all information), the minor component displays correctly as 1.52, and the major component shows as 1,520.00 (implying false precision to the hundredths place). The significant figures approach avoids both problems.
-
-The `n_sigfig` argument is particularly valuable when:
-
-- Reporting scientific measurements where precision varies with magnitude
-- Presenting data from instruments with known precision limits  
-- Creating tables for technical or academic publications that follow significant figures conventions
-- Displaying values that span several orders of magnitude in the same column
-
-When combined with scientific notation, significant figures provide clean, professional formatting for technical data:
-
-```{r}
-dplyr::tibble(
-  quantity = c("Avogadro's number", "Planck's constant", "Speed of light"),
-  value = c(6.02214076e23, 6.62607015e-34, 299792458)
-) |>
-  gt() |>
-  fmt_scientific(
-    columns = value,
-    n_sigfig = 4
-  )
-```
-
-Each physical constant is displayed with four significant figures in scientific notation, a format familiar to anyone who has read a physics textbook or scientific paper. The consistent precision across wildly different magnitudes (from 10^-34 to 10^23) demonstrates why significant figures are the preferred approach for scientific data.
-
-## Decorating values with `pattern`
-
-Nearly every formatting function in **gt** includes a `pattern` argument that allows you to wrap the formatted value in additional text. The default is `pattern = "{x}"`, where `{x}` is a placeholder that gets replaced by the formatted value. By modifying this pattern, you can add prefixes, suffixes, or surrounding text to your values without additional column manipulation.
-
-```{r}
-dplyr::tibble(
-  item = c("Server A", "Server B", "Server C"),
-  uptime = c(99.95, 99.12, 100.00)
-) |>
-  gt() |>
-  fmt_number(
-    columns = uptime,
-    decimals = 2,
-    pattern = "{x}%"
-  )
-```
-
-The pattern `"{x}%"` appends a percent sign to each formatted number. While you could achieve the same result with `fmt_percent(scale_values = FALSE)`, the pattern approach is more general (you can add any text you like).
-
-Patterns are particularly useful for adding units, context, or decoration:
-
-```{r}
-dplyr::tibble(
-  dimension = c("Width", "Height", "Depth"),
-  measurement = c(120.5, 85.0, 45.25)
-) |>
-  gt() |>
-  fmt_number(
-    columns = measurement,
-    decimals = 1,
-    pattern = "{x} cm"
-  )
-```
-
-Here, each measurement is followed by " cm" to indicate the unit. The space before "cm" is included in the pattern, giving you precise control over spacing.
-
-You can also place text before the value, or surround it entirely:
-
-```{r}
-dplyr::tibble(
-  product = c("Widget", "Gadget", "Sprocket"),
-  change = c(12.5, -3.2, 0.8)
-) |>
-  gt() |>
-  fmt_number(
-    columns = change,
-    decimals = 1,
-    force_sign = TRUE,
-    pattern = "({x}%)"
-  )
-```
-
-The pattern `"({x}%)"` wraps each value in parentheses and adds a percent sign, creating output like "(+12.5%)" and "(−3.2%)". Combined with `force_sign = TRUE`, this provides a compact way to display percentage changes.
-
-The pattern argument works consistently across formatting functions. The `fmt_currency()`, `fmt_date()`, `fmt_scientific()` functions (and a few others) support it. This means you can add contextual text to any type of formatted value:
-
-```{r}
-dplyr::tibble(
-  event = c("Project Start", "Milestone", "Deadline"),
-  date = c("2024-01-15", "2024-06-30", "2024-12-31")
-) |>
-  gt() |>
-  fmt_date(
-    columns = date,
-    date_style = "yMMMd",
-    pattern = "Due: {x}"
-  )
-```
-
-Each date is now prefixed with "Due: ", providing context directly within the cell. This approach keeps related information together without requiring additional columns or complex HTML formatting.
-
-## Indian numbering system
-
-Several **gt** formatting functions include a `system` argument that accepts either `"intl"` (international, the default) or `"ind"` (Indian). This controls how digit separators are placed in large numbers, a distinction that matters greatly when presenting data to audiences in South Asia.
-
-In the international system, digits are grouped in threes: thousands, millions, billions, and so on. The number one billion is written as 1,000,000,000. In the Indian numbering system (also called the Vedic or South Asian system), the first group is three digits (thousands), but subsequent groups are two digits. This reflects the naming convention of lakhs (1,00,000 = 100 thousand) and crores (1,00,00,000 = 10 million).
-
-| Value | International | Indian |
-|------:|-------------:|-------:|
-| 1,000 | 1,000 | 1,000 |
-| 100,000 | 100,000 | 1,00,000 (1 lakh) |
-| 10,000,000 | 10,000,000 | 1,00,00,000 (1 crore) |
-| 1,000,000,000 | 1,000,000,000 | 1,00,00,00,000 (100 crore) |
-
-Let's see both systems applied to population data:
-
-```{r}
-dplyr::tibble(
-  city = c("Mumbai", "Delhi", "Bangalore", "Chennai"),
-  population = c(20411000, 16787941, 8443675, 7088000)
-) |>
-  gt() |>
-  cols_add(indian = population) |>
-  fmt_integer(columns = population, system = "intl") |>
-  fmt_integer(columns = indian, system = "ind") |>
-  cols_label(
-    population = "International",
-    indian = "Indian"
-  )
-```
-
-Mumbai's population of 20,411,000 in international notation becomes 2,04,11,000 in Indian notation (approximately 2 crore 4 lakh). For readers accustomed to the Indian system, this grouping is far more intuitive than the international format.
-
-The `system` argument is available in `fmt_number()`, `fmt_integer()`, `fmt_percent()`, and `fmt_currency()`. When presenting financial data for Indian audiences, combining `system = "ind"` with Indian Rupee currency formatting creates familiar, readable output:
-
-```{r}
-dplyr::tibble(
-  item = c("Revenue", "Expenses", "Profit"),
-  amount = c(125750000, 98340000, 27410000)
-) |>
-  gt() |>
-  fmt_currency(
-    columns = amount,
-    currency = "INR",
-    system = "ind"
-  )
-```
-
-The amounts are now displayed with Indian-style grouping and the Rupee symbol, making them immediately readable to anyone familiar with Indian financial notation. Revenue of ₹12,57,50,000 is easily parsed as "12 crore 57 lakh 50 thousand rupees."
-
-## Locale-aware formatting
-
-Many **gt** formatting functions include a `locale` argument that enables internationalization (i18n) of formatted output. When you specify a locale, **gt** automatically applies the appropriate conventions for that language and region: decimal separators, thousands separators, date formats, month and day names, and more.
-
-Locales are specified using standard locale identifiers, typically a two-letter language code optionally followed by a region code: `"en"` for English, `"de"` for German, `"fr-CA"` for Canadian French, `"pt-BR"` for Brazilian Portuguese, and so on.
-
-```{r}
-dplyr::tibble(
-  locale_code = c("en", "de", "fr", "es", "it"),
-  language = c("English", "German", "French", "Spanish", "Italian"),
-  value = rep(1234567.89, 5)
-) |>
-  gt() |>
-  fmt_number(columns = value, rows = 1, decimals = 2, locale = "en") |>
-  fmt_number(columns = value, rows = 2, decimals = 2, locale = "de") |>
-  fmt_number(columns = value, rows = 3, decimals = 2, locale = "fr") |>
-  fmt_number(columns = value, rows = 4, decimals = 2, locale = "es") |>
-  fmt_number(columns = value, rows = 5, decimals = 2, locale = "it") |>
-  cols_label(value = "Formatted Number")
-```
-
-The same numeric value appears differently in each locale. English uses a comma as the thousands separator and a period for decimals (1,234,567.89). German and Italian use a period for thousands and a comma for decimals (1.234.567,89). French uses a narrow non-breaking space for thousands and a comma for decimals (1 234 567,89). These are not arbitrary choices but rather they reflect the actual conventions used in those countries. Using the correct format signals respect for your international audience.
-
-The locale argument is especially powerful with date and time formatting:
-
-```{r}
-dplyr::tibble(
-  locale_code = c("en", "de", "fr", "ja", "zh"),
-  language = c("English", "German", "French", "Japanese", "Chinese"),
-  date = rep("2024-07-15", 5)
-) |>
-  gt() |>
-  fmt_date(columns = date, rows = 1, date_style = "yMMMEd", locale = "en") |>
-  fmt_date(columns = date, rows = 2, date_style = "yMMMEd", locale = "de") |>
-  fmt_date(columns = date, rows = 3, date_style = "yMMMEd", locale = "fr") |>
-  fmt_date(columns = date, rows = 4, date_style = "yMMMEd", locale = "ja") |>
-  fmt_date(columns = date, rows = 5, date_style = "yMMMEd", locale = "zh") |>
-  cols_label(date = "Formatted Date")
-```
-
-The same date is rendered with locale-appropriate month names, word order, and formatting conventions. July 15, 2024 becomes "15. Juli 2024" in German, "15 juillet 2024" in French, and so on. The Japanese and Chinese locales use their respective scripts for month names.
-
-Rather than specifying `locale` in every formatting function call, you can set a default locale for the entire table in the `gt()` function:
-
-```{r}
-exibble |>
-  dplyr::select(num, currency, date) |>
-  dplyr::slice(1:4) |>
-  gt(locale = "de") |>
-  fmt_number(columns = num, decimals = 2) |>
-  fmt_currency(columns = currency, currency = "EUR") |>
-  fmt_date(columns = date, date_style = "yMMMd")
-```
-
-With `locale = "de"` set at the table level, all formatting functions inherit German conventions: numbers use period separators and comma decimals, the Euro symbol is placed according to German convention, and dates display German month abbreviations. Any formatting function can still override this default by specifying its own `locale` argument.
-
-The functions that support the `locale` argument include: `fmt_number()`, `fmt_integer()`, `fmt_percent()`, `fmt_currency()`, `fmt_date()`, `fmt_time()`, `fmt_datetime()`, `fmt_duration()`, `fmt_spelled_num()`, and others. This comprehensive locale support makes **gt** well-suited for creating tables intended for international audiences or multilingual publications.
-
 ## Basic number formatting
 
 Numbers are perhaps the most common type of data we encounter in tables. Raw numeric values, while precise, can be difficult for readers to quickly interpret. A value like `1234567.8912` is harder to read than `1,234,567.89`. The **gt** package provides several functions for formatting numeric values, each tailored to specific presentation needs: `fmt_number()` for general-purpose formatting with fine control over decimals and separators, `fmt_integer()` for whole numbers, and `fmt_percent()` for percentage values.
@@ -1514,7 +1239,7 @@ For reports that combine data from different regional sources, you can use `from
 dplyr::tibble(
   region = c("United States", "United Kingdom", "Japan", "Germany"),
   report_date = as.Date(c("2025-03-15", "2025-03-15", "2025-03-15", "2025-03-15")),
-  date_format = c("month_day_year", "day_month_year", "y.M.d", "day_month_year")
+  date_format = c("month_day_year", "day_month_year", "yMd", "day_month_year")
 ) |>
   gt() |>
   fmt_date(
@@ -1766,6 +1491,281 @@ dplyr::tibble(
 
 The raw second counts are transformed into readable durations like "1h 1m 1s", making the time requirements immediately clear.
 
+## Accounting notation
+
+Several numeric formatting functions in **gt** share an `accounting` argument: `fmt_number()`, `fmt_integer()`, `fmt_percent()`, and `fmt_currency()`. When `accounting = TRUE`, negative values are displayed in parentheses rather than with a minus sign (a convention widely used in financial reporting and accounting documents).
+
+```{r}
+dplyr::tibble(
+  item = c("Revenue", "Cost of Goods", "Operating Expenses", "Net Income"),
+  amount = c(150000, -85000, -42000, 23000)
+) |>
+  gt() |>
+  fmt_currency(
+    columns = amount,
+    currency = "USD",
+    accounting = TRUE
+  )
+```
+
+The negative values for "Cost of Goods" and "Operating Expenses" now appear wrapped in parentheses, `($85,000.00)` and `($42,000.00)`, rather than with leading minus signs. This formatting convention has deep roots in financial practice: parentheses are more visually distinct than a small minus sign, making it easier to scan a column and quickly identify debits or losses. Many accountants and financial analysts expect this notation, and using it in your tables signals professionalism and adherence to established conventions.
+
+The accounting style works consistently across the numeric formatting functions:
+
+```{r}
+dplyr::tibble(
+  metric = c("Growth Rate", "Margin", "Change"),
+  value = c(0.125, -0.034, -0.089)
+) |>
+  gt() |>
+  fmt_percent(
+    columns = value,
+    decimals = 1,
+    accounting = TRUE
+  )
+```
+
+Here, the negative percentages are displayed as `(3.4%)` and `(8.9%)` rather than `-3.4%` and `-8.9%`. This consistency across functions means you can apply accounting notation throughout a financial report, regardless of whether you're displaying raw numbers, currencies, or percentages.
+
+## Significant figures
+
+When presenting scientific or measured data, the number of decimal places isn't always the right way to express precision. Consider these three measurements: 0.00234, 1.52, and 1520. If we format all of them to two decimal places, we get 0.00, 1.52, and 1520.00. The first value loses all meaningful information, while the last gains spurious precision. What we often want instead is to express each value with a consistent number of *significant figures* (also called significant digits).
+
+Significant figures are the digits in a number that carry meaningful information about its precision. They include all non-zero digits, zeros between non-zero digits, and trailing zeros after a decimal point. Leading zeros (those before the first non-zero digit) are not significant, they just indicate the position of the decimal point.
+
+Several **gt** formatting functions support the `n_sigfig` argument: `fmt_number()`, `fmt_scientific()`, `fmt_engineering()`, and `fmt_bytes()`. When you specify `n_sigfig`, the function formats values to display exactly that many significant figures, which is often more appropriate than a fixed number of decimal places for data with varying magnitudes.
+
+```{r}
+dplyr::tibble(
+  measurement = c("Trace element", "Minor component", "Major component"),
+  concentration = c(0.00234, 1.52, 1520)
+) |>
+  gt() |>
+  fmt_number(
+    columns = concentration,
+    n_sigfig = 3
+  )
+```
+
+All three values now display with three significant figures: 0.00234, 1.52, and 1,520. The formatting adapts to each value's magnitude while maintaining consistent precision. This is precisely what scientists and engineers expect when reporting measured quantities: the number of significant figures communicates the precision of the measurement itself.
+
+Let's contrast this with fixed decimal formatting:
+ 
+```{r}
+dplyr::tibble(
+  measurement = c("Trace element", "Minor component", "Major component"),
+  concentration = c(0.00234, 1.52, 1520)
+) |>
+  gt() |>
+  fmt_number(
+    columns = concentration,
+    decimals = 2
+  )
+```
+
+With `decimals = 2`, the trace element concentration rounds to 0.00 (losing all information), the minor component displays correctly as 1.52, and the major component shows as 1,520.00 (implying false precision to the hundredths place). The significant figures approach avoids both problems.
+
+The `n_sigfig` argument is particularly valuable when:
+
+- Reporting scientific measurements where precision varies with magnitude
+- Presenting data from instruments with known precision limits  
+- Creating tables for technical or academic publications that follow significant figures conventions
+- Displaying values that span several orders of magnitude in the same column
+
+When combined with scientific notation, significant figures provide clean, professional formatting for technical data:
+
+```{r}
+dplyr::tibble(
+  quantity = c("Avogadro's number", "Planck's constant", "Speed of light"),
+  value = c(6.02214076e23, 6.62607015e-34, 299792458)
+) |>
+  gt() |>
+  fmt_scientific(
+    columns = value,
+    n_sigfig = 4
+  )
+```
+
+Each physical constant is displayed with four significant figures in scientific notation, a format familiar to anyone who has read a physics textbook or scientific paper. The consistent precision across wildly different magnitudes (from 10^-34 to 10^23) demonstrates why significant figures are the preferred approach for scientific data.
+
+## Decorating values with `pattern`
+
+Nearly every formatting function in **gt** includes a `pattern` argument that allows you to wrap the formatted value in additional text. The default is `pattern = "{x}"`, where `{x}` is a placeholder that gets replaced by the formatted value. By modifying this pattern, you can add prefixes, suffixes, or surrounding text to your values without additional column manipulation.
+
+```{r}
+dplyr::tibble(
+  item = c("Server A", "Server B", "Server C"),
+  uptime = c(99.95, 99.12, 100.00)
+) |>
+  gt() |>
+  fmt_number(
+    columns = uptime,
+    decimals = 2,
+    pattern = "{x}%"
+  )
+```
+
+The pattern `"{x}%"` appends a percent sign to each formatted number. While you could achieve the same result with `fmt_percent(scale_values = FALSE)`, the pattern approach is more general (you can add any text you like).
+
+Patterns are particularly useful for adding units, context, or decoration:
+
+```{r}
+dplyr::tibble(
+  dimension = c("Width", "Height", "Depth"),
+  measurement = c(120.5, 85.0, 45.25)
+) |>
+  gt() |>
+  fmt_number(
+    columns = measurement,
+    decimals = 1,
+    pattern = "{x} cm"
+  )
+```
+
+Here, each measurement is followed by " cm" to indicate the unit. The space before "cm" is included in the pattern, giving you precise control over spacing.
+
+You can also place text before the value, or surround it entirely:
+
+```{r}
+dplyr::tibble(
+  product = c("Widget", "Gadget", "Sprocket"),
+  change = c(12.5, -3.2, 0.8)
+) |>
+  gt() |>
+  fmt_number(
+    columns = change,
+    decimals = 1,
+    force_sign = TRUE,
+    pattern = "({x}%)"
+  )
+```
+
+The pattern `"({x}%)"` wraps each value in parentheses and adds a percent sign, creating output like "(+12.5%)" and "(−3.2%)". Combined with `force_sign = TRUE`, this provides a compact way to display percentage changes.
+
+The pattern argument works consistently across formatting functions. The `fmt_currency()`, `fmt_date()`, `fmt_scientific()` functions (and a few others) support it. This means you can add contextual text to any type of formatted value:
+
+```{r}
+dplyr::tibble(
+  event = c("Project Start", "Milestone", "Deadline"),
+  date = c("2024-01-15", "2024-06-30", "2024-12-31")
+) |>
+  gt() |>
+  fmt_date(
+    columns = date,
+    date_style = "yMMMd",
+    pattern = "Due: {x}"
+  )
+```
+
+Each date is now prefixed with "Due: ", providing context directly within the cell. This approach keeps related information together without requiring additional columns or complex HTML formatting.
+
+## Indian numbering system
+
+Several **gt** formatting functions include a `system` argument that accepts either `"intl"` (international, the default) or `"ind"` (Indian). This controls how digit separators are placed in large numbers, a distinction that matters greatly when presenting data to audiences in South Asia.
+
+In the international system, digits are grouped in threes: thousands, millions, billions, and so on. The number one billion is written as 1,000,000,000. In the Indian numbering system (also called the Vedic or South Asian system), the first group is three digits (thousands), but subsequent groups are two digits. This reflects the naming convention of lakhs (1,00,000 = 100 thousand) and crores (1,00,00,000 = 10 million).
+
+| Value | International | Indian |
+|------:|-------------:|-------:|
+| 1,000 | 1,000 | 1,000 |
+| 100,000 | 100,000 | 1,00,000 (1 lakh) |
+| 10,000,000 | 10,000,000 | 1,00,00,000 (1 crore) |
+| 1,000,000,000 | 1,000,000,000 | 1,00,00,00,000 (100 crore) |
+
+Let's see both systems applied to population data:
+
+```{r}
+dplyr::tibble(
+  city = c("Mumbai", "Delhi", "Bangalore", "Chennai"),
+  population = c(20411000, 16787941, 8443675, 7088000)
+) |>
+  gt() |>
+  cols_add(indian = population) |>
+  fmt_integer(columns = population, system = "intl") |>
+  fmt_integer(columns = indian, system = "ind") |>
+  cols_label(
+    population = "International",
+    indian = "Indian"
+  )
+```
+
+Mumbai's population of 20,411,000 in international notation becomes 2,04,11,000 in Indian notation (approximately 2 crore 4 lakh). For readers accustomed to the Indian system, this grouping is far more intuitive than the international format.
+
+The `system` argument is available in `fmt_number()`, `fmt_integer()`, `fmt_percent()`, and `fmt_currency()`. When presenting financial data for Indian audiences, combining `system = "ind"` with Indian Rupee currency formatting creates familiar, readable output:
+
+```{r}
+dplyr::tibble(
+  item = c("Revenue", "Expenses", "Profit"),
+  amount = c(125750000, 98340000, 27410000)
+) |>
+  gt() |>
+  fmt_currency(
+    columns = amount,
+    currency = "INR",
+    system = "ind"
+  )
+```
+
+The amounts are now displayed with Indian-style grouping and the Rupee symbol, making them immediately readable to anyone familiar with Indian financial notation. Revenue of ₹12,57,50,000 is easily parsed as "12 crore 57 lakh 50 thousand rupees."
+
+## Locale-aware formatting
+
+Many **gt** formatting functions include a `locale` argument that enables internationalization (i18n) of formatted output. When you specify a locale, **gt** automatically applies the appropriate conventions for that language and region: decimal separators, thousands separators, date formats, month and day names, and more.
+
+Locales are specified using standard locale identifiers, typically a two-letter language code optionally followed by a region code: `"en"` for English, `"de"` for German, `"fr-CA"` for Canadian French, `"pt-BR"` for Brazilian Portuguese, and so on.
+
+```{r}
+dplyr::tibble(
+  locale_code = c("en", "de", "fr", "es", "it"),
+  language = c("English", "German", "French", "Spanish", "Italian"),
+  value = rep(1234567.89, 5)
+) |>
+  gt() |>
+  fmt_number(columns = value, rows = 1, decimals = 2, locale = "en") |>
+  fmt_number(columns = value, rows = 2, decimals = 2, locale = "de") |>
+  fmt_number(columns = value, rows = 3, decimals = 2, locale = "fr") |>
+  fmt_number(columns = value, rows = 4, decimals = 2, locale = "es") |>
+  fmt_number(columns = value, rows = 5, decimals = 2, locale = "it") |>
+  cols_label(value = "Formatted Number")
+```
+
+The same numeric value appears differently in each locale. English uses a comma as the thousands separator and a period for decimals (1,234,567.89). German and Italian use a period for thousands and a comma for decimals (1.234.567,89). French uses a narrow non-breaking space for thousands and a comma for decimals (1 234 567,89). These are not arbitrary choices but rather they reflect the actual conventions used in those countries. Using the correct format signals respect for your international audience.
+
+The locale argument is especially powerful with date and time formatting:
+
+```{r}
+dplyr::tibble(
+  locale_code = c("en", "de", "fr", "ja", "zh"),
+  language = c("English", "German", "French", "Japanese", "Chinese"),
+  date = rep("2024-07-15", 5)
+) |>
+  gt() |>
+  fmt_date(columns = date, rows = 1, date_style = "yMMMEd", locale = "en") |>
+  fmt_date(columns = date, rows = 2, date_style = "yMMMEd", locale = "de") |>
+  fmt_date(columns = date, rows = 3, date_style = "yMMMEd", locale = "fr") |>
+  fmt_date(columns = date, rows = 4, date_style = "yMMMEd", locale = "ja") |>
+  fmt_date(columns = date, rows = 5, date_style = "yMMMEd", locale = "zh") |>
+  cols_label(date = "Formatted Date")
+```
+
+The same date is rendered with locale-appropriate month names, word order, and formatting conventions. July 15, 2024 becomes "15. Juli 2024" in German, "15 juillet 2024" in French, and so on. The Japanese and Chinese locales use their respective scripts for month names.
+
+Rather than specifying `locale` in every formatting function call, you can set a default locale for the entire table in the `gt()` function:
+
+```{r}
+exibble |>
+  dplyr::select(num, currency, date) |>
+  dplyr::slice(1:4) |>
+  gt(locale = "de") |>
+  fmt_number(columns = num, decimals = 2) |>
+  fmt_currency(columns = currency, currency = "EUR") |>
+  fmt_date(columns = date, date_style = "yMMMd")
+```
+
+With `locale = "de"` set at the table level, all formatting functions inherit German conventions: numbers use period separators and comma decimals, the Euro symbol is placed according to German convention, and dates display German month abbreviations. Any formatting function can still override this default by specifying its own `locale` argument.
+
+The functions that support the `locale` argument include: `fmt_number()`, `fmt_integer()`, `fmt_percent()`, `fmt_currency()`, `fmt_date()`, `fmt_time()`, `fmt_datetime()`, `fmt_duration()`, `fmt_spelled_num()`, and others. This comprehensive locale support makes **gt** well-suited for creating tables intended for international audiences or multilingual publications.
+
 
 ## Formatting with Markdown, creating links, adding images
 
@@ -1991,7 +1991,6 @@ dplyr::tibble(
 
 This function is particularly powerful for creating visual catalogs or including small graphics within data tables.
 
-
 ## Creating your own formatter
 
 When the built-in formatters don't meet your specific needs, the `fmt()` function provides a general-purpose mechanism for custom formatting.
@@ -2099,7 +2098,6 @@ dplyr::tibble(
 
 The values pass through but can still use the `pattern` argument to add decoration. This is useful when you want to apply a pattern to text values that don't need numeric or date formatting.
 
-
 ## Substitution Functions
 
 After formatting, substitution functions allow you to replace specific values with alternative text. This is particularly useful for handling missing data, zeros, and extreme values.
@@ -2126,7 +2124,7 @@ exibble |>
   sub_missing(columns = everything())
 ```
 
-The `NA` values are now displayed as em-dashes, a common typographic convention for missing data that's cleaner than displaying "NA".
+The `NA` values are now displayed as em-dashes, a common typographic convention for missing data that's cleaner than displaying `"NA"`.
 
 ### `sub_zero()`
 
@@ -2181,7 +2179,7 @@ dplyr::tibble(
   sub_small_vals(columns = value, threshold = 0.01)
 ```
 
-Values below 0.01 are replaced with "<0.01", acknowledging their presence without implying false precision.
+Values below `0.01` are replaced with "<0.01", acknowledging their presence without implying false precision.
 
 ### `sub_large_vals()`
 
@@ -2210,7 +2208,7 @@ dplyr::tibble(
   sub_large_vals(columns = value, threshold = 100000)
 ```
 
-Values exceeding the threshold are replaced with "≥100,000", indicating they're beyond the displayed scale.
+Values exceeding the threshold are replaced with `"≥100,000"`, indicating they're beyond the displayed scale.
 
 ### `sub_values()`
 
