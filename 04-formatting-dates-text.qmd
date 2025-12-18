@@ -1,0 +1,1010 @@
+# Formatting dates, text, and special values
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+library(dplyr)
+```
+
+This chapter covers formatting functions for non-numeric data: dates and times, durations, text content, URLs, images, and special display elements like flags and icons. These formatters transform raw data into polished, meaningful presentations that communicate clearly to your readers.
+
+## Date, time, and duration formats
+
+Temporal data presents unique formatting challenges. The same date can be expressed in dozens of valid formats, and the choice depends on audience, locale, and context. **gt** provides `fmt_date()`, `fmt_time()`, `fmt_datetime()`, and `fmt_duration()` to handle these cases with support for 41 preset date styles and extensive localization.
+
+### `fmt_date()`
+
+The `fmt_date()` function formats date values using one of 41 preset styles. Input can be `Date` objects, `POSIXt` datetime objects, or character strings in ISO 8601 format.
+
+Here is the function's signature:
+
+```r
+fmt_date(
+  data,
+  columns = everything(),
+  rows = everything(),
+  date_style = "iso",
+  pattern = "{x}",
+  locale = NULL
+)
+```
+
+Let's format dates from the `exibble` dataset in "Month Day, Year" style:
+
+```{r}
+exibble |>
+  dplyr::select(date, time) |>
+  gt() |>
+  fmt_date(
+    columns = date,
+    date_style = "month_day_year"
+  )
+```
+
+The `date` column now displays in "Month Day, Year" format, a common style in American English contexts.
+
+Different date styles serve different purposes:
+
+```{r}
+exibble |>
+  dplyr::select(date) |>
+  dplyr::slice(1:4) |>
+  gt() |>
+  cols_add(
+    iso = date,
+    full = date,
+    compact = date
+  ) |>
+  fmt_date(columns = date, date_style = "wday_month_day_year") |>
+  fmt_date(columns = iso, date_style = "iso") |>
+  fmt_date(columns = full, date_style = "day_month_year") |>
+  fmt_date(columns = compact, date_style = "yMd") |>
+  cols_label(
+    date = "Full (US)",
+    iso = "ISO 8601",
+    full = "Full (UK)",
+    compact = "Compact"
+  )
+```
+
+This table demonstrates four different date styles from the same source data. The "flexible" styles (like `"yMd"`) automatically adapt to the specified locale.
+
+To explore all 41 available date styles, use `info_date_style()`, which displays an informative **gt** table showing each style's name, a description, and whether it's locale-flexible:
+
+```{r}
+#| eval: false
+info_date_style()
+```
+
+For reports that combine data from different regional sources, you can use `from_column()` to apply different date styles per row:
+
+```{r}
+dplyr::tibble(
+  region = c("United States", "United Kingdom", "Japan", "Germany"),
+  report_date = as.Date(c("2025-03-15", "2025-03-15", "2025-03-15", "2025-03-15")),
+  date_format = c("month_day_year", "day_month_year", "yMd", "day_month_year")
+) |>
+  gt() |>
+  fmt_date(
+    columns = report_date,
+    date_style = from_column("date_format")
+  ) |>
+  cols_hide(columns = date_format) |>
+  cols_label(
+    region = "Region",
+    report_date = "Report Date"
+  )
+```
+
+Each row displays the date in the format conventional for that region: "March 15, 2025" for the US, "15 March 2025" for the UK, and so on. This technique is valuable when creating localized reports or when displaying historical data that was originally recorded in different regional formats.
+
+You can also use `from_column()` to switch locales, which affects how month and day names are rendered. When combined with flexible date styles (like `"yMMMd"` or `"yMMMEd"`), locales also change the *ordering* of date components to match regional conventions:
+
+```{r}
+dplyr::tibble(
+  country = c("United States", "France", "Germany", "Japan", "China"),
+  event_date = as.Date("2025-06-15"),
+  locale_code = c("en_US", "fr", "de", "ja", "zh")
+) |>
+  gt() |>
+  fmt_date(
+    columns = event_date,
+    date_style = "yMMMd",
+    locale = from_column("locale_code")
+  ) |>
+  cols_hide(columns = locale_code) |>
+  cols_label(
+    country = "Country",
+    event_date = "Event Date"
+  )
+```
+
+Notice that it's not just translation: the US format puts the month before the day ("Jun 15, 2025"), while European locales put the day first ("15 juin 2025" in French). Asian locales typically use year-month-day order. The flexible date styles automatically adapt to each locale's conventions for both component ordering and separators.
+
+### `fmt_time()`
+
+Time formatting follows similar principles. The `fmt_time()` function provides preset styles for displaying time values.
+
+Here is the function's signature:
+
+```r
+fmt_time(
+  data,
+  columns = everything(),
+  rows = everything(),
+  time_style = "iso",
+  pattern = "{x}",
+  locale = NULL
+)
+```
+
+Let's format times from the `exibble` dataset in 12-hour format:
+
+```{r}
+exibble |>
+  dplyr::select(time) |>
+  gt() |>
+  fmt_time(
+    columns = time,
+    time_style = "h_m_p"
+  )
+```
+
+The times now display in 12-hour format with AM/PM indicators, a common format for general audiences.
+
+To see all available time styles, use `info_time_style()`:
+
+```{r}
+#| eval: false
+info_time_style()
+```
+
+Like date styles, some time styles are locale-flexible (adapting to 12-hour or 24-hour conventions based on the locale), while others produce fixed output regardless of locale.
+
+### `fmt_datetime()`
+
+When you have full datetime values, `fmt_datetime()` combines date and time formatting. This function offers two approaches: using preset styles for the date and time components separately, or using a custom `format` string for complete control over the output.
+
+Here is the function's signature:
+
+```r
+fmt_datetime(
+  data,
+  columns = everything(),
+  rows = everything(),
+  date_style = "iso",
+  time_style = "iso",
+  sep = " ",
+  format = NULL,
+  tz = NULL,
+  pattern = "{x}",
+  locale = NULL
+)
+```
+
+The simplest approach combines preset `date_style` and `time_style` values:
+
+```{r}
+exibble |>
+  dplyr::select(datetime) |>
+  gt() |>
+  fmt_datetime(
+    columns = datetime,
+    date_style = "yMMMd",
+    time_style = "Hm"
+  )
+```
+
+The datetime column now shows both the date (in "Feb 29, 2000" style) and time (in 24-hour format), providing complete temporal information. The `sep` argument controls the separator between date and time (defaults to a single space).
+
+#### Custom formatting with the `format` argument
+
+For complete control over datetime output, the `format` argument accepts formatting strings in two different syntaxes: CLDR (Common Locale Data Repository) datetime patterns and `strptime` format codes. Both are powerful, but CLDR patterns offer better locale support and more formatting options.
+
+**CLDR datetime patterns** use pattern characters that repeat to indicate output width. Here are some examples using a datetime of `"2018-07-04T22:05:09"`:
+
+- `"EEEE, MMMM d, y"` → `"Wednesday, July 4, 2018"`
+- `"MMM d, y 'at' h:mm a"` → `"Jul 4, 2018 at 10:05 PM"`
+- `"y-MM-dd HH:mm"` → `"2018-07-04 22:05"`
+
+The key CLDR pattern characters include:
+
+| Character | Meaning | Examples |
+|-----------|---------|----------|
+| `y` | Year | `y` → "2018", `yy` → "18" |
+| `M` | Month | `M` → "7", `MM` → "07", `MMM` → "Jul", `MMMM` → "July" |
+| `d` | Day of month | `d` → "4", `dd` → "04" |
+| `E` | Day of week | `E` → "Wed", `EEEE` → "Wednesday" |
+| `H` | Hour (0-23) | `H` → "22", `HH` → "22" |
+| `h` | Hour (1-12) | `h` → "10", `hh` → "10" |
+| `m` | Minute | `m` → "5", `mm` → "05" |
+| `s` | Second | `s` → "9", `ss` → "09" |
+| `a` | AM/PM | `a` → "PM" |
+
+Literal text can be included by surrounding it with single quotes:
+
+```{r}
+exibble |>
+  dplyr::select(datetime) |>
+  dplyr::slice(1:4) |>
+  gt() |>
+  fmt_datetime(
+    columns = datetime,
+    format = "EEEE, MMMM d, y 'at' h:mm a"
+  )
+```
+
+**`strptime` format codes** use a `%` prefix for each component. The same datetime formatted with `strptime` codes:
+
+- `"%A, %B %e, %Y"` → `"Wednesday, July 4, 2018"`
+- `"%b %e, %Y at %I:%M %p"` → `"Jul 4, 2018 at 10:05 PM"`
+- `"%Y-%m-%d %H:%M"` → `"2018-07-04 22:05"`
+
+Common `strptime` codes include:
+
+| Code | Meaning | Example |
+|------|---------|---------|
+| `%Y` | 4-digit year | "2018" |
+| `%y` | 2-digit year | "18" |
+| `%m` | Month number (zero-padded) | "07" |
+| `%b` | Abbreviated month name | "Jul" |
+| `%B` | Full month name | "July" |
+| `%d` | Day (zero-padded) | "04" |
+| `%e` | Day (space-padded) | " 4" |
+| `%A` | Full weekday name | "Wednesday" |
+| `%H` | Hour 0-23 | "22" |
+| `%I` | Hour 1-12 | "10" |
+| `%M` | Minute | "05" |
+| `%S` | Second | "09" |
+| `%p` | AM/PM | "PM" |
+
+Here's the same friendly datetime format from before, now using `strptime` codes instead of CLDR patterns:
+
+```{r}
+exibble |>
+  dplyr::select(datetime) |>
+  dplyr::slice(1:4) |>
+  gt() |>
+  fmt_datetime(
+    columns = datetime,
+    format = "%A, %B %e, %Y at %I:%M %p"
+  )
+```
+
+The output is nearly identical to the CLDR version. The `"%A"` gives the full weekday name, `"%B"` the full month name, `"%e"` the day without zero-padding, and `"%I:%M %p"` produces 12-hour time with AM/PM.
+
+#### Working with time zones
+
+The `tz` argument lets you convert datetimes to a specific time zone for display. This is particularly useful when your data is stored in UTC but you want to display it in local time:
+
+```{r}
+exibble |>
+  dplyr::select(datetime) |>
+  dplyr::slice(1:3) |>
+  gt() |>
+  fmt_datetime(
+    columns = datetime,
+    format = "EEEE, MMMM d, y 'at' h:mm a (zzzz)",
+    tz = "America/Vancouver"
+  )
+```
+
+The `"zzzz"` pattern character displays the full time zone name. You can use shorter variants like `"z"` (abbreviated) or `"Z"` (UTC offset).
+
+#### CLDR vs strptime: which to choose?
+
+CLDR patterns are generally preferred because they have:
+
+1. better locale support, where patterns adapt to locale conventions automatically
+2. more options: patterns for eras, quarters, flexible day periods ("in the afternoon"), and more
+3. richer time zone display options
+
+Use `strptime` when you need compatibility with R's base date formatting functions or when working with existing format strings from other code.
+
+### `fmt_duration()`
+
+For time intervals and durations, `fmt_duration()` converts numeric values (representing seconds or other units) into human-readable duration strings.
+
+Here is the function's signature:
+
+```r
+fmt_duration(
+  data,
+  columns = everything(),
+  rows = everything(),
+  input_units = NULL,
+  output_units = NULL,
+  duration_style = c("narrow", "wide", "colon-sep", "iso"),
+  trim_zero_units = TRUE,
+  max_output_units = NULL,
+  pattern = "{x}",
+  locale = NULL
+)
+```
+
+Let's format task durations from raw second values:
+
+```{r}
+dplyr::tibble(
+  task = c("Backup", "Index rebuild", "Report generation"),
+  duration_secs = c(45, 3661, 127)
+) |>
+  gt() |>
+  fmt_duration(
+    columns = duration_secs,
+    input_units = "seconds"
+  )
+```
+
+The raw second counts are transformed into readable durations like "1h 1m 1s", making the time requirements immediately clear.
+
+The `duration_style` argument controls the output format:
+
+```{r}
+dplyr::tibble(
+  task = c("Short task", "Medium task", "Long task"),
+  seconds = c(90, 3725, 86520)
+) |>
+  gt() |>
+  cols_add(
+    narrow = seconds,
+    wide = seconds,
+    colon = seconds,
+    iso = seconds
+  ) |>
+  fmt_duration(columns = narrow, input_units = "seconds", duration_style = "narrow") |>
+  fmt_duration(columns = wide, input_units = "seconds", duration_style = "wide") |>
+  fmt_duration(columns = colon, input_units = "seconds", duration_style = "colon-sep") |>
+  fmt_duration(columns = iso, input_units = "seconds", duration_style = "iso") |>
+  cols_hide(columns = seconds) |>
+  cols_label(
+    task = "Task",
+    narrow = "Narrow",
+    wide = "Wide",
+    colon = "Colon-sep",
+    iso = "ISO"
+  )
+```
+
+Each style serves different purposes: "narrow" is compact, "wide" is more readable, "colon-sep" follows familiar clock notation (HH:MM:SS), and "iso" produces ISO 8601 duration format.
+
+## Formatting with Markdown, creating links, adding images
+
+Beyond numeric and temporal data, **gt** can format text as Markdown, create hyperlinks, and embed images directly in table cells.
+
+### `fmt_markdown()`
+
+The `fmt_markdown()` function interprets cell content as Markdown, rendering formatting, links, and other Markdown elements.
+
+Here is the function's signature:
+
+```r
+fmt_markdown(
+  data,
+  columns = everything(),
+  rows = everything(),
+  md_engine = c("markdown", "commonmark")
+)
+```
+
+Let's demonstrate various Markdown formatting options:
+
+```{r}
+dplyr::tibble(
+  feature = c("**Bold text**", "*Italic text*", "`Code text`", "[Link](https://gt.rstudio.com)"),
+  description = c("Emphasis", "Emphasis", "Monospace", "Hyperlink")
+) |>
+  gt() |>
+  fmt_markdown(columns = feature)
+```
+
+The Markdown syntax in the `feature` column is now rendered as formatted text, allowing rich content within table cells.
+
+### `fmt_url()`
+
+For URL values, `fmt_url()` creates clickable hyperlinks.
+
+Here is the function's signature:
+
+```r
+fmt_url(
+  data,
+  columns = everything(),
+  rows = everything(),
+  label = NULL,
+  as_button = FALSE,
+  button_fill = "auto",
+  button_width = "auto",
+  button_outline = "auto",
+  show_underline = "auto",
+  color = "auto"
+)
+```
+
+Let's create a table of R package documentation links formatted as buttons:
+
+```{r}
+dplyr::tibble(
+  package = c("gt", "dplyr", "ggplot2"),
+  url = c(
+    "https://gt.rstudio.com",
+    "https://dplyr.tidyverse.org",
+    "https://ggplot2.tidyverse.org"
+  )
+) |>
+  gt() |>
+  fmt_url(columns = url, as_button = TRUE)
+```
+
+The URLs are now displayed as styled buttons that readers can click to navigate to the linked pages.
+
+### `fmt_email()`
+
+Email addresses can be formatted as clickable "mailto:" links using `fmt_email()`.
+
+Here is the function's signature:
+
+```r
+fmt_email(
+  data,
+  columns = everything(),
+  rows = everything(),
+  display_name = NULL,
+  as_button = FALSE,
+  button_fill = "auto",
+  button_width = "auto",
+  button_outline = "auto",
+  show_underline = "auto",
+  color = "auto"
+)
+```
+
+Let's turn email addresses into clickable mailto links:
+
+```{r}
+dplyr::tibble(
+  name = c("Alice Smith", "Bob Jones", "Carol White"),
+  email = c("alice@example.com", "bob@example.com", "carol@example.com")
+) |>
+  gt() |>
+  fmt_email(columns = email)
+```
+
+The email addresses become clickable links that will open the user's email client when clicked. This is particularly useful for contact directories or team rosters.
+
+### `fmt_image()`
+
+The `fmt_image()` function renders file paths as inline images.
+
+Here is the function's signature:
+
+```r
+fmt_image(
+  data,
+  columns = everything(),
+  rows = everything(),
+  height = NULL,
+  width = NULL,
+  sep = " ",
+  path = NULL,
+  file_pattern = "{}",
+  encode = TRUE
+)
+```
+ 
+```{r}
+#| eval: false
+dplyr::tibble(
+  name = c("Image A", "Image B"),
+  path = c("images/a.png", "images/b.png")
+) |>
+  gt() |>
+  fmt_image(columns = path, height = 50)
+```
+
+This function is particularly powerful for creating visual catalogs or including small graphics within data tables.
+
+## Flags and country formatting
+
+When presenting international data, flags and country names can provide immediate visual recognition and context.
+
+### `fmt_flag()`
+
+The `fmt_flag()` function converts 2- or 3-letter ISO 3166-1 country codes into circular flag icons. The function seamlessly handles both uppercase and lowercase codes.
+
+Here is the function's signature:
+
+```r
+fmt_flag(
+  data,
+  columns = everything(),
+  rows = everything(),
+  height = "1em",
+  sep = " ",
+  use_title = TRUE,
+  locale = NULL
+)
+```
+
+```{r}
+countrypops |>
+  dplyr::filter(year == 2021) |>
+  dplyr::slice_max(population, n = 8) |>
+  dplyr::select(country_code_2, country_name, population) |>
+  gt() |>
+  fmt_flag(columns = country_code_2) |>
+  fmt_integer(columns = population) |>
+  cols_label(
+    country_code_2 = "",
+    country_name = "Country",
+    population = "Population (2021)"
+  )
+```
+
+The two-letter country codes are replaced with their corresponding flag icons. Hovering over a flag shows the country name as a tooltip (controlled by `use_title = TRUE`, the default). This adds visual interest and makes it easier to quickly identify countries.
+
+#### Controlling flag size
+
+The `height` argument adjusts the size of flag icons. The default `"1em"` scales with the text size, but you can specify other CSS units:
+
+```{r}
+dplyr::tibble(
+  country = c("US", "CN", "IN", "BR"),
+  small = country,
+  medium = country,
+  large = country
+) |>
+  gt() |>
+  fmt_flag(columns = small, height = "0.8em") |>
+  fmt_flag(columns = medium, height = "1.5em") |>
+  fmt_flag(columns = large, height = "2.5em") |>
+  cols_label(
+    country = "Code",
+    small = "Small",
+    medium = "Medium",
+    large = "Large"
+  ) |>
+  cols_align(align = "center", columns = c(small, medium, large))
+```
+
+Different flag sizes can help establish visual hierarchy. Larger flags might be appropriate in header sections or key summary rows, while smaller flags work well in dense data tables.
+
+#### Multiple flags per cell
+
+When cells contain comma-separated country codes, `fmt_flag()` displays multiple flag icons. The `sep` argument controls spacing between them:
+
+```{r}
+dplyr::tibble(
+  region = c("North America", "European Union (founders)", "BRICS", "Nordic Countries"),
+  countries = c("US,CA,MX", "BE,FR,DE,IT,LU,NL", "BR,RU,IN,CN,ZA", "DK,FI,IS,NO,SE")
+) |>
+  gt() |>
+  fmt_flag(columns = countries, sep = " ") |>
+  cols_label(
+    region = "Region/Group",
+    countries = "Member Countries"
+  ) |>
+  cols_width(countries ~ px(300))
+```
+
+Multiple flags are displayed inline, making it easy to see country groupings or collaborations at a glance. The default `sep = " "` provides a single space between flags, but you can adjust this for tighter or looser spacing.
+
+#### Localized tooltips
+
+The `locale` argument controls the language used in the hover tooltips. This is especially useful when creating tables for international audiences:
+
+```{r}
+dplyr::tibble(
+  code = c("JP", "KR", "CN", "TH"),
+  flag_en = code,
+  flag_ja = code,
+  flag_ko = code
+) |>
+  gt() |>
+  fmt_flag(columns = flag_en, locale = "en") |>
+  fmt_flag(columns = flag_ja, locale = "ja") |>
+  fmt_flag(columns = flag_ko, locale = "ko") |>
+  cols_label(
+    code = "Code",
+    flag_en = "English Tooltip",
+    flag_ja = "Japanese Tooltip",
+    flag_ko = "Korean Tooltip"
+  ) |>
+  cols_align(align = "center", columns = c(flag_en, flag_ja, flag_ko))
+```
+
+When hovering over these flags, the country names appear in the specified language. The English column shows "Japan", the Japanese column shows "日本", and the Korean column shows "일본".
+
+#### Merging flags into row labels
+
+Flag icons can be merged into the stub column to create visually distinctive row labels:
+
+```{r}
+countrypops |>
+  dplyr::filter(country_code_2 %in% c("BE", "NL", "LU")) |>
+  dplyr::filter(year %% 10 == 0, year >= 2000) |>
+  dplyr::select(country_name, country_code_2, year, population) |>
+  tidyr::pivot_wider(names_from = year, values_from = population) |>
+  dplyr::arrange(country_name) |>
+  gt(rowname_col = "country_name") |>
+  fmt_flag(columns = country_code_2) |>
+  cols_merge(
+    columns = c(country_name, country_code_2),
+    pattern = "{2} {1}"
+  ) |>
+  fmt_integer() |>
+  tab_header(title = "Benelux Population by Decade") |>
+  tab_spanner(columns = everything(), label = "Year")
+```
+
+The stub now displays flag icons followed by country names, creating an elegant visual identifier for each row. This technique is particularly effective for country comparisons or regional analyses.
+
+### `fmt_country()`
+
+Conversely, if you have country codes but want to display full country names, use `fmt_country()`. This function accepts both 2-letter and 3-letter ISO 3166-1 country codes and converts them to full country names from the Unicode CLDR (Common Locale Data Repository).
+
+Here is the function's signature:
+
+```r
+fmt_country(
+  data,
+  columns = everything(),
+  rows = everything(),
+  pattern = "{x}",
+  sep = " ",
+  locale = NULL
+)
+```
+
+```{r}
+countrypops |>
+  dplyr::filter(year == 2021) |>
+  dplyr::slice_max(population, n = 5) |>
+  dplyr::select(country_code_3, population) |>
+  gt() |>
+  fmt_country(columns = country_code_3) |>
+  fmt_integer(columns = population) |>
+  cols_label(
+    country_code_3 = "Country",
+    population = "Population (2021)"
+  )
+```
+
+The three-letter country codes are replaced with full country names.
+
+#### Localized country names
+
+The `locale` argument enables country names to be displayed in different languages, making tables more accessible to international audiences:
+
+```{r}
+dplyr::tibble(
+  code = c("JP", "DE", "BR", "IN", "ZA"),
+  english = code,
+  japanese = code,
+  german = code
+) |>
+  gt() |>
+  fmt_country(columns = english, locale = "en") |>
+  fmt_country(columns = japanese, locale = "ja") |>
+  fmt_country(columns = german, locale = "de") |>
+  cols_label(
+    code = "Code",
+    english = "English",
+    japanese = "日本語",
+    german = "Deutsch"
+  )
+```
+
+The same country codes are rendered in English, Japanese, and German. This is particularly useful for creating multilingual reports or tables intended for specific regional audiences.
+
+#### Multiple countries per cell
+
+When cells contain multiple comma-separated country codes, `fmt_country()` handles them automatically. The `sep` argument controls the separator between country names:
+
+```{r}
+dplyr::tibble(
+  film = c("The Grand Budapest Hotel", "Amélie", "Run Lola Run"),
+  countries = c("US,DE", "FR", "DE")
+) |>
+  gt() |>
+  fmt_country(columns = countries, sep = " / ") |>
+  cols_label(
+    film = "Film",
+    countries = "Production Countries"
+  )
+```
+
+For films with co-production arrangements, multiple countries are displayed with a custom separator (here, " / "), making the relationships clear while maintaining readability.
+
+#### Combining `fmt_flag()` and `fmt_country()`
+
+Flag icons and country names work beautifully together. Here's how to combine them using `cols_merge()`:
+
+```{r}
+countrypops |>
+  dplyr::filter(year == 2021) |>
+  dplyr::slice_max(population, n = 8) |>
+  dplyr::select(country_code_2, country_code_3, population) |>
+  gt() |>
+  fmt_flag(columns = country_code_2) |>
+  fmt_country(columns = country_code_3) |>
+  cols_merge(
+    columns = c(country_code_2, country_code_3),
+    pattern = "{1} {2}"
+  ) |>
+  fmt_integer(columns = population) |>
+  cols_label(
+    country_code_2 = "Country",
+    population = "Population (2021)"
+  )
+```
+
+The merged column now displays both the flag icon and the country name side by side, creating a visually rich and informative presentation. The flag provides instant visual recognition while the name ensures clarity.
+
+## Icons in table cells
+
+### `fmt_icon()`
+
+For adding Font Awesome icons to table cells, `fmt_icon()` converts icon names to rendered icons.
+
+Here is the function's signature:
+
+```r
+fmt_icon(
+  data,
+  columns = everything(),
+  rows = everything(),
+  height = "1em",
+  sep = " ",
+  stroke_color = NULL,
+  stroke_width = NULL,
+  stroke_alpha = NULL,
+  fill_color = NULL,
+  fill_alpha = NULL,
+  margin_left = NULL,
+  margin_right = NULL,
+  v_adjust = NULL,
+  a11y = c("semantic", "decorative", "none")
+)
+```
+
+Let's add Font Awesome icons to represent different file types:
+
+```{r}
+dplyr::tibble(
+  category = c("Documents", "Images", "Music", "Videos"),
+  icon = c("file-alt", "image", "music", "video"),
+  count = c(42, 18, 95, 12)
+) |>
+  gt() |>
+  fmt_icon(columns = icon) |>
+  fmt_integer(columns = count)
+```
+
+The icon names are replaced with the corresponding Font Awesome icons. This is useful for creating visual category indicators or status displays.
+
+You can customize icon appearance with color options:
+
+```{r}
+dplyr::tibble(
+  status = c("Success", "Warning", "Error", "Info"),
+  icon = c("check-circle", "exclamation-triangle", "times-circle", "info-circle"),
+  color = c("green", "orange", "red", "blue")
+) |>
+  gt() |>
+  fmt_icon(columns = icon, fill_color = from_column("color")) |>
+  cols_hide(columns = color)
+```
+
+Each icon is colored according to its status, creating an immediately recognizable visual language for status indicators.
+
+To explore all available icons, use `info_icons()`:
+
+```{r}
+#| eval: false
+info_icons()
+```
+
+## Scientific and technical notation
+
+### `fmt_units()`
+
+Scientific and technical writing often requires properly formatted units with superscripts, subscripts, and special symbols. The `fmt_units()` function interprets a simple text notation and renders it with correct typography.
+
+::: {.callout-note}
+The units notation described here is the same notation used in column labels (see the section on [Incorporating units with gt's units notation](02-table-components.qmd#incorporating-units-with-gts-units-notation) in *Chapter 2*). That section provides additional details on Greek letters, automatic symbol conversions, chemical formulas, and text formatting options.
+:::
+
+Here is the function's signature:
+
+```r
+fmt_units(
+  data,
+  columns = everything(),
+  rows = everything(),
+  pattern = "{x}"
+)
+```
+
+Let's format a table of physical quantities with their SI units:
+
+```{r}
+dplyr::tibble(
+  quantity = c("Acceleration", "Energy", "Pressure", "Density"),
+  unit = c("m/s^2", "kg*m^2/s^2", "N/m^2", "kg/m^3")
+) |>
+  gt() |>
+  fmt_units(columns = unit)
+```
+
+The unit strings are rendered with proper formatting: exponents become superscripts, the asterisk becomes a multiplication dot, and the slash indicates division. This notation follows the conventions of scientific typesetting without requiring HTML or LaTeX markup in your data.
+
+The units notation uses a simple but expressive syntax. Here are the key elements:
+
+| Notation | Meaning | Example Input | Renders As |
+|----------|---------|---------------|------------|
+| `^` | Superscript (exponent) | `m^2` | m² |
+| `_` | Subscript | `x_0` | x₀ |
+| `*` | Multiplication (·) | `kg*m` | kg·m |
+| `/` | Division (per) | `m/s` | m/s |
+| `()` | Grouping | `J/(kg*K)` | J/(kg·K) |
+| `{{}}` | Subscript text | `x_{{avg}}` | x_avg (subscripted) |
+| `-` | Minus in exponent | `m^-1` | m⁻¹ |
+
+These elements can be combined to express complex units:
+
+```{r}
+dplyr::tibble(
+  notation = c("m/s^2", "kg*m^2/s^2", "W/(m^2*K)", "mol^-1", "m^3/(kg*s^2)"),
+  description = c(
+    "Acceleration", 
+    "Energy (Joules)", 
+    "Heat transfer coefficient",
+    "Per mole",
+    "Gravitational constant units"
+  )
+) |>
+  gt() |>
+  fmt_units(columns = notation) |>
+  cols_move(columns = description, after = notation) |>
+  cols_label(notation = "Rendered Unit", description = "Physical Quantity")
+```
+
+The notation is intuitive for anyone familiar with scientific writing. You write units almost as you would speak them. So "meters per second squared" becomes `m/s^2`, and "watts per square meter kelvin" becomes `W/(m^2*K)`.
+
+The unit notation supports a rich syntax for complex expressions:
+
+```{r}
+dplyr::tibble(
+  quantity = c("Heat capacity", "Thermal conductivity", "Viscosity"),
+  unit = c("J/(kg*K)", "W/(m*K)", "kg/(m*s)")
+) |>
+  gt() |>
+  fmt_units(columns = unit)
+```
+
+Parentheses group terms correctly, ensuring the denominator is rendered as a single unit. This creates publication-ready unit formatting directly from simple text notation.
+
+### `fmt_chem()`
+
+Chemical formulas require specific formatting: subscripts for atom counts, superscripts for charges, and proper handling of isotopes and reactions. The `fmt_chem()` function interprets chemistry notation and renders it correctly.
+
+Here is the function's signature:
+
+```r
+fmt_chem(
+  data,
+  columns = everything(),
+  rows = everything(),
+  pattern = "{x}"
+)
+```
+
+The chemistry notation is intuitive for anyone familiar with chemical formulas. Here's a comprehensive reference:
+
+| Feature | Notation | Example Input | Renders As |
+|---------|----------|---------------|------------|
+| Subscripts | Numbers after elements | `H2O` | H₂O |
+| Parenthetical groups | Numbers after `)` | `(NH4)2S` | (NH₄)₂S |
+| Simple charges | Terminating `+` or `-` | `H+`, `[AgCl2]-` | H⁺, [AgCl₂]⁻ |
+| Numeric charges | `^` before charge | `CrO4^2-`, `Fe^3+` | CrO₄²⁻, Fe³⁺ |
+| Variable charges | Letter in charge | `Fe^n+` | Feⁿ⁺ |
+| Large charges | Braces for clarity | `Y^{99+}` | Y⁹⁹⁺ |
+| Stoichiometry | Number before formula | `2H2O2`, `2 H2O2` | 2H₂O₂ |
+| Fractional stoich | Fractions allowed | `1/2 H2O`, `(1/2) H2O` | ½H₂O |
+| Isotopes | `^{mass}_{number}` | `^{227}_{90}Th` | ²²⁷₉₀Th |
+| Isotopes (short) | `^mass_number` | `^14_6C` | ¹⁴₆C |
+| Nuclides | Combined notation | `^{0}_{-1}n^{-}` | ⁰₋₁n⁻ |
+| Italicized variables | Surround with `*` | `*n* H2O` | *n* H₂O |
+| Auto-italics | Standalone letters | `NO_x` | NO*ₓ* |
+| Greek letters | Surround with `:` | `:delta: ^13C` | δ ¹³C |
+| Reaction arrows | Various forms | `A -> B` | A → B |
+| Equilibrium | Double arrows | `A <=> B` | A ⇌ B |
+| Reversible | Long double arrow | `A <--> B` | A ⟷ B |
+| Favored right | Unequal equilibrium | `A <=>> B` | A ⇀ B |
+| Favored left | Unequal equilibrium | `A <<=> B` | A ↽ B |
+| Hydrates/addition | Centered dot | `KCr(SO4)2 . 12 H2O` | KCr(SO₄)₂·12H₂O |
+| Single bond | `-` between atoms | `C6H5-CHO` | C₆H₅−CHO |
+| Double bond | `=` between atoms | `CH3CH=CH2` | CH₃CH═CH₂ |
+
+Let's see basic formula formatting in action:
+
+```{r}
+dplyr::tibble(
+  name = c("Water", "Sulfuric acid", "Glucose", "Calcium carbonate"),
+  formula = c("H2O", "H2SO4", "C6H12O6", "CaCO3")
+) |>
+  gt() |>
+  fmt_chem(columns = formula)
+```
+
+The numbers in the formulas become subscripts, transforming "H2O" into the properly typeset H₂O. This is essential for any table presenting chemical data.
+
+Ionic compounds and charges are handled elegantly:
+
+```{r}
+dplyr::tibble(
+  ion = c("Hydroxide", "Sulfate", "Ammonium", "Phosphate", "Iron(III)"),
+  formula = c("OH^-", "SO4^2-", "NH4^+", "PO4^3-", "Fe^3+")
+) |>
+  gt() |>
+  fmt_chem(columns = formula)
+```
+
+Charges are rendered as superscripts with the appropriate sign, creating properly formatted ionic formulas suitable for scientific publication.
+
+For isotope notation (common in nuclear chemistry and radiochemistry) the function supports full nuclide representation:
+
+```{r}
+dplyr::tibble(
+  isotope = c("Carbon-14", "Uranium-235", "Thorium-227", "Deuterium"),
+  notation = c("^14_6C", "^235_92U", "^{227}_{90}Th", "^2_1H")
+) |>
+  gt() |>
+  fmt_chem(columns = notation)
+```
+
+The mass number appears as a superscript and the atomic number as a subscript, positioned before the element symbol: the standard convention for nuclide notation.
+
+Chemical reactions can be expressed with various arrow styles:
+
+```{r}
+dplyr::tibble(
+  reaction_type = c(
+    "Forward reaction",
+    "Reversible reaction", 
+    "Equilibrium",
+    "Equilibrium (forward favored)"
+  ),
+  reaction = c(
+    "2H2 + O2 -> 2H2O",
+    "N2 + 3H2 <--> 2NH3",
+    "CH3COOH + H2O <=> CH3COO^- + H3O^+",
+    "HCl + H2O <=>> Cl^- + H3O^+"
+  )
+) |>
+  gt() |>
+  fmt_chem(columns = reaction)
+```
+
+Each arrow type has a specific meaning in chemistry: `->` for irreversible reactions, `<-->` for reversible reactions, `<=>` for equilibrium, and `<=>>` or `<<=>` for equilibria that favor one direction.
+
+Hydrates and addition compounds use the centered dot notation:
+
+```{r}
+dplyr::tibble(
+  name = c(
+    "Copper(II) sulfate pentahydrate",
+    "Magnesium sulfate heptahydrate",
+    "Chrome alum"
+  ),
+  formula = c(
+    "CuSO4 . 5 H2O",
+    "MgSO4 . 7 H2O",
+    "KCr(SO4)2 . 12 H2O"
+  )
+) |>
+  gt() |>
+  fmt_chem(columns = formula)
+```
+
+The period surrounded by spaces becomes a centered dot (·), the standard notation for waters of hydration and other addition compounds.
