@@ -10,17 +10,34 @@ book:
   repo-url: https://github.com/rich-iannone/gt-effective-display-tables
   chapters:
     - index.qmd
-    - 01-introduction.qmd
-    - 02-table-components.qmd
-    - 03-formatting-values.qmd
-    - 04-modifying-columns.qmd
-    - 05-summary-rows-columns.qmd
-    - 06-table-options.qmd
-    - 07-footnotes-source-notes.qmd
-    - 08-nanoplots.qmd
-    - 09-output-formats.qmd
-    - 10-extension-packages.qmd
-    - 11-creating-extensions.qmd
+    - part: "Getting Started"
+      chapters:
+        - 01-introduction.qmd
+        - 02-table-components.qmd
+    - part: "Formatting Data"
+      chapters:
+        - 03-formatting-numbers.qmd
+        - 04-formatting-dates-text.qmd
+        - 05-substitution-transformation.qmd
+    - part: "Table Structure"
+      chapters:
+        - 06-modifying-columns.qmd
+        - 07-summary-rows-columns.qmd
+    - part: "Styling and Presentation"
+      chapters:
+        - 08-table-options.qmd
+        - 09-footnotes-source-notes.qmd
+        - 10-nanoplots.qmd
+    - part: "Advanced Topics"
+      chapters:
+        - 11-table-groups.qmd
+        - 12-output-formats.qmd
+    - part: "Extending gt"
+      chapters:
+        - 13-extension-packages.qmd
+        - 14-creating-extensions.qmd
+  appendices:
+    - appendix-reference.qmd
 
 format:
   html:
