@@ -368,7 +368,7 @@ The `gt_fa_rating()` function converts numeric ratings to filled icons, while `g
 
 ### When to use each package
 
-The **gtsummary** and **gtExtras** packages serve different but complementary purposes. Use **gtsummary** when you need to present statistical summaries or regression results, particularly in clinical or research contexts. The package's automatic calculations and journal-ready defaults will save significant time and reduce errors. Use **gtExtras** when you need enhanced visual elements like sparklines, color scales, or themed styling. The package excels at making data patterns visible within a tabular format.
+The **gtsummary** and **gtExtras** packages serve different but complementary purposes. Use **gtsummary** when you need to present statistical summaries or regression results, particularly in clinical or research contexts. The package's automatic calculations and journal-ready defaults will save significant time and reduce errors. Use **gtExtras** when you need enhanced visual elements like sparklines, color scales, or themed styling. The package is great at making data patterns visible within a tabular format.
 
 Many projects benefit from both packages. You might use **gtsummary** to create a baseline characteristics table, then use **gtExtras** themes to style it consistently with other tables in your report. Or you might start with a **gtExtras**-styled data table and add it alongside **gtsummary** regression results. Since both packages ultimately produce **gt** objects, you can combine their outputs using **gt**'s own functions for merging and arranging tables.
 
