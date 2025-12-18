@@ -1,0 +1,361 @@
+# Reference and informational functions {#sec-appendix-reference}
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+library(dplyr)
+```
+
+The **gt** package includes a collection of informational functions that display helpful reference tables. These `info_*()` functions are invaluable when you need to explore available options, discover supported values, or understand formatting styles.
+
+## Date and time style references
+
+### `info_date_style()`
+
+Displays all 41 available date formatting styles for use with `fmt_date()` and `fmt_datetime()`.
+ 
+```{r}
+#| eval: false
+info_date_style()
+```
+
+The resulting table shows:
+
+- **Style number**: The numeric identifier for each style
+- **Style name**: The string identifier (e.g., `"iso"`, `"month_day_year"`)
+- **Example output**: How each style renders a sample date
+- **Flexible**: Whether the style adapts to locale settings
+
+Use style names in your formatting calls:
+
+```r
+fmt_date(columns = date_col, date_style = "month_day_year")
+fmt_date(columns = date_col, date_style = 14)  
+```
+
+### `info_time_style()`
+
+Displays all available time formatting styles for use with `fmt_time()` and `fmt_datetime()`.
+
+```{r}
+#| eval: false
+info_time_style()
+```
+
+The table shows similar information to date styles: style numbers, names, example output, and locale flexibility.
+
+## Currency reference
+
+### `info_currencies()`
+
+Displays a comprehensive table of all supported currencies, including their codes, symbols, and names.
+
+```{r}
+#| eval: false
+info_currencies()
+```
+
+The table includes:
+
+- **Currency code**: The 3-letter ISO 4217 code (e.g., `"USD"`, `"EUR"`, `"JPY"`)
+- **Currency symbol**: The symbol used in formatting (e.g., `$`, `€`, `¥`)
+- **Currency name**: The full name of the currency
+
+Use currency codes with `fmt_currency()`:
+
+```r
+fmt_currency(columns = price, currency = "EUR")
+fmt_currency(columns = price, currency = "JPY")
+```
+
+## Locale reference
+
+### `info_locales()`
+
+Displays all supported locales for internationalized formatting. Locales affect number formatting, date formatting, and translated text.
+
+```{r}
+#| eval: false
+info_locales()
+```
+
+The table shows locale codes and their corresponding languages/regions. Use these codes with:
+
+- The `locale` argument in `gt()`
+- The `locale` argument in formatting functions
+- The `locale` argument in `fmt_spelled_num()`
+
+```r
+gt(data, locale = "de")
+fmt_number(columns = value, locale = "fr")
+fmt_date(columns = date, locale = "ja")
+```
+
+## Color palette reference
+
+### `info_paletteer()`
+
+The **paletteer** package provides access to hundreds of color palettes from various R packages. The `info_paletteer()` function displays available palettes that work well with `data_color()`.
+
+```{r}
+#| eval: false
+info_paletteer()
+```
+
+The table groups palettes by their source package and shows color swatches for each palette. Use palette names with `data_color()`:
+
+```r
+data_color(
+  columns = value,
+  palette = "viridis::plasma"
+)
+```
+
+Palette names follow the format `"package::palette"`.
+
+## Flag reference
+
+### `info_flags()`
+
+Displays all available country flags that can be rendered with `fmt_flag()`, along with their country codes.
+
+```{r}
+#| eval: false
+info_flags()
+```
+
+The table shows:
+
+- **Country code (2-letter)**: ISO 3166-1 alpha-2 codes
+- **Country code (3-letter)**: ISO 3166-1 alpha-3 codes
+- **Country name**: Full country name
+- **Flag preview**: The rendered flag icon
+
+Use these codes with `fmt_flag()`:
+
+```r
+fmt_flag(columns = country_code)
+```
+
+## Icon reference
+
+### `info_icons()`
+
+Displays all available Font Awesome icons for use with `fmt_icon()`.
+
+```{r}
+#| eval: false
+info_icons()
+```
+
+The table shows icon names and rendered previews. Use icon names in your data or with `fmt_icon()`:
+
+```r
+dplyr::tibble(
+  category = c("file", "folder", "image"),
+  icon_name = c("file-alt", "folder", "image")
+) |>
+  gt() |>
+  fmt_icon(columns = icon_name)
+```
+
+## Google Fonts reference
+
+### `info_google_fonts()`
+
+Displays recommended Google Fonts for use with **gt** tables, along with information about how to use them.
+
+```{r}
+#| eval: false
+info_google_fonts()
+```
+
+Use Google Fonts with `opt_table_font()` or `google_font()`:
+ 
+```r
+gt(data) |>
+  opt_table_font(font = google_font("Roboto"))
+
+gt(data) |>
+  tab_style(
+    style = cell_text(font = google_font("Fira Code")),
+    locations = cells_body(columns = code_col)
+  )
+```
+
+## Unit conversion reference
+
+### `info_unit_conversions()`
+
+Displays all unit conversions supported by the `unit_conversion()` helper function. This is useful when you need to convert between measurement units.
+
+```{r}
+#| eval: false
+info_unit_conversions()
+```
+
+The table shows:
+
+- **Unit class**: The category of measurement (length, mass, volume, etc.)
+- **From units**: Available source units
+- **To units**: Available target units
+- **Conversion factors**: The multipliers used
+
+Use with `unit_conversion()`:
+
+```r
+# Get conversion factor from miles to kilometers
+unit_conversion(from = "mi", to = "km")
+
+# Apply in a table
+dplyr::tibble(distance_miles = c(10, 25, 100)) |>
+  gt() |>
+  cols_add(distance_km = distance_miles * unit_conversion("mi", "km")) |>
+  fmt_number(columns = everything(), decimals = 1)
+```
+
+## Built-in datasets
+
+The **gt** package includes 18 datasets for learning and experimentation. These datasets appear throughout the documentation and examples.
+
+### Small example datasets
+
+| Dataset | Description | Rows | Use Case |
+|---------|-------------|------|----------|
+| `exibble` | A toy tibble with various data types | 8 | Testing formatters |
+| `gtcars` | Specifications for 47 luxury/supercars | 47 | Car comparisons |
+| `pizzaplace` | A year of pizza sales | 49,574 | Sales analysis |
+
+### Country and population data
+
+| Dataset | Description | Rows | Use Case |
+|---------|-------------|------|----------|
+| `countrypops` | Country populations 1960-2024 | ~13,000 | Time series, maps |
+| `towny` | Ontario municipality populations | 414 | Canadian demographics |
+| `peeps` | Personal information for fictional people | 100 | Contact directories |
+
+### Scientific and technical data
+
+| Dataset | Description | Rows | Use Case |
+|---------|-------------|------|----------|
+| `sza` | Solar zenith angles by location/time | 816 | Heatmaps |
+| `constants` | Fundamental physical constants | 30 | Scientific tables |
+| `reactions` | Atmospheric reaction rates | 1,344 | Chemistry data |
+| `photolysis` | Photolysis rates for organic compounds | 1,590 | Chemistry data |
+| `nuclides` | Nuclear data for isotopes | 3,384 | Nuclear chemistry |
+
+### Financial and geographic data
+
+| Dataset | Description | Rows | Use Case |
+|---------|-------------|------|----------|
+| `sp500` | S&P 500 daily data 1950-2015 | 16,607 | Financial analysis |
+| `metro` | Paris Metro stations | 308 | Geographic data |
+| `gibraltar` | May 2023 Gibraltar weather | 744 | Weather data |
+| `films` | Cannes Film Festival competition | 1,607 | Entertainment data |
+
+### Clinical trial data
+
+| Dataset | Description | Rows | Use Case |
+|---------|-------------|------|----------|
+| `rx_adsl` | ADSL-style clinical trial data | 182 | Clinical tables |
+| `rx_addv` | ADDV-style clinical trial data | 910 | Clinical tables |
+| `illness` | Lab tests for illness tracking | 39 | Medical data |
+
+### Using built-in datasets
+
+All datasets are loaded with the package:
+
+```{r}
+# View first few rows
+head(exibble)
+
+# Use in a table
+gtcars |>
+  dplyr::select(mfr, model, year, hp, mpg_c) |>
+  dplyr::slice(1:5) |>
+  gt()
+```
+
+## Helper functions quick reference
+
+### Text and content helpers
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `md()` | Interpret text as Markdown | `tab_header(title = md("**Bold Title**"))` |
+| `html()` | Interpret text as HTML | `tab_header(title = html("<em>Styled</em>"))` |
+| `latex()` | Interpret text as LaTeX | `tab_source_note(latex("\\textit{Note}"))` |
+
+### Unit helpers
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `px()` | Specify pixels | `cols_width(col ~ px(150))` |
+| `pct()` | Specify percentage | `cols_width(col ~ pct(25))` |
+
+### Dynamic value helpers
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `from_column()` | Reference column values | `fmt_number(decimals = from_column("precision"))` |
+| `currency()` | Custom currency symbol | `fmt_currency(currency = currency(symbol = "BTC"))` |
+
+### Color helpers
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `adjust_luminance()` | Lighten/darken colors | `adjust_luminance("steelblue", steps = 1)` |
+
+### Font helpers
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `google_font()` | Specify Google Font | `opt_table_font(font = google_font("Roboto"))` |
+| `default_fonts()` | Get default font stack | `default_fonts()` |
+| `system_fonts()` | Get system font stack | `system_fonts("humanist")` |
+
+### Location helpers (for `tab_style()`, `tab_footnote()`, etc.)
+
+| Function | Target |
+|----------|--------|
+| `cells_title()` | Table title and subtitle |
+| `cells_stubhead()` | Stubhead label |
+| `cells_column_labels()` | Column labels |
+| `cells_column_spanners()` | Column spanner labels |
+| `cells_row_groups()` | Row group labels |
+| `cells_stub()` | Stub (row labels) |
+| `cells_body()` | Body cells |
+| `cells_summary()` | Group summary cells |
+| `cells_grand_summary()` | Grand summary cells |
+| `cells_stub_summary()` | Stub cells in summaries |
+| `cells_stub_grand_summary()` | Stub cells in grand summary |
+| `cells_footnotes()` | Footnote area |
+| `cells_source_notes()` | Source note area |
+
+### Style helpers (for `tab_style()`)
+
+| Function | Purpose |
+|----------|---------|
+| `cell_text()` | Text styling (color, size, weight, etc.) |
+| `cell_fill()` | Background color |
+| `cell_borders()` | Border styling |
+
+### Selection helpers (for column selection)
+
+| Function | Purpose |
+|----------|---------|
+| `stub()` | Select stub column |
+| `row_group()` | Select row group column |
+| `everything()` | Select all columns |
+| `starts_with()` | Columns starting with prefix |
+| `ends_with()` | Columns ending with suffix |
+| `contains()` | Columns containing string |
+| `matches()` | Columns matching regex |
+| `where()` | Columns matching predicate |
+
+### Utility helpers
+
+| Function | Purpose |
+|----------|---------|
+| `random_id()` | Generate random table ID |
+| `escape_latex()` | Escape special LaTeX characters |
+| `gt_latex_dependencies()` | Get LaTeX package requirements |
