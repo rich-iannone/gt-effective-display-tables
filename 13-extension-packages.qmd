@@ -374,3 +374,17 @@ Many projects benefit from both packages. You might use **gtsummary** to create 
 
 As you develop your table-making skills, these extension packages become valuable tools in your toolkit. They handle common tasks efficiently while remaining flexible enough for customization. In the next chapter, we'll explore how you can create your own **gt** extensions to share solutions with the broader community.
 
+## Summary
+
+This chapter has introduced two powerful extension packages that build upon **gt**'s foundation: **gtsummary** for statistical summary tables and **gtExtras** for enhanced visual elements.
+
+The key capabilities we've explored:
+
+- **gtsummary** transforms statistical analysis into publication-ready tables. `tbl_summary()` creates descriptive statistics tables with automatic variable detection and appropriate statistics. `tbl_regression()` formats model outputs with proper coefficient presentation. `tbl_merge()` and `tbl_stack()` combine multiple tables for comprehensive reporting.
+- **gtExtras** adds visual enhancements and convenience functions. `gt_plt_sparkline()` embeds trend lines within cells. `gt_color_rows()` and `gt_highlight_rows()` apply conditional formatting. Theme functions like `gt_theme_538()` and `gt_theme_espn()` provide polished preset styles. `gt_fa_rating()` and related functions add icon-based displays.
+- integration with gt: both packages produce **gt** objects, meaning you can further customize their output using any **gt** function. Apply additional formatting, add footnotes, adjust styling (the full **gt** toolkit remains available).
+- complementary purposes: use **gtsummary** when you need statistically rigorous summary tables, especially in research or clinical contexts. Use **gtExtras** when you want enhanced visuals, sparklines, or quick access to polished themes.
+
+Extension packages embody a powerful pattern: domain experts identifying common needs and encoding solutions in reusable code. The tables they produce meet professional standards while requiring minimal code from users.
+
+The final chapter shows how you can create your own extensions, building functions and packages that address the specific table-making challenges in your domain.
