@@ -1,4 +1,4 @@
-# Output formats
+# Output formats {#sec-output-formats}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
