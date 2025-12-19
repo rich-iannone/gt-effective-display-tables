@@ -1153,3 +1153,20 @@ This dashboard-style table uses color-coded nanoplots to show multiple metrics p
 
 Nanoplots transform tables from static data presentations into dynamic visual summaries. By embedding trend lines, distributions, and comparisons directly within table rows, they enable readers to grasp patterns at a glance while retaining access to precise numeric values. The extensive customization options ensure that nanoplots can be tailored to match any design aesthetic or analytical purpose.
 
+## Summary
+
+This chapter has explored nanoplots: compact visualizations that embed directly within table cells, bridging the gap between tabular precision and visual pattern recognition.
+
+The key capabilities we've covered:
+
+- plot types: line plots show trends over time or sequence, bar plots display discrete comparisons, and box plots summarize distributions. Each type serves different analytical purposes.
+- the `cols_nanoplot()` function creates a new column of visualizations from numeric data in existing columns. It handles data collection, plot generation, and column placement automatically.
+- data formats: nanoplots accept data as separate columns, comma-separated strings within cells, or explicit x-y value pairs. This flexibility accommodates various data structures.
+- reference elements: reference lines and reference areas add context to plots, showing targets, thresholds, or acceptable ranges that help readers interpret the visualizations.
+- customization: the `nanoplot_options()` helper provides extensive control over colors, sizes, strokes, and display elements. You can match nanoplots to your table's overall design aesthetic.
+- missing data handling: the `missing_vals` argument controls how gaps appear in plots (as breaks, markers, zeros, or removed points).
+- autoscaling: when comparing across rows, `autoscale = TRUE` ensures all plots share the same axis ranges, making visual comparisons meaningful.
+
+Nanoplots work best when they complement rather than replace numeric values. A trend line next to quarterly figures helps readers see the trajectory. A distribution box plot alongside summary statistics reveals shape. The combination of numbers and graphics creates tables that inform at multiple levels of detail.
+
+The next chapter introduces table groups, which let you work with multiple related tables as a cohesive unit. You'll learn to bundle tables together, apply common styling, and output them as coordinated sets.
