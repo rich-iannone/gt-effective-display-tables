@@ -997,7 +997,7 @@ The key capabilities we've explored:
 - column dimensions: `cols_width()` controls column widths using pixels, percentages, or content-based sizing. `cols_align()` and `cols_align_decimal()` ensure proper alignment for readability.
 - column arrangement: the `cols_move*()` family repositions columns, while `cols_hide()` and `cols_unhide()` control visibility without removing data.
 - column merging: `cols_merge()` combines multiple columns using flexible patterns. Specialized variants like `cols_merge_uncert()`, `cols_merge_range()`, and `cols_merge_n_pct()` handle common merge scenarios with appropriate formatting.
-- column addition: `cols_add()` creates new columns from expressions, enabling calculated fields and derived values.
+- adding columns and rows: `cols_add()` creates new columns from expressions, enabling calculated fields and derived values directly in the **gt** pipeline. `rows_add()` inserts new rows, useful for additional data points or spacer rows.
 
 These structural modifications work alongside the formatting and styling functions you've already learned. A typical workflow might involve formatting values, then adjusting column labels, setting appropriate widths, reordering columns for logical flow, and merging related information.
 
