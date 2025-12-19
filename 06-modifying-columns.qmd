@@ -989,7 +989,7 @@ Both `cols_add()` and `rows_add()` integrate seamlessly with other **gt** functi
 
 ## Summary
 
-This chapter has covered the comprehensive set of `cols_*()` functions that modify table structure at the column level. These functions transform raw data columns into polished, presentation-ready table elements.
+This chapter has covered the comprehensive set of functions that modify table structure at the column and row level. These functions transform raw data into polished, presentation-ready table elements.
 
 The key capabilities we've explored:
 
