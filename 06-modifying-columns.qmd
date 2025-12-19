@@ -753,3 +753,18 @@ This categorical summary of Ontario municipalities shows how many fall into each
 
 The `cols_merge_n_pct()` function handles the formatting of the percentage values and applies appropriate parentheses automatically, creating a clean and professional appearance for your frequency tables.
 
+## Summary
+
+This chapter has covered the comprehensive set of `cols_*()` functions that modify table structure at the column level. These functions transform raw data columns into polished, presentation-ready table elements.
+
+The key capabilities we've explored:
+
+- column labels: `cols_label()` assigns human-readable labels, with support for Markdown, HTML, and units notation. `cols_label_with()` applies transformations programmatically across multiple columns.
+- column dimensions: `cols_width()` controls column widths using pixels, percentages, or content-based sizing. `cols_align()` and `cols_align_decimal()` ensure proper alignment for readability.
+- column arrangement: the `cols_move*()` family repositions columns, while `cols_hide()` and `cols_unhide()` control visibility without removing data.
+- column merging: `cols_merge()` combines multiple columns using flexible patterns. Specialized variants like `cols_merge_uncert()`, `cols_merge_range()`, and `cols_merge_n_pct()` handle common merge scenarios with appropriate formatting.
+- column addition: `cols_add()` creates new columns from expressions, enabling calculated fields and derived values.
+
+These structural modifications work alongside the formatting and styling functions you've already learned. A typical workflow might involve formatting values, then adjusting column labels, setting appropriate widths, reordering columns for logical flow, and merging related information.
+
+The next chapter explores summary rows and columns, which extend table structure vertically and horizontally with computed aggregations. You'll learn to add totals, averages, and other statistics that help readers understand your data at a glance.
