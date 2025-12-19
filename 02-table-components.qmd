@@ -120,7 +120,7 @@ The multi-column stub creates a clean visual hierarchy. Notice that repeating va
 
 This feature works seamlessly with formatting and styling functions. The stub columns are treated as a unit, allowing you to apply styles to the entire stub area while still being able to reference individual stub columns when needed.
 
-Some datasets have rownames built in; `mtcars` famously has the car model names as the rownames. To use those rownames as row labels in the stub, the `rownames_to_stub = TRUE` option will prove to be useful.
+Some datasets have rownames built in (`mtcars` famously has the car model names as the rownames). To use those rownames as row labels in the stub, the `rownames_to_stub = TRUE` option will prove to be useful.
 
 ```{r}
 head(mtcars, 10) |> gt(rownames_to_stub = TRUE)
