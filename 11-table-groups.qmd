@@ -470,3 +470,19 @@ gtsave(sales_group, "sales_report.docx")
 ```
 
 Each output format handles the group appropriately for its medium.
+
+## Summary
+
+This chapter has introduced table groups: containers that hold multiple **gt** tables and treat them as a coordinated unit.
+
+The key concepts we've covered:
+
+- creating groups: `gt_group()` bundles multiple **gt** tables together, either by passing them directly or building the collection incrementally.
+- managing tables: `grp_add()` adds tables to existing groups, `grp_pull()` extracts individual tables, `grp_replace()` swaps tables, `grp_rm()` removes tables, and `grp_clone()` duplicates tables within a group.
+- splitting tables: `gt_split()` divides a single large table into multiple smaller tables based on row count, column count, or row groups (useful for pagination or breaking up dense displays).
+- common options: `grp_options()` applies `tab_options()` settings across all tables in a group, ensuring visual consistency without repetitive code.
+- output behavior: in HTML, grouped tables are separated by line breaks. In paginated formats (PDF, Word, RTF), they're separated by page breaks, making groups ideal for multi-page reports.
+
+Table groups solve practical problems: presenting related analyses together, maintaining consistent styling across report sections, and handling pagination for large datasets. They complement rather than replace individual table construction. You build each table with the full power of **gt**, then combine them into groups for coordinated output.
+
+The next chapter explores output formats, covering how to render **gt** tables for different destinations: HTML for web, PDF for print, Word for documents, and more. You'll learn to optimize tables for each format's unique characteristics and constraints.
