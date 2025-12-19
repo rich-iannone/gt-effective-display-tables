@@ -124,11 +124,11 @@ dplyr::tibble(
   )
 ```
 
-Notice that it's not just translation: the US format puts the month before the day ("Jun 15, 2025"), while European locales put the day first ("15 juin 2025" in French). Asian locales typically use year-month-day order. The flexible date styles automatically adapt to each locale's conventions for both component ordering and separators.
+Notice that it's not just translation: the US format puts the month before the day (`"Jun 15, 2025"`), while European locales put the day first (`"15 juin 2025"` in French). Asian locales typically use year-month-day order. The flexible date styles automatically adapt to each locale's conventions for both component ordering and separators.
 
 ### `fmt_time()`
 
-Time formatting follows similar principles. The `fmt_time()` function provides preset styles for displaying time values.
+Time formatting follows similar principles. The `fmt_time()` function formats input values to time values using one of 25 preset time styles. Input can be in the form of `POSIXt` (i.e., datetimes), character (must be in the ISO 8601 forms of `HH:MM:SS` or `YYYY-MM-DD HH:MM:SS`), or `Date` (which always results in the formatting of `00:00:00`).
 
 Here is the function's signature:
 
@@ -1014,3 +1014,19 @@ dplyr::tibble(
 ```
 
 The period surrounded by spaces becomes a centered dot (·), the standard notation for waters of hydration and other addition compounds.
+
+## Summary
+
+This chapter has explored the formatting functions that handle non-numeric data: the dates, times, text, URLs, images, and special elements that bring tables to life beyond raw numbers.
+
+The key capabilities we've covered:
+
+- temporal formatting: `fmt_date()`, `fmt_time()`, and `fmt_datetime()` provide 41 date styles and 25 time styles, with full locale support for international audiences. Custom formatting through CLDR patterns or `strptime` codes gives you complete control when preset styles aren't enough. The `fmt_duration()` function transforms raw seconds into human-readable time spans.
+- text and links: `fmt_markdown()` renders rich text formatting within cells, while `fmt_url()` and `fmt_email()` create clickable links that connect your tables to external resources.
+- visual elements: `fmt_image()` embeds graphics directly in cells, `fmt_flag()` converts country codes to instantly recognizable flag icons, and `fmt_icon()` adds Font Awesome icons for status indicators and categorical markers.
+- scientific notation: `fmt_units()` renders physical units with proper superscripts and subscripts, while `fmt_chem()` handles chemical formulas, isotopes, and reaction equations with publication-ready typography.
+- country handling: `fmt_flag()` and `fmt_country()` work together to present international data with visual clarity, supporting localized country names and tooltips.
+
+Together with the numeric formatters from the previous chapter, you now have a complete toolkit for transforming raw data values into polished, meaningful presentations. But formatting is just the first stage of **gt**'s rendering pipeline.
+
+The next chapter introduces **substitution** and **text transformation** functions. These operate *after* formatting, allowing you to replace specific values (like missing data or zeros) with alternative text, and to transform the final string representation of cell values. This three-stage pipeline (format, substitute, transform) gives you precise control over exactly how every value appears in your finished table.
