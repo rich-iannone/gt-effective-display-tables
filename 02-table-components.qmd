@@ -1100,9 +1100,7 @@ pizzaplace |>
   fmt_integer(columns = orders) |>
   fmt_currency(columns = c(revenue, avg_price)) |>
   tab_stubhead(label = "Size") |>
-  tab_source_note(
-    source_note = md("Data from the `pizzaplace` dataset in **gt**")
-  ) |>
+  tab_source_note(source_note = md("Data from the `pizzaplace` dataset in **gt**")) |>
   tab_stub_indent(rows = everything(), indent = 1) |>
   opt_align_table_header(align = "left") |>
   tab_options(
