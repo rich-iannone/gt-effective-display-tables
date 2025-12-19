@@ -1,4 +1,4 @@
-# Table options
+# Table styling and options
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
