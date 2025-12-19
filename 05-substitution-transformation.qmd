@@ -645,9 +645,9 @@ dplyr::tibble(
 
 This example demonstrates all three stages working together:
 
-1. **Formatting**: Numbers are formatted as integers and currency
-2. **Substitution**: Missing values, zeros, and small values receive special treatment
-3. **Transformation**: Product names are cleaned up and status values are decorated
+1. formatting: numbers are formatted as integers and currency
+2. substitution: missing values, zeros, and small values receive special treatment
+3. transformation: product names are cleaned up and status values are decorated
 
 Each stage builds on the previous one, creating a polished final presentation from raw data.
 
