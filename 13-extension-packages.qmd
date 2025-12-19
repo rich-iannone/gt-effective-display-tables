@@ -1,4 +1,4 @@
-# Extension packages
+# Extension packages {#sec-extension-packages}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
