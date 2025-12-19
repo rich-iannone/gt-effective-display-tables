@@ -255,6 +255,8 @@ exibble |>
   opt_align_table_header(align = "left")
 ```
 
+The title and subtitle now align to the left edge of the table, creating a more document-like appearance. Left-aligned headers work well when the table is part of a larger report or when you want to establish a clear reading direction from left to right.
+
 ## Adding *source notes* to the footer of the table
 
 The footer section of a table sits beneath the table body and provides space for supplementary information. Source notes are one type of footer content. They typically cite data origins, provide general disclaimers, or offer context that applies to the entire table. Unlike footnotes (which link to specific cells via marks), source notes stand alone as general commentary.
@@ -614,6 +616,7 @@ pizzaplace |>
   )
 ```
 
+This example demonstrates a sophisticated workflow combining pivoting, delimiter-based spanners, and dynamic label generation. The `pivot_wider()` creates columns like `revenue.2015-01-01` and `sold.2015-01-01`, which `tab_spanner_delim()` splits into spanners (`revenue`, `sold`) and column labels (the dates). The `cols_label_with()` function then appends the day of the week to each date label, producing labels like `"2015-01-01 (Thu)"`. The `data_color()` call adds a subtle green gradient to revenue cells, making it easy to spot higher-performing days at a glance.
 
 ## The stub and row groups
 
@@ -796,6 +799,8 @@ gtcars |>
   tab_stubhead(label = "car")
 ```
 
+The stubhead label `"car"` now appears above the stub column, clarifying that the row labels represent car models. Without a stubhead, readers might need to infer this from context. For tables with many rows or complex stub content, a clear stubhead label improves navigability.
+
 ### `tab_stub_indent()`
 
 Indentation of row labels is an effective way for establishing structure in a table stub. The `tab_stub_indent()` function allows for fine control over row label indentation in the stub. We can use an explicit definition of an indentation level, or, employ an indentation directive using keywords.
@@ -908,6 +913,8 @@ towny |>
     land_area_km2 = html("Area (km<sup>2</sup>)")
   )
 ```
+
+The `md()` helper renders Markdown syntax, making `"Population"` bold and adding italics to the unit in `"Density"`. The `html()` helper allows raw HTML, which we use here to create a proper superscript for the squared unit in `"Area"`. Mixing these approaches gives you flexibility: Markdown for simple formatting and HTML when you need precise control over the output.
 
 #### Incorporating units with **gt**'s units notation
 
