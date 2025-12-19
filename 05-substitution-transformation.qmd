@@ -650,3 +650,18 @@ This example demonstrates all three stages working together:
 3. **Transformation**: Product names are cleaned up and status values are decorated
 
 Each stage builds on the previous one, creating a polished final presentation from raw data.
+
+## Summary
+
+This chapter has explored the second and third stages of **gt**'s rendering pipeline: substitution and text transformation. These functions operate *after* formatting, giving you fine-grained control over how specific values appear in your finished tables.
+
+The key concepts to remember:
+
+- substitution functions (`sub_*()`) replace specific values with alternative text. Use `sub_missing()` for `NA` values, `sub_zero()` for zeros, `sub_small_vals()` and `sub_large_vals()` for extreme values, and `sub_values()` for custom replacement logic.
+- text transformation functions (`text_*()`) modify the final string representation of cell values. The `text_transform()` function provides maximum flexibility with custom functions, while `text_case_when()` and `text_case_match()` offer convenient pattern-based transformations.
+- the three-stage pipeline (format → substitute → transform) processes values in a defined order, ensuring predictable results. Each stage sees the output of the previous stage.
+- location targeting allows you to apply transformations precisely where needed, using the same `cells_*()` helper functions used throughout **gt**.
+
+Together with the formatting functions from *Chapters 3 and 4*, you now have complete control over how every value in your table is rendered. Missing data can display meaningful placeholders. Extreme values can receive special treatment. Text can be cleaned, decorated, or transformed programmatically.
+
+The next chapter shifts focus from cell values to table structure, exploring the `cols_*()` functions that let you modify columns themselves: their labels, widths, alignment, ordering, visibility, and even merging multiple columns into one.
