@@ -1,4 +1,4 @@
-# Footnotes and source notes
+# Footnotes and source notes {#sec-footnotes-source-notes}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
