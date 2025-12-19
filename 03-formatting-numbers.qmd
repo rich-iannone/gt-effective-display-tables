@@ -625,6 +625,111 @@ dplyr::tibble(
 
 Both formats convey the same information, but the SI prefix format is more compact and more familiar in practical contexts. A 2.4 GHz processor clock speed is more recognizable than 2.40 × 10^9 Hz.
 
+### The `unit_conversion()` helper
+
+When your data is stored in one unit but needs to be displayed in another, the `unit_conversion()` helper provides conversion factors for a wide range of measurement types. This is particularly useful with the `scale_by` argument in formatting functions, or when creating new columns with converted values.
+ 
+The function takes `from` and `to` arguments specifying the source and target units. You can view all available conversions using `info_unit_conversions()`.
+
+Here's an example converting obelisk masses from metric tons to grams, then displaying with SI prefixes:
+
+```{r}
+dplyr::tibble(
+  obelisk = c(
+    "Lateran Obelisk",
+    "Vatican Obelisk",
+    "Flaminio Obelisk",
+    "Pantheon Obelisk"
+  ),
+  mass_ton = c(455, 331, 235, 30)
+) |>
+  gt() |>
+  fmt_number_si(
+    columns = mass_ton,
+    unit = "g",
+    decimals = 0,
+    scale_by = unit_conversion(
+      from = "mass.metric-ton",
+      to = "mass.gram"
+    )
+  ) |>
+  cols_label(
+    obelisk = "Obelisk",
+    mass_ton = "Mass"
+  )
+```
+
+The `unit_conversion()` function returns the conversion factor (in this case, 1,000,000 grams per metric ton), which is then applied via `scale_by`. Combined with `fmt_number_si()`, the masses are displayed as `"455 Mg"` (455 megagrams), `"331 Mg"`, and so on. Note that this is exactly equivalent to the original metric ton values but expressed in the SI unit system.
+
+When converting between area units, remember that `unit_conversion()` gives you the factor to multiply by when going from the source unit to the target. For the density conversion calculations (which have area in the denominator), you'll need to invert the factor:
+
+```{r}
+towny |>
+  dplyr::slice_max(density_2021, n = 10) |>
+  dplyr::select(name, population_2021, density_2021, land_area_km2) |>
+  gt(rowname_col = "name") |>
+  fmt_integer(columns = population_2021) |>
+  fmt_number(
+    columns = land_area_km2,
+    decimals = 1,
+    scale_by = unit_conversion(
+      from = "area.square-kilometer",
+      to = "area.square-mile"
+    )
+  ) |>
+  fmt_number(
+    columns = density_2021,
+    decimals = 1,
+    scale_by = 1 / unit_conversion(
+      from = "area.square-kilometer",
+      to = "area.square-mile"
+    )
+  ) |>
+  cols_label(
+    land_area_km2 = "Land Area,<br>sq. mi",
+    population_2021 = "Population",
+    density_2021 = "Density,<br>ppl / sq. mi",
+    .fn = md
+  )
+```
+
+Notice that for `land_area_km2`, we multiply by the conversion factor (converting km² to sq. mi), but for `density_2021` (which is people per km²), we divide by the conversion factor to get people per square mile.
+
+The `unit_conversion()` helper can also be used with `cols_add()` to create new columns with converted values (see @sec-modifying-columns for a full treatment of `cols_add()` and `rows_add()`). However, temperature conversions are a special case: because they involve both scaling and an offset, `unit_conversion()` returns a **function** rather than a simple numeric factor. Here's an example adding Celsius columns to temperature data stored in Fahrenheit:
+
+```{r}
+dplyr::tibble(
+  city = c("Phoenix", "Miami", "Seattle", "Minneapolis"),
+  high_temp_f = c(107, 91, 75, 83),
+  low_temp_f = c(82, 76, 54, 64)
+) |>
+  gt() |>
+  cols_add(
+    high_temp_c = unit_conversion(
+      from = "temperature.fahrenheit",
+      to = "temperature.celsius"
+    )(high_temp_f),
+    low_temp_c = unit_conversion(
+      from = "temperature.fahrenheit",
+      to = "temperature.celsius"
+    )(low_temp_f)
+  ) |>
+  fmt_number(
+    columns = ends_with("_c"),
+    decimals = 1
+  ) |>
+  cols_move(columns = high_temp_c, after = high_temp_f) |>
+  cols_label(
+    city = "City",
+    high_temp_f = "High (°F)",
+    high_temp_c = "High (°C)",
+    low_temp_f = "Low (°F)",
+    low_temp_c = "Low (°C)"
+  )
+```
+
+Notice that we call the returned function by appending `(high_temp_f)` after `unit_conversion(...)`. This is necessary because temperature conversion requires both scaling (multiplying by 5/9) and an offset (subtracting 32), so `unit_conversion()` returns a function that applies both operations. For most other unit conversions (length, mass, volume, area), the conversion is purely multiplicative and `unit_conversion()` returns a simple numeric factor that you can use directly with `*` or in `scale_by`.
+
 ## Formatting numbers to currencies and various other units
 
 Beyond basic numeric formatting, **gt** provides specialized functions for common measurement contexts: currencies, data sizes, and parts-per quantities.
