@@ -1,4 +1,4 @@
-# Table components
+# Table components {#sec-table-components}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
