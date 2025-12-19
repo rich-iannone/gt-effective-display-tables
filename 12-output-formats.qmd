@@ -232,7 +232,7 @@ Tables are true Word tables, not images or embedded objects, allowing full editi
 
 Recipients can view and edit tables using Word's familiar interface. Word's collaboration features (track changes, comments) work with the table content.
 
-Tables can be inserted into Word templates with existing styles and formatting. Word's caption and cross-reference features work with gt-generated tables.
+Tables can be inserted into Word templates with existing styles and formatting. Word's caption and cross-reference features work with **gt**-generated tables.
 
 ### Limitations and best practices
 
