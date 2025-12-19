@@ -1361,3 +1361,36 @@ dplyr::tibble(
 ```
 
 The values pass through but can still use the `pattern` argument to add decoration. This is useful when you want to apply a pattern to text values that don't need numeric or date formatting.
+
+An important feature of `fmt_passthrough()` is the `escape` argument. By default (`escape = TRUE`), text values are escaped for the output format. So HTML special characters like `<` and `>` are converted to `&lt;` and `&gt;`, and similar escaping occurs for special characters in LaTeX when working with that output format. However, when you set `escape = FALSE`, the text passes through without escaping, allowing you to include raw HTML or LaTeX markup directly in your cells:
+ 
+```{r}
+dplyr::tibble(
+  item = c("Widget", "Gadget", "Sprocket"),
+  styled = c(
+    "<span style='color: red;'>Hot item</span>",
+    "<em>Classic</em>",
+    "<strong>Best seller</strong>"
+  )
+) |>
+  gt() |>
+  fmt_passthrough(columns = styled, escape = FALSE)
+```
+
+With `escape = FALSE`, the HTML tags render as styled text rather than appearing as literal `<span>` and `<em>` markup. This gives you an escape hatch for including arbitrary HTML (or LaTeX, when rendering to PDF) when **gt**'s built-in formatting functions don't cover your specific need. Use this capability sparingly (it ties your table to a specific output format) but it's invaluable when you need it.
+
+## Summary
+
+This chapter has covered the extensive suite of numeric formatting functions in **gt**. From the foundational `fmt_number()` and `fmt_integer()` to specialized formatters like `fmt_currency()`, `fmt_percent()`, `fmt_scientific()`, and `fmt_bytes()`, you now have the tools to present numeric data in virtually any format your tables require.
+
+The key principles to remember:
+
+- precision matters: choose decimal places thoughtfully. Too many creates clutter but too few loses important information. The `n_sigfig` argument offers an alternative approach when significant figures are more meaningful than fixed decimals.
+- locale awareness: setting a locale (either globally in `gt()` or per-function) ensures your tables follow the numeric conventions your audience expects (decimal separators, digit grouping, and currency symbols all adapt automatically).
+- patterns add context: The `pattern` argument lets you wrap formatted values in additional text, adding units, labels, or decorative elements without modifying the underlying data.
+- conditional formatting: using the `rows` argument and helper functions like `from_column()`, you can apply different formatting to different subsets of your data.
+- negative value handling: the `accounting` style, parentheses, and custom patterns give you multiple ways to present negative numbers appropriately for your context.
+
+Numeric formatting is often the most visible aspect of table presentation (it's what readers look at first and remember longest). Getting it right transforms a wall of digits into information that communicates clearly.
+
+In the next chapter, we turn to formatting functions for non-numeric data: dates, times, durations, text, URLs, images, flags, and icons. These formatters complete the picture, allowing you to handle any type of data that might appear in your tables.
