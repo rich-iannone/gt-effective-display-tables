@@ -5,7 +5,7 @@ library(gt)
 library(dplyr)
 ```
 
-The **gt** package has inspired the creation of extension packages that build upon its foundation to solve specialized problems. These packages demonstrate the flexibility of **gt**'s architecture and provide ready-made solutions for common table-making tasks in specific domains. In this chapter, we'll explore two of the most impactful extension packages: gtsummary for clinical and analytical summary tables, and **gtExtras** for enhanced visual elements and styling.
+The **gt** package has inspired the creation of extension packages that build upon its foundation to solve specialized problems. These packages demonstrate the flexibility of **gt**'s architecture and provide ready-made solutions for common table-making tasks in specific domains. In this chapter, we'll explore two of the most impactful extension packages: **gtsummary** for clinical and analytical summary tables, and **gtExtras** for enhanced visual elements and styling.
 
 Both packages follow a similar philosophy: they wrap **gt**'s functionality to provide sensible defaults for their target use cases while still allowing full access to **gt**'s customization capabilities. This means you can use these packages to quickly generate professional tables and then further refine them using the **gt** functions you've already learned.
 
@@ -115,7 +115,7 @@ This approach is particularly useful for showing how results change as you add o
 
 ### Converting to **gt** for additional customization
 
-Every **gtsummary** table can be converted to a **gt** object using `as_gt()`, which opens up all of gt's formatting capabilities. This is useful when you need styling options beyond what gtsummary provides natively.
+Every **gtsummary** table can be converted to a **gt** object using `as_gt()`, which opens up all of **gt**'s formatting capabilities. This is useful when you need styling options beyond what **gtsummary** provides natively.
 
 ```{r}
 #| label: gtsummary-to-gt
