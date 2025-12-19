@@ -1012,3 +1012,19 @@ illness |>
 This clinical research table uses superscript italic marks, attaches footnotes to spanners and stub cells, and includes a properly cited source note.
 
 Footnotes transform tables from bare data presentations into documented, contextualized reports. Whether explaining methodology, defining terms, citing sources, or highlighting anomalies, the footer section provides structured space for the supplementary information that readers need. With **gt**'s flexible location helpers and extensive customization options, you can craft footnotes that integrate seamlessly with any table design.
+
+## Summary
+
+This chapter has covered the footer section of **gt** tables, where footnotes and source notes provide supplementary information without cluttering the main presentation.
+
+The key concepts we've explored:
+
+- footnotes link explanatory text to specific table locations via marks. The `tab_footnote()` function attaches notes to cells, columns, rows, spanners, or any other table element using the `cells_*()` location helpers.
+- source notes provide general context (typically data citations) without marks. Multiple `tab_source_note()` calls add notes in sequence, and both `md()` and `html()` helpers enable rich formatting.
+- footnote marks can be customized with `opt_footnote_marks()` (choosing numbers, letters, standard symbols, or extended symbols) and `opt_footnote_spec()` (controlling superscript, parentheses, and other formatting).
+- location targeting uses the same `cells_*()` functions found throughout **gt**: `cells_body()`, `cells_column_labels()`, `cells_stub()`, `cells_column_spanners()`, `cells_row_groups()`, `cells_summary()`, and more.
+- mark placement can be controlled with the `placement` argument, positioning marks to the left or right of cell content.
+
+Footnotes serve multiple purposes: defining abbreviations, explaining methodology, noting data limitations, citing sources, and highlighting exceptions. The key is using them well. Too many footnotes can overwhelm a table, while strategic footnotes enhance understanding.
+
+The next chapter introduces nanoplots: tiny embedded visualizations that add a visual dimension to tabular data. You'll learn to create line plots, bar plots, and box plots that fit within table cells, revealing trends and distributions at a glance.
