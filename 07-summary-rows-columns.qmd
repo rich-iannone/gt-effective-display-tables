@@ -794,10 +794,10 @@ These three examples illustrate the versatility of **gt**'s summary system. Whet
 
 The summary functions in **gt** provide a comprehensive system for adding aggregated data to your tables:
 
-- **`summary_rows()`** adds summary rows within each row group, useful for subtotals and group-level statistics
-- **`grand_summary_rows()`** adds summary rows that aggregate across the entire table, useful for overall totals and grand statistics
-- **`summary_columns()`** adds computed columns that aggregate across rows, useful for row totals and row-wise calculations
-- **`extract_summary()`** retrieves summary data for use outside the table
+- `summary_rows()` adds summary rows within each row group, useful for subtotals and group-level statistics
+- `grand_summary_rows()` adds summary rows that aggregate across the entire table, useful for overall totals and grand statistics
+- `summary_columns()` adds computed columns that aggregate across rows, useful for row totals and row-wise calculations
+- `extract_summary()` retrieves summary data for use outside the table
 
 All three summary functions share a consistent interface with the `fns` argument for specifying aggregations, the `fmt` argument for formatting results, and the `side` argument for positioning. Summary elements can be styled and annotated using the standard **gt** functions with the `cells_summary()` and `cells_grand_summary()` location helpers.
 
