@@ -3,6 +3,7 @@
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
 library(dplyr)
+library(lubridate)
 ```
 
 While formatting functions operate on the values *within* cells, sometimes we need to modify the structure and arrangement of the columns themselves. The **gt** package provides a comprehensive set of `cols_*()` functions that allow us to relabel columns, set their widths, control alignment, reorder their positions, hide and reveal them, and even merge data from multiple columns into a single column. These operations are essential for transforming raw data into polished, presentation-ready tables.
