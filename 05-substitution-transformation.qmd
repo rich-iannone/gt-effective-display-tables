@@ -610,7 +610,7 @@ Email usernames are transformed into complete email addresses.
 
 ## Combining stages effectively
 
-The power of gt's rendering pipeline comes from combining formatting, substitution, and transformation stages. Here's a comprehensive example:
+The power of **gt**'s rendering pipeline comes from combining formatting, substitution, and transformation stages. Here's a comprehensive example:
 
 ```{r}
 dplyr::tibble(
