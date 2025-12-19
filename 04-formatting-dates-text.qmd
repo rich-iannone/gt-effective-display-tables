@@ -1,4 +1,4 @@
-# Formatting dates, text, and special values
+# Formatting dates, text, and special values {#sec-formatting-dates-text}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
