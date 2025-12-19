@@ -316,7 +316,7 @@ Source notes provide a clean way to document your data's provenance and add nece
 
 ## Grouping together column labels with spanners
 
-Column spanners are horizontal labels that stretch across multiple columns, grouping them under a common heading. They create visual hierarchy in the boxhead (the part of the table containing column labels) and help readers understand relationships between columns. For example, columns showing different years of population data might be grouped under a "Population" spanner, while density columns might share a "Density" spanner.
+Column spanners are horizontal labels that stretch across multiple columns, grouping them under a common heading. They create visual hierarchy in the boxhead (the part of the table containing column labels) and help readers understand relationships between columns. For example, columns showing different years of population data might be grouped under a `"Population"` spanner, while density columns might share a `"Density"` spanner.
 
 The part of the table that contains, at a minimum, column labels and, optionally, spanner labels is sometimes called the table boxhead. A spanner will occupy space over any number of contiguous column labels. With the `tab_spanner()` function, you can insert a spanner in the boxhead part of a **gt** table. This function allows for mapping to be defined by column names, existing spanner ID values, or a mixture of both. 
 
