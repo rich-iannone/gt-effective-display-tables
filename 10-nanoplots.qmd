@@ -1,4 +1,4 @@
-# Nanoplots
+# Nanoplots {#sec-nanoplots}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
