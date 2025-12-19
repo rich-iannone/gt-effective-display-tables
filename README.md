@@ -1,6 +1,6 @@
-# Creating Effective Display Tables with the gt Package
+# Creating Effective Display Tables with the **gt** Package
 
-This is the repository for the book "Creating Effective Display Tables with the gt Package", a comprehensive guide to building professional, publication-ready tables in R using the **gt** package.
+This is the repository for the book "Creating Effective Display Tables with the **gt** Package", a comprehensive guide to building professional, publication-ready tables in R using the **gt** package.
 
 ## About this book
 
