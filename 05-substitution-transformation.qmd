@@ -1,4 +1,4 @@
-# Substitution and text transformation
+# Substitution and text transformation {#sec-substitution-transformation}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
