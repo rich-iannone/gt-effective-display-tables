@@ -387,12 +387,12 @@ dplyr::tibble(
     x == "A+" ~ "★★ A+",
     x == "A" ~ "★ A",
     x == "F" ~ "✗ F",
-    .default = x,
+    .default = NULL,
     .locations = cells_body(columns = grade)
   )
 ```
 
-Different grades receive different decorations based on conditional logic. The `.default = x` ensures unmatched values pass through unchanged.
+Different grades receive different decorations based on conditional logic. The `.default = NULL` ensures unmatched values pass through unchanged.
 
 #### Numeric comparisons in text
 
@@ -408,7 +408,7 @@ dplyr::tibble(
   text_case_when(
     as.numeric(gsub("[^0-9.]", "", x)) >= 50000 ~ paste0("📈 ", x),
     as.numeric(gsub("[^0-9.]", "", x)) < 10000 ~ paste0("📉 ", x),
-    .default = x,
+    .default = NULL,
     .locations = cells_body(columns = value)
   )
 ```
@@ -428,7 +428,7 @@ dplyr::tibble(
     x == "in_progress" ~ "🔄 In Progress",
     x == "not_started" ~ "⏳ Pending",
     x == "blocked" ~ "🚫 Blocked",
-    .default = x,
+    .default = NULL,
     .locations = cells_body(columns = status)
   )
 ```
@@ -461,7 +461,7 @@ dplyr::tibble(
     "Y" ~ "✓ Yes",
     "N" ~ "✗ No",
     "P" ~ "◐ Partial",
-    .default = x,
+    .default = NULL,
     .locations = cells_body(columns = available)
   )
 ```
