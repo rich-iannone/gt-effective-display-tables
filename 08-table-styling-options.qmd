@@ -1053,3 +1053,19 @@ With `selection_mode = "single"` or `"multiple"`, users can click rows to select
 A note on limitations: interactive tables are HTML-only features. When rendering to PDF, RTF, Word, or other formats, `opt_interactive()` has no effect and tables render in their static form. Plan accordingly when creating documents destined for multiple output formats.
 
 The combination of **gt**'s sophisticated formatting capabilities with interactive exploration creates tables that serve both presentation and analysis purposes. Readers can appreciate the careful styling while still drilling into the data to answer their own questions: a powerful synthesis for modern data communication.
+
+## Summary
+
+This chapter has explored the extensive styling and customization options that can transform functional tables into visually-compelling presentations. From data-driven colorization to precise typographic control, **gt** provides the tools to achieve virtually any aesthetic goal.
+
+The key capabilities we've covered:
+
+- data-driven coloring: `data_color()` maps values to colors using palettes, gradients, or custom scales. This visual encoding helps readers identify patterns, outliers, and relationships at a glance.
+- precision styling: `tab_style()` applies CSS-like styling to any table location using the `cells_*()` helper functions. Combined with `cell_text()`, `cell_fill()`, and `cell_borders()`, you have complete control over typography, backgrounds, and borders.
+- global options: `tab_options()` provides access to dozens of table-wide settings, from font families to padding to border styles. These options establish consistent defaults that individual styles can override.
+- convenience functions: The `opt_*()` family offers quick access to common configurations: `opt_stylize()` for preset themes, `opt_row_striping()` for zebra stripes, `opt_table_font()` for typography, and many more.
+- interactive tables: `opt_interactive()` transforms static tables into explorable interfaces with sorting, filtering, searching, and pagination (all while preserving your formatting and styling choices).
+
+Effective table styling serves communication, not decoration. Color should highlight meaningful distinctions. Typography should establish hierarchy. Borders should delineate structure. The best-styled tables are those where readers don't notice the styling much at all, they simply find the information they need with minimal effort.
+
+The next chapter covers footnotes and source notes, which add supplementary information to your tables without cluttering the main presentation. You'll learn to attach explanatory notes to specific cells, define footnote marks, and create properly formatted citations.
