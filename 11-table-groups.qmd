@@ -1,4 +1,4 @@
-# Working with table groups
+# Working with table groups {#sec-table-groups}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
