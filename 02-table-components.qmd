@@ -282,6 +282,38 @@ gtcars |>
   tab_source_note(source_note = "From edmunds.com")
 ```
 
+The `md()` and `html()` helper functions work with source notes, allowing you to add styled text, links, or other formatting. Here's an example using Markdown to create a clickable link:
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, msrp) |>
+  dplyr::slice(1:5) |>
+  gt() |>
+  tab_source_note(
+    source_note = md("Data from [edmunds.com](https://www.edmunds.com), 2015.")
+  ) |>
+  tab_source_note(
+    source_note = md("*Prices shown are MSRP in USD.*")
+  )
+```
+
+This example demonstrates two source notes added in sequence, both using Markdown formatting. The first contains a hyperlink, and the second uses italics. For HTML-specific formatting, you could use `html()` instead:
+ 
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, msrp) |>
+  dplyr::slice(1:5) |>
+  gt() |>
+  tab_source_note(
+    source_note = html(
+      "Data from <a href='https://www.edmunds.com'>edmunds.com</a>",
+      "<span style='color: gray;'>(retrieved 2015)</span>"
+    )
+  )
+```
+
+Source notes provide a clean way to document your data's provenance and add necessary context without cluttering the table itself. They appear in a dedicated footer area, visually separated from the data, making it clear that this information applies to the table as a whole rather than to specific cells or values.
+
 ## Grouping together column labels with spanners
 
 Column spanners are horizontal labels that stretch across multiple columns, grouping them under a common heading. They create visual hierarchy in the boxhead (the part of the table containing column labels) and help readers understand relationships between columns. For example, columns showing different years of population data might be grouped under a "Population" spanner, while density columns might share a "Density" spanner.
