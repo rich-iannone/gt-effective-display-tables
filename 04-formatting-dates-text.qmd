@@ -5,7 +5,13 @@ library(gt)
 library(dplyr)
 ```
 
-This chapter covers formatting functions for non-numeric data: dates and times, durations, text content, URLs, images, and special display elements like flags and icons. These formatters transform raw data into polished, meaningful presentations that communicate clearly to your readers.
+Numbers may dominate most datasets, but tables come alive when they incorporate the full spectrum of data types. Dates tell us *when* something happened. Text provides names, descriptions, and categorical labels. URLs connect tables to the broader web. Images and icons add visual meaning that words and numbers alone cannot convey. Flags identify countries at a glance. Chemical formulas render with proper subscripts. This chapter explores the formatting functions that handle all of these non-numeric data types, transforming raw values into polished presentations.
+
+The formatters covered here share a common philosophy with the numeric functions from the previous chapter: they operate on the underlying data without modifying it, they support locale-aware rendering where appropriate, and they integrate seamlessly into **gt** pipelines. But they also introduce capabilities unique to their data types. Date formatters must navigate the labyrinth of international conventions (is January 5th written as 1/5 or 5/1?). Text formatters can render Markdown, generate hyperlinks, or display email addresses. Image formatters embed graphics directly into cells. And special formatters like `fmt_flag()` and `fmt_icon()` bridge the gap between data and visual communication.
+
+Consider a table of international sales data. The numeric columns benefit from the `fmt_*()` functions we've already learned. But the country codes: they're more meaningful as flag icons. Report dates need to follow the conventions of whoever is reading the table. And those product descriptions with markdown formatting should of course render properly rather than showing raw asterisks and brackets. This chapter gives you the tools to handle all such cases.
+
+We'll start with temporal data (dates, times, and durations) where the challenge lies in choosing among dozens of valid formats for the same underlying value. From there, we move to text and URL formatting, including Markdown rendering. Then we explore the visual formatters that can embed images, country flags, and icons directly into your table cells. Finally, we cover specialized formatters for units, chemical formulas, and country names. By the end of this chapter, you'll have the complete toolkit for formatting any type of data that might appear in your tables.
 
 ## Date, time, and duration formats
 
