@@ -25,7 +25,7 @@ book:
         - 07-summary-rows-columns.qmd
     - part: "Styling and Presentation"
       chapters:
-        - 08-table-options.qmd
+        - 08-table-styling-options.qmd
         - 09-footnotes-source-notes.qmd
         - 10-nanoplots.qmd
     - part: "Advanced Topics"
