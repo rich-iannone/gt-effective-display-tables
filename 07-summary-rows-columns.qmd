@@ -1,4 +1,4 @@
-# Summary rows and columns
+# Summary rows and columns {#sec-summary-rows-columns}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
