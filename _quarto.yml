@@ -4,7 +4,7 @@ project:
 
 book:
   twitter-card: true
-  title: "Creating Effective Display Tables with the gt Package"
+  title: "Creating Effective Display Tables with the **gt** Package"
   author: "Richard Iannone"
   search: true
   repo-url: https://github.com/rich-iannone/gt-effective-display-tables
