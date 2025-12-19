@@ -753,6 +753,240 @@ This categorical summary of Ontario municipalities shows how many fall into each
 
 The `cols_merge_n_pct()` function handles the formatting of the percentage values and applies appropriate parentheses automatically, creating a clean and professional appearance for your frequency tables.
 
+## Adding columns and rows
+
+While the previous sections focused on modifying existing columns, **gt** also provides functions to add entirely new columns and rows directly within the table-building pipeline. This allows you to perform calculations and add data without returning to **dplyr** or modifying your source data frame.
+
+### `cols_add()`
+
+The `cols_add()` function works similarly to `dplyr::mutate()`, allowing you to create new columns based on expressions involving existing columns. This is particularly useful for calculated fields, unit conversions, or derived values.
+
+Here is the function's signature:
+
+```r
+cols_add(
+  .data,
+  ...,
+  .before = NULL,
+  .after = NULL
+)
+```
+
+Let's create a table that calculates population density from existing columns:
+
+```{r}
+towny |>
+  dplyr::select(name, population_2021, land_area_km2) |>
+  dplyr::filter(population_2021 > 100000) |>
+  dplyr::slice_max(population_2021, n = 8) |>
+  gt() |>
+  cols_add(
+    density = population_2021 / land_area_km2
+  ) |>
+  fmt_integer(columns = population_2021) |>
+  fmt_number(columns = c(land_area_km2, density), decimals = 1) |>
+  cols_label(
+    name = "Municipality",
+    population_2021 = "Population",
+    land_area_km2 = "Area (km²)",
+    density = "Density (per km²)"
+  )
+```
+
+The `density` column is calculated directly in the **gt** pipeline, dividing population by land area. This keeps the calculation close to where it's displayed, making the table code more self-contained and easier to understand.
+
+You can add multiple columns in a single call, and use the `.before` or `.after` arguments to position them:
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, hp, mpg_c, mpg_h) |>
+  dplyr::slice(1:6) |>
+  gt() |>
+  cols_add(
+    mpg_avg = (mpg_c + mpg_h) / 2,
+    hp_per_mpg = hp / mpg_avg,
+    .after = mpg_h
+  ) |>
+  fmt_number(columns = c(mpg_avg, hp_per_mpg), decimals = 1) |>
+  cols_label(
+    mfr = "Make",
+    model = "Model",
+    hp = "HP",
+    mpg_c = "City MPG",
+    mpg_h = "Hwy MPG",
+    mpg_avg = "Avg MPG",
+    hp_per_mpg = "HP/MPG"
+  )
+```
+
+Here we calculate an average MPG from city and highway figures, then compute a horsepower-to-efficiency ratio. Both new columns are placed after the highway MPG column using `.after = mpg_h`.
+
+The `cols_add()` function is also useful for adding constant values or flags:
+
+```{r}
+exibble |>
+  dplyr::select(char, num, currency) |>
+  dplyr::slice(1:4) |>
+  gt() |>
+  cols_add(
+    status = c("Active", "Pending", "Active", "Closed"),
+    reviewed = TRUE,
+    .before = char
+  ) |>
+  cols_label(
+    status = "Status",
+    reviewed = "Reviewed",
+    char = "Item",
+    num = "Value",
+    currency = "Amount"
+  ) |>
+  fmt_tf(columns = reviewed, tf_style = "check-mark")
+```
+
+You can even start with an empty table and build it up entirely through `cols_add()`:
+
+```{r}
+dplyr::tibble() |>
+  gt() |>
+  cols_add(
+    product = c("Widget", "Gadget", "Sprocket"),
+    price = c(29.99, 49.99, 19.99),
+    quantity = c(100, 50, 200)
+  ) |>
+  cols_add(
+    total = price * quantity
+  ) |>
+  fmt_currency(columns = c(price, total)) |>
+  fmt_integer(columns = quantity)
+```
+
+This approach can be useful when building tables programmatically or when the table structure itself is part of the computation.
+
+### `rows_add()`
+
+Just as `cols_add()` adds columns, `rows_add()` adds new rows to your table. This is useful for inserting summary rows, spacer rows, or additional data points directly in the **gt** pipeline.
+
+Here is the function's signature:
+
+```r
+rows_add(
+  .data,
+  ...,
+  .list = list2(...),
+  .before = NULL,
+  .after = NULL,
+  .n_empty = NULL
+)
+```
+
+Let's add a row to a simple table:
+
+```{r}
+dplyr::tibble(
+  item = c("Apples", "Oranges", "Bananas"),
+  quantity = c(50, 30, 45),
+  price = c(1.20, 0.95, 0.65)
+) |>
+  gt() |>
+  rows_add(
+    item = "Grapes",
+    quantity = 25,
+    price = 2.50
+  ) |>
+  fmt_currency(columns = price) |>
+  fmt_integer(columns = quantity)
+```
+
+The new row is added at the bottom by default. You can use `.before` or `.after` to position it elsewhere:
+
+```{r}
+dplyr::tibble(
+  rank = 1:3,
+  name = c("Alice", "Bob", "Carol"),
+  score = c(95, 87, 82)
+) |>
+  gt() |>
+  rows_add(
+    rank = 2,
+    name = "New Entry",
+    score = 90,
+    .after = 1
+  ) |>
+  fmt_integer()
+```
+
+The new row is inserted after row 1, pushing the original rows 2 and 3 down. Note that you'll need to handle any renumbering or reordering logic yourself; `rows_add()` simply inserts the data.
+
+You can add multiple rows at once by providing vectors:
+
+```{r}
+dplyr::tibble(
+  category = c("Electronics"),
+  sales = c(15000)
+) |>
+  gt() |>
+  rows_add(
+    category = c("Clothing", "Food", "Books"),
+    sales = c(8500, 12000, 3200)
+  ) |>
+  fmt_currency(columns = sales, currency = "USD", decimals = 0) |>
+  cols_label(
+    category = "Category",
+    sales = "Q4 Sales"
+  )
+```
+
+The `.n_empty` argument lets you add blank rows, which can be useful for visual spacing:
+
+```{r}
+dplyr::tibble(
+  section = c("Introduction", "Methods"),
+  page = c(1, 15)
+) |>
+  gt() |>
+  rows_add(
+    section = "Results",
+    page = 32,
+    .after = 2
+  ) |>
+  rows_add(
+    .n_empty = 1,
+    .after = 2
+  ) |>
+  sub_missing(missing_text = "") |>
+  cols_label(
+    section = "Section",
+    page = "Page"
+  )
+```
+
+Like `cols_add()`, you can build a table from scratch using `rows_add()`:
+
+```{r}
+dplyr::tibble(
+  time = lubridate::POSIXct(),
+  event = character(0)
+) |>
+  gt() |>
+  rows_add(
+    time = lubridate::ymd_hms("2024-01-15 09:30:00"),
+    event = "Meeting started"
+  ) |>
+  rows_add(
+    time = lubridate::ymd_hms("2024-01-15 10:45:00"),
+    event = "Break"
+  ) |>
+  rows_add(
+    time = lubridate::ymd_hms("2024-01-15 11:00:00"),
+    event = "Meeting resumed"
+  ) |>
+  fmt_datetime(columns = time, date_style = "yMd", time_style = "Hm")
+```
+
+This pattern of starting with an empty structure and incrementally adding rows is useful for building tables programmatically, such as logging events or accumulating results in an interactive application.
+
+Both `cols_add()` and `rows_add()` integrate seamlessly with other **gt** functions. You can format, style, label, and otherwise manipulate the added columns and rows just like any other part of the table. This makes them powerful tools for keeping your table logic contained within the **gt** pipeline rather than scattered across data manipulation steps.
+
 ## Summary
 
 This chapter has covered the comprehensive set of `cols_*()` functions that modify table structure at the column level. These functions transform raw data columns into polished, presentation-ready table elements.
