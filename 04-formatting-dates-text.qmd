@@ -817,7 +817,7 @@ info_icons()
 Scientific and technical writing often requires properly formatted units with superscripts, subscripts, and special symbols. The `fmt_units()` function interprets a simple text notation and renders it with correct typography.
 
 ::: {.callout-note}
-The units notation described here is the same notation used in column labels (see the section on [Incorporating units with **gt**'s units notation](02-table-components.qmd#incorporating-units-with-gts-units-notation) in *Chapter 2*). That section provides additional details on Greek letters, automatic symbol conversions, chemical formulas, and text formatting options.
+The units notation described here is the same notation used in column labels (see the section on [Incorporating units with **gt**'s units notation](02-table-components.qmd#incorporating-units-with-gts-units-notation) in @sec-table-components). That section provides additional details on Greek letters, automatic symbol conversions, chemical formulas, and text formatting options.
 :::
 
 Here is the function's signature:
