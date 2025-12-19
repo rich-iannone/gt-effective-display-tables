@@ -20,12 +20,12 @@ info_date_style()
 
 The resulting table shows:
 
-- **Style number**: The numeric identifier for each style
-- **Style name**: The string identifier (e.g., `"iso"`, `"month_day_year"`)
-- **Example output**: How each style renders a sample date
-- **Flexible**: Whether the style adapts to locale settings
+- style number: the numeric identifier for each style
+- style name: the string identifier (e.g., `"iso"`, `"month_day_year"`)
+- example output: how each style renders a sample date
+- flexible: whether the style adapts to locale settings
 
-Use style names in your formatting calls:
+Use style names (or numbers) in your formatting calls:
 
 ```r
 fmt_date(columns = date_col, date_style = "month_day_year")
@@ -56,9 +56,9 @@ info_currencies()
 
 The table includes:
 
-- **Currency code**: The 3-letter ISO 4217 code (e.g., `"USD"`, `"EUR"`, `"JPY"`)
-- **Currency symbol**: The symbol used in formatting (e.g., `$`, `€`, `¥`)
-- **Currency name**: The full name of the currency
+- currency code: the 3-letter ISO 4217 code (e.g., `"USD"`, `"EUR"`, `"JPY"`)
+- currency symbol: the symbol used in formatting (e.g., `$`, `€`, `¥`)
+- currency name: the full name of the currency
 
 Use currency codes with `fmt_currency()`:
 
@@ -80,9 +80,9 @@ info_locales()
 
 The table shows locale codes and their corresponding languages/regions. Use these codes with:
 
-- The `locale` argument in `gt()`
-- The `locale` argument in formatting functions
-- The `locale` argument in `fmt_spelled_num()`
+- the `locale` argument in `gt()`
+- the `locale` argument in formatting functions
+- the `locale` argument in `fmt_spelled_num()`
 
 ```r
 gt(data, locale = "de")
@@ -125,10 +125,10 @@ info_flags()
 
 The table shows:
 
-- **Country code (2-letter)**: ISO 3166-1 alpha-2 codes
-- **Country code (3-letter)**: ISO 3166-1 alpha-3 codes
-- **Country name**: Full country name
-- **Flag preview**: The rendered flag icon
+- country code (2-letter): ISO 3166-1 alpha-2 codes
+- country code (3-letter): ISO 3166-1 alpha-3 codes
+- country name: full country name
+- flag preview: the rendered flag icon
 
 Use these codes with `fmt_flag()`:
 
@@ -195,10 +195,10 @@ info_unit_conversions()
 
 The table shows:
 
-- **Unit class**: The category of measurement (length, mass, volume, etc.)
-- **From units**: Available source units
-- **To units**: Available target units
-- **Conversion factors**: The multipliers used
+- unit class: the category of measurement (length, mass, volume, etc.)
+- from units: available source units
+- to units: available target units
+- conversion factors: the multipliers used
 
 Use with `unit_conversion()`:
 
@@ -356,6 +356,6 @@ gtcars |>
 
 | Function | Purpose |
 |----------|---------|
-| `random_id()` | Generate random table ID |
+| `random_id()` | Generate a random table ID |
 | `escape_latex()` | Escape special LaTeX characters |
 | `gt_latex_dependencies()` | Get LaTeX package requirements |
