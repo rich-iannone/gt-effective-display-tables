@@ -1,4 +1,4 @@
-# Modifying columns
+# Modifying columns {#sec-modifying-columns}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
