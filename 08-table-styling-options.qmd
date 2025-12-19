@@ -195,7 +195,6 @@ towny |>
 
 Using `scales::col_numeric()` directly provides access to additional options not exposed through `data_color()`'s simplified interface. You can also write entirely custom functions for specialized coloring logic.
 
-
 ## Adding style to various locations
 
 Beyond data-driven coloring, tables often require targeted stylistic modifications to emphasize particular elements, establish visual hierarchy, or simply improve readability. **gt** provides a comprehensive styling system built around the `tab_style()` function and its companion helper functions. This system offers precise control over text properties, background fills, and borders at any table location.
@@ -420,7 +419,7 @@ exibble |>
   )
 ```
 
-Any cell content beginning with "a" receives the specified styling. Regular expressions provide powerful pattern-matching capabilities for text-based targeting.
+Any cell content beginning with `"a"` receives the specified styling. Regular expressions provide powerful pattern-matching capabilities for text-based targeting.
 
 The `fn` argument offers maximum flexibility through custom functions:
 
@@ -434,9 +433,9 @@ exibble |>
   )
 ```
 
-The function receives each cell value and returns `TRUE` for cells that should be styled. Here, we highlight positive numeric values under 100.
+The function receives each cell value and returns `TRUE` for cells that should be styled. Here, we highlight positive numeric values under `100`.
 
-Styling NA values is a common use case:
+Styling `NA` values is a common use case:
 
 ```{r}
 exibble |>
@@ -502,7 +501,7 @@ exibble |>
   opt_stylize(style = 1, color = "blue")
 ```
 
-Style 1 with blue coloring provides a clean, professional appearance with subtle header coloring and alternating row stripes.
+Style `1` with blue coloring provides a clean, professional appearance with subtle header coloring and alternating row stripes.
 
 Let's compare several style variations:
 
@@ -522,7 +521,7 @@ exibble |>
   opt_stylize(style = 6, color = "cyan")
 ```
 
-The six styles progress from subtle (style 1) to more visually prominent (style 6), with increasing color application to headers, row groups, and summary rows. Available colors are: `"blue"`, `"cyan"`, `"pink"`, `"green"`, `"red"`, and `"gray"`.
+The six styles progress from subtle (style `1`) to more visually prominent (style `6`), with increasing color application to headers, row groups, and summary rows. Available colors are: `"blue"`, `"cyan"`, `"pink"`, `"green"`, `"red"`, and `"gray"`.
 
 The `add_row_striping` argument controls whether alternating row colors appear:
 
@@ -536,8 +535,6 @@ towny |>
 ```
 
 Disabling row striping produces a cleaner look for smaller tables where the striping may seem excessive.
-
-
 
 ## A smorgasbord of table options to choose from
 
@@ -799,7 +796,7 @@ opt_horizontal_padding(data, scale = 1)
 opt_vertical_padding(data, scale = 1)
 ```
 
-The `scale` parameter accepts values from 0 to 3, where 1 is the default. Values below 1 compress the table while values above 1 expand it.
+The `scale` parameter accepts values from `0` to `3`, where `1` is the default. Values below `1` compress the table while values above `1` expand it.
 
 Creating a compact table:
 
@@ -905,7 +902,6 @@ gtcars |>
 ```
 
 Restricting the transformation to column labels only leaves other text unchanged, useful when row group labels or stub entries contain proper nouns or abbreviations that shouldn't be modified.
-
 
 ## Making interactive HTML tables
 
