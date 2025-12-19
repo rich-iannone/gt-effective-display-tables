@@ -1,4 +1,4 @@
-# Creating extensions
+# Creating extensions {#sec-creating-extensions}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
