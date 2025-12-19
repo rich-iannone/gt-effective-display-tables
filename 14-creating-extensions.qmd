@@ -1041,3 +1041,20 @@ The key is identifying needs that arise repeatedly in your work and addressing t
 Creating extensions for **gt** is an exercise in understanding both the package and your own requirements. It demands clarity about what you want to achieve and how **gt** can help achieve it. The resulting functions, when well designed, become multipliers of your effectiveness. They transform tasks that once required careful attention into operations that happen correctly by default.
 
 Many successful **gt** extension packages began exactly this way. Someone recognized a gap, built functions to address it, and shared the result. Your extensions might start as personal utilities and grow into resources that benefit a wider community. Even if they remain private to your organization, they contribute to better, more consistent, more maintainable reporting. That contribution is the purpose of extending **gt**: not extension for its own sake but extension in service of clearer communication through better tables.
+
+## Summary
+
+This chapter has explored how to extend **gt** by creating your own functions and packages. Whether addressing domain-specific needs or encoding organizational standards, extensions multiply the value of your table-making expertise.
+
+The key approaches we've covered:
+
+- display table functions take data and produce complete, formatted tables. They encapsulate multi-step workflows (data transformation, table creation, formatting, styling) into single function calls with sensible defaults and useful customization options.
+- modifier functions accept existing **gt** tables and enhance them. They add consistent styling, domain-specific elements, or standard configurations without requiring users to remember every option.
+- data quality and diagnostic tools use **gt**'s presentation capabilities to communicate about data itself: completeness reports, validation summaries, and structural overviews.
+- packaging considerations: include clear documentation, meaningful examples, focused scope, and the discipline that formal packaging brings to code quality.
+
+The patterns demonstrated here (dataset overviews, correlation matrices, data quality reports, modifier functions) represent starting points. Your extensions might address entirely different needs: financial reporting conventions, scientific publication requirements, corporate branding standards, or analytical workflows unique to your domain.
+
+The underlying principle remains constant: identify repetitive table-making tasks, understand what varies and what stays constant, then encode the constants in functions while exposing the variations as parameters. Each extension you create reduces future effort while improving consistency.
+
+This book has journeyed from **gt**'s foundational concepts through formatting, styling, and advanced features to the creation of extensions. The destination isn't mastery of a package but rather the ability to communicate data effectively through well-crafted tables. **gt** provides the tools whereas your understanding of your data and your audience provides the direction. Together, they enable tables that inform, clarify, and persuade: tables worthy of the information they present.
