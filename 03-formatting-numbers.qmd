@@ -1,4 +1,4 @@
-# Formatting numeric values
+# Formatting numeric values {#sec-formatting-numbers}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
