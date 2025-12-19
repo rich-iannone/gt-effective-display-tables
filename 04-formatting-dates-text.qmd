@@ -943,7 +943,7 @@ dplyr::tibble(
   fmt_chem(columns = formula)
 ```
 
-The numbers in the formulas become subscripts, transforming "H2O" into the properly typeset H₂O. This is essential for any table presenting chemical data.
+The numbers in the formulas become subscripts, transforming `"H2O"` into the properly typeset H₂O. This is essential for any table presenting chemical data.
 
 Ionic compounds and charges are handled elegantly:
 
