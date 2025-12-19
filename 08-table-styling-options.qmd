@@ -1,4 +1,4 @@
-# Table styling and options
+# Table styling and options {#sec-table-styling-options}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
