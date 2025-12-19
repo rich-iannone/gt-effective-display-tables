@@ -387,7 +387,7 @@ exibble |>
   )
 ```
 
-This adds a "Total" column that sums the `num` and `currency` values for each row. The new column appears on the right side of the table by default and can be formatted, styled, and manipulated like any other column.
+This adds a `total` column that sums the `num` and `currency` values for each row. The new column appears on the right side of the table by default and can be formatted, styled, and manipulated like any other column.
 
 ### Specifying aggregation functions
 
