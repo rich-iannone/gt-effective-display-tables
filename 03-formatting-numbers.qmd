@@ -1178,10 +1178,10 @@ With `decimals = 2`, the trace element concentration rounds to 0.00 (losing all 
 
 The `n_sigfig` argument is particularly valuable when:
 
-- Reporting scientific measurements where precision varies with magnitude
-- Presenting data from instruments with known precision limits  
-- Creating tables for technical or academic publications that follow significant figures conventions
-- Displaying values that span several orders of magnitude in the same column
+- reporting scientific measurements where precision varies with magnitude
+- presenting data from instruments with known precision limits  
+- creating tables for technical or academic publications that follow significant figures conventions
+- displaying values that span several orders of magnitude in the same column
 
 When combined with scientific notation, significant figures provide clean, professional formatting for technical data:
 
