@@ -9,6 +9,8 @@ Tables are everywhere. They appear in financial reports, scientific papers, trai
 
 Consider for a moment the sheer variety of tables you might encounter in a single day. The nutrition label on your breakfast cereal is a table. The weather forecast in your news app presents temperatures and conditions in tabular form. Your bank statement arranges transactions in rows, with columns for date, description, and amount. The departure board at the train station, the periodic table on a classroom wall, the league standings in the sports section: all tables, each serving a distinct purpose but sharing the same fundamental structure.
 
+![The fundamental structure of a table: column labels identify what each column contains, while rows organize individual records or observations. This simple arrangement of labeled columns over a regular grid of cells has remained essentially unchanged for thousands of years.](assets/schematic_simple_table.jpg){#fig-simple-table-schematic}
+
 This chapter traces the table's journey from ancient clay tablets to modern software, exploring why this seemingly simple format has proven so enduring and adaptable. Along the way, we'll examine what distinguishes tables from other forms of information display, how printing technology transformed tabular presentation, and how computational tools have both expanded and complicated what tables can do. We'll conclude by considering how **gt**, the R package that is the subject of this book, fits into this long history and what principles guide its approach to table creation.
 
 ## The origins of tabular thinking
