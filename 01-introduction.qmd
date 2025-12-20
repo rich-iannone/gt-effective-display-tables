@@ -129,7 +129,7 @@ Tables do more than present information efficiently, they also convey authority.
 
 The authority of tables derives partly from their association with precision and objectivity (Porter, 1995). When information is presented in tabular form, it appears to have been measured, counted, or calculated (not merely asserted). The rigid structure of rows and columns suggests systematic organization and careful verification. The numbers themselves carry connotations of scientific rigor, even when the underlying data is uncertain or contested.
 
-This authority can be deserved or manufactured. A table of experimental results, carefully collected and analyzed, genuinely supports the conclusions drawn from it. But tables can also create an illusion of precision that masks underlying uncertainty or bias. Publishing polling data in tabular form suggests definiteness that the margins of error rarely convey. Financial projections presented as tables imply a predictability that markets rarely exhibit. The very format that makes tables useful for legitimate communication also makes them effective tools for persuasion and manipulation.
+This authority can be deserved or manufactured (Best, 2001). A table of experimental results, carefully collected and analyzed, genuinely supports the conclusions drawn from it. But tables can also create an illusion of precision that masks underlying uncertainty or bias. Publishing polling data in tabular form suggests definiteness that the margins of error rarely convey. Financial projections presented as tables imply a predictability that markets rarely exhibit. The very format that makes tables useful for legitimate communication also makes them effective tools for persuasion and manipulation.
 
 Historians of statistics have documented how the rise of quantification in the nineteenth century was accompanied by proliferating tables in government reports, scientific publications, and commercial documents (Porter, 1995; Desrosières, 1998). "Statistics" originally meant the science of state, the collection and tabulation of information useful for governance. Census tables counted populations, vital statistics tables tracked births and deaths, trade tables documented imports and exports. These tabulations served administrative purposes, but they also shaped public discourse by making certain kinds of claims possible. Once a phenomenon was tabulated, it became available for comparison, trending, and policy intervention in ways that qualitative descriptions did not permit.
 
@@ -390,6 +390,7 @@ The historical material in this chapter draws on numerous sources. For readers i
 
 ### On the history of statistics and quantification
 
+- Best, Joel. *Damned Lies and Statistics: Untangling Numbers from the Media, Politicians, and Activists*. Berkeley: University of California Press, 2001. An accessible examination of how statistics can mislead, with particular attention to how tabular presentation creates an illusion of precision.
 - Porter, Theodore M. *Trust in Numbers: The Pursuit of Objectivity in Science and Public Life*. Princeton: Princeton University Press, 1995.
 - Desrosières, Alain. *The Politics of Large Numbers: A History of Statistical Reasoning*. Translated by Camille Naish. Cambridge, MA: Harvard University Press, 1998.
 
