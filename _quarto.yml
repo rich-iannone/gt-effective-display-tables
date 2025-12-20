@@ -46,6 +46,7 @@ format:
     code-link: true
     code-line-numbers: false
     code-annotations: below
+    css: custom.css
 
 execute:
   collapse: true
