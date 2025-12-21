@@ -72,6 +72,7 @@ Cognitive scientists have studied this phenomenon extensively. Research on visua
 Consider the alternative: presenting the same information as prose. A sentence like "The population of France in 2020 was 67 million, while Germany had 83 million, Italy had 60 million, and Spain had 47 million" requires the reader to parse the grammatical structure, extract the country names and values, and mentally construct the relationships between them. The same information in a simple two-column table can be grasped almost instantaneously:
 
 ```{r}
+#| echo: false
 countrypops |>
   dplyr::filter(
     country_name %in% c("France", "Germany", "Italy", "Spain"),
