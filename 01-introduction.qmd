@@ -292,6 +292,51 @@ Tables, unlike prose, might seem culturally neutral. Numbers are numbers, after 
 
 The decimal separator is perhaps the most obvious example. In the United States, the United Kingdom, and many other countries, the period separates the integer and fractional parts of a number: 3.14159. In much of continental Europe, Latin America, and elsewhere, the comma serves this function: 3,14159. The digit grouping separator (used to break up large numbers for readability) similarly varies: where Americans write 1,000,000, Germans write 1.000.000 and the French write 1 000 000 (using thin spaces).
 
+```{r}
+#| echo: false
+
+countries <- c("United States", "Germany", "France", "Brazil", "India", "Japan", "Italy", "Switzerland")
+locales <- c("en-US", "de-DE", "fr-FR", "pt-BR", "hi-IN", "ja-JP", "it-IT", "de-CH")
+languages <- c("English", "German", "French", "Portuguese", "Hindi", "Japanese", "Italian", "German")
+
+countrypops |>
+  dplyr::filter(country_name %in% countries, year == 2024) |>
+  dplyr::select(country_name, population) |>
+  dplyr::arrange(dplyr::desc(population)) |>
+  dplyr::mutate(
+    locale = locales[match(country_name, countries)],
+    language = languages[match(country_name, countries)]
+  ) |>
+  dplyr::rowwise() |>
+  dplyr::mutate(
+    formatted_population = vec_fmt_integer(population, locale = locale)
+  ) |>
+
+  dplyr::ungroup() |>
+  dplyr::select(country_name, language, locale, formatted_population) |>
+  gt() |>
+  tab_header(
+    title = "Number Formatting Across Locales",
+    subtitle = "The same population figures formatted according to each country's locale conventions, showing variation in digit grouping separators. Locale codes combine a language (e.g., 'de' for German) with a region (e.g., 'CH' for Switzerland)."
+  ) |>
+  tab_style(
+    style = cell_text(align = "left"),
+    locations = cells_title(groups = c("title", "subtitle"))
+  ) |>
+  tab_style(
+    style = cell_text(font = google_font("IBM Plex Mono")),
+    locations = cells_body(columns = locale)
+  ) |>
+  cols_label(
+    country_name = "Country",
+    language = "Language",
+    locale = "Locale",
+    formatted_population = "Population (2024)"
+  ) |>
+  cols_align(align = "right", columns = formatted_population) |>
+  cols_align(align = "center", columns = locale)
+```
+
 Currency formatting varies even more widely. The currency symbol may precede or follow the amount. Negative amounts may be indicated with a minus sign, parentheses, or red coloring. The number of decimal places expected varies by currency. A table of financial data formatted for one country may be confusing or even misleading when viewed in another.
 
 Date formatting is notoriously variable. Americans typically write month/day/year while much of the rest of the world uses day/month/year. East Asian countries often use year/month/day. A date written as "03/04/2024" is ambiguous without knowing the intended convention. It could be March 4, April 3, or (in some East Asian formats) part of 2024 depending on context.
