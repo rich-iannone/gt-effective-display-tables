@@ -339,9 +339,130 @@ countrypops |>
 
 Currency formatting varies even more widely. The currency symbol may precede or follow the amount. Negative amounts may be indicated with a minus sign, parentheses, or red coloring. The number of decimal places expected varies by currency. A table of financial data formatted for one country may be confusing or even misleading when viewed in another.
 
+```{r}
+#| echo: false
+
+amount <- 1234.56
+
+dplyr::tibble(
+  country = c("United States", "Germany", "France", "Japan", "Switzerland", "India"),
+  locale = c("en-US", "de-DE", "fr-FR", "ja-JP", "de-CH", "hi-IN"),
+  currency = c("USD", "EUR", "EUR", "JPY", "CHF", "INR"),
+  formatted = c(
+    vec_fmt_currency(amount, currency = "USD", locale = "en-US"),
+    vec_fmt_currency(amount, currency = "EUR", locale = "de-DE"),
+    vec_fmt_currency(amount, currency = "EUR", locale = "fr-FR"),
+    vec_fmt_currency(amount * 150, currency = "JPY", locale = "ja-JP"),
+    vec_fmt_currency(amount, currency = "CHF", locale = "de-CH"),
+    vec_fmt_currency(amount * 83, currency = "INR", locale = "hi-IN")
+  )
+) |>
+  gt() |>
+  tab_header(
+    title = "Currency Formatting Across Locales",
+    subtitle = "The same base value formatted with each country's currency and locale conventions. Note the variation in symbol placement, decimal separators, and digit grouping."
+  ) |>
+  tab_style(
+    style = cell_text(align = "left"),
+    locations = cells_title(groups = c("title", "subtitle"))
+  ) |>
+  tab_style(
+    style = cell_text(font = google_font("IBM Plex Mono")),
+    locations = cells_body(columns = c(locale, currency))
+  ) |>
+  cols_label(
+    country = "Country",
+    locale = "Locale",
+    currency = "Currency",
+    formatted = "Formatted Value"
+  ) |>
+  cols_align(align = "center", columns = c(locale, currency)) |>
+  cols_align(align = "right", columns = formatted)
+```
+
 Date formatting is notoriously variable. Americans typically write month/day/year while much of the rest of the world uses day/month/year. East Asian countries often use year/month/day. A date written as "03/04/2024" is ambiguous without knowing the intended convention. It could be March 4, April 3, or (in some East Asian formats) part of 2024 depending on context.
 
-Even the direction of reading affects table design. In languages that read right-to-left, such as Arabic and Hebrew, tables may need to be mirrored. The stub column moves to the right, and the visual flow reverses. While the underlying data remains the same, the presentation must adapt to match reading expectations.
+```{r}
+#| echo: false
+
+sample_date <- "2024-03-04"
+
+countries <- c("United States", "United Kingdom", "Germany", "France", "Japan", "China")
+locales <- c("en-US", "en-GB", "de-DE", "fr-FR", "ja", "zh")
+
+dplyr::tibble(
+  country = countries,
+  locale = locales
+) |>
+  dplyr::rowwise() |>
+  dplyr::mutate(
+    formatted = vec_fmt_date(sample_date, date_style = "yMd", locale = locale)
+  ) |>
+  dplyr::ungroup() |>
+  gt() |>
+  tab_header(
+    title = "Date Formatting Across Locales",
+    subtitle = "The same date (March 4, 2024) formatted using the flexible 'yMd' style, which adapts to each locale's conventions. Note how the order of month and day varies, making '03/04/2024' ambiguous without context."
+  ) |>
+  tab_style(
+    style = cell_text(align = "left"),
+    locations = cells_title(groups = c("title", "subtitle"))
+  ) |>
+  tab_style(
+    style = cell_text(font = google_font("IBM Plex Mono")),
+    locations = cells_body(columns = c(locale, formatted))
+  ) |>
+  cols_label(
+    country = "Country",
+    locale = "Locale",
+    formatted = "March 4, 2024"
+  ) |>
+  cols_align(align = "center", columns = c(locale, formatted))
+```
+Even the direction of reading affects table design. In languages that read right-to-left, such as Arabic and Hebrew, tables may need to be mirrored so that the visual flow matches reading expectations. While the underlying data remains the same, the presentation must adapt to the audience.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  language = c("English", "Arabic", "Hebrew", "Persian"),
+  direction = c("Left-to-Right", "Right-to-Left", "Right-to-Left", "Right-to-Left"),
+  hello = c("Hello", "مرحبا", "שלום", "سلام"),
+  numbers = c("1, 2, 3", "١، ٢، ٣", "1, 2, 3", "۱، ۲، ۳")
+) |>
+  gt() |>
+  tab_header(
+    title = "Text Direction in Different Scripts",
+    subtitle = "Languages with right-to-left scripts present unique challenges for table design. Note that Arabic and Persian use their own numerals, while Hebrew typically uses Western numerals."
+  ) |>
+  tab_style(
+    style = cell_text(align = "left"),
+    locations = cells_title(groups = c("title", "subtitle"))
+  ) |>
+  tab_style(
+    style = cell_text(align = "left"),
+    locations = cells_body(columns = c(hello, numbers), rows = language == "English")
+  ) |>
+  tab_style(
+    style = cell_text(align = "right"),
+    locations = cells_body(columns = c(hello, numbers), rows = language != "English")
+  ) |>
+  tab_style(
+    style = cell_borders(sides = c("left", "right"), style = "dashed"),
+    locations = cells_body(columns = hello)
+  ) |>
+  tab_style(
+    style = cell_text(align = "center"),
+    locations = cells_column_labels(columns = c(hello, numbers))
+  ) |>
+  cols_label(
+    language = "Language",
+    direction = "Reading Direction",
+    hello = "Greeting",
+    numbers = "Numerals"
+  ) |>
+  cols_align(align = "center", columns = direction)
+```
 
 **gt** addresses these challenges through its locale system. By specifying a locale, table makers can automatically apply the appropriate formatting conventions for their intended audience. Numbers format with the correct separators, dates display in the expected order, and currencies appear with appropriate symbols and positioning. This internationalization support is not merely cosmetic. It's essential for producing tables that communicate clearly across linguistic and cultural boundaries.
 
