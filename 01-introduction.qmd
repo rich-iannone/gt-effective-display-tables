@@ -339,6 +339,10 @@ dplyr::tibble(
     title = "Currency Formatting Across Locales",
     subtitle = "The same base value formatted with each country's currency and locale conventions. Note the variation in symbol placement, decimal separators, and digit grouping."
   ) |>
+  cols_merge(
+    columns = c(locale, currency),
+    pattern = "{1}/{2}"
+  ) |>
   fmt_currency(
     columns = amount,
     currency = from_column("currency"),
@@ -354,11 +358,14 @@ dplyr::tibble(
   ) |>
   cols_label(
     country = "Country",
-    locale = "Locale",
-    currency = "Currency",
+    locale = md("Locale and <br>Currency"),
     amount = "Value"
   ) |>
-  cols_width(country ~ px(125), everything() ~ px(100)) |>
+  cols_width(
+    country ~ px(110),
+    locale ~ px(120),
+    amount ~ px(110)
+  ) |>
   cols_align(align = "center", columns = c(locale, currency))
 ```
 
