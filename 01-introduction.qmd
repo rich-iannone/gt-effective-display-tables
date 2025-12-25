@@ -317,9 +317,7 @@ countrypops |>
     locale = "Locale",
     population = "Population (2024)"
   ) |>
-  cols_width(
-    everything() ~ px(150)
-  ) |>
+  cols_width(everything() ~ px(150)) |>
   cols_align(align = "center", columns = locale) |>
   opt_align_table_header(align = "left")
 
@@ -330,25 +328,21 @@ Currency formatting varies even more widely. The currency symbol may precede or 
 ```{r}
 #| echo: false
 
-amount <- 1234.56
-
 dplyr::tibble(
-  country = c("United States", "Germany", "France", "Japan", "Switzerland", "India"),
-  locale = c("en-US", "de-DE", "fr-FR", "ja-JP", "de-CH", "hi-IN"),
-  currency = c("USD", "EUR", "EUR", "JPY", "CHF", "INR"),
-  formatted = c(
-    vec_fmt_currency(amount, currency = "USD", locale = "en-US"),
-    vec_fmt_currency(amount, currency = "EUR", locale = "de-DE"),
-    vec_fmt_currency(amount, currency = "EUR", locale = "fr-FR"),
-    vec_fmt_currency(amount * 150, currency = "JPY", locale = "ja-JP"),
-    vec_fmt_currency(amount, currency = "CHF", locale = "de-CH"),
-    vec_fmt_currency(amount * 83, currency = "INR", locale = "hi-IN")
-  )
+  country = c("United States", "Germany", "France", "Japan", "Switzerland", "Denmark"),
+  locale = c("en", "de", "fr", "ja", "de-CH", "da"),
+  currency = c("USD", "EUR", "EUR", "JPY", "CHF", "DKK"),
+  amount = 1234.56
 ) |>
   gt() |>
   tab_header(
     title = "Currency Formatting Across Locales",
     subtitle = "The same base value formatted with each country's currency and locale conventions. Note the variation in symbol placement, decimal separators, and digit grouping."
+  ) |>
+  fmt_currency(
+    columns = amount,
+    currency = from_column("currency"),
+    locale = from_column("locale")
   ) |>
   tab_style(
     style = cell_text(align = "left"),
@@ -362,10 +356,10 @@ dplyr::tibble(
     country = "Country",
     locale = "Locale",
     currency = "Currency",
-    formatted = "Formatted Value"
+    amount = "Value"
   ) |>
-  cols_align(align = "center", columns = c(locale, currency)) |>
-  cols_align(align = "right", columns = formatted)
+  cols_width(country ~ px(125), everything() ~ px(100)) |>
+  cols_align(align = "center", columns = c(locale, currency))
 ```
 
 Date formatting is notoriously variable. Americans typically write month/day/year while much of the rest of the world uses day/month/year. East Asian countries often use year/month/day. A date written as "03/04/2024" is ambiguous without knowing the intended convention. It could be March 4, April 3, or (in some East Asian formats) part of 2024 depending on context.
