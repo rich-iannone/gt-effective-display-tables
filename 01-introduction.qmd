@@ -296,7 +296,10 @@ The decimal separator is perhaps the most obvious example. In the United States,
 #| echo: false
 
 countrypops |>
-  dplyr::filter(country_name %in% countries, year == 2024) |>
+  dplyr::filter(
+    country_name %in% c("United States", "Germany", "France", "Brazil", "India", "Japan", "Italy", "Switzerland"),
+    year == 2024
+  ) |>
   dplyr::mutate(locale = c("en", "de", "fr", "pt-BR", "hi-IN", "ja", "it", "de-CH")) |>
   dplyr::select(country_name, locale, population) |>
   gt() |>
