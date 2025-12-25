@@ -295,46 +295,31 @@ The decimal separator is perhaps the most obvious example. In the United States,
 ```{r}
 #| echo: false
 
-countries <- c("United States", "Germany", "France", "Brazil", "India", "Japan", "Italy", "Switzerland")
-locales <- c("en-US", "de-DE", "fr-FR", "pt-BR", "hi-IN", "ja-JP", "it-IT", "de-CH")
-languages <- c("English", "German", "French", "Portuguese", "Hindi", "Japanese", "Italian", "German")
-
 countrypops |>
   dplyr::filter(country_name %in% countries, year == 2024) |>
-  dplyr::select(country_name, population) |>
-  dplyr::arrange(dplyr::desc(population)) |>
-  dplyr::mutate(
-    locale = locales[match(country_name, countries)],
-    language = languages[match(country_name, countries)]
-  ) |>
-  dplyr::rowwise() |>
-  dplyr::mutate(
-    formatted_population = vec_fmt_integer(population, locale = locale)
-  ) |>
-
-  dplyr::ungroup() |>
-  dplyr::select(country_name, language, locale, formatted_population) |>
+  dplyr::mutate(locale = c("en", "de", "fr", "pt-BR", "hi-IN", "ja", "it", "de-CH")) |>
+  dplyr::select(country_name, locale, population) |>
   gt() |>
   tab_header(
     title = "Number Formatting Across Locales",
     subtitle = "The same population figures formatted according to each country's locale conventions, showing variation in digit grouping separators. Locale codes combine a language (e.g., 'de' for German) with a region (e.g., 'CH' for Switzerland)."
   ) |>
-  tab_style(
-    style = cell_text(align = "left"),
-    locations = cells_title(groups = c("title", "subtitle"))
-  ) |>
+  fmt_integer(columns = population, locale = from_column("locale")) |>
   tab_style(
     style = cell_text(font = google_font("IBM Plex Mono")),
     locations = cells_body(columns = locale)
   ) |>
   cols_label(
     country_name = "Country",
-    language = "Language",
     locale = "Locale",
-    formatted_population = "Population (2024)"
+    population = "Population (2024)"
   ) |>
-  cols_align(align = "right", columns = formatted_population) |>
-  cols_align(align = "center", columns = locale)
+  cols_width(
+    everything() ~ px(150)
+  ) |>
+  cols_align(align = "center", columns = locale) |>
+  opt_align_table_header(align = "left")
+
 ```
 
 Currency formatting varies even more widely. The currency symbol may precede or follow the amount. Negative amounts may be indicated with a minus sign, parentheses, or red coloring. The number of decimal places expected varies by currency. A table of financial data formatted for one country may be confusing or even misleading when viewed in another.
