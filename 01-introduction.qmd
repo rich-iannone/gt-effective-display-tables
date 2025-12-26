@@ -180,6 +180,8 @@ For statisticians and data analysts, the challenge of producing well-formatted t
 
 The oldest statistical software systems such as SAS, SPSS, Stata developed their own conventions for tabular output that prioritized information density over visual appeal. A regression table from SAS might include every conceivable statistic, formatted to many decimal places, with labels abbreviated to fit narrow columns. These outputs were designed to be comprehensive rather than communicative; they assumed readers who would study the numbers carefully rather than scan them quickly.
 
+![Regression output from three major statistical software systems: SAS (top-left), Stata (top-right), and SPSS (bottom). These outputs exemplify the conventions that emerged in traditional statistical software: dense presentation of many statistics, numerous decimal places, abbreviated labels to fit narrow columns, and formatting optimized for completeness rather than communication. While comprehensive, such outputs typically required manual reformatting before they could appear in publications.](assets/sas_stata_spss_tabular_results.jpg){#fig-sas-stata-spss}
+
 This created a frustrating workflow. Analysts would perform their calculations in statistical software, then manually transfer the results into word processors or page layout applications for formatting. This transfer was error-prone and time-consuming, and it broke the connection between the analysis and its presentation. If the underlying data changed, the entire process had to be repeated. A single additional observation in the dataset might require re-running the analysis, re-transferring the numbers, and re-applying all the formatting.
 
 The R programming language, which emerged in the 1990s as an open-source implementation of the S statistical language, inherited this limitation. R could produce statistical outputs of great sophistication, but getting those outputs into a professionally formatted table required either manual intervention or third-party tools with their own learning curves and limitations. The default R output was plain text, suitable for the console but not for publication.
@@ -412,6 +414,7 @@ dplyr::tibble(
   ) |>
   cols_align(align = "center", columns = c(locale, formatted))
 ```
+
 Even the direction of reading affects table design. In languages that read right-to-left, such as Arabic and Hebrew, tables may need to be mirrored so that the visual flow matches reading expectations. While the underlying data remains the same, the presentation must adapt to the audience.
 
 ```{r}
