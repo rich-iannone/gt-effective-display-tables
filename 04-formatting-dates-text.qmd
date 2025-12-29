@@ -475,6 +475,42 @@ dplyr::tibble(
 
 The email addresses become clickable links that will open the user's email client when clicked. This is particularly useful for contact directories or team rosters.
 
+Here's a more complete example using the `peeps` dataset to create a contact directory with formatted email addresses and mailing addresses:
+
+```{r}
+peeps |>
+  dplyr::filter(country == "AUS") |>
+  dplyr::select(
+    starts_with("name"),
+    address, city, state_prov, postcode, country, email_addr
+  ) |>
+  dplyr::mutate(city = toupper(city)) |>
+  gt(rowname_col = "name_family") |>
+  tab_header(title = "Our Contacts in Australia") |>
+  tab_stubhead(label = "Name") |>
+  fmt_email(columns = email_addr) |>
+  fmt_country(columns = country) |>
+  cols_merge(
+    columns = c(address, city, state_prov, postcode, country),
+    pattern = "{1}<br>{2} {3} {4}<br>{5}"
+  ) |>
+  cols_merge(
+    columns = c(name_family, name_given),
+    pattern = "{1},<br>{2}"
+  ) |>
+  cols_label(
+    address = "Mailing Address",
+    email_addr = "Email"
+  ) |>
+  tab_style(
+    style = cell_text(size = "x-small"),
+    locations = cells_body(columns = address)
+  ) |>
+  opt_align_table_header(align = "left")
+```
+
+This example demonstrates how `fmt_email()` integrates with other **gt** functions to create a polished contact directory. The email addresses are clickable, while `cols_merge()` combines address components into a single formatted cell.
+
 ### `fmt_image()`
 
 The `fmt_image()` function renders file paths as inline images.
