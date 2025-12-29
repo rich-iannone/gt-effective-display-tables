@@ -219,50 +219,87 @@ The **gt** package includes 18 datasets for learning and experimentation. These 
 
 ### Small example datasets
 
-| Dataset | Description | Rows | Use Case |
-|---------|-------------|------|----------|
-| `exibble` | A toy tibble with various data types | 8 | Testing formatters |
-| `gtcars` | Specifications for 47 luxury/supercars | 47 | Car comparisons |
-| `pizzaplace` | A year of pizza sales | 49,574 | Sales analysis |
+These compact datasets are ideal for quick experiments and learning the basics of **gt**.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Dataset = c("`exibble`", "`gtcars`", "`pizzaplace`"),
+  Description = c("A toy tibble with various data types", "Specifications for 47 luxury/supercars", "A year of pizza sales"),
+  Rows = c("8", "47", "49,574"),
+  `Use Case` = c("Testing formatters", "Car comparisons", "Sales analysis")
+) |>
+  gt() |>
+  fmt_markdown(columns = Dataset)
+```
 
 ### Country and population data
 
-| Dataset | Description | Rows | Use Case |
-|---------|-------------|------|----------|
-| `countrypops` | Country populations 1960-2024 | ~13,000 | Time series, maps |
-| `towny` | Ontario municipality populations | 414 | Canadian demographics |
-| `peeps` | Personal information for fictional people | 100 | Contact directories |
+These datasets provide demographic information useful for geographic visualizations and population analysis.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Dataset = c("`countrypops`", "`towny`", "`peeps`"),
+  Description = c("Country populations 1960-2024", "Ontario municipality populations", "Personal information for fictional people"),
+  Rows = c("~13,000", "414", "100"),
+  `Use Case` = c("Time series, maps", "Canadian demographics", "Contact directories")
+) |>
+  gt() |>
+  fmt_markdown(columns = Dataset)
+```
 
 ### Scientific and technical data
 
-| Dataset | Description | Rows | Use Case |
-|---------|-------------|------|----------|
-| `sza` | Solar zenith angles by location/time | 816 | Heatmaps |
-| `constants` | Fundamental physical constants | 30 | Scientific tables |
-| `reactions` | Atmospheric reaction rates | 1,344 | Chemistry data |
-| `photolysis` | Photolysis rates for organic compounds | 1,590 | Chemistry data |
-| `nuclides` | Nuclear data for isotopes | 3,384 | Nuclear chemistry |
+These datasets contain scientific measurements and constants, suitable for demonstrating technical table formatting.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Dataset = c("`sza`", "`constants`", "`reactions`", "`photolysis`", "`nuclides`"),
+  Description = c("Solar zenith angles by location/time", "Fundamental physical constants", "Atmospheric reaction rates", "Photolysis rates for organic compounds", "Nuclear data for isotopes"),
+  Rows = c("816", "30", "1,344", "1,590", "3,384"),
+  `Use Case` = c("Heatmaps", "Scientific tables", "Chemistry data", "Chemistry data", "Nuclear chemistry")
+) |>
+  gt() |>
+  fmt_markdown(columns = Dataset)
+```
 
 ### Financial and geographic data
 
-| Dataset | Description | Rows | Use Case |
-|---------|-------------|------|----------|
-| `sp500` | S&P 500 daily data 1950-2015 | 16,607 | Financial analysis |
-| `metro` | Paris Metro stations | 308 | Geographic data |
-| `gibraltar` | May 2023 Gibraltar weather | 744 | Weather data |
-| `films` | Cannes Film Festival competition | 1,607 | Entertainment data |
+These datasets cover financial markets and location-based information for diverse table examples.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Dataset = c("`sp500`", "`metro`", "`gibraltar`", "`films`"),
+  Description = c("S&P 500 daily data 1950-2015", "Paris Metro stations", "May 2023 Gibraltar weather", "Cannes Film Festival competition"),
+  Rows = c("16,607", "308", "744", "1,607"),
+  `Use Case` = c("Financial analysis", "Geographic data", "Weather data", "Entertainment data")
+) |>
+  gt() |>
+  fmt_markdown(columns = Dataset)
+```
 
 ### Clinical trial data
 
-| Dataset | Description | Rows | Use Case |
-|---------|-------------|------|----------|
-| `rx_adsl` | ADSL-style clinical trial data | 182 | Clinical tables |
-| `rx_addv` | ADDV-style clinical trial data | 910 | Clinical tables |
-| `illness` | Lab tests for illness tracking | 39 | Medical data |
+These datasets follow pharmaceutical industry conventions, useful for creating clinical study tables.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Dataset = c("`rx_adsl`", "`rx_addv`", "`illness`"),
+  Description = c("ADSL-style clinical trial data", "ADDV-style clinical trial data", "Lab tests for illness tracking"),
+  Rows = c("182", "910", "39"),
+  `Use Case` = c("Clinical tables", "Clinical tables", "Medical data")
+) |>
+  gt() |>
+  fmt_markdown(columns = Dataset)
+```
 
 ### Using built-in datasets
 
-All datasets are loaded with the package:
+All datasets are automatically available when you load the **gt** package, requiring no additional data import steps.
 
 ```{r}
 # View first few rows
@@ -279,83 +316,131 @@ gtcars |>
 
 ### Text and content helpers
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `md()` | Interpret text as Markdown | `tab_header(title = md("**Bold Title**"))` |
-| `html()` | Interpret text as HTML | `tab_header(title = html("<em>Styled</em>"))` |
-| `latex()` | Interpret text as LaTeX | `tab_source_note(latex("\\textit{Note}"))` |
+These functions allow you to include formatted text in table headers, labels, and notes.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`md()`", "`html()`", "`latex()`"),
+  Purpose = c("Interpret text as Markdown", "Interpret text as HTML", "Interpret text as LaTeX"),
+  Example = c('`tab_header(title = md("**Bold Title**"))`', '`tab_header(title = html("<em>Styled</em>"))`', '`tab_source_note(latex("\\\\textit{Note}"))`')
+) |>
+  gt() |>
+  fmt_markdown(columns = c(Function, Example))
+```
 
 ### Unit helpers
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `px()` | Specify pixels | `cols_width(col ~ px(150))` |
-| `pct()` | Specify percentage | `cols_width(col ~ pct(25))` |
+These functions specify measurement units for sizing columns and other table elements.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`px()`", "`pct()`"),
+  Purpose = c("Specify pixels", "Specify percentage"),
+  Example = c("`cols_width(col ~ px(150))`", "`cols_width(col ~ pct(25))`")
+) |>
+  gt() |>
+  fmt_markdown(columns = c(Function, Example))
+```
 
 ### Dynamic value helpers
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `from_column()` | Reference column values | `fmt_number(decimals = from_column("precision"))` |
-| `currency()` | Custom currency symbol | `fmt_currency(currency = currency(symbol = "BTC"))` |
+These functions enable data-driven formatting by referencing values from other columns or defining custom formats.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`from_column()`", "`currency()`"),
+  Purpose = c("Reference column values", "Custom currency symbol"),
+  Example = c('`fmt_number(decimals = from_column("precision"))`', '`fmt_currency(currency = currency(symbol = "BTC"))`')
+) |>
+  gt() |>
+  fmt_markdown(columns = c(Function, Example))
+```
 
 ### Color helpers
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `adjust_luminance()` | Lighten/darken colors | `adjust_luminance("steelblue", steps = 1)` |
+These functions help manipulate colors for consistent styling across your tables.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = "`adjust_luminance()`",
+  Purpose = "Lighten/darken colors",
+  Example = '`adjust_luminance("steelblue", steps = 1)`'
+) |>
+  gt() |>
+  fmt_markdown(columns = c(Function, Example))
+```
 
 ### Font helpers
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `google_font()` | Specify Google Font | `opt_table_font(font = google_font("Roboto"))` |
-| `default_fonts()` | Get default font stack | `default_fonts()` |
-| `system_fonts()` | Get system font stack | `system_fonts("humanist")` |
+These functions provide access to web fonts and system font stacks for typography customization.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`google_font()`", "`default_fonts()`", "`system_fonts()`"),
+  Purpose = c("Specify Google Font", "Get default font stack", "Get system font stack"),
+  Example = c('`opt_table_font(font = google_font("Roboto"))`', "`default_fonts()`", '`system_fonts("humanist")`')
+) |>
+  gt() |>
+  fmt_markdown(columns = c(Function, Example))
+```
 
 ### Location helpers (for `tab_style()`, `tab_footnote()`, etc.)
 
-| Function | Target |
-|----------|--------|
-| `cells_title()` | Table title and subtitle |
-| `cells_stubhead()` | Stubhead label |
-| `cells_column_labels()` | Column labels |
-| `cells_column_spanners()` | Column spanner labels |
-| `cells_row_groups()` | Row group labels |
-| `cells_stub()` | Stub (row labels) |
-| `cells_body()` | Body cells |
-| `cells_summary()` | Group summary cells |
-| `cells_grand_summary()` | Grand summary cells |
-| `cells_stub_summary()` | Stub cells in summaries |
-| `cells_stub_grand_summary()` | Stub cells in grand summary |
-| `cells_footnotes()` | Footnote area |
-| `cells_source_notes()` | Source note area |
+These functions target specific regions of the table for styling, footnotes, or other modifications.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`cells_title()`", "`cells_stubhead()`", "`cells_column_labels()`", "`cells_column_spanners()`", "`cells_row_groups()`", "`cells_stub()`", "`cells_body()`", "`cells_summary()`", "`cells_grand_summary()`", "`cells_stub_summary()`", "`cells_stub_grand_summary()`", "`cells_footnotes()`", "`cells_source_notes()`"),
+  Target = c("Table title and subtitle", "Stubhead label", "Column labels", "Column spanner labels", "Row group labels", "Stub (row labels)", "Body cells", "Group summary cells", "Grand summary cells", "Stub cells in summaries", "Stub cells in grand summary", "Footnote area", "Source note area")
+) |>
+  gt() |>
+  fmt_markdown(columns = Function)
+```
 
 ### Style helpers (for `tab_style()`)
 
-| Function | Purpose |
-|----------|---------|
-| `cell_text()` | Text styling (color, size, weight, etc.) |
-| `cell_fill()` | Background color |
-| `cell_borders()` | Border styling |
+These functions define visual properties that can be applied to targeted table locations.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`cell_text()`", "`cell_fill()`", "`cell_borders()`"),
+  Purpose = c("Text styling (color, size, weight, etc.)", "Background color", "Border styling")
+) |>
+  gt() |>
+  fmt_markdown(columns = Function)
+```
 
 ### Selection helpers (for column selection)
 
-| Function | Purpose |
-|----------|---------|
-| `stub()` | Select stub column |
-| `row_group()` | Select row group column |
-| `everything()` | Select all columns |
-| `starts_with()` | Columns starting with prefix |
-| `ends_with()` | Columns ending with suffix |
-| `contains()` | Columns containing string |
-| `matches()` | Columns matching regex |
-| `where()` | Columns matching predicate |
+These tidyselect-compatible functions help you specify which columns to target in formatting and styling operations.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`stub()`", "`row_group()`", "`everything()`", "`starts_with()`", "`ends_with()`", "`contains()`", "`matches()`", "`where()`"),
+  Purpose = c("Select stub column", "Select row group column", "Select all columns", "Columns starting with prefix", "Columns ending with suffix", "Columns containing string", "Columns matching regex", "Columns matching predicate")
+) |>
+  gt() |>
+  fmt_markdown(columns = Function)
+```
 
 ### Utility helpers
 
-| Function | Purpose |
-|----------|---------|
-| `random_id()` | Generate a random table ID |
-| `escape_latex()` | Escape special LaTeX characters |
-| `gt_latex_dependencies()` | Get LaTeX package requirements |
+These functions provide miscellaneous utilities for table IDs, LaTeX output, and special character handling.
+
+```{r}
+#| echo: false
+dplyr::tibble(
+  Function = c("`random_id()`", "`escape_latex()`", "`gt_latex_dependencies()`"),
+  Purpose = c("Generate a random table ID", "Escape special LaTeX characters", "Get LaTeX package requirements")
+) |>
+  gt() |>
+  fmt_markdown(columns = Function)
+```
