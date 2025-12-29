@@ -155,6 +155,22 @@ exibble |>
 
 In this example, the `fmt_number()` and `fmt_date()` functions understand that the locale for this table is `"fr"` (French), so the appropriate formatting for that locale is apparent in the `num`, `currency`, and `date` columns. However in the `fmt_datetime()` call, we explicitly use the `"en"` (English) locale. This overrides the `"fr"` default set for this table and the end result is dates formatted with the English locale in the datetime column.
 
+The `process_md` argument controls whether the contents of `rowname_col` and `groupname_col` should be interpreted as Markdown. By default (`FALSE`), the text appears literally. When set to `TRUE`, **gt** will render Markdown syntax in your row labels and row group labels. This is useful when your stub or grouping data contains formatted text.
+
+```{r}
+dplyr::tibble(
+  item = c("**Premium** Widget", "*Standard* Widget", "Basic Widget"),
+  category = c("**Featured**", "**Featured**", "Regular"),
+  price = c(99.99, 49.99, 19.99)
+) |>
+  gt(rowname_col = "item", groupname_col = "category", process_md = TRUE) |>
+
+  tab_header(title = "Product Catalog") |>
+  fmt_currency(columns = price)
+```
+
+Without `process_md = TRUE`, you would see the literal Markdown syntax (e.g., `**Premium** Widget` instead of **Premium** Widget) in the stub and row group labels. Note that `process_md` specifically affects the `rowname_col` and `groupname_col` content; for Markdown in other parts of the table (like column labels or headers), use the `md()` helper function. If you need Markdown text in the table body cells to be rendered, use the `fmt_markdown()` formatting function, which is covered in @sec-formatting-dates-text.
+
 ## The table header and footer
 
 It's possible to add a table header to the **gt** table, which includes a title and even a subtitle. The table header is an optional component of the table that appears above the column labels. You have the flexibility to use Markdown formatting for the header's title and subtitle, allowing for greater customization. Additionally, if you intend to use HTML output for the table, you may utilize HTML in either the title or subtitle.
