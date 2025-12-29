@@ -29,6 +29,8 @@ The sophistication of these early tables is striking. Some Babylonian astronomic
 
 This efficiency principle drove the adoption of tables across ancient cultures. Egyptian surveyors used tables to calculate land areas for taxation, essential work in a civilization whose agricultural prosperity depended on the annual flooding of the Nile. The Rhind Mathematical Papyrus, dating to around 1550 BCE, contains tables for converting fractions: a practical tool for scribes who needed to divide rations among workers or calculate shares of harvested grain (Imhausen, 2016).
 
+![A table carved into stone at the Temple of Karnak in Egypt. The cells contain tally marks using the Egyptian hieratic numeral system: inverted U-shapes represent tens, vertical strokes represent units, and spiral symbols (resembling coiled rope) represent hundreds. This monumental inscription demonstrates that tabular formats were important enough to warrant permanent display in sacred architecture.](assets/temple_at_karnak.jpg){#fig-karnak-table}
+
 ![A portion of the Rhind Mathematical Papyrus, dating to around 1550 BCE and now held at the British Museum. The papyrus contains mathematical tables including fraction conversions, making it one of the most important sources for understanding ancient Egyptian mathematics. The document was copied by the scribe Ahmes from an even older text.](assets/rhind_mathematical_papyrus.jpg){#fig-rhind-papyrus}
 
 Greek astronomers, building on Babylonian work, created sophisticated trigonometric tables (Jones, 1991). Hipparchus, working in the second century BCE, compiled a table of chords that served essentially as a trigonometric reference, enabling calculations in astronomy and geography. Ptolemy's Almagest, written in the second century CE, contained extensive astronomical tables that would remain the standard reference for over a millennium (Toomer, 1984).
@@ -149,6 +151,8 @@ Understanding this relationship between tables and authority is important for an
 ## The computational transformation
 
 The advent of electronic computing in the mid-twentieth century transformed every aspect of data work, and tables were no exception (Ceruzzi, 2003). Early computers could generate tables of astonishing size and precision. Actuarial tables, mathematical tables, census tabulations are some examples. These would have taken human calculators years to produce by hand. The ENIAC (one of the first general-purpose electronic computers) was initially used to calculate artillery firing tables, a task that had previously occupied teams of human computers for months (Goldstine, 1972). What once required armies of mathematicians could now be accomplished in hours.
+
+![The ENIAC (Electronic Numerical Integrator and Computer) at the University of Pennsylvania, circa 1946. One of the first general-purpose electronic computers, ENIAC filled an entire room.](assets/eniac_computer.jpg){#fig-eniac}
 
 But these early computer-generated tables were constrained by the output technology of the time: line printers that could produce only fixed-width characters, with no variation in font, weight, or size. These printers worked by striking an inked ribbon against paper through a rotating drum or chain of characters, much like a very fast typewriter. They were optimized for speed and reliability, not typographic sophistication.
 
