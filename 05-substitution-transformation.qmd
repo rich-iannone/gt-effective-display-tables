@@ -21,7 +21,7 @@ Substitution functions replace specific values with alternative text or symbols.
 
 ### `sub_missing()`
 
-Missing values (`NA`) are common in real-world data, but displaying "NA" in a table is often undesirable. The `sub_missing()` function replaces missing values with more meaningful or visually appropriate text.
+Missing values (`NA`) are common in real-world data, but displaying `"NA"` in a table is often undesirable. The `sub_missing()` function replaces missing values with more meaningful or visually appropriate text.
 
 Here is the function's signature:
 
@@ -56,7 +56,7 @@ exibble |>
   sub_missing(columns = currency, missing_text = "---")
 ```
 
-Different columns now display their missing values differently: numeric columns show "N/A", character columns show "(none)", and currency columns show an em-dash. This contextual approach can make your tables more intuitive.
+Different columns now display their missing values differently: numeric columns show `"N/A"`, character columns show `"(none)"`, and currency columns show an em-dash. This contextual approach can make your tables more intuitive.
 
 The `rows` argument lets you target specific rows:
 
@@ -75,7 +75,7 @@ exibble |>
   )
 ```
 
-This applies different substitutions based on row context, with early rows showing "pending" and others showing an em-dash.
+This applies different substitutions based on row context, with early rows showing `"pending"` and others showing an em-dash.
 
 ### `sub_zero()`
 
