@@ -506,7 +506,7 @@ The historical material in this chapter draws on numerous sources. For readers i
 
 ### On early mathematical notation and the Ishango bone
 
-- de Heinzelin, Jean. "Ishango." *Scientific American* 206, no. 6 (June 1962): 105–116. The original scholarly publication describing the discovery and interpretation of the Ishango bone.
+- de Heinzelin, Jean. "Ishango". *Scientific American* 206, no. 6 (June 1962): 105–116. The original scholarly publication describing the discovery and interpretation of the Ishango bone.
 - Huylebrouck, Dirk. *Africa and Mathematics*. Mathematics, Culture, and the Arts. Cham: Springer International Publishing, 2019. Chapter 9, "Missing Link," provides a comprehensive review of research on the Ishango bone.
 - Joseph, George Gheverghese. *The Crest of the Peacock: Non-European Roots of Mathematics*. 3rd ed. Princeton: Princeton University Press, 2011. An essential work on mathematical development across cultures.
 
