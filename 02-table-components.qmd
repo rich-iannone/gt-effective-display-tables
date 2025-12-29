@@ -720,6 +720,35 @@ gtcars |>
   )
 ```
 
+Another way to handle rows with `NA` values in the grouping column is through the `omit_na_group` argument in `gt()`. By default (`FALSE`), rows with `NA` in the `groupname_col` are assigned to a group labeled `"NA"`. Setting `omit_na_group = TRUE` causes those rows to appear as ungrouped rows in the table body instead. This is useful when you want certain rows to stand apart from any row group, perhaps as header rows or separators.
+
+Let's see how this works. First, we'll create a dataset where some rows have `NA` for the group column:
+
+```{r}
+data_with_na_group <- 
+  dplyr::tibble(
+    item = c("Category A Items", "Widget", "Gadget", "Category B Items", "Sprocket", "Cog"),
+    group = c(NA, "A", "A", NA, "B", "B"),
+    value = c(NA, 100, 150, NA, 200, 175)
+  )
+
+data_with_na_group |>
+  gt(rowname_col = "item", groupname_col = "group")
+```
+
+With the default behavior, the rows with `NA` in the group column are placed in an `"NA"` group. Now let's use `omit_na_group = TRUE` to have those rows appear outside of any group:
+
+```{r}
+data_with_na_group |>
+  gt(
+    rowname_col = "item",
+    groupname_col = "group",
+    omit_na_group = TRUE
+  )
+```
+
+The rows that had `NA` for their group now appear as ungrouped rows, visually distinct from the grouped content. This pattern is particularly useful when you want to include descriptive header rows or section dividers that logically shouldn't belong to any data group.
+
 Now let's try using `tab_row_group()` with our `gtcars`-based table such that all rows are formally assigned to different row groups. We'll define two row groups with the (Markdown-infused) labels `"**Powerful Cars**"` and `"**Super Powerful Cars**"`. The distinction between the groups is whether `hp` is lesser or greater than `600` (and this is governed by the expressions provided to the `rows` argument).
 
 ```{r}
