@@ -43,10 +43,6 @@ gt(
 )
 ```
 
-The `rowname_col` argument is particularly powerful because it can accept multiple column names, creating a hierarchical stub layout. When you provide a vector of column names, values from the leftmost column form the highest level of the hierarchy, proceeding to individual row identifiers in the rightmost column. This multi-column stub feature is useful for displaying nested categories or hierarchical data structures.
-
-The `omit_na_group` argument controls how rows with `NA` values in the `groupname_col` are handled. By default (`FALSE`), such rows are assigned to a group labeled `"NA"`. Setting this to `TRUE` causes those rows to appear as ungrouped rows in the table body, which is useful when you want to include header or separator rows that shouldn't belong to any row group.
-
 Let's use the `exibble` dataset for the next few examples, we'll learn how to make simple **gt** tables with the `gt()` function. The most basic thing to do is to just use `gt()` with the dataset as the input.
 
 ```{r}
