@@ -610,7 +610,7 @@ Different flag sizes can help establish visual hierarchy. Larger flags might be 
 
 #### Multiple flags per cell
 
-When cells contain comma-separated country codes, `fmt_flag()` displays multiple flag icons. The `sep` argument controls spacing between them:
+The `fmt_flag()` function works well even when there are multiple country codes within the same cell. It parses comma-separated codes automatically, and when rendered to HTML, hovering over each flag icon displays a tooltip with the country name. The input must use commas as delimiters (with no spaces), while the `sep` argument controls the spacing between rendered flag icons in the output.
 
 ```{r}
 dplyr::tibble(
@@ -627,6 +627,38 @@ dplyr::tibble(
 ```
 
 Multiple flags are displayed inline, making it easy to see country groupings or collaborations at a glance. The default `sep = " "` provides a single space between flags, but you can adjust this for tighter or looser spacing.
+
+Here's another example that groups countries by population size, demonstrating how `fmt_flag()` handles dynamically aggregated country codes:
+
+```{r}
+countrypops |>
+  dplyr::filter(year == 2021, population < 100000) |>
+  dplyr::select(country_code_2, population) |>
+  dplyr::mutate(population_class = cut(
+    population,
+    breaks = scales::breaks_pretty(n = 5)(population)
+    )
+  ) |>
+  dplyr::group_by(population_class) |>
+  dplyr::summarize(
+    countries = paste0(country_code_2, collapse = ",")
+  ) |>
+  dplyr::arrange(desc(population_class)) |>
+  gt() |>
+  tab_header(title = "Countries with Small Populations") |>
+  fmt_flag(columns = countries) |>
+  fmt_bins(
+    columns = population_class,
+    fmt = ~ fmt_integer(., suffixing = TRUE)
+  ) |>
+  cols_label(
+    population_class = "Population Range",
+    countries = "Countries"
+  ) |>
+  cols_width(population_class ~ px(150))
+```
+
+This example uses `paste0()` with `collapse = ","` to aggregate country codes within each population bin, and `fmt_flag()` seamlessly renders all flags in each cell.
 
 #### Localized tooltips
 
