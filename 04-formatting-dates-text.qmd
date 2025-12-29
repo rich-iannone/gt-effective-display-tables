@@ -1028,19 +1028,64 @@ fmt_chem(
 )
 ```
 
-The chemistry notation is intuitive for anyone familiar with chemical formulas. Here's a comprehensive reference:
+The chemistry notation that **gt** uses should be intuitive for anyone familiar with chemical formulas. Here's a comprehensive reference:
 
 ```{r}
 #| echo: false
 
 dplyr::tibble(
-  Feature = c("Subscripts", "Parenthetical groups", "Simple charges", "Numeric charges", "Variable charges", "Large charges", "Stoichiometry", "Fractional stoich", "Isotopes", "Isotopes (short)", "Nuclides", "Italicized variables", "Auto-italics", "Greek letters", "Reaction arrows", "Equilibrium", "Reversible", "Favored right", "Favored left", "Hydrates/addition", "Single bond", "Double bond"),
-  Notation = c("Numbers after elements", "Numbers after `)`", "Terminating `+` or `-`", "`^` before charge", "Letter in charge", "Braces for clarity", "Number before formula", "Fractions allowed", "`^{mass}_{number}`", "`^mass_number`", "Combined notation", "Surround with `*`", "Standalone letters", "Surround with `:`", "Various forms", "Double arrows", "Long double arrow", "Unequal equilibrium", "Unequal equilibrium", "Centered dot", "`-` between atoms", "`=` between atoms"),
-  `Example Input` = c("`H2O`", "`(NH4)2S`", "`H+`, `[AgCl2]-`", "`CrO4^2-`, `Fe^3+`", "`Fe^n+`", "`Y^{99+}`", "`2H2O2`, `2 H2O2`", "`1/2 H2O`, `(1/2) H2O`", "`^{227}_{90}Th`", "`^14_6C`", "`^{0}_{-1}n^{-}`", "`*n* H2O`", "`NO_x`", "`:delta: ^13C`", "`A -> B`", "`A <=> B`", "`A <--> B`", "`A <=>> B`", "`A <<=> B`", "`KCr(SO4)2 . 12 H2O`", "`C6H5-CHO`", "`CH3CH=CH2`"),
-  `Renders As` = c("H₂O", "(NH₄)₂S", "H⁺, [AgCl₂]⁻", "CrO₄²⁻, Fe³⁺", "Feⁿ⁺", "Y⁹⁹⁺", "2H₂O₂", "½H₂O", "²²⁷₉₀Th", "¹⁴₆C", "⁰₋₁n⁻", "<i>n</i> H₂O", "NO<sub><i>x</i></sub>", "δ ¹³C", "A → B", "A ⇌ B", "A ⟷ B", "A ⇀ B", "A ↽ B", "KCr(SO₄)₂·12H₂O", "C₆H₅−CHO", "CH₃CH═CH₂")
+  category = c(
+    rep("CHEMICAL FORMULAS", 4),
+    rep("CHARGES", 5),
+    rep("STOICHIOMETRY", 3),
+    rep("NUCLIDES/ISOTOPES", 5),
+    rep("VARIABLES ITALICIZED", 5),
+    rep("GREEK CHARACTERS", 2),
+    rep("PRECIPITATES AND GASES", 2),
+    rep("ADDITION COMPOUNDS", 2),
+    rep("CHEMICAL REACTIONS", 3),
+    rep("BONDS", 2)
+  ),
+  input = c(
+    "CH3O2", "(NH4)2S", "Ca3(PO4)2", "Sb2O3",
+    "H+", "[AgCl2]-", "CrO4^2-", "CO3^2-", "Y^99+",
+    "0.5 H2O", "2H2O2", "2 H2O",
+    "^{230}_{90}Th+", "^65Cu^{2+}", "^27_14Si13", "^{0}_{-1}n^{-}", "^0_-1n-",
+    "NO_x", "Fe^n+", "x Na(NH4)HPO4", "*n* H2O", "*n*-C5H12",
+    ":delta: ^13C", ":mu:-Cl",
+    "SO4^2- + Ba^2+ -> BaSO4 v", "A v B (v) -> B ^ B (^)",
+    "KCr(SO4)2 * 12 H2O", "KCl . MgCl2 . 6 H2O",
+    "2CH3OH -> CH3OCH3 + H2O", "O3 -> O(^1D) + O2", "H2(g) + I2(g) <=> 2HI (g)",
+    "C6H5-CHO", "CH3CH=CH2"
+  ),
+  output = input
 ) |>
-  gt() |>
-  fmt_markdown(columns = c(Notation, `Example Input`, `Renders As`))
+  gt(groupname_col = "category") |>
+  tab_header(title = md("Formatting with `fmt_chem()`")) |>
+  fmt_chem(columns = output) |>
+  tab_options(column_labels.hidden = TRUE) |>
+  tab_style(
+    style = cell_text(font = google_font(name = "IBM Plex Mono")),
+    locations = cells_body(columns = input)
+  ) |>
+  tab_style(
+    style = cell_text(font = google_font(name = "IBM Plex Serif")),
+    locations = list(cells_row_groups(), cells_body(columns = output))
+  ) |>
+  tab_style(
+    style = cell_text(size = "smaller"),
+    locations = cells_row_groups()
+  ) |>
+  tab_style(
+    style = cell_fill(color = "gray97"),
+    locations = cells_body(columns = input)
+  ) |>
+  tab_style(
+    style = cell_borders(sides = "right", color = "gray92", weight = px(2)),
+    locations = cells_body(columns = input)
+  ) |>
+  cols_width(everything() ~ px(265)) |>
+  opt_align_table_header(align = "left")
 ```
 
 Let's see basic formula formatting in action:
@@ -1054,7 +1099,7 @@ dplyr::tibble(
   fmt_chem(columns = formula)
 ```
 
-The numbers in the formulas become subscripts, transforming `"H2O"` into the properly typeset H₂O. This is essential for any table presenting chemical data.
+The numbers in the formulas become subscripts, transforming `"H2O"` into the properly typeset `"H₂O"`. This is essential for any table presenting chemical data.
 
 Ionic compounds and charges are handled elegantly:
 
