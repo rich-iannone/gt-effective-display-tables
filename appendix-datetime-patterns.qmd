@@ -1,0 +1,735 @@
+# Datetime formatting patterns {#sec-appendix-datetime}
+
+```{r setup, include=FALSE, echo=FALSE}
+library(gt)
+library(dplyr)
+```
+ 
+The `fmt_datetime()` function supports two powerful systems for custom datetime formatting: CLDR datetime patterns and strptime format codes. This appendix provides a comprehensive reference for both.
+
+## CLDR datetime patterns
+
+The CLDR (Common Locale Data Repository) datetime pattern system allows you to create highly customized, locale-aware datetime output. A pattern string consists of two types of elements:
+
+**Pattern fields**: one or more repetitions of a specific pattern character (from the reserved sets A–Z and a–z). These fields are replaced with date and time data when formatting.
+
+**Literal text**: any characters outside the reserved sets, including spaces and punctuation. Text between single vertical quotes (e.g., `'at'`) is output verbatim. Use two adjacent single quotes (`''`) to represent a literal single quote.
+
+### Pattern examples
+
+The following examples use the datetime `"2018-07-04T22:05:09.2358(America/Vancouver)"`:
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"mm/dd/y"', '"EEEE, MMMM d, y"', '"MMM d E"', '"HH:mm"', '"h:mm a"', '"EEEE, MMMM d, y \'at\' h:mm a"'),
+  Output = c("05/04/2018", "Wednesday, July 4, 2018", "Jul 4 Wed", "22:05", "10:05 PM", "Wednesday, July 4, 2018 at 10:05 PM")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Year patterns
+
+### Calendar year (`y`)
+
+The calendar year is always numeric. The field length specifies the minimum number of digits, zero-padded as necessary. The exception is `"yy"`, which yields only the two low-order digits.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"y"', '"yy"', '"yyy" to "yyyyyyyyy"'),
+  Output = c("2018", "18", "2018 to 000002018"),
+  Notes = c("Full year", "Two-digit year", "Zero-padded to width")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Week-based year (`Y`)
+
+The year in week-based calendars, where year transitions occur on week boundaries. This may differ from calendar year `"y"` near year transitions. Used with pattern `"w"` for ISO 8601 week dates.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"Y"', '"YY"', '"YYY" to "YYYYYYYYY"'),
+  Output = c("2018", "18", "2018 to 000002018"),
+  Notes = c("Full year", "Two-digit year", "Zero-padded to width")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Quarter patterns
+
+### Quarter of year (`Q` and `q`)
+
+Quarter names vary by width and context. The formatting form (`Q`) is used within complete date strings; the standalone form (`q`) is for independent use (e.g., calendar headers).
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"Q" / "q"', '"QQ" / "qq"', '"QQQ" / "qqq"', '"QQQQ" / "qqqq"', '"QQQQQ" / "qqqqq"'),
+  Output = c("3", "03", "Q3", "3rd quarter", "3"),
+  Notes = c("Numeric, one digit", "Numeric, two digits (zero-padded)", "Abbreviated", "Wide", "Narrow")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Month patterns
+
+### Month (`M` and `L`)
+
+Month names vary by width and context. The formatting form (`M`) is used within complete date strings; the standalone form (`L`) is for independent use.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"M" / "L"', '"MM" / "LL"', '"MMM" / "LLL"', '"MMMM" / "LLLL"', '"MMMMM" / "LLLLL"'),
+  Output = c("7", "07", "Jul", "July", "J"),
+  Notes = c("Numeric, minimum digits", "Numeric, two digits (zero-padded)", "Abbreviated", "Wide", "Narrow")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Week patterns
+
+### Week of year (`w`)
+
+Values range from 1 to 53. Week 1 is the first week containing the minimum number of days specified for that locale.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"w"', '"ww"'),
+  Output = c("27", "27"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Week of month (`W`)
+
+Values range from 1 to 5. The first day of each month is always in week 1.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = '"W"',
+  Output = "1"
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Day patterns
+
+### Day of month (`d`)
+
+The day of the month, from 1 to 31.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"d"', '"dd"'),
+  Output = c("4", "04"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Day of year (`D`)
+
+Values range from 1 to 365 (or 366 in leap years). The field length specifies minimum digits with zero-padding.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"D"', '"DD"', '"DDD"'),
+  Output = c("185", "185", "185"),
+  Notes = c("Minimum digits", "Zero-padded to 2", "Zero-padded to 3")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Day of week in month (`F`)
+ 
+Returns the occurrence number of the weekday within the month (e.g., "2nd Monday in March"). Days 1–7 yield 1, days 8–14 yield 2, and so on.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = '"F"',
+  Output = "1"
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Modified Julian date (`g`)
+
+The number of days since midnight November 17, 1858. Width specifies minimum digits with zero-padding.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = '"g" to "ggggggggg"',
+  Output = "58303 to 000058303"
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Weekday patterns
+
+### Day of week name (`E`)
+
+The name of the day of the week, available in four different widths.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"E", "EE", or "EEE"', '"EEEE"', '"EEEEE"', '"EEEEEE"'),
+  Output = c("Wed", "Wednesday", "W", "We"),
+  Notes = c("Abbreviated", "Wide", "Narrow", "Short")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Period patterns
+
+### AM/PM (`a`)
+
+Provides AM/PM and the narrow `"a"` and `"p"` forms.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"a", "aa", or "aaa"', '"aaaa"', '"aaaaa"'),
+  Output = c("PM", "PM", "p"),
+  Notes = c("Abbreviated", "Wide", "Narrow")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### AM/PM with noon and midnight (`b`)
+
+Provides AM/PM plus special forms for exactly noon (12:00) and midnight (00:00).
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"b", "bb", or "bbb"', '"bbbb"', '"bbbbb"'),
+  `At Midnight` = c("midnight", "midnight", "mi"),
+  `At Noon` = c("noon", "noon", "n"),
+  Notes = c("Abbreviated", "Wide", "Narrow")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, `At Midnight`, `At Noon`))
+  )
+```
+
+### Flexible day periods (`B`)
+
+Locale-specific phrases like "in the afternoon" or "in the evening".
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"B", "BB", or "BBB"', '"BBBB"', '"BBBBB"'),
+  `Morning (08:30)` = c("in the morning", "in the morning", "in the morning"),
+  `Afternoon (14:00)` = c("in the afternoon", "in the afternoon", "in the afternoon"),
+  Notes = c("Abbreviated", "Wide", "Narrow")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, `Morning (08:30)`, `Afternoon (14:00)`))
+  )
+```
+
+## Hour, minute, and second patterns
+
+### Hour 0–23 (`H`)
+
+Standard 24-hour clock where midnight is 00:00.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"H"', '"HH"'),
+  Output = c("8", "08"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Hour 1–12 (`h`)
+
+Standard 12-hour clock where midnight is 12:00.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"h"', '"hh"'),
+  Output = c("8", "08"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Hour 1–24 (`k`)
+
+Less common 24-hour clock where midnight is 24:00.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"k"', '"kk"'),
+  Output = c("9", "09"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Hour 0–11 (`K`)
+
+Less common 12-hour clock where midnight is 00:00.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"K"', '"KK"'),
+  Output = c("7", "07"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Minute (`m`)
+
+This is just the time part for the minute of the hour.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"m"', '"mm"'),
+  Output = c("5", "05"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Second (`s`)
+
+Provides solely the time part for the second of the minute.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"s"', '"ss"'),
+  Output = c("9", "09"),
+  Notes = c("Minimum digits", "Two digits (zero-padded)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Fractional second (`S`)
+
+Truncates to the specified width. Add a decimal point manually to the pattern if needed.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = '"S" to "SSSSSSSSS"',
+  Output = "2 to 235000000"
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Milliseconds in day (`A`)
+
+The number of milliseconds since midnight (max 86,400,000).
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = '"A" to "AAAAAAAAA"',
+  Output = "439722 to 000439722"
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Era patterns
+
+### Era designator (`G`)
+
+The Gregorian calendar has two eras: AD (Anno Domini) and BC (Before Christ).
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"G", "GG", or "GGG"', '"GGGG"', '"GGGGG"'),
+  Output = c("AD", "Anno Domini", "A"),
+  Notes = c("Abbreviated", "Wide", "Narrow")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## Time zone patterns
+
+### Specific non-location format (`z`)
+
+User-friendly time zone names. Falls back to localized GMT format if unavailable.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"z", "zz", or "zzz"', '"zzzz"'),
+  Output = c("PDT", "Pacific Daylight Time"),
+  Notes = c("Short specific", "Long specific")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Common UTC offset formats (`Z`)
+
+ISO 8601 and localized GMT offset formats for time zones.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"Z", "ZZ", or "ZZZ"', '"ZZZZ"', '"ZZZZZ"'),
+  Output = c("-0700", "GMT-7:00", "-07:00"),
+  Notes = c("ISO 8601 basic format", "Long localized GMT format", "ISO 8601 extended format")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Localized GMT formats (`O`)
+
+GMT-based offset formats that adapt to the user's locale.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"O"', '"OOOO"'),
+  Output = c("GMT-7", "GMT-07:00"),
+  Notes = c("Short (omits zero minutes)", "Long (always includes minutes)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Generic non-location format (`v`)
+
+Useful for recurring events where specific daylight/standard distinction isn't needed.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"v"', '"vvvv"'),
+  Output = c("PT", "Pacific Time"),
+  Notes = c("Short generic", "Long generic")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Time zone ID and exemplar city (`V`)
+
+Formats that display time zone identifiers and representative cities.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"V"', '"VV"', '"VVV"', '"VVVV"'),
+  Output = c("cavan", "America/Vancouver", "Vancouver", "Vancouver Time"),
+  Notes = c("Short time zone ID", "Long time zone ID", "Exemplar city", "Generic location format")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### ISO 8601 formats with Z for UTC (`X`)
+
+Uses `Z` when the local time offset is 0.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"X"', '"XX"', '"XXX"', '"XXXX"', '"XXXXX"'),
+  Output = c("-07", "-0700", "-07:00", "-0700", "-07:00"),
+  Notes = c("Basic (h, optional m)", "Basic (h & m)", "Extended (h & m)", "Basic (h, m, optional s)", "Extended (h, m, optional s)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### ISO 8601 formats without Z (`x`)
+
+Same as `X` patterns but never uses `Z` for UTC.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"x"', '"xx"', '"xxx"', '"xxxx"', '"xxxxx"'),
+  Output = c("-07", "-0700", "-07:00", "-0700", "-07:00"),
+  Notes = c("Basic (h, optional m)", "Basic (h & m)", "Extended (h & m)", "Basic (h, m, optional s)", "Extended (h, m, optional s)")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+## strptime format codes
+
+As an alternative to CLDR patterns, you can use strptime-style format codes. Each code starts with `%` and represents a specific date or time element.
+
+### strptime examples
+
+The following examples use the datetime `"2015-06-08 23:05:37.48"`:
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Pattern = c('"%m/%d/%Y"', '"%A, %B %e, %Y"', '"%b %e %a"', '"%H:%M"', '"%I:%M %p"', '"%A, %B %e, %Y at %I:%M %p"'),
+  Output = c("06/08/2015", "Monday, June 8, 2015", "Jun 8 Mon", "23:05", "11:05 pm", "Monday, June 8, 2015 at 11:05 pm")
+) |>
+  gt() |>
+  fmt_markdown(columns = Pattern) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Pattern, Output))
+  )
+```
+
+### Date codes
+
+Format codes for year, month, day, and week components.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Code = c('"%a"', '"%A"', '"%w"', '"%u"', '"%y"', '"%Y"', '"%b"', '"%B"', '"%m"', '"%d"', '"%e"', '"%j"', '"%W"', '"%V"', '"%C"'),
+  Output = c("Mon", "Monday", "1", "1", "15", "2015", "Jun", "June", "06", "08", "8", "159", "23", "24", "20"),
+  Description = c("Abbreviated day of week", "Full day of week", "Day of week (0–6; Sunday = 0)", "Day of week (1–7; Monday = 1)", "Two-digit year", "Full year", "Abbreviated month", "Full month", "Month number (zero-padded)", "Day number (zero-padded)", "Day number (no padding)", "Day of year (zero-padded)", "Week number", "ISO 8601 week number", "Century number")
+) |>
+  gt() |>
+  fmt_markdown(columns = Code) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Code, Output))
+  )
+```
+
+### Time codes
+
+Format codes for hour, minute, second, and AM/PM components.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Code = c('"%H"', '"%I"', '"%M"', '"%S"', '"%OS3"', '"%p"'),
+  Output = c("23", "11", "05", "37", "37.480", "pm"),
+  Description = c("Hour (24-hour clock)", "Hour (12-hour clock)", "Minute", "Second", "Seconds with decimals (3 places shown)", "AM/PM indicator")
+) |>
+  gt() |>
+  fmt_markdown(columns = Code) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Code, Output))
+  )
+```
+
+### Other codes
+
+Additional format codes for time zones and special characters.
+
+```{r}
+#| echo: false
+
+dplyr::tibble(
+  Code = c('"%z"', '"%F"', '"%%"'),
+  Output = c("+0000", "2015-06-08", "%"),
+  Description = c("Signed time zone offset", "ISO 8601 date format", "Literal percent sign")
+) |>
+  gt() |>
+  fmt_markdown(columns = Code) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(Code, Output))
+  )
+```
