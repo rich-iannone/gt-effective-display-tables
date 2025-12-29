@@ -38,6 +38,7 @@ book:
         - 14-creating-extensions.qmd
   appendices:
     - appendix-reference.qmd
+    - appendix-datetime-patterns.qmd
 
 format:
   html:
