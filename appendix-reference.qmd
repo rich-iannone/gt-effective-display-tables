@@ -1,11 +1,11 @@
-# Reference and informational functions {#sec-appendix-reference}
+# Quick reference {#sec-appendix-reference}
 
 ```{r setup, include=FALSE, echo=FALSE}
 library(gt)
 library(dplyr)
 ```
 
-The **gt** package includes a collection of informational functions that display helpful reference tables. These `info_*()` functions are invaluable when you need to explore available options, discover supported values, or understand formatting styles.
+This appendix provides a consolidated reference for the **gt** package, including informational functions that display helpful lookup tables, descriptions of all built-in datasets, and a quick guide to the most commonly used helper functions.
 
 ## Date and time style references
 
