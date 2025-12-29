@@ -514,7 +514,7 @@ The historical material in this chapter draws on numerous sources. For readers i
 
 - Neugebauer, Otto. *The Exact Sciences in Antiquity*. 2nd ed. Providence: Brown University Press, 1957. The foundational scholarly work on Babylonian mathematical astronomy.
 - Robson, Eleanor. *Mathematics in Ancient Iraq: A Social History*. Princeton: Princeton University Press, 2008. A comprehensive modern treatment of Mesopotamian mathematics.
-- Robson, Eleanor. "Tables and Tabular Formatting in Sumer, Babylonia, and Assyria, 2500–50 BCE." In *The History of Mathematical Tables from Sumer to Spreadsheets*, edited by Martin Campbell-Kelly, Mary Croarken, Raymond G. Flood, and Eleanor Robson, 18–47. Oxford: Oxford University Press, 2003. A detailed examination of ancient Mesopotamian tables and their conventions.
+- Robson, Eleanor. "Tables and Tabular Formatting in Sumer, Babylonia, and Assyria, 2500–50 BCE". In *The History of Mathematical Tables from Sumer to Spreadsheets*, edited by Martin Campbell-Kelly, Mary Croarken, Raymond G. Flood, and Eleanor Robson, 18–47. Oxford: Oxford University Press, 2003. A detailed examination of ancient Mesopotamian tables and their conventions.
 - Hunger, Hermann, and David Pingree. *Astral Sciences in Mesopotamia*. Leiden: Brill, 1999. Detailed coverage of MUL.APIN and other astronomical compendia.
 
 ### On Egyptian mathematics
