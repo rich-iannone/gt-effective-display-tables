@@ -560,9 +560,9 @@ The historical material in this chapter draws on numerous sources. For readers i
 
 ### On table design principles
 
-- Ehrenberg, A. S. C. "Rudiments of Numeracy." *Journal of the Royal Statistical Society, Series A* 140, no. 3 (1977): 277–297.
-- Ehrenberg, A. S. C. "The Problem of Numeracy." *The American Statistician* 35, no. 2 (1981): 67–71.
-- Wainer, Howard. "How to Display Data Badly." *The American Statistician* 38, no. 2 (1984): 137–147.
+- Ehrenberg, A. S. C. "Rudiments of Numeracy". *Journal of the Royal Statistical Society, Series A* 140, no. 3 (1977): 277–297.
+- Ehrenberg, A. S. C. "The Problem of Numeracy". *The American Statistician* 35, no. 2 (1981): 67–71.
+- Wainer, Howard. "How to Display Data Badly". *The American Statistician* 38, no. 2 (1984): 137–147.
 
 ### On the history of statistics and quantification
 
