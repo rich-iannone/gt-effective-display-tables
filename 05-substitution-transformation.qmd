@@ -148,7 +148,7 @@ dplyr::tibble(
   sub_small_vals(columns = concentration, threshold = 0.01)
 ```
 
-Values below `0.01` are replaced with "<0.01", acknowledging their presence without implying false precision. This is standard practice in scientific and analytical reporting.
+Values below `0.01` are replaced with `"<0.01"`, acknowledging their presence without implying false precision. This is standard practice in scientific and analytical reporting.
 
 The `small_pattern` argument customizes the replacement format:
 
@@ -166,7 +166,7 @@ dplyr::tibble(
   )
 ```
 
-Here, values below the threshold are replaced with "< LOD" (Limit of Detection), a common notation in analytical chemistry.
+Here, values below the threshold are replaced with `"< LOD"` (i.e., below the limit of detection), which is a common term in analytical chemistry.
 
 ### `sub_large_vals()`
 
@@ -323,7 +323,7 @@ dplyr::tibble(
   )
 ```
 
-All occurrences of "Model " are replaced with "Type: ", transforming the presentation without modifying the source data.
+All occurrences of `"Model "` are replaced with `"Type: "`, transforming the presentation without modifying the source data.
 
 #### Using regular expressions
 
@@ -342,7 +342,7 @@ dplyr::tibble(
   )
 ```
 
-The regex pattern `-([A-Z])$` matches a hyphen followed by a capital letter at the end of the string. The replacement uses `\\1` to reference the captured group, transforming "SKU-001-A" into "SKU-001 (Variant A)".
+The regex pattern `"-([A-Z])$"` matches a hyphen followed by a capital letter at the end of the string. The replacement uses `\\1` to reference the captured group, transforming `"SKU-001-A"` into `"SKU-001 (Variant A)"`.
 
 #### Applying to multiple locations
 
@@ -358,7 +358,7 @@ exibble |>
   )
 ```
 
-The transformation applies to the stub column, shortening row labels from "row_1" to "R1".
+The transformation applies to the stub column, shortening row labels from `"row_1"` to `"R1"`.
 
 ### `text_case_when()`
 
@@ -485,7 +485,7 @@ dplyr::tibble(
   )
 ```
 
-Instead of replacing the entire cell value, only the matched portion ("file_") is replaced with the emoji, preserving the rest of the filename.
+Instead of replacing the entire cell value, only the matched portion (`"file_"`) is replaced with the emoji, preserving the rest of the filename.
 
 #### Multiple matches in sequence
 
