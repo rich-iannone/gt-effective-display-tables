@@ -525,11 +525,11 @@ The historical material in this chapter draws on numerous sources. For readers i
 ### On Greek astronomy and Ptolemy
 
 - Toomer, G. J., trans. *Ptolemy's Almagest*. London: Duckworth, 1984. The standard English translation.
-- Jones, Alexander. "The Adaptation of Babylonian Methods in Greek Numerical Astronomy." *Isis* 82, no. 3 (1991): 441–453.
+- Jones, Alexander. "The Adaptation of Babylonian Methods in Greek Numerical Astronomy". *Isis* 82, no. 3 (1991): 441–453.
 
 ### On Islamic astronomical tables
 
-- Kennedy, E. S. "A Survey of Islamic Astronomical Tables." *Transactions of the American Philosophical Society* 46, no. 2 (1956): 123–177. The classic survey of *zīj* literature.
+- Kennedy, E. S. "A Survey of Islamic Astronomical Tables." *Transactions of the American Philosophical Society* 46, no. 2 (1956): 123–177. The classic survey of *Zij* literature.
 - Saliba, George. *Islamic Science and the Making of the European Renaissance*. Cambridge, MA: MIT Press, 2007.
 
 ### On the history of accounting and double-entry bookkeeping
@@ -555,7 +555,7 @@ The historical material in this chapter draws on numerous sources. For readers i
 
 ### On cognitive science and information processing
 
-- Miller, George A. "The Magical Number Seven, Plus or Minus Two: Some Limits on Our Capacity for Processing Information." *Psychological Review* 63, no. 2 (1956): 81–97. The classic paper on working memory capacity.
+- Miller, George A. "The Magical Number Seven, Plus or Minus Two: Some Limits on Our Capacity for Processing Information". *Psychological Review* 63, no. 2 (1956): 81–97. The classic paper on working memory capacity.
 - Tufte, Edward R. *The Visual Display of Quantitative Information*. 2nd ed. Cheshire, CT: Graphics Press, 2001.
 
 ### On table design principles
