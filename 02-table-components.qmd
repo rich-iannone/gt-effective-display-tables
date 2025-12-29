@@ -49,6 +49,8 @@ Let's use the `exibble` dataset for the next few examples, we'll learn how to ma
 exibble |> gt()
 ```
 
+From this, we get a very simple table with column labels and all of the body cells below. This is the simplest form of a **gt** table: it doesn't restructure the data at all and closely resembles what you'd see when printing a tibble or data frame in the R console. The key difference is that you now have a presentation-ready table that can be rendered in HTML, PDF, or other formats. While this basic output is functional, the `gt()` function offers several arguments that let you add structure and context to your table right from the start.
+
 This dataset has the row and group columns. The former contains unique values that are ideal for labeling rows, and this often happens in what is called the 'stub' (a reserved area that serves to label rows). With the `gt()` function, we can immediately place the contents of the row column into the stub column. To do this, we use the `rowname_col` argument with the name of the column to use in quotes.
 
 ```{r}
