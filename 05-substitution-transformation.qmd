@@ -445,7 +445,7 @@ dplyr::tibble(
   )
 ```
 
-This adds emoji indicators based on the underlying numeric values, even after currency formatting has been applied.
+The `gsub("[^0-9.]", "", x)` pattern strips everything except digits and decimal points, allowing `as.numeric()` to convert the formatted currency string back to a number. Values at or above $50,000 get an upward trend indicator, while values below $10,000 get a downward indicator. Values in between pass through unchanged. This technique lets you add visual cues based on numeric thresholds even after formatting has been applied.
 
 #### Multiple conditions
 
