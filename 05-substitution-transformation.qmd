@@ -225,7 +225,7 @@ The `sub_large_vals()` function is particularly useful for handling outliers tha
 
 ### `sub_values()`
 
-For more general substitution needs, `sub_values()` can replace any values matching specified conditions. This is the most flexible substitution function, accepting either specific values to match or a custom function.
+For custom value replacements that go beyond missing, zero, or threshold-based substitutions, `sub_values()` provides flexible pattern matching. You can match specific values, use functions to identify cells for replacement, or work with vectors of values to replace. This is your go-to tool when the other substitution functions don't cover your use case.
 
 Here is the function's signature:
 
