@@ -422,7 +422,7 @@ dplyr::tibble(
   )
 ```
 
-Different grades receive different decorations based on conditional logic. The `.default = NULL` ensures unmatched values pass through unchanged.
+Different grades receive different decorations based on conditional logic: A+ gets double stars, A gets a single star, and F gets an X mark. The `.default = NULL` setting is important: it ensures unmatched values (B and C in this case) pass through unchanged rather than being replaced with a default value. Without this, unmatched values would display as `NULL`.
 
 #### Numeric comparisons in text
 
