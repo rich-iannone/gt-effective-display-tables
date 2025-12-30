@@ -491,6 +491,8 @@ text_case_match(
 )
 ```
 
+Let's expand single-character availability codes into readable labels:
+
 ```{r}
 dplyr::tibble(
   feature = c("API", "Dashboard", "Reports", "Settings"),
