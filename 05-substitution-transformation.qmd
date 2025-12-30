@@ -533,6 +533,10 @@ Instead of replacing the entire cell value, only the matched portion (`"file_"`)
 
 #### Multiple matches in sequence
 
+You can specify multiple match patterns, each with its own replacement. When using `.replace = "partial"`, all matching patterns are replaced within each cell.
+
+Let's replace country codes with flag emojis while keeping the city codes:
+
 ```{r}
 dplyr::tibble(
   code = c("US-CA", "UK-LN", "DE-BE", "FR-PA"),
