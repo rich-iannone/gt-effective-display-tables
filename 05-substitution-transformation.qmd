@@ -92,7 +92,7 @@ sub_zero(
 )
 ```
 
-Let's replace zero counts with an en-dash for clearer presentation:
+Let's replace zero counts with a hyphen for clearer presentation:
 
 ```{r}
 dplyr::tibble(
@@ -100,10 +100,10 @@ dplyr::tibble(
   count = c(42, 0, 17, 0, 8)
 ) |>
   gt() |>
-  sub_zero(columns = count, zero_text = "--")
+  sub_zero(columns = count, zero_text = "–")
 ```
 
-The zero counts are replaced with en-dashes, making it immediately clear that these represent "none" rather than a meaningful zero value.
+The zero counts are replaced with hyphens, making it immediately clear that these represent "none" rather than a meaningful zero value.
 
 Different contexts might call for different zero representations:
 
@@ -116,7 +116,7 @@ dplyr::tibble(
   gt() |>
   fmt_integer() |>
   sub_zero(columns = in_stock, zero_text = "Out of stock") |>
-  sub_zero(columns = on_order, zero_text = "---")
+  sub_zero(columns = on_order, zero_text = "-")
 ```
 
 The `in_stock` column shows a descriptive message for zeros, while `on_order` uses a simple dash. This helps readers quickly understand the significance of each zero.
