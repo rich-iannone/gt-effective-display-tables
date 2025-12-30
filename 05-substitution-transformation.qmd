@@ -189,6 +189,8 @@ sub_large_vals(
 )
 ```
 
+Let's create a table where we cap the display of values that exceed a meaningful threshold:
+
 ```{r}
 dplyr::tibble(
   metric = c("Normal", "High", "Very High", "Extreme"),
@@ -199,9 +201,9 @@ dplyr::tibble(
   sub_large_vals(columns = value, threshold = 100000)
 ```
 
-Values exceeding 100,000 are replaced with `"≥100,000"`, indicating they're beyond the displayed scale. This is useful for tables where exact values above a certain point aren't meaningful.
+Values exceeding 100,000 are replaced with `"≥1e+05"` (scientific notation for the threshold), indicating they're beyond the displayed scale. This is useful for tables where exact values above a certain point aren't meaningful. Note that the threshold value in the replacement text uses scientific notation by default.
 
-The pattern can be customized:
+The `large_pattern` argument lets you customize the replacement text. This is particularly useful when scientific notation isn't appropriate for your audience, or when domain-specific terminology (like "exceeds range" or "> max") would be more meaningful:
 
 ```{r}
 dplyr::tibble(
