@@ -529,7 +529,7 @@ dplyr::tibble(
   )
 ```
 
-Instead of replacing the entire cell value, only the matched portion (`"file_"`) is replaced with the emoji, preserving the rest of the filename.
+Instead of replacing the entire cell value, only the matched portion (`"file_"`) is replaced with the document emoji. The rest of the filename (`"report.pdf"`, etc.) is preserved. This technique is excellent for adding visual indicators to coded prefixes or suffixes without losing the identifying information.
 
 #### Multiple matches in sequence
 
