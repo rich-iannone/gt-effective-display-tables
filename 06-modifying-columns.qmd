@@ -641,7 +641,7 @@ cols_merge_range(
 )
 ```
 
-This function is perfect for displaying ranges like price ranges, temperature ranges, or date ranges:
+This function is exceedingly useful for displaying ranges like price ranges, temperature ranges, or date ranges:
 
 ```{r}
 price_ranges <- dplyr::tibble(
