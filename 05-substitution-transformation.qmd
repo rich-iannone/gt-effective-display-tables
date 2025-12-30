@@ -449,6 +449,10 @@ The `gsub("[^0-9.]", "", x)` pattern strips everything except digits and decimal
 
 #### Multiple conditions
 
+You can chain as many conditions as needed. Each formula is evaluated in order, and the first matching condition wins.
+
+Let's transform terse status codes into user-friendly labels with appropriate icons:
+
 ```{r}
 dplyr::tibble(
   task = c("Design", "Development", "Testing", "Deployment"),
