@@ -327,6 +327,8 @@ text_replace(
 )
 ```
 
+Let's standardize product descriptions by replacing a prefix:
+
 ```{r}
 dplyr::tibble(
   description = c(
@@ -343,7 +345,7 @@ dplyr::tibble(
   )
 ```
 
-All occurrences of `"Model "` are replaced with `"Type: "`, transforming the presentation without modifying the source data.
+All occurrences of `"Model "` are replaced with `"Type: "`, transforming the presentation without modifying the source data. This is particularly useful when you need to adapt terminology for different audiences or standardize inconsistent naming conventions.
 
 #### Using regular expressions
 
