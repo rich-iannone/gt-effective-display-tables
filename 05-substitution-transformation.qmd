@@ -672,7 +672,7 @@ dplyr::tibble(
   )
 ```
 
-Email usernames are transformed into complete email addresses.
+The email usernames are transformed into complete email addresses by appending the domain. This is a simple but practical example of how `text_transform()` can complete partial data for display purposes. You could extend this to apply different domains based on department, format phone numbers, or any other text augmentation task.
 
 ## Combining stages effectively
 
