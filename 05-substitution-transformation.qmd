@@ -554,7 +554,7 @@ dplyr::tibble(
   fmt_currency(columns = sales, currency = "USD")
 ```
 
-Country codes are replaced with flag emojis while preserving the city codes that follow.
+The two-letter country codes at the beginning of each cell are replaced with their corresponding flag emojis, while the hyphen and city codes that follow are preserved. This creates visually appealing location identifiers that are both scannable (via the flags) and informative (via the city codes).
 
 ### `text_transform()`
 
