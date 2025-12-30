@@ -558,7 +558,7 @@ The two-letter country codes at the beginning of each cell are replaced with the
 
 ### `text_transform()`
 
-For maximum flexibility, `text_transform()` applies arbitrary functions to cell text. This is the most powerful (and most flexible) of the text transformation tools.
+For maximum flexibility, `text_transform()` applies arbitrary functions to cell text. This is the most powerful (and most flexible) of the text transformation tools. While the other text functions provide convenient shortcuts for common patterns, `text_transform()` lets you write custom R functions that can perform any text manipulation.
 
 Here is the function's signature:
 
