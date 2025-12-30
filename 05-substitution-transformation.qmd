@@ -372,6 +372,10 @@ The regex pattern `"-([A-Z])$"` matches a hyphen followed by a capital letter at
 
 #### Applying to multiple locations
 
+The `locations` argument accepts any of **gt**'s `cells_*()` helper functions, allowing you to target specific parts of the table. You can apply text replacements to the body, stub, column labels, or other table components.
+
+Let's shorten the row labels in the stub column:
+
 ```{r}
 exibble |>
   dplyr::select(row, char) |>
