@@ -593,6 +593,10 @@ The names are transformed to title case using R's built-in `tools::toTitleCase()
 
 #### Complex transformations
 
+For more sophisticated manipulations, you can write multi-step transformation functions that parse, modify, and reassemble text.
+
+Let's restructure hyphenated product codes into a more readable format:
+
 ```{r}
 dplyr::tibble(
   product = c("widget-standard", "gadget-premium", "sprocket-basic"),
