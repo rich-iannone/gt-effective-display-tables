@@ -570,6 +570,8 @@ text_transform(
 )
 ```
 
+The `fn` argument accepts a function that takes a character vector of cell values and returns a transformed character vector of the same length.
+
 #### Basic transformations
 
 ```{r}
