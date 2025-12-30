@@ -314,7 +314,7 @@ Text transformation functions operate on the final string representation of cell
 
 ### `text_replace()`
 
-For targeted string replacements using regular expressions, `text_replace()` finds and replaces patterns within cell text.
+For targeted string replacements using regular expressions, `text_replace()` finds and replaces patterns within cell text. Unlike the substitution functions that replace entire cell values, `text_replace()` can modify specific portions of text within a cell while leaving the rest intact.
 
 Here is the function's signature:
 
