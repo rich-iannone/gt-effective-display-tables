@@ -240,6 +240,8 @@ sub_values(
 )
 ```
 
+There are several patterns for using this function, depending on whether you want to match exact values, apply conditional logic, or replace multiple values at once.
+
 #### Replacing specific values
 
 ```{r}
