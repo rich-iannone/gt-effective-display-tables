@@ -574,6 +574,10 @@ The `fn` argument accepts a function that takes a character vector of cell value
 
 #### Basic transformations
 
+Simple transformations can leverage existing R functions for text manipulation.
+
+Let's fix the capitalization of names stored in lowercase:
+
 ```{r}
 dplyr::tibble(
   name = c("john smith", "mary jones", "bob wilson")
