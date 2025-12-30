@@ -655,6 +655,10 @@ The transformation function references `sales_data$sales` and `sales_data$target
 
 #### Transforming multiple columns together
 
+You can apply the same transformation to multiple columns by specifying them in the `locations` argument.
+
+Let's complete partial email addresses by adding the domain:
+
 ```{r}
 dplyr::tibble(
   first = c("John", "Mary", "Bob"),
