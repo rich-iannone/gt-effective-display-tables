@@ -370,7 +370,7 @@ dplyr::tibble(
   )
 ```
 
-The regex pattern `"-([A-Z])$"` matches a hyphen followed by a capital letter at the end of the string. The replacement uses `\\1` to reference the captured group, transforming `"SKU-001-A"` into `"SKU-001 (Variant A)"`.
+The regex pattern `"-([A-Z])$"` matches a hyphen followed by a capital letter at the end of the string. The parentheses create a capture group around the letter. The replacement string uses `\\1` to reference that captured group, transforming `"SKU-001-A"` into `"SKU-001 (Variant A)"`. This technique is invaluable for reformatting coded data into human-readable labels.
 
 #### Applying to multiple locations
 
