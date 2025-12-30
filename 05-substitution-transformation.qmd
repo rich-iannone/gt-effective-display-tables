@@ -651,7 +651,7 @@ sales_data |>
   )
 ```
 
-The transformation function can reference external data to make decisions, adding indicators based on whether each region met its target.
+The transformation function references `sales_data$sales` and `sales_data$target` from outside the function to determine which indicator to add to each region name. North and East exceeded their targets (getting check marks), while South and West fell short (getting warning indicators). This technique is powerful for adding cross-column conditional formatting.
 
 #### Transforming multiple columns together
 
