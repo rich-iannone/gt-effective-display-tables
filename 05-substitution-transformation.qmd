@@ -512,7 +512,9 @@ Single-character codes are expanded to readable values with visual indicators. T
 
 #### Partial replacements with `.replace`
 
-The `.replace` argument enables partial text replacement within cells:
+By default, `text_case_match()` replaces the entire cell value. Setting `.replace = "partial"` changes this behavior to only replace the matched portion, leaving the rest of the cell text intact.
+
+Let's replace a filename prefix with an icon while keeping the actual filename:
 
 ```{r}
 dplyr::tibble(
