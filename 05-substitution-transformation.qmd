@@ -353,7 +353,9 @@ All occurrences of `"Model "` are replaced with `"Type: "`, transforming the pre
 
 #### Using regular expressions
 
-The `pattern` argument supports full regular expression syntax:
+The `pattern` argument supports full regular expression syntax, enabling powerful pattern matching and capture groups for sophisticated text manipulations.
+
+Let's restructure product codes to make variant identifiers more readable:
 
 ```{r}
 dplyr::tibble(
