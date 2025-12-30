@@ -244,6 +244,10 @@ There are several patterns for using this function, depending on whether you wan
 
 #### Replacing specific values
 
+The simplest use of `sub_values()` is replacing exact value matches. You specify the `values` to look for and the `replacement` text to use. This is good when adding visual indicators or expanding abbreviations.
+
+Let's decorate status values with emoji indicators:
+
 ```{r}
 dplyr::tibble(
   status = c("active", "inactive", "pending", "active", "archived"),
