@@ -624,6 +624,10 @@ This transformation function does several things: it splits each product string 
 
 #### Conditional formatting with external data
 
+The transformation function can access variables from the enclosing environment, allowing you to make decisions based on data that isn't in the cell being transformed.
+
+Let's add performance indicators to region names based on whether they met their sales targets:
+
 ```{r}
 sales_data <- dplyr::tibble(
   region = c("North", "South", "East", "West"),
