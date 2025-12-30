@@ -407,7 +407,9 @@ text_case_when(
 )
 ```
 
-The function uses a formula syntax where the left side is a condition and the right side is the replacement. The variable `x` represents the current cell value.
+The function uses a formula syntax where the left side is a condition and the right side is the replacement. The variable `x` represents the current cell value. Conditions are evaluated in order, and the first matching condition determines the replacement.
+
+Let's decorate letter grades with star indicators:
 
 ```{r}
 dplyr::tibble(
