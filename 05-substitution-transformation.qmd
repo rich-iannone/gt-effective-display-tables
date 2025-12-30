@@ -291,6 +291,10 @@ The function-based approach evaluates each cell value against the condition `x <
 
 #### Multiple value replacement
 
+The `values` argument can accept a vector of values to match, all of which will be replaced with the same `replacement` text. This is useful for grouping related values or collapsing categories.
+
+Let's group weekend days together:
+
 ```{r}
 dplyr::tibble(
   day = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"),
