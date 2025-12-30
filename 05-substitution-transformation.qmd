@@ -138,19 +138,21 @@ sub_small_vals(
 )
 ```
 
+Let's apply this to concentration data where some measurements fall below the reliable detection limit. We'll use `fmt_partsper()` to express concentrations in parts-per-million (ppm):
+
 ```{r}
 dplyr::tibble(
   measurement = c("Sample A", "Sample B", "Sample C", "Sample D"),
   concentration = c(0.5, 0.008, 0.0002, 0.15)
 ) |>
   gt() |>
-  fmt_number(columns = concentration, decimals = 3) |>
+  fmt_partsper(columns = concentration, to_units = "ppm") |>
   sub_small_vals(columns = concentration, threshold = 0.01)
 ```
 
-Values below `0.01` are replaced with `"<0.01"`, acknowledging their presence without implying false precision. This is standard practice in scientific and analytical reporting.
+Values below `0.01` are replaced with `"<0.01"`, acknowledging their presence without implying false precision. This is standard practice in scientific and analytical reporting. The `fmt_partsper()` function formats the values with the appropriate `"ppm"` unit suffix.
 
-The `small_pattern` argument customizes the replacement format:
+The `small_pattern` argument customizes the replacement format. Here's an example with parts-per-billion measurements, common in environmental testing:
 
 ```{r}
 dplyr::tibble(
@@ -158,7 +160,7 @@ dplyr::tibble(
   level_ppb = c(2.5, 0.003, 0.0001, 1.2)
 ) |>
   gt() |>
-  fmt_number(columns = level_ppb, decimals = 2) |>
+  fmt_partsper(columns = level_ppb, to_units = "ppb") |>
   sub_small_vals(
     columns = level_ppb, 
     threshold = 0.01,
@@ -166,7 +168,9 @@ dplyr::tibble(
   )
 ```
 
-Here, values below the threshold are replaced with `"< LOD"` (i.e., below the limit of detection), which is a common term in analytical chemistry.
+Here, values below the threshold are replaced with `"< LOD"` (i.e., below the limit of detection), which is a common term in analytical chemistry. The combination of `fmt_partsper()` with `sub_small_vals()` creates professional-looking scientific tables where detectable values show their ppb concentration and undetectable values display the appropriate notation.
+
+Beyond scientific applications, `sub_small_vals()` is useful anywhere that very small numbers might confuse readers or imply misleading precision (such as rounding percentages near zero, financial reports with negligible amounts, or survey results with tiny response rates). The function helps maintain honesty about data precision while keeping tables readable.
 
 ### `sub_large_vals()`
 
