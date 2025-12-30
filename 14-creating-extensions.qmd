@@ -176,7 +176,7 @@ create_correlation_table <- function(
 }
 ```
 
-The function handles several details that users would otherwise need to address manually. It selects only numeric columns, computes correlations with appropriate handling of missing values, applies a diverging color palette centered on zero (so positive correlations appear blue, negative correlations appear red, and values near zero remain white), and replaces the diagonal values of 1 with empty strings since the correlation of a variable with itself is trivially perfect and not informative.
+The function handles several details that users would otherwise need to address manually. It selects only numeric columns, computes correlations with appropriate handling of missing values, applies a diverging color palette centered on zero (so positive correlations appear blue, negative correlations appear red, and values near zero remain white), and replaces the diagonal values of `1` with empty strings since the correlation of a variable with itself is trivially perfect and not informative.
 
 Testing with the `gtcars` dataset reveals the function's output:
 
