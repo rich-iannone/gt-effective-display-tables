@@ -473,7 +473,7 @@ Each status value is transformed into a more descriptive, emoji-decorated repres
 
 ### `text_case_match()`
 
-For simpler one-to-one replacements without complex conditions, `text_case_match()` provides a cleaner syntax similar to `dplyr::case_match()`.
+For simpler one-to-one replacements without complex conditions, `text_case_match()` provides a cleaner syntax similar to `dplyr::case_match()`. While `text_case_when()` allows arbitrary conditions, `text_case_match()` is optimized for direct value-to-replacement mappings.
 
 Here is the function's signature:
 
