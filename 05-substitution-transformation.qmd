@@ -388,7 +388,7 @@ exibble |>
   )
 ```
 
-The transformation applies to the stub column, shortening row labels from `"row_1"` to `"R1"`.
+The transformation applies to the stub column, shortening row labels from `"row_1"` to `"R1"`. This makes the table more compact while maintaining the row identification. The same technique works with `cells_column_labels()`, `cells_title()`, and other location helpers.
 
 ### `text_case_when()`
 
