@@ -508,7 +508,7 @@ dplyr::tibble(
   )
 ```
 
-Single-character codes are expanded to readable values with visual indicators. This is more concise than `text_case_when()` when you're doing simple value matching.
+Single-character codes are expanded to readable values with visual indicators. The syntax is more concise than `text_case_when()` because you don't need to write `x ==` for each condition. For simple value matching like this, `text_case_match()` is the cleaner choice.
 
 #### Partial replacements with `.replace`
 
