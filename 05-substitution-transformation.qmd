@@ -219,7 +219,9 @@ dplyr::tibble(
   )
 ```
 
-Values above the threshold show "> max", indicating they exceeded the measurement range.
+Values above the threshold show "> max", indicating they exceeded the measurement range. This approach is common in laboratory reports, sensor data displays, and any context where instruments have a defined upper limit.
+
+The `sub_large_vals()` function is particularly useful for handling outliers that would otherwise distort a reader's perception of the data, or for privacy purposes where exact large values shouldn't be disclosed (e.g., displaying salaries above a threshold as "≥$200,000"). Combined with `sub_small_vals()`, you have complete control over how extreme values at both ends of the spectrum are presented.
 
 ### `sub_values()`
 
