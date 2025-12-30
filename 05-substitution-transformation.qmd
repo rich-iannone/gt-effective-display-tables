@@ -469,7 +469,7 @@ dplyr::tibble(
   )
 ```
 
-Each status value is transformed into a more descriptive, emoji-decorated representation.
+Each status value is transformed into a more descriptive, emoji-decorated representation. This pattern is useful for project management dashboards, where coded statuses need to be presented in a visually scannable way. The emoji indicators provide instant recognition, while the expanded text ensures clarity.
 
 ### `text_case_match()`
 
