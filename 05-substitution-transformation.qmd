@@ -589,7 +589,7 @@ dplyr::tibble(
   )
 ```
 
-The names are transformed to title case, correcting the formatting of the source data for display purposes.
+The names are transformed to title case using R's built-in `tools::toTitleCase()` function. This corrects the formatting of the source data for display without modifying the original data. You could use any text function here: `toupper()`, `tolower()`, `stringr::str_to_sentence()`, or your own custom function.
 
 #### Complex transformations
 
