@@ -620,7 +620,7 @@ dplyr::tibble(
   fmt_currency(columns = price, currency = "USD")
 ```
 
-This complex transformation splits the product string, applies different formatting to each part, and reassembles them into a more readable format.
+This transformation function does several things: it splits each product string on the hyphen, capitalizes the product name using title case, converts the tier to uppercase, and reassembles them with the tier in parentheses. The result transforms `"widget-standard"` into `"Widget (STANDARD)"`. This kind of structural reformatting would be difficult with the other text functions.
 
 #### Conditional formatting with external data
 
