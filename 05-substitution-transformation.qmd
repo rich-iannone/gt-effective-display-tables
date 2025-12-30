@@ -270,6 +270,10 @@ The `"inactive"` and `"archived"` values now display with appropriate emoji indi
 
 #### Using a function for conditional replacement
 
+For more complex matching logic, you can supply a function via the `fn` argument. This function receives each cell value and should return `TRUE` for values that need replacement. This enables conditional logic that would be difficult to express with simple value matching.
+
+Let's flag scores that fall below an acceptable threshold:
+
 ```{r}
 dplyr::tibble(
   product = c("Alpha", "Beta", "Gamma", "Delta"),
