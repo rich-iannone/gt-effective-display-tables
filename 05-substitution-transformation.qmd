@@ -287,7 +287,7 @@ dplyr::tibble(
   )
 ```
 
-The function-based approach lets you define complex conditions. Here, any score below 50 is flagged with a warning.
+The function-based approach evaluates each cell value against the condition `x < 50`. Beta (`45`) and Delta (`38`) both fail this check, so they're replaced with a warning indicator. This technique is invaluable for quality control dashboards or any table where certain values need to be called out based on thresholds.
 
 #### Multiple value replacement
 
