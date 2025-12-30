@@ -304,7 +304,9 @@ dplyr::tibble(
   )
 ```
 
-Multiple values can be replaced with a single substitute, useful for grouping or categorization.
+Both Saturday and Sunday are replaced with `"Weekend"`, effectively collapsing these two categories into one. This technique is helpful when detailed values in your data need to be presented at a higher level of abstraction.
+
+The `sub_values()` function is the most versatile of the substitution functions. While `sub_missing()`, `sub_zero()`, `sub_small_vals()`, and `sub_large_vals()` each handle specific common cases, `sub_values()` handles everything else. Use it to expand abbreviations, add visual indicators to specific categories, flag values that meet custom criteria, or recode categorical data for clearer presentation. The function-based matching via `fn` is particularly powerful as you can implement any logic that returns `TRUE` or `FALSE`, from simple threshold checks to complex pattern matching or even lookups against external reference data.
 
 ## Text transformation functions
 
