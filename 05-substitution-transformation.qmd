@@ -426,7 +426,9 @@ Different grades receive different decorations based on conditional logic: A+ ge
 
 #### Numeric comparisons in text
 
-Even though text transformations operate on strings, you can perform numeric comparisons:
+Even though text transformations operate on strings (after formatting has been applied), you can extract numeric values and perform comparisons. This requires converting the text back to numbers, which may involve removing formatting characters like currency symbols or thousands separators.
+
+Let's add trend indicators based on the underlying values:
 
 ```{r}
 dplyr::tibble(
