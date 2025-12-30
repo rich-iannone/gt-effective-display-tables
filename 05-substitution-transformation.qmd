@@ -266,7 +266,7 @@ dplyr::tibble(
   )
 ```
 
-Specific values are decorated with emoji indicators, making status categories visually distinct.
+The `"inactive"` and `"archived"` values now display with appropriate emoji indicators, making status categories immediately visually distinct. The `"active"` and `"pending"` values pass through unchanged since we didn't specify replacements for them.
 
 #### Using a function for conditional replacement
 
