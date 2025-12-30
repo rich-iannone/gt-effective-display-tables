@@ -392,7 +392,7 @@ The transformation applies to the stub column, shortening row labels from `"row_
 
 ### `text_case_when()`
 
-For conditional text replacements based on complex logic, `text_case_when()` evaluates expressions and applies different replacements based on the results.
+For conditional text replacements based on complex logic, `text_case_when()` evaluates expressions and applies different replacements based on the results. This function mirrors the logic of `dplyr::case_when()` but operates on the text representation of cell values after formatting.
 
 Here is the function's signature:
 
