@@ -250,8 +250,8 @@ Let's decorate status values with emoji indicators:
 
 ```{r}
 dplyr::tibble(
-  status = c("active", "inactive", "pending", "active", "archived"),
-  count = c(10, 5, 3, 8, 2)
+  status = c("active", "inactive", "pending", "archived"),
+  count = c(10, 5, 3, 2)
 ) |>
   gt() |>
   sub_values(
