@@ -315,6 +315,56 @@ countrypops |>
 
 In this example, the grand summary row appears at the top of the table (a common convention for totals) and is styled with a light blue background to distinguish it from the data rows.
 
+### Referencing other columns in aggregations
+
+A powerful but often overlooked feature of summary rows is the ability to reference other columns within an aggregation formula. This is particularly useful when you need to compute a summary that depends on values from multiple columns, such as a weighted average or a ratio that must be calculated from totals rather than averaged directly.
+
+Let's consider a sales dataset where each row shows units sold and total profit for a product. If you want the grand summary to show the overall profit per unit, you cannot simply average the per-unit profits from each row (that would give incorrect results if the rows have different unit volumes). Instead, you need to sum all profits and divide by the sum of all units. The `fns` argument allows you to write aggregation expressions that reference any column in the table data, not just the column being summarized.
+
+```{r}
+dplyr::tibble(
+  product = c("Widget", "Gadget", "Sprocket", "Gizmo", "Doodad"),
+  units = c(150, 280, 95, 420, 175),
+  profit = c(4500, 11200, 3325, 12600, 6125)
+) |>
+  dplyr::mutate(profit_per_unit = profit / units) |>
+  gt(rowname_col = "product") |>
+  fmt_integer(columns = units) |>
+  fmt_currency(columns = c(profit, profit_per_unit)) |>
+  cols_label(
+    units = "Units Sold",
+    profit = "Total Profit",
+    profit_per_unit = "Profit/Unit"
+  ) |>
+  grand_summary_rows(
+    columns = units,
+    fns = list(label = md("**TOTAL**"), id = "totals", fn = "sum"),
+    fmt = ~ fmt_integer(.)
+  ) |>
+  grand_summary_rows(
+    columns = c(profit, profit_per_unit),
+    fns = list(label = md("**TOTAL**"), id = "totals", fn = "sum"),
+    fmt = ~ fmt_currency(.)
+  ) |>
+  grand_summary_rows(
+    columns = profit_per_unit,
+    fns = list(label = md("**TOTAL**"), id = "totals") ~ sum(profit) / sum(units),
+    fmt = ~ fmt_currency(.)
+  ) |>
+  tab_style(
+    locations = cells_grand_summary(),
+    style = cell_fill(color = "lightgray")
+  )
+```
+
+This example demonstrates several techniques worth noting. First, we call `grand_summary_rows()` three times, but all calls use the same `id = "totals"`. This produces a single summary row in the table, not three separate rows. By splitting the aggregation across multiple calls, we can apply different logic to different columns while maintaining a unified row label.
+  
+Second, each call uses its own formatting: `fmt_integer()` for the units column, and `fmt_currency()` for the profit and profit-per-unit columns. This flexibility is essential when a single summary row must display values with fundamentally different formats.
+
+Third, the `profit_per_unit` summary uses a custom formula that references the `profit` and `units` columns directly. The expression `sum(profit) / sum(units)` calculates the correct weighted profit per unit across all products (totaling `"$37,750"` profit divided by 1,120 units gives `"$33.71"` per unit), rather than averaging the individual ratios (which would incorrectly give `"$33.04"`).
+
+This technique works in both `summary_rows()` and `grand_summary_rows()`. Within a group summary, the column references resolve to just that group's data. Within a grand summary, they resolve to the entire table's data. This makes it straightforward to compute derived statistics like weighted averages, ratios of totals, or any calculation that requires multiple columns.
+
 ### Combining group and grand summaries
 
 Many real-world tables require multiple levels of aggregation. A financial report might show subtotals for each department and a grand total for the entire organization. A sales analysis might present regional summaries alongside company-wide figures. A scientific study might report group means as well as overall statistics. In these situations, you need both `summary_rows()` and `grand_summary_rows()` working together.
