@@ -740,7 +740,7 @@ dplyr::tibble(
   tab_header(title = "Regional Sales Report")
 ```
 
-The use of column spanners ("Quarters" and "Summary") helps readers understand the table's structure at a glance. The summary columns on the right provide immediate context for each region's performance, while the grand summary row at the bottom gives the company-wide view. A manager scanning this table can quickly identify that East is the top-performing region and that sales have been trending upward across quarters.
+The use of column spanners (`"Quarters"` and `"Summary"`) helps readers understand the table's structure at a glance. The summary columns on the right provide immediate context for each region's performance, while the grand summary row at the bottom gives the company-wide view. A manager scanning this table can quickly identify that East is the top-performing region and that sales have been trending upward across quarters.
 
 ### Scientific data with statistical summaries
 
