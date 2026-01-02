@@ -44,6 +44,8 @@ jobs:
             any::broom.helpers
             any::gtExtras
             any::svglite
+            any::patchwork
+            any::ggplot2
 
       - name: Render Quarto Project
         uses: quarto-dev/quarto-actions/render@v2
