@@ -306,7 +306,101 @@ Table complexity constrains format choices dramatically. Simple tables with basi
 
 Your audience's technical environment matters immensely. PNG works everywhere and literally any device or browser can display images. This universality makes PNG the safe choice when you don't know what software your audience has. HTML similarly works anywhere with a web browser, though some corporate email systems strip styling that could break layouts. Word requires Microsoft Office or compatible software, which is nearly universal in business but less common in some academic or technical communities. LaTeX presumes recipients have LaTeX expertise (a reasonable assumption in mathematics, physics, and computer science departments). RTF offers the broadest word processor compatibility, but it's rarely anyone's first choice for other reasons.
 
-**Quality standards and presentation context close the decision.** For publication-quality output destined for print, LaTeX produces the most professional typography and precise positioning. High-resolution PNG images can match this quality and work in more contexts, though they lack LaTeX's mathematical typesetting sophistication. Web display always favors HTML and it's designed for screens, supports responsive layouts, and allows interactive exploration. For quick reviews, drafts, or iterative feedback, RTF and Word work fine despite their limitations since the goal is communication rather than perfection. Matching format quality to purpose prevents both over-engineering (LaTeX for an internal draft) and under-delivering (RTF for a final publication).
+For publication-quality output destined for print, LaTeX produces the most professional typography and precise positioning. High-resolution PNG images can match this quality and work in more contexts, though they lack LaTeX's mathematical typesetting sophistication. Web display always favors HTML and it's designed for screens, supports responsive layouts, and allows interactive exploration. For quick reviews, drafts, or iterative feedback, RTF and Word work fine despite their limitations since the goal is communication rather than perfection. Matching format quality to purpose prevents both over-engineering (LaTeX for an internal draft) and under-delivering (RTF for a final publication).
+
+## Extracting formatted cell values for inline use
+
+When writing data-driven documents, you often need to reference specific values from your tables in the surrounding prose. A table might show that sales increased by 23.7%, and you want that same figure to appear in your narrative text: "Our quarterly results showed a **23.7%** increase over the previous period". Traditionally, this creates a reproducibility problem: you calculate the number in R, format it for the table, then manually type it again in your text. If the underlying data changes, you have to remember to update both locations.
+
+The `extract_cells()` function solves this problem by letting you pull already-formatted cell values directly from a **gt** table. Whatever formatting you've applied (decimal places, currency symbols, percentage signs, scientific notation) comes along with the extracted value. This means your inline references automatically match your table formatting without any additional work. When your data updates, both the table and the prose update together.
+
+### Basic extraction
+
+The `extract_cells()` function takes a **gt** table and returns formatted cell values based on the column and row you specify:
+
+```{r}
+sales_table <- 
+  tibble::tibble(
+    region = c("North", "South", "East", "West"),
+    revenue = c(1234567, 987654, 1567890, 876543),
+    growth = c(0.237, 0.156, 0.089, 0.312)
+  ) |>
+  gt(rowname_col = "region") |>
+  fmt_currency(columns = revenue, decimals = 0) |>
+  fmt_percent(columns = growth, decimals = 1) |>
+  cols_label(revenue = "Revenue", growth = "Growth")
+
+sales_table
+```
+
+Now we can extract specific cells. The formatting applied in the table carries through to the extracted value:
+
+```{r}
+# Extract the revenue for the North region
+extract_cells(sales_table, columns = revenue, rows = "North")
+```
+
+```{r}
+# Extract the growth percentage for the West region
+extract_cells(sales_table, columns = growth, rows = "West")
+```
+
+Notice that the extracted revenue value includes the dollar sign and comma separators, while the growth value includes the percentage sign (exactly as they appear in the table).
+
+### Using extracted values in Quarto documents
+ 
+The real power of `extract_cells()` emerges in Quarto documents where you can embed R expressions directly in your prose. Instead of hardcoding values, you reference them dynamically:
+
+```{r eval=FALSE}
+The North region generated `r extract_cells(sales_table, columns = revenue, rows = "North")`
+in revenue, representing `r extract_cells(sales_table, columns = growth, rows = "North")` 
+year-over-year growth.
+```
+
+When this document renders, Quarto evaluates the inline R expressions and inserts the formatted values. If your underlying data changes (e.g., the North region's revenue updates to `"$1,345,678"`) both the table and the prose automatically reflect the new figure. No manual synchronization required.
+ 
+This pattern eliminates an entire class of errors. You won't have the situation where a table shows one number while your text shows a slightly different (outdated or mistyped) version. The single source of truth is your **gt** table, and `extract_cells()` lets you tap into it anywhere in your document.
+
+### Extracting multiple cells
+
+You can extract multiple cells at once by specifying multiple rows:
+
+```{r}
+# Extract all growth values
+extract_cells(sales_table, columns = growth, rows = everything())
+```
+
+The result is a character vector with one element per extracted cell. This is useful when you need to reference a range of values or when building dynamic text that incorporates multiple data points.
+
+You can also combine extraction with row selection expressions:
+
+```{r}
+# Extract revenue for regions with growth over 20%
+extract_cells(sales_table, columns = revenue, rows = growth > 0.2)
+```
+
+### Output format considerations
+
+The `extract_cells()` function includes an `output` argument that controls how the extracted values are formatted. By default (`output = "auto"`), it detects the rendering context and chooses appropriately:
+
+- in Quarto HTML documents, it returns HTML-formatted values
+- in PDF documents (via LaTeX), it returns LaTeX-formatted values
+- in Word documents, it returns Word-compatible formatting
+- in the R console, it returns plain text
+
+You can override this behavior when needed:
+
+```{r}
+# Force plain text output (strips HTML/LaTeX markup)
+extract_cells(sales_table, columns = revenue, rows = "North", output = "plain")
+```
+
+```{r}
+# Force HTML output (useful for manual HTML document construction)
+extract_cells(sales_table, columns = revenue, rows = "North", output = "html")
+```
+
+The automatic detection works correctly in most situations, but explicit output specification helps when you're generating content for a specific format or when the automatic detection doesn't match your needs.
 
 ## Format conversion strategies
 
