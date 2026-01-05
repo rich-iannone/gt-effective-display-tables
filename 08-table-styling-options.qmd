@@ -665,47 +665,18 @@ Body and stub settings control the main data presentation:
 exibble |>
   gt(rowname_col = "row", groupname_col = "group") |>
   tab_options(
+    table_body.hlines.color = "gray90",
     row_group.background.color = "gray95",
     row_group.font.weight = "bold",
     stub.background.color = "gray98",
     stub.font.weight = "bold",
-    table_body.hlines.style = "solid",
-    table_body.hlines.color = "gray80",
-    table_body.hlines.width = px(1),
-    data_row.padding = px(6)
+    data_row.padding = px(4)
   )
 ```
 
-This configuration emphasizes row group labels and the stub while adding subtle horizontal lines between rows. The reduced padding creates a more compact presentation.
+This configuration emphasizes row group labels and the stub while lightening the horizontal lines between rows. The reduced padding (`data_row.padding = px(4)`) creates a much more compact presentation.
 
-Borders provide structural definition:
-
-```{r}
-towny |>
-  dplyr::select(name, population_2021, land_area_km2) |>
-  dplyr::slice_max(population_2021, n = 6) |>
-  gt() |>
-  fmt_integer(columns = population_2021) |>
-  fmt_number(columns = land_area_km2, decimals = 1) |>
-  tab_options(
-    table.border.top.style = "hidden",
-    table.border.bottom.style = "hidden",
-    column_labels.border.top.style = "solid",
-    column_labels.border.top.width = px(2),
-    column_labels.border.top.color = "black",
-    column_labels.border.bottom.style = "solid",
-    column_labels.border.bottom.width = px(2),
-    column_labels.border.bottom.color = "black",
-    table_body.border.bottom.style = "solid",
-    table_body.border.bottom.width = px(2),
-    table_body.border.bottom.color = "black",
-    table_body.hlines.style = "hidden"
-  )
-```
-
-This "three-line" table style (popular in scientific publishing) uses only horizontal rules above the header, below the header, and below the data. The clean appearance emphasizes data over decoration.
-
-For LaTeX output, specific options control document integration:
+For LaTeX output, specific options (`latex.*`) control document integration:
 
 ```r
 # LaTeX-specific options (not evaluated)
