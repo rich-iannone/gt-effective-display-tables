@@ -1358,6 +1358,56 @@ With `locale = "de"` set at the table level, all formatting functions inherit Ge
 
 The functions that support the `locale` argument include: `fmt_number()`, `fmt_integer()`, `fmt_percent()`, `fmt_currency()`, `fmt_date()`, `fmt_time()`, `fmt_datetime()`, `fmt_duration()`, `fmt_spelled_num()`, and others. This comprehensive locale support makes **gt** well-suited for creating tables intended for international audiences or multilingual publications.
 
+### Controlling when separators appear with `min_sep_threshold`
+
+Several numeric formatting functions include a `min_sep_threshold` argument that controls when digit grouping separators (like commas in `1,000`) begin to appear. By default, separators are applied to numbers with four or more digits, but you can adjust this threshold to better match your data's context or your audience's expectations.
+
+The `min_sep_threshold` value determines the *minimum number of digits in the integer part* required before separators are applied. A value of `1` (the default) applies separators starting at 4-digit numbers (1,000 and above). A value of `2` starts grouping at 5-digit numbers (10,000 and above), while `3` begins at 6-digit numbers (100,000 and above).
+
+```{r}
+dplyr::tibble(
+  description = c("Hundreds", "Thousands", "Ten thousands", "Hundred thousands"),
+  value = c(500, 5000, 50000, 500000)
+) |>
+  gt() |>
+  cols_add(
+    default_sep = value,
+    threshold_2 = value,
+    threshold_3 = value
+  ) |>
+  fmt_integer(columns = default_sep, min_sep_threshold = 1) |>
+  fmt_integer(columns = threshold_2, min_sep_threshold = 2) |>
+  fmt_integer(columns = threshold_3, min_sep_threshold = 3) |>
+  cols_label(
+    value = "Raw Value",
+    default_sep = "Threshold 1 (default)",
+    threshold_2 = "Threshold 2",
+    threshold_3 = "Threshold 3"
+  ) |>
+  cols_hide(columns = value)
+```
+
+Notice how the separators appear at different magnitudes depending on the threshold. With the default `min_sep_threshold = 1`, the value 5,000 gets a comma. With `min_sep_threshold = 2`, that same value displays as 5000 (no separator), and the comma only appears at 50,000 and above. With `min_sep_threshold = 3`, even 50000 has no separator, as commas only begin at 500,000.
+
+This argument is particularly useful when displaying data where smaller numbers are common and separators would add visual clutter:
+
+```{r}
+dplyr::tibble(
+  product = c("Widget A", "Widget B", "Widget C", "Widget D"),
+  units_sold = c(842, 1250, 3100, 15600),
+  revenue = c(4210, 6250, 15500, 78000)
+) |>
+  gt() |>
+  fmt_integer(columns = units_sold, min_sep_threshold = 2) |>
+  fmt_currency(columns = revenue, currency = "USD", decimals = 0, min_sep_threshold = 2)
+```
+
+With `min_sep_threshold = 2`, the smaller unit counts (842, 1250, 3100) display without separators, keeping the column clean and easy to scan. Only 15,600 receives a separator. Similarly, the revenue column reserves separators for the larger values.
+
+Note that if you specify a `locale`, the locale's conventions take precedence. Many locales have their own rules about minimum grouping digits based on CLDR (Common Locale Data Repository) data, and these will override your `min_sep_threshold` setting.
+
+The `min_sep_threshold` argument is available in `fmt_number()`, `fmt_integer()`, `fmt_percent()`, `fmt_currency()`, and other numeric formatting functions.
+
 ## Creating your own formatter
 
 When the built-in formatters don't meet your specific needs, the `fmt()` function provides a general-purpose mechanism for custom formatting.
