@@ -213,6 +213,32 @@ dplyr::tibble(distance_miles = c(10, 25, 100)) |>
   fmt_number(columns = everything(), decimals = 1)
 ```
 
+## TRUE/FALSE style reference
+
+### `info_tf_style()`
+
+Displays all available styles for formatting `TRUE`/`FALSE` values with the `fmt_tf()` function. This is helpful when you want to see the visual appearance of each style option before applying it to your table.
+
+```{r}
+#| eval: false
+info_tf_style()
+```
+
+The table shows:
+
+- style name: the string identifier to use in `tf_style` (e.g., `"true-false"`, `"yes-no"`, `"check-mark"`)
+- 'true' output: how `TRUE` values render with each style
+- 'false' output: how `FALSE` values render with each style
+
+Use style names with `fmt_tf()`:
+
+```r
+fmt_tf(columns = available, tf_style = "yes-no")
+fmt_tf(columns = completed, tf_style = "check-mark")
+```
+
+Some styles use text representations (like `"Yes"`/`"No"` or `"True"`/`"False"`), while others use symbols (checkmarks, circles, etc.). The visual styles are particularly useful for creating scannable tables where readers need to quickly identify positive or negative values.
+
 ## Built-in datasets
 
 The **gt** package includes 18 datasets for learning and experimentation. These datasets appear throughout the documentation and examples.
