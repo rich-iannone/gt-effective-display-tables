@@ -821,6 +821,119 @@ gtcars |>
 
 Here, Italian manufacturers appear first, followed by German, with any remaining rows in the unnamed group at the bottom. The `cols_hide()` call removes the `mfr` column since that information is now conveyed by the row group labels.
 
+### `row_order()`
+ 
+While `row_group_order()` controls the order of groups themselves, `row_order()` lets you control the order of rows *within* each group (or across the entire table if there are no groups). This function is perfect when you need to sort rows by one or more columns after your table has been created.
+
+Here is the function's signature:
+
+```r
+row_order(
+  data,
+  ...,
+  .locale = NULL
+)
+```
+
+The `...` argument accepts column names (optionally wrapped with `desc()` for descending order). The `.locale` argument affects string sorting when ordering character columns.
+
+#### Ordering rows without row groups
+
+Let's start with a simple example: a table without row groups where we want to sort rows by a numeric column.
+
+```{r}
+gtcars |>
+  dplyr::select(model, year, hp, msrp) |>
+  dplyr::slice_head(n = 8) |>
+  gt(rowname_col = "model") |>
+  row_order(hp) |>
+  fmt_currency(columns = msrp, currency = "USD", decimals = 0) |>
+  fmt_integer(columns = hp)
+```
+
+The rows are now sorted by horsepower in ascending order. To sort in descending order (highest horsepower first), use `desc()`:
+
+```{r}
+gtcars |>
+  dplyr::select(model, year, hp, msrp) |>
+  dplyr::slice_head(n = 8) |>
+  gt(rowname_col = "model") |>
+  row_order(desc(hp)) |>
+  fmt_currency(columns = msrp, currency = "USD", decimals = 0) |>
+  fmt_integer(columns = hp)
+```
+
+You can sort by multiple columns. Here we sort first by year, then by horsepower within each year:
+
+```{r}
+gtcars |>
+  dplyr::select(model, year, hp, msrp) |>
+  dplyr::slice_head(n = 8) |>
+  gt(rowname_col = "model") |>
+  row_order(year, desc(hp)) |>
+  fmt_currency(columns = msrp, currency = "USD", decimals = 0) |>
+  fmt_integer(columns = hp)
+```
+
+#### Ordering rows within row groups
+
+The real power of `row_order()` shines when working with grouped tables. The sorting happens *within* each group, maintaining the group structure while organizing the rows inside.
+
+```{r}
+gtcars |>
+  dplyr::select(model, mfr, year, hp, msrp) |>
+  dplyr::filter(mfr %in% c("Ferrari", "Lamborghini", "Porsche")) |>
+  gt(rowname_col = "model", groupname_col = "mfr") |>
+  row_order(desc(hp)) |>
+  fmt_currency(columns = msrp, currency = "USD", decimals = 0) |>
+  fmt_integer(columns = hp)
+```
+
+Within each manufacturer group, cars are now sorted from highest to lowest horsepower. The groups themselves remain in their original order (or whatever order was set by `row_group_order()`).
+
+#### Combining `row_order()` with `row_group_order()`
+
+These two functions work together really well! Use `row_group_order()` to arrange your groups, then `row_order()` to sort within them:
+
+```{r}
+gtcars |>
+  dplyr::select(model, mfr, year, hp, msrp) |>
+  dplyr::filter(mfr %in% c("Ferrari", "Lamborghini", "Porsche")) |>
+  gt(rowname_col = "model", groupname_col = "mfr") |>
+  row_group_order(groups = c("Porsche", "Ferrari", "Lamborghini")) |>
+  row_order(desc(msrp)) |>
+  fmt_currency(columns = msrp, currency = "USD", decimals = 0) |>
+  fmt_integer(columns = hp)
+```
+
+Here, groups are arranged alphabetically by our custom order, and within each group, cars are sorted by price from highest to lowest.
+
+#### Practical use case: leaderboards and rankings
+
+A common scenario is creating a ranked list or leaderboard. Perhaps you've collected results from a competition, survey responses with scores, or performance metrics for a team. The data might arrive in an arbitrary order (maybe alphabetically by name, or in the order it was collected). With `row_order()`, you can sort your data after applying all your formatting and styling, ensuring the final presentation reflects the ranking you want to communicate.
+
+Consider a gaming tournament where you want to display the top players sorted by their scores:
+
+```{r}
+dplyr::tibble(
+  player = c("Chen", "Rodriguez", "Okonkwo", "Müller", "Tanaka"),
+  score = c(2450, 2890, 2100, 2750, 2300),
+  games_played = c(42, 38, 45, 40, 35)
+) |>
+  gt(rowname_col = "player") |>
+  row_order(desc(score)) |>
+  fmt_integer(columns = c(score, games_played)) |>
+  tab_stubhead(label = "Player") |>
+  tab_header(
+    title = "Tournament Leaderboard",
+    subtitle = "Top 5 Players by Score"
+  )
+```
+
+The beauty of `row_order()` is that it operates on the **gt** table after creation. This means you can build your table step by step (adding formatting, styling, and structure) and then decide on the final row arrangement. Unlike sorting your data frame before passing it to `gt()`, using `row_order()` keeps your table-building logic self-contained. You don't need to worry about upstream data manipulations affecting your presentation, and you can easily experiment with different orderings without modifying your source data.
+
+This separation of concerns is especially valuable in reporting workflows where the same underlying data might be presented in multiple ways, or where the sorting criteria might change based on the audience or context.
+
 ### `tab_stubhead()`
 
 Add a label to the stubhead of a **gt** table. The stubhead is the lone element that is positioned left of the column labels, and above the stub. If a stub does not exist, then there is no stubhead (so no change will be made when using this function in that case). We have the flexibility to use Markdown formatting for the stubhead label. Furthermore, if the table is intended for HTML output, we can use HTML for the stubhead label.
