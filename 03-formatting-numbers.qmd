@@ -1414,7 +1414,7 @@ Beyond the specialized formatters covered earlier, **gt** provides three general
 
 ### `fmt()`: creating custom formatters
 
-When the built-in formatters don't meet your specific needs, the `fmt()` function provides a general-purpose mechanism for custom formatting. You supply your own transformation function that operates on the cell values.
+When the built-in formatters don't meet your specific needs, the `fmt()` function provides a general-purpose mechanism for custom formatting. You supply your own transformation function that operates on the cell values. This is particularly valuable when you need domain-specific formatting logic, want to apply transformations that don't fit neatly into existing formatters, or need to integrate external formatting libraries.
 
 Here is the function's signature:
 
@@ -1428,6 +1428,8 @@ fmt(
 )
 ```
 
+The `fns` argument accepts a function that receives the column values as a vector and should return a character vector of the same length. Let's start with a simple example that adds decorative brackets around product codes:
+
 ```{r}
 dplyr::tibble(
   item = c("Widget", "Gadget", "Sprocket"),
@@ -1440,9 +1442,9 @@ dplyr::tibble(
   )
 ```
 
-The custom function wraps each code in decorative brackets. This approach offers unlimited flexibility as you can apply any R function to transform your cell values.
+The custom function wraps each code in decorative brackets. This approach offers unlimited flexibility as you can apply any R function to transform your cell values. Whether you need to apply regex substitutions, call external APIs, or implement complex business logic, `fmt()` gives you full control.
 
-For more complex formatting, you can reference other columns:
+You can also combine `fmt()` with other **gt** functions for more sophisticated presentations. Here's an example where we format numeric values and then merge them with their corresponding units:
 
 ```{r}
 dplyr::tibble(
@@ -1459,7 +1461,9 @@ dplyr::tibble(
   cols_merge(columns = c(value, unit), pattern = "{1} {2}")
 ```
 
-Here we format the numeric value and then merge it with its unit column for a clean presentation.
+Here we format the numeric value using `sprintf()` for precise control over decimal places, then merge it with the unit column using `cols_merge()`. The result is a clean presentation where each measurement displays with its appropriate unit.
+
+The power of `fmt()` lies in its generality. While the specialized formatters like `fmt_number()` and `fmt_currency()` handle common cases elegantly, `fmt()` serves as your escape hatch for everything else. Need to format phone numbers with specific regional conventions? Apply custom text transformations based on complex rules? Integrate with an external formatting library? The `fmt()` function makes all of this possible while still fitting naturally into **gt**'s formatting pipeline. Just remember that your custom function receives and should return character vectors, and you can leverage the full power of R's string manipulation capabilities.
 
 ### `fmt_auto()`: automatic formatting
 
