@@ -1096,7 +1096,7 @@ dplyr::tibble(
   fmt_tf(columns = available, tf_style = "yes-no")
 ```
 
-The `TRUE` and `FALSE` values are replaced with "Yes" and "No", which are more accessible to general readers. The `tf_style` argument offers several alternatives including checkmarks, circles, and other symbols.
+The `TRUE` and `FALSE` values are replaced with `"Yes"` and `"No"`, which are more accessible to general readers. The `tf_style` argument offers several alternatives including checkmarks, circles, and other symbols. To see all available styles with visual previews, use the `info_tf_style()` function, which displays a reference table showing how each style renders.
 
 ## Common formatting options
 
