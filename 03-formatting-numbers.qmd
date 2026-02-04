@@ -1408,13 +1408,13 @@ Note that if you specify a `locale`, the locale's conventions take precedence. M
 
 The `min_sep_threshold` argument is available in `fmt_number()`, `fmt_integer()`, `fmt_percent()`, `fmt_currency()`, and other numeric formatting functions.
 
-## Creating your own formatter
+## General-purpose formatting functions
 
-When the built-in formatters don't meet your specific needs, the `fmt()` function provides a general-purpose mechanism for custom formatting.
+Beyond the specialized formatters covered earlier, **gt** provides three general-purpose functions that handle cases where the built-in formatters either don't apply or where you need more flexibility.
 
-### `fmt()`
+### `fmt()`: creating custom formatters
 
-The `fmt()` function accepts a custom formatting function that transforms cell values.
+When the built-in formatters don't meet your specific needs, the `fmt()` function provides a general-purpose mechanism for custom formatting. You supply your own transformation function that operates on the cell values.
 
 Here is the function's signature:
 
@@ -1461,9 +1461,9 @@ dplyr::tibble(
 
 Here we format the numeric value and then merge it with its unit column for a clean presentation.
 
-### `fmt_auto()`
+### `fmt_auto()`: automatic formatting
 
-When you want **gt** to make intelligent formatting decisions based on the data types and values in your columns, `fmt_auto()` provides automatic formatting.
+When you want **gt** to make intelligent formatting decisions based on the data types and values in your columns, `fmt_auto()` provides automatic formatting. This is useful for quick data exploration or when you want sensible defaults without specifying each format individually.
 
 Here is the function's signature:
 
@@ -1483,11 +1483,11 @@ exibble |>
   fmt_auto()
 ```
 
-The function examines each column and applies appropriate formatting: numbers get decimal formatting, dates are formatted in a readable style, and character columns are passed through unchanged. This is particularly useful for quick data exploration or when you want sensible defaults without specifying each format individually.
+The function examines each column and applies appropriate formatting: numbers get decimal formatting, dates are formatted in a readable style, and character columns are passed through unchanged.
 
-### `fmt_passthrough()`
+### `fmt_passthrough()`: decoration without transformation
 
-Sometimes you need to mark a column as "formatted" without actually changing its values. The `fmt_passthrough()` function does exactly this as it passes values through unchanged but marks them as having been formatted.
+Sometimes you need to mark a column as "formatted" without actually changing its values, or you want to apply a pattern to values that don't need numeric or date formatting. The `fmt_passthrough()` function passes values through unchanged but allows you to use the `pattern` argument for decoration and control escaping behavior.
 
 Here is the function's signature:
 
@@ -1515,7 +1515,7 @@ dplyr::tibble(
   )
 ```
 
-The values pass through but can still use the `pattern` argument to add decoration. This is useful when you want to apply a pattern to text values that don't need numeric or date formatting.
+The values pass through unchanged but gain the `"Code: "` prefix via the pattern.
 
 An important feature of `fmt_passthrough()` is the `escape` argument. By default (`escape = TRUE`), text values are escaped for the output format. So HTML special characters like `<` and `>` are converted to `&lt;` and `&gt;`, and similar escaping occurs for special characters in LaTeX when working with that output format. However, when you set `escape = FALSE`, the text passes through without escaping, allowing you to include raw HTML or LaTeX markup directly in your cells:
  
