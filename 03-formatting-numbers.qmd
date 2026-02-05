@@ -1467,7 +1467,7 @@ The power of `fmt()` lies in its generality. While the specialized formatters li
 
 ### `fmt_auto()`: automatic formatting
 
-When you want **gt** to make intelligent formatting decisions based on the data types and values in your columns, `fmt_auto()` provides automatic formatting. This is useful for quick data exploration or when you want sensible defaults without specifying each format individually.
+When you want **gt** to make intelligent formatting decisions based on the data types and values in your columns, `fmt_auto()` provides automatic formatting. This is especially useful during data exploration, when building quick prototype tables, or when you want sensible defaults without specifying each format individually.
 
 Here is the function's signature:
 
@@ -1487,7 +1487,37 @@ exibble |>
   fmt_auto()
 ```
 
-The function examines each column and applies appropriate formatting: numbers get decimal formatting, dates are formatted in a readable style, and character columns are passed through unchanged.
+The function examines each column and applies appropriate formatting based on the column's data type. Numeric columns receive intelligent decimal formatting that adapts to the magnitude and precision of the values. Date columns are formatted in a readable ISO style. Character columns pass through unchanged, and logical columns are converted to `"TRUE"`/`"FALSE"` text.
+
+One of `fmt_auto()`'s most useful behaviors is its handling of numeric columns with widely varying magnitudes. Notice how in the example above, the `num` column contains values ranging from `0.111` to `8,880,000`. Rather than applying a fixed number of decimal places (which would either truncate small values or pad large ones with unnecessary zeros), `fmt_auto()` switches to scientific notation for very large values while keeping smaller numbers in standard decimal format.
+
+You can also apply `fmt_auto()` selectively to specific columns while using specialized formatters elsewhere:
+ 
+```{r}
+exibble |>
+  dplyr::select(num, char, currency, date) |>
+  gt() |>
+  fmt_auto(columns = c(num, date)) |>
+  fmt_currency(columns = currency, currency = "USD")
+```
+
+Here `fmt_auto()` handles the numeric and date columns automatically, while `fmt_currency()` provides explicit currency formatting with a dollar sign. This hybrid approach lets you get quick reasonable defaults for most columns while maintaining precise control where it matters.
+
+The `locale` argument allows `fmt_auto()` to respect regional formatting conventions:
+
+```{r}
+dplyr::tibble(
+  product = c("Alpha", "Beta", "Gamma"),
+  sales = c(1234.56, 9876.54, 45678.90),
+  date = as.Date(c("2024-03-15", "2024-06-22", "2024-11-08"))
+) |>
+  gt() |>
+  fmt_auto(locale = "de")
+```
+
+With a German locale, numbers use periods as thousands separators and commas for decimals, and dates follow European conventions.
+
+While `fmt_auto()` provides excellent defaults for rapid table development, you'll often want to switch to explicit formatters for production tables. The specialized formatters give you precise control over decimal places, significant figures, suffixes, and other details that `fmt_auto()` decides automatically. You can think of `fmt_auto()` as a powerful starting point that you can refine as your table requirements become clearer.
 
 ### `fmt_passthrough()`: decoration without transformation
 
