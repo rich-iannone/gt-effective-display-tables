@@ -70,9 +70,7 @@ Number-based formatting in a **gt** table can be generally performed with the `f
 - with a text pattern, the formatted values can be decorated with literal characters
 - locale-based formatting: providing a locale ID will result in number formatting specific to the chosen locale
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_number(
   data,
   columns = everything(),
@@ -158,9 +156,7 @@ Using `n_sigfig = 3` ensures each value displays exactly three significant figur
 
 When your data consists of whole numbers (counts, quantities, or values that shouldn't display decimals) `fmt_integer()` is the appropriate choice. This function formats numeric values as integers, rounding as necessary, with options for digit separators and accounting notation.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_integer(
   data,
   columns = everything(),
@@ -221,9 +217,7 @@ With `force_sign = TRUE` on the `change` column, positive values display a plus 
 
 Percentage values are ubiquitous in data presentation. The `fmt_percent()` function handles the formatting of proportional values, automatically multiplying by 100 and appending a percent sign. If your values are already expressed as percentages (not proportions), you can disable the automatic scaling with `scale_values = FALSE`.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_percent(
   data,
   columns = everything(),
@@ -277,9 +271,7 @@ The values remain unchanged numerically but now display with the percent symbol,
 
 Some data is more naturally expressed as fractions than decimals. Measurements like "3/4 inch" or "1 1/2 cups" are immediately intuitive in ways that "0.75 inch" or "1.5 cups" are not. The `fmt_fraction()` function converts decimal values to mixed fractions.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_fraction(
   data,
   columns = everything(),
@@ -416,9 +408,7 @@ The choice of exponent style is largely a matter of convention and context. The 
 
 Scientific notation expresses numbers as a mantissa (a value between 1 and 10) multiplied by a power of 10. This format is standard in scientific publications and is essential for presenting data that spans many orders of magnitude.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_scientific(
   data,
   columns = everything(),
@@ -476,9 +466,7 @@ The `small` column uses the "E" style (like `1.00E-06`), common in computational
 
 Engineering notation is a variant of scientific notation where exponents are restricted to multiples of three. This aligns with SI prefixes (kilo-, mega-, giga-, etc.) and is preferred in many engineering and technical contexts.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_engineering(
   data,
   columns = everything(),
@@ -515,9 +503,7 @@ Each value's exponent is a multiple of three, corresponding to standard engineer
 
 While engineering notation aligns exponents with SI prefixes, `fmt_number_si()` takes this a step further by actually displaying the SI prefix symbols (k, M, G, T, m, μ, n, etc.) instead of exponential notation. This creates highly readable output for technical audiences.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_number_si(
   data,
   columns = everything(),
@@ -738,9 +724,7 @@ Beyond basic numeric formatting, **gt** provides specialized functions for commo
 
 Currency formatting goes beyond simply adding a symbol. It requires correct placement, appropriate decimal handling, and locale-aware conventions. The `fmt_currency()` function handles all of this with support for over 100 currencies.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_currency(
   data,
   columns = everything(),
@@ -832,9 +816,7 @@ The function supports over 100 currencies, specified by their three-letter ISO 4
 
 When presenting data sizes (file sizes, memory usage, network throughput) the `fmt_bytes()` function provides clear, human-readable formatting with appropriate unit suffixes.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_bytes(
   data,
   columns = everything(),
@@ -884,9 +866,7 @@ With `standard = "decimal"`, units follow the SI convention (KB = 1000 bytes), w
 
 For expressing concentrations, error rates, or other small proportions, `fmt_partsper()` provides formatting for parts-per-thousand (‰), parts-per-million (ppm), parts-per-billion (ppb), and parts-per-trillion (ppt).
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_partsper(
   data,
   columns = everything(),
@@ -930,9 +910,7 @@ Sometimes numeric data is better expressed in alternative forms. **gt** provides
 
 The `fmt_index()` function converts integers to indexed characters. These sequences are commonly used for ordered lists.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_index(
   data,
   columns = everything(),
@@ -958,9 +936,7 @@ The numeric ranks are now expressed as uppercase letters, suitable for use in li
 
 Roman numerals remain common in certain contexts (like chapter numbers, copyright dates, and Super Bowl numberings). The `fmt_roman()` function handles the conversion.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_roman(
   data,
   columns = everything(),
@@ -987,9 +963,7 @@ Chapter numbers now appear as Roman numerals, lending a classical or formal appe
  
 For certain editorial contexts, numbers should be spelled out as words. The `fmt_spelled_num()` function handles this conversion.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_spelled_num(
   data,
   columns = everything(),
@@ -1042,9 +1016,7 @@ The same numbers are spelled out in four different languages: "one" in English b
 
 When working with binned or interval data (such as histograms, age groups, or value ranges) the `fmt_bins()` function formats interval notation into clean, readable ranges.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_bins(
   data,
   columns = everything(),
@@ -1072,9 +1044,7 @@ The interval notation is transformed into readable ranges. The `[0,18)` becomes 
 
 Logical values (`TRUE` and `FALSE`) can be formatted into more meaningful or visually appealing representations using `fmt_tf()`.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_tf(
   data,
   columns = everything(),
@@ -1416,9 +1386,7 @@ Beyond the specialized formatters covered earlier, **gt** provides three general
 
 When the built-in formatters don't meet your specific needs, the `fmt()` function provides a general-purpose mechanism for custom formatting. You supply your own transformation function that operates on the cell values. This is particularly valuable when you need domain-specific formatting logic, want to apply transformations that don't fit neatly into existing formatters, or need to integrate external formatting libraries.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt(
   data,
   columns = everything(),
@@ -1469,9 +1437,7 @@ The power of `fmt()` lies in its generality. While the specialized formatters li
 
 When you want **gt** to make intelligent formatting decisions based on the data types and values in your columns, `fmt_auto()` provides automatic formatting. This is especially useful during data exploration, when building quick prototype tables, or when you want sensible defaults without specifying each format individually.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_auto(
   data,
   columns = everything(),
@@ -1523,9 +1489,7 @@ While `fmt_auto()` provides excellent defaults for rapid table development, you'
 
 Sometimes you need to mark a column as "formatted" without actually changing its values, or you want to apply a pattern to values that don't need numeric or date formatting. The `fmt_passthrough()` function passes values through unchanged but allows you to use the `pattern` argument for decoration and control escaping behavior.
 
-Here is the function's signature:
-
-```r
+```{.r .signature filename="Function Signature"}
 fmt_passthrough(
   data,
   columns = everything(),

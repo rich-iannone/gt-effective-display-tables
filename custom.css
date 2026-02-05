@@ -2,3 +2,23 @@
 .quarto-float-caption-bottom.quarto-float-caption.quarto-float-fig {
   font-size: 0.75em;
 }
+
+/* Function signature code blocks */
+.signature {
+  border-left: 3px solid #6c757d;
+  background-color: #f8f9fa !important;
+}
+
+.signature code {
+  background-color: #f8f9fa !important;
+}
+
+/* Dark mode support */
+.quarto-dark .signature {
+  background-color: #2d2d2d !important;
+  border-left-color: #888;
+}
+
+.quarto-dark .signature code {
+  background-color: #2d2d2d !important;
+}
