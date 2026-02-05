@@ -3,22 +3,40 @@
   font-size: 0.75em;
 }
 
-/* Function signature code blocks */
-.signature {
+/* Function signature code blocks*/
+/* Target via the data-filename attribute that Quarto adds */
+.sourceCode[data-filename="Function Signature"] {
   border-left: 3px solid #6c757d;
   background-color: #f8f9fa !important;
 }
 
-.signature code {
+.sourceCode[data-filename="Function Signature"] code {
   background-color: #f8f9fa !important;
 }
 
+/* Also style the outer wrapper for consistency */
+.code-with-filename:has([data-filename="Function Signature"]) {
+  border-left: 3px solid #6c757d;
+}
+
+.code-with-filename:has([data-filename="Function Signature"]) .code-with-filename-file {
+  background-color: #e9ecef;
+}
+
 /* Dark mode support */
-.quarto-dark .signature {
+.quarto-dark .sourceCode[data-filename="Function Signature"] {
   background-color: #2d2d2d !important;
   border-left-color: #888;
 }
 
-.quarto-dark .signature code {
+.quarto-dark .sourceCode[data-filename="Function Signature"] code {
   background-color: #2d2d2d !important;
+}
+
+.quarto-dark .code-with-filename:has([data-filename="Function Signature"]) {
+  border-left-color: #888;
+}
+
+.quarto-dark .code-with-filename:has([data-filename="Function Signature"]) .code-with-filename-file {
+  background-color: #3d3d3d;
 }
