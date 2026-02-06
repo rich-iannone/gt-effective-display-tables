@@ -36,3 +36,5 @@ Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas 
 
 Looking across all eighteen datasets, certain patterns emerge. Many fill gaps where public data existed but not in convenient form. The scientific datasets consolidate information scattered across journals and government pages. The `films` dataset creates a resource that simply did not exist before. Even the simulated `pizzaplace` data serves a purpose: realistic transactional data is rarely available publicly due to business confidentiality.
 
+Other datasets reflect personal curiosity. Ontario towns. The Paris Métro. Gibraltar's weather. Cannes films. These choices say something about my interests and the particular corners of the world that captured my attention. The datasets are better for this personal investment. Someone who cares about the Paris Métro will notice details that a disinterested compiler would miss.
+
