@@ -39,6 +39,7 @@ book:
   appendices:
     - appendix-reference.qmd
     - appendix-datetime-patterns.qmd
+    - appendix-datasets.qmd
 
 format:
   html:
