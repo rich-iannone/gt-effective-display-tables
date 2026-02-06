@@ -19,6 +19,10 @@ The dataset borrowed liberally from Plateau Pizza's menu. Their category structu
 
 What makes `pizzaplace` genuinely interesting is not the menu but the simulation that generated a year's worth of orders. The modeling script (preserved in the gt package's source repository at `data-raw/05-pizzaplace.R`) creates synthetic customers who arrive throughout each day with realistic patterns. Barret Schloerke contributed refinements to the behavioral model, adding nuance to timing and preference distributions. Weekends see more traffic than weekdays, reflecting the work-leisure split that governs so much of consumer behavior. Holidays disrupt normal patterns in expected ways.
 
+The simulation also includes what might be called narrative events. A kitchen fire at one point disrupts operations. These partially catastrophic incidents add verisimilitude to what would otherwise be suspiciously smooth data. Real businesses experience interruptions, equipment failures, staff shortages, and the occasional minor disaster. The `pizzaplace` data reflects this messiness, making it more valuable for realistic analysis exercises than perfectly clean synthetic data would be.
+
+The dataset originally included plans for appetizers, side dishes, and beverages, but these were ultimately cut in favor of simplicity. A pizzeria that only sells pizza is easier to understand and analyze than one with a full menu. The constraint also keeps the focus on what makes the dataset distinctive: the careful modeling of how people order pizza throughout a year.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
