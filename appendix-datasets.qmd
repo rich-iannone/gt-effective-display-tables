@@ -59,6 +59,8 @@ rx_adsl |>
   tab_header(title = "Treatment Arm Demographics")
 ```
 
+The treatment arms in clinical trials typically include the experimental treatment at one or more doses, a placebo or active comparator, and sometimes multiple dosing regimens. Demographic balance across arms helps ensure that observed differences reflect treatment effects rather than baseline differences. Age, sex, ethnicity, disease severity at baseline, and prior treatments all require documentation and comparison.
+
 
 ## The value of curated datasets
 
