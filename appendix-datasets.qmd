@@ -40,14 +40,14 @@ These two datasets represent **gt**'s connection to the pharmaceutical industry,
 
 ```{r}
 rx_adsl |>
-  select(USUBJID, AGE, SEX, COUNTRY, TRTA) |>
-  slice_head(n = 8) |>
+  dplyr::select(USUBJID, AGE, SEX, ETHNIC, TRTA) |>
+  dplyr::slice_head(n = 8) |>
   gt() |>
   cols_label(
     USUBJID = "Subject ID",
     AGE = "Age",
     SEX = "Sex",
-    COUNTRY = "Country",
+    ETHNIC = "Ethnicity",
     TRTA = "Treatment"
   )
 ```
@@ -59,12 +59,12 @@ Pharmaceutical data follows conventions that seem arcane to outsiders but enable
 ```{r}
 #| echo: false
 rx_adsl |>
-  group_by(TRTA) |>
-  summarize(
+  dplyr::group_by(TRTA) |>
+  dplyr::summarize(
     subjects = n(),
     avg_age = mean(AGE, na.rm = TRUE),
     pct_female = mean(SEX == "F", na.rm = TRUE) * 100,
-    countries = n_distinct(COUNTRY),
+    ethnicities = n_distinct(ETHNIC),
     .groups = "drop"
   ) |>
   gt(rowname_col = "TRTA") |>
@@ -74,7 +74,7 @@ rx_adsl |>
     subjects = "Subjects",
     avg_age = "Mean Age",
     pct_female = "Female",
-    countries = "Countries"
+    ethnicities = "Ethnicities"
   ) |>
   tab_header(title = "Treatment Arm Demographics")
 ```
@@ -84,8 +84,8 @@ The treatment arms in clinical trials typically include the experimental treatme
 ```{r}
 #| echo: false
 rx_addv |>
-  count(DVCAT) |>
-  arrange(desc(n)) |>
+  dplyr::count(DVCAT) |>
+  dplyr::arrange(desc(n)) |>
   head(8) |>
   gt(rowname_col = "DVCAT") |>
   cols_label(n = "Deviations") |>
