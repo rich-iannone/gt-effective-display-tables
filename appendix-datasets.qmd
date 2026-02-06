@@ -36,6 +36,7 @@ Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas 
 
 These two datasets represent **gt**'s connection to the pharmaceutical industry, where clinical trial tables must meet rigorous standards for regulatory submission. The datasets follow CDISC (Clinical Data Interchange Standards Consortium) conventions, specifically the ADaM (Analysis Data Model) structure used throughout the pharmaceutical industry.
 
+`rx_adsl` contains subject-level data (ADSL format) for 182 participants in a fictional clinical trial. `rx_addv` provides protocol deviation records (ADDV format) with 910 entries documenting when and how trial participants deviated from study protocols. Both datasets use standard variable names and coding conventions that pharmaceutical statisticians will immediately recognize.
 ### The language of clinical trials
 
 Pharmaceutical data follows conventions that seem arcane to outsiders but enable precise communication among specialists. USUBJID uniquely identifies a subject across all studies from a sponsor. TRTA indicates the actual treatment received (as opposed to the treatment assigned). SAFFL flags subjects in the safety population. This vocabulary, defined by CDISC standards, appears in regulatory submissions worldwide. A statistician in Switzerland reviewing a submission from Japan knows exactly what TRTA means because the standards are universal.
