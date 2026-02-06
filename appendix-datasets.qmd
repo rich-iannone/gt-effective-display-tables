@@ -30,6 +30,7 @@ gibraltar |>
 ```
 
 Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas Territory of barely seven square kilometers guarding the entrance to the Mediterranean Sea. It is the kind of place that captures the imagination precisely because it seems improbable: a limestone promontory with its own airport runway crossing the main road, Barbary macaques roaming the upper rock, and a rather complex history.
+
 ## The value of curated datasets
 
 Looking across all eighteen datasets, certain patterns emerge. Many fill gaps where public data existed but not in convenient form. The scientific datasets consolidate information scattered across journals and government pages. The `films` dataset creates a resource that simply did not exist before. Even the simulated `pizzaplace` data serves a purpose: realistic transactional data is rarely available publicly due to business confidentiality.
