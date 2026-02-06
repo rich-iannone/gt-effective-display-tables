@@ -56,9 +56,7 @@ rx_adsl |>
     pct_female = "Female",
     countries = "Countries"
   ) |>
-  tab_header(
-    title = "Treatment Arm Demographics"
-  )
+  tab_header(title = "Treatment Arm Demographics")
 ```
 
 
