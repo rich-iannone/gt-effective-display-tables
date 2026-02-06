@@ -32,6 +32,36 @@ gibraltar |>
 Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas Territory of barely seven square kilometers guarding the entrance to the Mediterranean Sea. It is the kind of place that captures the imagination precisely because it seems improbable: a limestone promontory with its own airport runway crossing the main road, Barbary macaques roaming the upper rock, and a rather complex history.
 
 
+### The language of clinical trials
+
+Pharmaceutical data follows conventions that seem arcane to outsiders but enable precise communication among specialists. USUBJID uniquely identifies a subject across all studies from a sponsor. TRTA indicates the actual treatment received (as opposed to the treatment assigned). SAFFL flags subjects in the safety population. This vocabulary, defined by CDISC standards, appears in regulatory submissions worldwide. A statistician in Switzerland reviewing a submission from Japan knows exactly what TRTA means because the standards are universal.
+
+```{r}
+#| echo: false
+rx_adsl |>
+  group_by(TRTA) |>
+  summarize(
+    subjects = n(),
+    avg_age = mean(AGE, na.rm = TRUE),
+    pct_female = mean(SEX == "F", na.rm = TRUE) * 100,
+    countries = n_distinct(COUNTRY),
+    .groups = "drop"
+  ) |>
+  gt(rowname_col = "TRTA") |>
+  fmt_number(columns = avg_age, decimals = 1) |>
+  fmt_number(columns = pct_female, decimals = 0, pattern = "{x}%") |>
+  cols_label(
+    subjects = "Subjects",
+    avg_age = "Mean Age",
+    pct_female = "Female",
+    countries = "Countries"
+  ) |>
+  tab_header(
+    title = "Treatment Arm Demographics"
+  )
+```
+
+
 ## The value of curated datasets
 
 Looking across all eighteen datasets, certain patterns emerge. Many fill gaps where public data existed but not in convenient form. The scientific datasets consolidate information scattered across journals and government pages. The `films` dataset creates a resource that simply did not exist before. Even the simulated `pizzaplace` data serves a purpose: realistic transactional data is rarely available publicly due to business confidentiality.
