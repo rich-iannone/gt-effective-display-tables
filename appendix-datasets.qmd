@@ -72,6 +72,8 @@ rx_addv |>
   tab_header(title = "Protocol Deviation Categories")
 ```
 
+Protocol deviations document when trial participants did not follow the study plan. Some deviations are minor (a visit occurring outside the allowed window). Others are major (taking prohibited medications, missing doses). The `rx_addv` dataset catalogs these deviations, enabling sensitivity analyses that exclude subjects with major violations. Regulators scrutinize deviation patterns for evidence that the trial was conducted properly and that deviations do not undermine the conclusions.
+
 
 ## The value of curated datasets
 
