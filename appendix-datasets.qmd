@@ -74,6 +74,9 @@ rx_addv |>
 
 Protocol deviations document when trial participants did not follow the study plan. Some deviations are minor (a visit occurring outside the allowed window). Others are major (taking prohibited medications, missing doses). The `rx_addv` dataset catalogs these deviations, enabling sensitivity analyses that exclude subjects with major violations. Regulators scrutinize deviation patterns for evidence that the trial was conducted properly and that deviations do not undermine the conclusions.
 
+These datasets were contributed by Alexandra Lauer as part of ongoing collaboration between **gt** developers and pharmaceutical industry users. The package website includes a dedicated case study article demonstrating how to create clinical tables that meet industry standards. For pharmaceutical statisticians evaluating **gt** for regulatory work, these datasets provide immediately relevant examples.
+
+The inclusion of pharmaceutical data reflects **gt**'s ambition to serve professional communities with specialized requirements. Clinical trials generate enormous quantities of tabular output, much of it following strict formatting conventions. Having sample datasets in the standard format lowers the barrier for pharmaceutical users to adopt **gt** and verify that it meets their needs.
 
 ## The value of curated datasets
 
