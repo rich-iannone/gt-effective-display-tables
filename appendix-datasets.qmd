@@ -8,3 +8,25 @@ library(dplyr)
 Every dataset tells a story. The eighteen datasets bundled with **gt** were not assembled arbitrarily or pulled from dusty archives of convenient CSV files. Each one emerged from a specific need, a personal curiosity, or a gap in what was publicly available. Some model human behavior with surprising fidelity. Others preserve scientific data that would otherwise remain scattered across obscure government pages. A few exist simply because I thought "I wish this dataset existed" and then made it so.
 
 This appendix takes you behind the scenes of these datasets. You will learn where they came from, how they were constructed, and why they matter beyond their immediate utility as demonstration data. Along the way, we will explore the broader contexts they represent: the economics of a neighborhood pizza shop, the 125-year evolution of urban transit in Paris, the delicate chemistry of Earth's atmosphere, and the quiet dramas of population change in Ontario's small towns. The datasets are more than rows and columns. They are windows into worlds worth understanding.
+## gibraltar
+
+The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
+
+```{r}
+gibraltar |>
+  slice_sample(n = 8) |>
+  select(date, time, temp, humidity, wind_speed, wind_dir) |>
+  gt() |>
+  fmt_number(columns = temp, decimals = 1) |>
+  fmt_integer(columns = c(humidity, wind_speed)) |>
+  cols_label(
+    date = "Date",
+    time = "Time", 
+    temp = "Temp (°C)",
+    humidity = "Humidity %",
+    wind_speed = "Wind (km/h)",
+    wind_dir = "Direction"
+  )
+```
+
+Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas Territory of barely seven square kilometers guarding the entrance to the Mediterranean Sea. It is the kind of place that captures the imagination precisely because it seems improbable: a limestone promontory with its own airport runway crossing the main road, Barbary macaques roaming the upper rock, and a rather complex history.
