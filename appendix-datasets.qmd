@@ -23,6 +23,34 @@ The simulation also includes what might be called narrative events. A kitchen fi
 
 The dataset originally included plans for appetizers, side dishes, and beverages, but these were ultimately cut in favor of simplicity. A pizzeria that only sells pizza is easier to understand and analyze than one with a full menu. The constraint also keeps the focus on what makes the dataset distinctive: the careful modeling of how people order pizza throughout a year.
 
+### The pizzas of pizzaplace
+
+```{r}
+#| echo: false
+pizzaplace |>
+  dplyr::distinct(type, name, size, price) |>
+  dplyr::group_by(type, name) |>
+  dplyr::summarize(
+    sizes = paste(size, collapse = ", "),
+    price_range = paste0(
+      "$", sprintf("%.2f", min(price)), 
+      " - $", sprintf("%.2f", max(price))
+    ),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(type, name) |>
+  gt(groupname_col = "type") |>
+  cols_label(
+    name = "Pizza",
+    sizes = "Available Sizes",
+    price_range = "Price Range"
+  ) |>
+  tab_header(
+    title = "The Complete pizzaplace Menu",
+    subtitle = "All 32 pizza varieties by category"
+  )
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
