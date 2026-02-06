@@ -32,6 +32,10 @@ gibraltar |>
 Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas Territory of barely seven square kilometers guarding the entrance to the Mediterranean Sea. It is the kind of place that captures the imagination precisely because it seems improbable: a limestone promontory with its own airport runway crossing the main road, Barbary macaques roaming the upper rock, and a rather complex history.
 
 
+## rx_adsl and rx_addv
+
+These two datasets represent **gt**'s connection to the pharmaceutical industry, where clinical trial tables must meet rigorous standards for regulatory submission. The datasets follow CDISC (Clinical Data Interchange Standards Consortium) conventions, specifically the ADaM (Analysis Data Model) structure used throughout the pharmaceutical industry.
+
 ### The language of clinical trials
 
 Pharmaceutical data follows conventions that seem arcane to outsiders but enable precise communication among specialists. USUBJID uniquely identifies a subject across all studies from a sponsor. TRTA indicates the actual treatment received (as opposed to the treatment assigned). SAFFL flags subjects in the safety population. This vocabulary, defined by CDISC standards, appears in regulatory submissions worldwide. A statistician in Switzerland reviewing a submission from Japan knows exactly what TRTA means because the standards are universal.
