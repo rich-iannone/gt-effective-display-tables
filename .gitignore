@@ -53,3 +53,7 @@ rsconnect/
 .DS_Store
 
 **/*.quarto_ipynb
+
+# Auto-generated gtsave() dependencies
+data/lib/
+data/letterboxd_table.html
