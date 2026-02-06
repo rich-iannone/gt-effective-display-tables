@@ -13,6 +13,12 @@ This appendix takes you behind the scenes of these datasets. You will learn wher
 
 The `pizzaplace` dataset contains 49,574 rows representing every pizza sold at a fictional pizzeria during the year 2015. Each row records a transaction with its timestamp, pizza type, size, and price. On the surface it appears to be straightforward sales data. Underneath, it is an elaborate simulation of human behavior, kitchen operations, and the unpredictable rhythms of a small food business.
 
+The inspiration for this dataset came from Plateau Pizza, a real establishment in Coquitlam, British Columbia. The restaurant occupies a pleasant spot in a suburban plaza alongside a dollar store called Dollars & Cents and an IGA grocery store. It is the kind of neighborhood pizza place that survives on regulars and convenience, offering pizzas with names that are equal parts cheesy and memorable. Goat Supreme. The Calabrese. Names that stick in your head even if you cannot quite remember what toppings they included.
+
+The dataset borrowed liberally from Plateau Pizza's menu. Their category structure (Classic, Supreme, Veggie and Vegan, Chicken) was adopted directly. Many pizza names and ingredient combinations came straight from their website, though some were embellished and others invented entirely. The fictional additions drew inspiration from Food Network recipes and local salumist offerings that seemed appropriately gourmet. Pricing followed a similar pattern: real prices served as the baseline, then adjustments were made based on perceived ingredient costs. The fancier cheeses and cured meats commanded premium prices, as they should.
+
+What makes `pizzaplace` genuinely interesting is not the menu but the simulation that generated a year's worth of orders. The modeling script (preserved in the gt package's source repository at `data-raw/05-pizzaplace.R`) creates synthetic customers who arrive throughout each day with realistic patterns. Barret Schloerke contributed refinements to the behavioral model, adding nuance to timing and preference distributions. Weekends see more traffic than weekdays, reflecting the work-leisure split that governs so much of consumer behavior. Holidays disrupt normal patterns in expected ways.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
