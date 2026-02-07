@@ -173,6 +173,26 @@ tibble::tibble(
   tab_header(title = "exibble Column Structure")
 ```
 
+The fruit names in the `char` column (apricot, banana, coconut, and so forth) follow alphabetical order, which makes them easy to verify when demonstrating sorting or filtering operations. The numeric values span several orders of magnitude, from fractions to millions, ensuring that formatters must handle both small precise values and large rounded ones. The currency column includes a missing value and one very small amount, testing edge cases that might trip up naive formatting approaches.
+
+The `row` and `group` columns transform `exibble` from a formatting showcase into a structural one. With `row` serving as a stub and `group` organizing rows into categories, the same eight-row dataset can demonstrate virtually every **gt** feature. Headers, stubs, row groups, column formatting, substitution, styling... all can be shown using just `exibble`.
+
+```{r}
+#| echo: false
+exibble |>
+  gt(rowname_col = "row", groupname_col = "group") |>
+  fmt_number(columns = num, decimals = 2) |>
+  fmt_currency(columns = currency, decimals = 2) |>
+  fmt_date(columns = date, date_style = "yMd") |>
+  fmt_time(columns = time, time_style = "Hm") |>
+  fmt_datetime(columns = datetime, date_style = "yMd", time_style = "Hm") |>
+  sub_missing(missing_text = "—") |>
+  tab_header(
+    title = "exibble with Row Groups and Stub",
+    subtitle = "Demonstrating structural features"
+  )
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
