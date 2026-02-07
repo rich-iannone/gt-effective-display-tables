@@ -315,6 +315,26 @@ Population data might seem straightforward, but it encodes profound stories of h
 
 Population counts are harder to obtain than one might assume. Only a handful of countries conduct reliable censuses at regular intervals. Many estimates rely on birth and death registrations (which vary in completeness), surveys of representative samples (which involve statistical uncertainty), or projections from previous counts (which compound errors over time). The World Bank's task is to synthesize these imperfect sources into consistent estimates that allow comparison across countries and years.
 
+```{r}
+#| echo: false
+countrypops |>
+  dplyr::filter(year == 2023) |>
+  dplyr::slice_max(population, n = 15) |>
+  dplyr::select(country_name, country_code_3, population) |>
+  gt(rowname_col = "country_name") |>
+  fmt_number(columns = population, suffixing = TRUE) |>
+  fmt_flag(columns = country_code_3) |>
+  cols_label(
+    country_code_3 = "",
+    population = "Population (2023)"
+  ) |>
+  cols_width(country_code_3 ~ px(40)) |>
+  tab_header(
+    title = "World's Most Populous Countries",
+    subtitle = "2023 estimated population"
+  )
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
