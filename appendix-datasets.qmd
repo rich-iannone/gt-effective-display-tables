@@ -844,6 +844,8 @@ metro |>
 
 The Métro also benefits from Paris's urban form. The city is dense and compact, with most destinations within walking distance of a station. Zoning never separated residential from commercial uses as strictly as in American cities, so people live near where they work and shop. The Métro did not create this urban form (it predates the Métro by centuries), but the two reinforce one another. Dense cities need mass transit, and mass transit makes density livable.
 
+For the `metro` dataset, this context matters. The station names are not arbitrary labels but markers of neighborhoods with distinct characters. The ridership figures reflect how Parisians actually move through their city. The line assignments show which routes carry the heaviest loads and which serve more specialized purposes. Understanding the Métro as a living system, constantly adapting over 125 years of operation, makes the dataset more meaningful than raw numbers alone could convey.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
