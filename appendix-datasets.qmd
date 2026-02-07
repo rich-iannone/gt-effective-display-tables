@@ -135,6 +135,16 @@ The `pizzaplace` dataset serves as a sandbox for the kinds of analysis that busi
 
 For **gt** specifically, `pizzaplace` demonstrates grouped data, aggregation, currency formatting, and the presentation of time-based information. A year of pizza sales can become a monthly summary table, a daily heatmap, a ranked list of bestsellers, or a comparison across categories. The richness of the underlying data supports dozens of different table designs.
 
+## `exibble`
+
+The name `exibble` is a portmanteau of "example tibble" and it serves exactly that purpose. This tiny dataset of eight rows exists to demonstrate **gt**'s formatting capabilities without the distraction of meaningful content. Each column represents a different data type: numeric values, character strings, currency amounts, dates, times, datetimes, and logical values. Missing values appear in strategic locations to demonstrate `sub_missing()` and related substitution functions.
+
+```{r}
+gt(exibble)
+```
+
+The column names are deliberately generic (`num`, `char`, `currency`, `date`, `time`, `datetime`) because the content does not matter. What matters is having every common data type available in a single compact dataset. When documenting a date formatter, you need a date column. When showing number formatting options, you need numbers. When explaining how to handle NA values, you need NA values in predictable locations.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
