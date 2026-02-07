@@ -548,6 +548,37 @@ constants |>
   )
 ```
 
+### The certainty of physical constants
+
+Physical constants occupy a peculiar position in science. They are measured quantities, subject to experimental uncertainty, yet they describe fundamental features of the universe that we believe to be genuinely constant. The speed of light in vacuum, for instance, is now defined as exactly 299,792,458 meters per second, but this definition only became possible after decades of increasingly precise measurements. Before 1983, we measured the speed of light; now the meter is defined in terms of light's speed. The historical progression of uncertainty shrinking toward zero tells a story of experimental ingenuity.
+
+```{r}
+#| echo: false
+constants |>
+  dplyr::filter(!is.na(value) & !is.na(uncert)) |>
+  dplyr::mutate(
+    rel_uncert = uncert / abs(value),
+    precision_class = case_when(
+      rel_uncert < 1e-10 ~ "Extraordinarily precise",
+      rel_uncert < 1e-8 ~ "Extremely precise",
+      rel_uncert < 1e-6 ~ "Very precise",
+      TRUE ~ "Moderately precise"
+    )
+  ) |>
+  dplyr::group_by(precision_class) |>
+  dplyr::summarize(
+    count = n(),
+    example = first(name),
+    .groups = "drop"
+  ) |>
+  gt(rowname_col = "precision_class") |>
+  cols_label(
+    count = "Constants",
+    example = "Example"
+  ) |>
+  tab_header(title = "Physical Constants by Measurement Precision")
+```
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
