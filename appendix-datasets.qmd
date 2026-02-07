@@ -390,6 +390,8 @@ towny |>
 
 The data comes from Statistics Canada and reveals patterns that might surprise those unfamiliar with Canadian geography. Toronto dominates, of course, but the surrounding municipalities (Mississauga, Brampton, Hamilton) have grown substantially over twenty years. Some smaller towns have declined as economic opportunities concentrated elsewhere. The dataset captures this quiet drama of population redistribution that plays out across every country's regions.
 
+Ontario municipality names offer their own entertainment. Some are indigenous place names with beautiful sounds. Others commemorate British royalty or colonial administrators. A few seem almost whimsical when encountered for the first time. These names appear on highway signs and maps, marking places where real communities exist with their own histories and concerns. The `towny` dataset transforms those signs into data, inviting exploration of what lies behind the familiar names.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
