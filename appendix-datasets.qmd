@@ -726,6 +726,11 @@ metro |>
 
 The dataset exists because I genuinely admire the Paris Métro. Among the world's subway systems, it stands out for its density, connectivity, and integration with other transit modes (RER commuter rail, buses, trams, and high-speed TGV connections). The wayfinding and signage are exemplary. The expansion plans are ambitious and consistently executed. It represents what urban transit can be when treated as essential infrastructure rather than an afterthought.
 
+### What makes the Métro work
+
+Several design principles distinguish the Paris Métro from less successful transit systems. First, the high density of stations means that walking to the Métro is almost always faster than driving to a parking lot. This convenience generates ridership that justifies the investment. Second, the integration with other modes is seamless. The same ticket works on Métro, RER, buses, and trams within Paris. Transfer stations connect lines at useful angles rather than requiring passengers to exit one system and enter another. Third, the frequency of service makes timetables irrelevant. During peak hours, trains arrive every two minutes on busy lines. Even late at night, waits rarely exceed ten minutes. Passengers simply show up and go.
+
+The signage and wayfinding deserve particular praise. Station names appear in a consistent typeface (Parisine, designed specifically for the Métro in 1996) on tiled walls visible from passing trains. Corridor signs point toward exits, transfers, and surface landmarks with clarity that serves tourists and commuters alike. The colored line numbers and terminus names provide all the information needed to navigate without consulting maps. Many transit systems aspire to this legibility but few achieve it so thoroughly.
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
