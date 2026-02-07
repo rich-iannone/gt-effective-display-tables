@@ -218,6 +218,39 @@ gtcars |>
 
 The dataset was assembled from Motor Trend articles about grand touring vehicles, with additional research filling in gaps for fuel economy and torque figures. Most vehicles date from around 2015, reflecting when the source articles were published. The selection criteria emphasized true grand tourers: vehicles designed for high-speed, long-distance driving in comfort, typically with powerful engines, refined interiors, and substantial price tags.
 
+### What makes a grand tourer?
+
+The grand touring concept originated in 1950s Europe, when wealthy motorists began taking extended driving holidays across the continent. A proper GT needed range (400+ kilometers between fuel stops), performance (for the autobahns and mountain passes), and comfort (for hours behind the wheel). The Ferrari 250 GT established the template: front-mounted V12, leather interior, elegant coachwork by Pininfarina or Scaglietti. The grand tourer was always as much about aspiration as transportation.
+
+```{r}
+#| echo: false
+gtcars |>
+  dplyr::group_by(mfr) |>
+  dplyr::summarize(
+    models = n(),
+    avg_hp = mean(hp),
+    avg_msrp = mean(msrp),
+    avg_mpg = mean((mpg_c + mpg_h) / 2),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(desc(avg_msrp)) |>
+  head(10) |>
+  gt(rowname_col = "mfr") |>
+  fmt_integer(columns = c(models, avg_hp)) |>
+  fmt_currency(columns = avg_msrp, decimals = 0) |>
+  fmt_number(columns = avg_mpg, decimals = 1) |>
+  cols_label(
+    models = "Models",
+    avg_hp = "Avg HP",
+    avg_msrp = "Avg Price",
+    avg_mpg = "Avg MPG"
+  ) |>
+  tab_header(
+    title = "Manufacturers by Average Price",
+    subtitle = "From the gtcars dataset"
+  )
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
