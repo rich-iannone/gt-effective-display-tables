@@ -528,6 +528,12 @@ The dataset reflects my background in atmospheric chemistry. Such data tables wo
 
 For **gt**, the `sza` dataset demonstrates heatmap-style coloring (values naturally vary from low to high in meaningful patterns), missing value handling (the sun does not rise at certain latitude-time combinations), and the presentation of scientific lookup tables. The structure (rows indexed by time, columns by month, grouped by latitude) maps naturally onto the table designs that scientists create when presenting such reference data.
 
+## `constants`, `reactions`, `photolysis`, and `nuclides`
+
+These four datasets form a cluster of scientific reference data, each addressing a gap in publicly available resources. While the underlying information exists in various forms (government pages, textbooks, specialized databases), it had not been consolidated into convenient R data frames. The **gt** package provided an opportunity to change that.
+
+The `constants` dataset contains 30 fundamental physical constants with their values, units, and uncertainties. These are the numbers that appear in physics and chemistry textbooks: the speed of light, Planck's constant, Avogadro's number, the gravitational constant. Each value comes with associated metadata specifying units and measurement precision.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
