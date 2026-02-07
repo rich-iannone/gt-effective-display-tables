@@ -877,6 +877,53 @@ gibraltar |>
 
 Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas Territory of barely seven square kilometers guarding the entrance to the Mediterranean Sea. It is the kind of place that captures the imagination precisely because it seems improbable: a limestone promontory with its own airport runway crossing the main road, Barbary macaques roaming the upper rock, and a rather complex history.
 
+### Understanding the Rock
+
+The Rock of Gibraltar rises 426 meters above sea level, a dramatic limestone formation that has served as a strategic landmark for millennia. The ancient Greeks called it one of the Pillars of Hercules, marking the edge of the known world. Every Mediterranean power has recognized its importance: control Gibraltar and you control access between the Atlantic and the Mediterranean. The British acquired it in 1704 during the War of Spanish Succession and have held it ever since, despite periodic Spanish objections and one famous siege that lasted nearly four years.
+
+```{r}
+#| echo: false
+gibraltar |>
+  dplyr::mutate(
+    hour = as.integer(sub(":.*", "", time)),
+    period = case_when(
+      hour >= 6 & hour < 12 ~ "Morning",
+      hour >= 12 & hour < 18 ~ "Afternoon",
+      hour >= 18 & hour < 22 ~ "Evening",
+      TRUE ~ "Night"
+    )
+  ) |>
+  dplyr::group_by(period) |>
+  dplyr::summarize(
+    avg_temp = mean(temp, na.rm = TRUE),
+    max_temp = max(temp, na.rm = TRUE),
+    min_temp = min(temp, na.rm = TRUE),
+    avg_humidity = mean(humidity, na.rm = TRUE),
+    avg_wind = mean(wind_speed, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(period = factor(period, levels = c("Morning", "Afternoon", "Evening", "Night"))) |>
+  dplyr::arrange(period) |>
+  gt(rowname_col = "period") |>
+  fmt_number(columns = c(avg_temp, max_temp, min_temp, avg_wind), decimals = 1) |>
+  fmt_number(columns = avg_humidity, decimals = 0, pattern = "{x}%") |>
+  cols_label(
+    avg_temp = "Average",
+    max_temp = "Maximum",
+    min_temp = "Minimum",
+    avg_humidity = "Humidity",
+    avg_wind = "Wind"
+  ) |>
+  tab_header(
+    title = "Gibraltar Weather by Time of Day",
+    subtitle = "May 2023"
+  ) |>
+  tab_spanner(
+    label = "Temperature (°C)",
+    columns = c(avg_temp, max_temp, min_temp)
+  )
+```
+
 
 ## `rx_adsl` and `rx_addv`
 
