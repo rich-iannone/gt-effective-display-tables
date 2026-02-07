@@ -251,6 +251,43 @@ gtcars |>
   )
 ```
 
+Ferrari commands the highest average prices in the dataset, followed by the other Italian marques and the boutique British manufacturers. The German manufacturers (BMW, Mercedes, Audi) cluster at somewhat lower price points but offer more models, representing a broader range from accessible sports cars to top-tier performance vehicles. American manufacturers appear in the dataset primarily through Ford (the GT supercar) and Chevrolet (the Corvette), carrying on a different tradition of performance cars with a more democratic price structure.
+
+```{r}
+#| echo: false
+gtcars |>
+  dplyr::filter(!is.na(hp) & !is.na(trq)) |>
+  dplyr::mutate(power_tier = case_when(
+    hp >= 600 ~ "Extreme (600+ HP)",
+    hp >= 500 ~ "High (500-599 HP)",
+    hp >= 400 ~ "Strong (400-499 HP)",
+    TRUE ~ "Modest (<400 HP)"
+  )) |>
+  dplyr::group_by(power_tier) |>
+  dplyr::summarize(
+    count = n(),
+    avg_torque = mean(trq),
+    avg_price = mean(msrp),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    power_tier = factor(
+      power_tier,
+      levels = c("Modest (<400 HP)", "Strong (400-499 HP)", "High (500-599 HP)", "Extreme (600+ HP)")
+    )
+  ) |>
+  dplyr::arrange(power_tier) |>
+  gt(rowname_col = "power_tier") |>
+  fmt_integer(columns = c(count, avg_torque)) |>
+  fmt_currency(columns = avg_price, decimals = 0) |>
+  cols_label(
+    count = "Models",
+    avg_torque = "Avg Torque (lb-ft)",
+    avg_price = "Avg Price"
+  ) |>
+  tab_header(title = "Performance Tiers")
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
