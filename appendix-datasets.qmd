@@ -415,6 +415,8 @@ towny |>
   )
 ```
 
+The fastest-growing municipalities cluster around the Greater Toronto Area, where housing demand has driven expansion into formerly rural townships. Milton, Brampton, and Markham have transformed from small towns into substantial cities within a generation. The infrastructure challenges of this growth (roads, schools, healthcare, transit) consume enormous resources and dominate local politics. The `towny` data captures the before and after of this transformation but cannot convey the lived experience of watching farmland become subdivisions.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
