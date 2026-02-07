@@ -707,6 +707,25 @@ The years 2006 through 2015 illustrate the market's capacity for dramatic swings
 
 The dataset originated from a web search that turned up historical market data, possibly compiled from Kaggle or similar sources. The exact provenance matters less than the utility: a long time series of financial data in a format ready for analysis and visualization. For teaching purposes, the `sp500` dataset provides realistic data for demonstrating time series analysis, returns calculations, volatility measurement, and the kind of financial tables that appear in annual reports and investment presentations.
 
+## `metro`
+
+The Paris Métro is one of the world's great urban transit systems. Opened in 1900, it has grown to 16 lines serving 308 stations across the city and surrounding communes. The `metro` dataset captures this network: station names, locations, line assignments, opening dates, and ridership figures.
+
+```{r}
+metro |>
+  dplyr::select(name, lines, passengers) |>
+  dplyr::slice_max(passengers, n = 10) |>
+  gt(rowname_col = "name") |>
+  fmt_number(columns = passengers, suffixing = TRUE) |>
+  cols_label(
+    lines = "Lines",
+    passengers = "Annual Passengers"
+  ) |>
+  tab_header(title = "Busiest Paris Métro Stations")
+```
+
+The dataset exists because I genuinely admire the Paris Métro. Among the world's subway systems, it stands out for its density, connectivity, and integration with other transit modes (RER commuter rail, buses, trams, and high-speed TGV connections). The wayfinding and signage are exemplary. The expansion plans are ambitious and consistently executed. It represents what urban transit can be when treated as essential infrastructure rather than an afterthought.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
