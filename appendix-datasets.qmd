@@ -292,6 +292,8 @@ The relationship between horsepower and price is neither linear nor deterministi
 
 The choice to create `gtcars` was motivated by a desire for a modern equivalent to the venerable `mtcars` dataset that has shipped with R for decades. The original `mtcars` contains 1974 Motor Trend data on 32 automobiles, and it has been used in countless examples and tutorials. But cars from 1974 feel increasingly remote from contemporary experience. A dataset of modern luxury vehicles offers familiar reference points (Ferrari, Porsche, Aston Martin) and specifications that relate to cars people actually see on roads today.
 
+For table-making purposes, `gtcars` provides natural groupings by manufacturer, multiple numeric columns suitable for formatting and comparison, and a mix of discrete and continuous variables. The manufacturer and model columns enable row grouping and stub labeling. The price column practically demands currency formatting. The horsepower and torque columns work well for bar chart visualizations within cells. It is a dataset that seems designed for beautiful tables because, in fact, it was.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
