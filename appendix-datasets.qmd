@@ -945,6 +945,23 @@ May was chosen simply to provide pre-summer weather data. Gibraltar's Mediterran
 
 For **gt**, the dataset demonstrates time series formatting, weather data presentation, and the handling of multiple related numeric columns. Temperature formatting, wind direction encoding, and the diurnal patterns visible in hourly data all provide teaching opportunities.
 
+## `films`
+
+The `films` dataset is a labor of love: a comprehensive record of every film that has competed for the Palme d'Or at the Cannes Film Festival. It contains 1,607 entries spanning the festival's history, with each row recording a film's title (in both English and original language), director, year, country of origin, spoken languages, and IMDB link.
+
+```{r}
+films |>
+  dplyr::filter(year >= 2020) |>
+  dplyr::select(title, director, countries_of_origin, year) |>
+  dplyr::slice_head(n = 10) |>
+  gt(groupname_col = "year") |>
+  cols_label(
+    title = "Film",
+    director = "Director",
+    countries_of_origin = "Country"
+  )
+```
+
 
 ## `rx_adsl` and `rx_addv`
 
