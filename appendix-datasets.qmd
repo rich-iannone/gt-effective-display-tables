@@ -1141,6 +1141,8 @@ illness |>
   tab_header(title = "Laboratory Test Reference Ranges")
 ```
 
+The normal ranges provide context for interpreting measurements. When day 9 values fall far outside these ranges, the severity becomes apparent. Bilirubin rising dramatically indicates liver failure. Creatinine elevation signals kidney involvement. The cascade of organ dysfunction visible in sequential laboratory values explains why this case study merited publication and why it serves as a teaching resource.
+
 
 ## `rx_adsl` and `rx_addv`
 
