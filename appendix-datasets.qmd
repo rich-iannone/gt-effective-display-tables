@@ -195,6 +195,27 @@ exibble |>
 
 Datasets like `exibble` just don't get a lot of attention, however, they are essential as infrastructure for examples in documentation. Every example in **gt**'s documentation that needs to show a quick formatting demonstration reaches for `exibble` rather than constructing throwaway data inline. This consistency helps readers recognize the dataset and focus on what is being demonstrated rather than puzzling over unfamiliar data structures.
 
+## `gtcars`
+
+The `gtcars` dataset contains specifications for 47 luxury and performance automobiles, with an emphasis on grand touring vehicles. The name works on two levels: these are GT (grand tourer) cars, and the dataset lives in a package called **gt**. The wordplay is intentional but understated. I try not to make a big deal about it.
+
+```{r}
+gtcars |>
+  dplyr::select(mfr, model, year, hp, trq, mpg_c, mpg_h, msrp) |>
+  dplyr::slice_head(n = 10) |>
+  gt(rowname_col = "model", groupname_col = "mfr") |>
+  fmt_integer(columns = c(hp, trq)) |>
+  fmt_currency(columns = msrp, decimals = 0) |>
+  cols_label(
+    year = "Year",
+    hp = "HP",
+    trq = "Torque",
+    mpg_c = "MPG (city)",
+    mpg_h = "MPG (hwy)",
+    msrp = "MSRP"
+  )
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
