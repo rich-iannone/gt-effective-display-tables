@@ -368,6 +368,10 @@ The dataset updates whenever the World Bank publishes new estimates, rather than
 
 For **gt** demonstrations, `countrypops` excels at time series comparisons, geographic groupings, and the handling of large numbers. The population values range from thousands (small island nations) to billions (China and India), exercising formatters across their full dynamic range. The longitudinal structure supports year-over-year comparisons, growth rate calculations, and the kind of decade-by-decade summary tables that appear in demographic reports.
 
+## `towny`
+
+While `countrypops` takes a global view, `towny` focuses on a single Canadian province: Ontario. The dataset contains population figures for 414 municipalities, including data from every Canadian census between 1996 and 2021 (conducted every five years) plus various geographic and administrative attributes. It exists because I actually live in Ontario and wanted an excuse to know more about the places surrounding me.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
