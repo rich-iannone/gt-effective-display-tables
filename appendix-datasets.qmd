@@ -491,6 +491,8 @@ sza |>
   tab_header(title = "Solar Zenith Angles by Latitude and Month")
 ```
 
+Solar zenith angles matter because they determine how much solar radiation reaches Earth's surface and at what angle. This affects everything from climate modeling to photovoltaic panel efficiency to the rate of photochemical reactions in the atmosphere. At high latitudes in winter, the sun barely rises above the horizon (large zenith angles). At the equator, the sun passes nearly overhead at noon year-round (small zenith angles). The interplay between latitude, season, and time of day creates the patterns visible in the `sza` data.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
