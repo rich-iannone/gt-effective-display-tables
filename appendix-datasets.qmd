@@ -1030,6 +1030,8 @@ films |>
   )
 ```
 
+The directors who return repeatedly to Cannes competition form a roster of international cinema's most celebrated figures. Their repeated presence reflects both the festival's loyalty to directors it has championed and these filmmakers' continued production of work deemed worthy of the world's most competitive showcase. For many, a Cannes premiere represents the peak of artistic recognition, the moment when a new work enters the conversation of global cinema.
+
 
 ## `rx_adsl` and `rx_addv`
 
