@@ -962,6 +962,8 @@ films |>
   )
 ```
 
+The dataset exists because I am a devoted cinephile. My letterboxd account (letterboxd.com/rich_i/) tracks viewing habits and provides an ongoing record of films watched and opinions formed. Film festivals provide endless opportunities for discovery, surfacing works that might never reach mainstream distribution. The Cannes Film Festival, as the most prestigious venue for international cinema, seemed like essential data that should exist in an accessible format. But no such dataset was publicly available. The only solution was to create one.
+
 
 ## `rx_adsl` and `rx_addv`
 
