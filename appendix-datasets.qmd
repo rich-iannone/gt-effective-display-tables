@@ -9,7 +9,7 @@ Every dataset tells a story. The eighteen datasets bundled with **gt** were not 
 
 This appendix takes you behind the scenes of these datasets. You will learn where they came from, how they were constructed, and why they matter beyond their immediate utility as demonstration data. Along the way, we will explore the broader contexts they represent: the economics of a neighborhood pizza shop, the 125-year evolution of urban transit in Paris, the delicate chemistry of Earth's atmosphere, and the quiet dramas of population change in Ontario's small towns. The datasets are more than rows and columns. They are windows into worlds worth understanding.
 
-## pizzaplace
+## `pizzaplace`
 
 The `pizzaplace` dataset contains 49,574 rows representing every pizza sold at a fictional pizzeria during the year 2015. Each row records a transaction with its timestamp, pizza type, size, and price. On the surface it appears to be straightforward sales data. Underneath, it is an elaborate simulation of human behavior, kitchen operations, and the unpredictable rhythms of a small food business.
 
