@@ -145,6 +145,34 @@ gt(exibble)
 
 The column names are deliberately generic (`num`, `char`, `currency`, `date`, `time`, `datetime`) because the content does not matter. What matters is having every common data type available in a single compact dataset. When documenting a date formatter, you need a date column. When showing number formatting options, you need numbers. When explaining how to handle NA values, you need NA values in predictable locations.
 
+### Anatomy of a reference dataset
+
+Each row and column in `exibble` was chosen to exercise different aspects of table formatting:
+
+```{r}
+#| echo: false
+tibble::tibble(
+  Column = c("num", "char", "currency", "date", "time", "datetime", "row", "group"),
+  Type = c("numeric", "character", "numeric", "Date", "character", "POSIXct", "character", "character"),
+  Purpose = c(
+    "Demonstrates numeric formatting across scales",
+    "Provides recognizable text labels (fruits)",
+    "Tests currency with decimals, zeros, NAs",
+    "Shows date formatting patterns",
+    "Character-encoded times for parsing",
+    "Full datetime objects for formatting",
+    "Stub/rowname labels for tables",
+    "Group categories for row grouping"
+  )
+) |>
+  gt(rowname_col = "Column") |>
+  cols_label(
+    Type = "R Type",
+    Purpose = "Role in Examples"
+  ) |>
+  tab_header(title = "exibble Column Structure")
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
