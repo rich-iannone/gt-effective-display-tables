@@ -438,6 +438,23 @@ peeps |>
   )
 ```
 
+The international scope was intentional. `peeps` was created specifically to demonstrate formatters like `fmt_email()`, `fmt_country()`, and `fmt_flag()`. Having people from various countries ensures that flag icons and country name formatting can be shown in realistic contexts. An address book or contact directory table should contain international entries, and `peeps` provides exactly that.
+
+### The problem of synthetic data
+
+Generating realistic fake data is harder than it sounds. Names must fit cultural expectations (a person from Japan should have a Japanese name). Addresses must follow country-specific formats (postal codes before or after city names, province abbreviations versus full names). Phone numbers must have correct country codes and plausible internal structure. Email addresses must look like real email addresses while clearly being fictional.
+
+```{r}
+#| echo: false
+peeps |>
+  dplyr::count(country) |>
+  dplyr::arrange(desc(n)) |>
+  head(15) |>
+  gt(rowname_col = "country") |>
+  cols_label(n = "People") |>
+  tab_header(title = "People by Country")
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
