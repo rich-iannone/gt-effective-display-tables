@@ -193,6 +193,8 @@ exibble |>
   )
 ```
 
+Datasets like `exibble` rarely receive much attention, but they are essential infrastructure. Every example in **gt**'s documentation that needs to show a quick formatting demonstration reaches for `exibble` rather than constructing throwaway data inline. This consistency helps readers recognize the dataset and focus on what is being demonstrated rather than puzzling over unfamiliar data structures.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
