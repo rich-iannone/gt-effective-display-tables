@@ -311,6 +311,10 @@ countrypops |>
 
 Population data might seem straightforward, but it encodes profound stories of human migration, economic development, public health, and political change. China's population trajectory shows the demographic impact of the one-child policy. Nigeria's explosive growth reflects patterns common across sub-Saharan Africa. European countries exhibit the stagnation and aging that accompany developed economies. Each row is a snapshot of millions of individual lives aggregated into a single number.
 
+### Understanding population data
+
+Population counts are harder to obtain than one might assume. Only a handful of countries conduct reliable censuses at regular intervals. Many estimates rely on birth and death registrations (which vary in completeness), surveys of representative samples (which involve statistical uncertainty), or projections from previous counts (which compound errors over time). The World Bank's task is to synthesize these imperfect sources into consistent estimates that allow comparison across countries and years.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
