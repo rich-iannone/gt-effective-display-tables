@@ -524,6 +524,10 @@ The seasonal pattern emerges clearly at mid and high latitudes. January brings h
 
 Atmospheric chemists care about zenith angles because photochemical reactions require light. Photolysis rates vary with the intensity and spectrum of incoming solar radiation. A nitrogen dioxide molecule that might photolyze within seconds at tropical noon may persist for hours at polar twilight. Models simulating urban smog formation or stratospheric ozone depletion must account for these variations, typically by looking up appropriate photolysis rates from tables indexed by zenith angle and altitude.
 
+The dataset reflects my background in atmospheric chemistry. Such data tables would be directly imported into atmospheric box models for simulating photolysis-based reactions of volatile organic compounds (VOCs). Having the data readily available in R format eliminates the tedious work of transcribing values from printed tables or scraping data from web pages.
+
+For **gt**, the `sza` dataset demonstrates heatmap-style coloring (values naturally vary from low to high in meaningful patterns), missing value handling (the sun does not rise at certain latitude-time combinations), and the presentation of scientific lookup tables. The structure (rows indexed by time, columns by month, grouped by latitude) maps naturally onto the table designs that scientists create when presenting such reference data.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
