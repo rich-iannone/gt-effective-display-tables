@@ -457,6 +457,20 @@ peeps |>
 
 The country distribution in `peeps` emphasizes variety over statistical representativeness. Having multiple people from smaller countries ensures that formatting edge cases get tested. A dataset with 90 Americans and 10 others would not exercise international formatting as thoroughly as one with broader distribution.
 
+```{r}
+#| echo: false
+peeps |>
+  dplyr::mutate(email_domain = sub(".*@", "", email_addr)) |>
+  dplyr::count(email_domain) |>
+  dplyr::arrange(desc(n)) |>
+  head(10) |>
+  gt(rowname_col = "email_domain") |>
+  cols_label(n = "Count") |>
+  tab_header(title = "Email Domain Distribution")
+```
+
+The email domains follow patterns typical of real email usage: major providers dominate, with country-specific services appearing for non-English-speaking regions. This realism helps ensure that `fmt_email()` handles the variety of domain lengths and TLD formats that appear in actual contact databases.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
