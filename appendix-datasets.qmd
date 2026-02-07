@@ -392,6 +392,29 @@ The data comes from Statistics Canada and reveals patterns that might surprise t
 
 Ontario municipality names offer their own entertainment. Some are indigenous place names with beautiful sounds. Others commemorate British royalty or colonial administrators. A few seem almost whimsical when encountered for the first time. These names appear on highway signs and maps, marking places where real communities exist with their own histories and concerns. The `towny` dataset transforms those signs into data, inviting exploration of what lies behind the familiar names.
 
+```{r}
+#| echo: false
+towny |>
+  dplyr::mutate(
+    growth_rate = (population_2021 - population_2001) / population_2001 * 100
+  ) |>
+  dplyr::filter(population_2001 > 10000) |>
+  dplyr::slice_max(growth_rate, n = 10) |>
+  dplyr::select(name, population_2001, population_2021, growth_rate) |>
+  gt(rowname_col = "name") |>
+  fmt_integer(columns = c(population_2001, population_2021)) |>
+  fmt_number(columns = growth_rate, decimals = 1, pattern = "{x}%") |>
+  cols_label(
+    population_2001 = "Pop. 2001",
+    population_2021 = "Pop. 2021",
+    growth_rate = "Growth"
+  ) |>
+  tab_header(
+    title = "Fastest Growing Ontario Municipalities",
+    subtitle = "Among places with 10,000+ residents in 2001"
+  )
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
