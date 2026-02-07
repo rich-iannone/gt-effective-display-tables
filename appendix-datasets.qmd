@@ -608,6 +608,31 @@ Understanding atmospheric chemistry requires knowing how fast different reaction
 
 The `nuclides` dataset compiles nuclear data for isotopes: half-lives, decay modes, particle emissions. Like the chemical datasets, this information exists scattered across various sources but had not been unified into a single convenient data frame. Nuclear chemistry courses and research often require looking up isotope properties, and `nuclides` consolidates those lookups.
 
+```{r}
+#| echo: false
+nuclides |>
+  dplyr::filter(!is.na(half_life) & half_life > 0) |>
+  dplyr::filter(decay_1 %in% c("B-", "B+", "A", "EC")) |>
+  dplyr::group_by(decay_1) |>
+  dplyr::summarize(
+    count = n(),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    decay_name = case_when(
+      decay_1 == "B-" ~ "Beta minus",
+      decay_1 == "B+" ~ "Beta plus",
+      decay_1 == "A" ~ "Alpha",
+      decay_1 == "EC" ~ "Electron capture",
+      TRUE ~ decay_1
+    )
+  ) |>
+  dplyr::select(decay_name, count) |>
+  gt(rowname_col = "decay_name") |>
+  cols_label(count = "Nuclides") |>
+  tab_header(title = "Radioactive Decay Modes")
+```
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
