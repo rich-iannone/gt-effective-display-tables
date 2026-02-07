@@ -602,6 +602,8 @@ reactions |>
   tab_header(title = "Selected Atmospheric Reactions with OH")
 ```
 
+Understanding atmospheric chemistry requires knowing how fast different reactions proceed under various conditions. The hydroxyl radical (OH) drives much of daytime atmospheric chemistry, attacking volatile organic compounds and beginning their oxidation chains. Nitrate radicals take over at night. Photolysis reactions require sunlight, their rates varying with solar zenith angle and wavelength. Each rate constant in the dataset represents experimental determinations, often from smog chamber studies or theoretical calculations validated against field measurements.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
