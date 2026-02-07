@@ -309,6 +309,8 @@ countrypops |>
   tab_header(title = "Population Growth in Five Major Nations")
 ```
 
+Population data might seem straightforward, but it encodes profound stories of human migration, economic development, public health, and political change. China's population trajectory shows the demographic impact of the one-child policy. Nigeria's explosive growth reflects patterns common across sub-Saharan Africa. European countries exhibit the stagnation and aging that accompany developed economies. Each row is a snapshot of millions of individual lives aggregated into a single number.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
