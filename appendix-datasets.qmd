@@ -964,6 +964,45 @@ films |>
 
 The dataset exists because I am a devoted cinephile. My letterboxd account (letterboxd.com/rich_i/) tracks viewing habits and provides an ongoing record of films watched and opinions formed. Film festivals provide endless opportunities for discovery, surfacing works that might never reach mainstream distribution. The Cannes Film Festival, as the most prestigious venue for international cinema, seemed like essential data that should exist in an accessible format. But no such dataset was publicly available. The only solution was to create one.
 
+### Building the Cannes dataset
+
+Construction required extensive research spanning months of work. The festival's official website provided the foundation, listing competition entries by year. But the website alone was insufficient. Many older entries appeared only with French titles, requiring investigation to find corresponding English names (or vice versa for English-language films shown under French titles). Some films had been released under multiple names in different markets, demanding careful verification of which title was authoritative.
+
+```{r}
+#| echo: false
+films |>
+  dplyr::count(year, name = "films") |>
+  dplyr::filter(year >= 1970) |>
+  dplyr::slice_head(n = 20) |>
+  gt(rowname_col = "year") |>
+  cols_label(films = "In-Competition Films") |>
+  tab_header(
+    title = "Cannes Competition Entries by Year",
+    subtitle = "Sample of years from 1970 onward"
+  )
+```
+
+IMDB links were tracked down for each entry, providing viewers easy access to cast lists, synopses, and user ratings. This was straightforward for recent films but required detective work for older or more obscure entries. Some films from the 1950s and 1960s had minimal online presence, with IMDB pages containing little additional information. But the links exist for completeness, allowing interested viewers to explore further.
+
+Spoken languages and countries of origin required the most careful coding. International co-productions muddy the concept of a film's "country". Is a film shot in France, funded by German and Italian producers, directed by a Polish filmmaker, and starring British actors a French film? The dataset records all countries involved in production, accepting that many films defy simple national categorization. Languages posed similar challenges: a film might be primarily in French with scenes in Arabic and English, and all three languages deserve acknowledgment. Where multiple languages appear, I tried to arrange them roughly by the quantity of words spoken in each, so the first language listed is generally the one that dominates the dialogue.
+
+### The festival and its significance
+
+The Cannes Film Festival has operated since 1946 (with a brief predecessor event in 1939 interrupted by war). It functions simultaneously as a trade show for film distribution, a competition for artistic achievement, and a showcase for celebrity culture. The Palme d'Or, awarded to the best film in competition, carries considerable prestige. Winners enter the canon of international cinema, their directors' careers transformed by the recognition.
+
+```{r}
+#| echo: false
+films |>
+  dplyr::count(countries_of_origin, sort = TRUE) |>
+  dplyr::slice_head(n = 12) |>
+  gt(rowname_col = "countries_of_origin") |>
+  cols_label(n = "Films in Competition") |>
+  tab_header(
+    title = "Countries by Cannes Competition Entries",
+    subtitle = "All-time totals across festival history"
+  )
+```
+
 
 ## `rx_adsl` and `rx_addv`
 
