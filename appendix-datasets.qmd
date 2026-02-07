@@ -362,6 +362,8 @@ countrypops |>
   tab_source_note("Values show population relative to 1990 baseline")
 ```
 
+The table above shows population indexed to 1990 for five countries facing demographic aging. Japan's population has declined in absolute terms. Germany and Italy have barely grown. South Korea's growth is slowing rapidly. These patterns reflect low birth rates, increased longevity, and (in some cases) restrictive immigration policies. The economic and social implications of aging populations (pension systems, healthcare costs, labor force composition) represent some of the most significant policy challenges of the coming decades.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
