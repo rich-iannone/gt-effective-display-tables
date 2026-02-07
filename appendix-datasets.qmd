@@ -471,6 +471,8 @@ peeps |>
 
 The email domains follow patterns typical of real email usage: major providers dominate, with country-specific services appearing for non-English-speaking regions. This realism helps ensure that `fmt_email()` handles the variety of domain lengths and TLD formats that appear in actual contact databases.
 
+Every person in the dataset is entirely fictional. The addresses do not correspond to real residences. The phone numbers should not connect to anyone. But the formatting follows authentic patterns for each country represented. A French address looks like a French address. A Japanese name follows Japanese naming conventions. This verisimilitude matters because formatting functions must handle real-world variation, and `peeps` provides test cases for that variation without compromising anyone's actual privacy.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
