@@ -738,6 +738,38 @@ This frenetic early growth distinguished Paris from its European peers. London's
 
 The guiding philosophy was density: stations placed close together (often just 500 meters apart) so that no Parisian would have to walk more than a few minutes to reach the Métro. This density distinguishes Paris from systems like Washington DC or the Bay Area's BART, where stations are spaced miles apart and require feeder buses or long walks. The Paris approach sacrifices speed between stations for convenience of access, a tradeoff that makes sense for a compact, dense city.
 
+```{r}
+#| echo: false
+dplyr::tibble(
+  decade = c("1900s", "1910s", "1920s", "1930s", "1940s", "1950s", "1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s"),
+  stations_opened = c(65, 85, 60, 25, 5, 15, 12, 8, 18, 10, 8, 14, 10),
+  notable_events = c(
+    "Line 1 opens for World's Fair",
+    "Rapid expansion across Paris",
+    "Network reaches most arrondissements",
+    "Great Depression slows construction",
+    "World War II occupation",
+    "Post-war reconstruction begins",
+    "RER regional express network planned",
+    "RER lines A and B open",
+    "Line 14 planning begins",
+    "Line 14 construction starts",
+    "Line 14 opens (first automated line)",
+    "Line extensions to suburbs",
+    "Grand Paris Express under construction"
+  )
+) |>
+  gt(rowname_col = "decade") |>
+  cols_label(
+    stations_opened = "Stations Opened",
+    notable_events = "Notable Events"
+  ) |>
+  tab_header(
+    title = "125 Years of Métro Expansion",
+    subtitle = "How the network grew decade by decade"
+  )
+```
+
 ### What makes the Métro work
 
 Several design principles distinguish the Paris Métro from less successful transit systems. First, the high density of stations means that walking to the Métro is almost always faster than driving to a parking lot. This convenience generates ridership that justifies the investment. Second, the integration with other modes is seamless. The same ticket works on Métro, RER, buses, and trams within Paris. Transfer stations connect lines at useful angles rather than requiring passengers to exit one system and enter another. Third, the frequency of service makes timetables irrelevant. During peak hours, trains arrive every two minutes on busy lines. Even late at night, waits rarely exceed ten minutes. Passengers simply show up and go.
