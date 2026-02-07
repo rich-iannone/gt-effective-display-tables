@@ -939,6 +939,12 @@ gibraltar |>
   )
 ```
 
+The predominance of certain wind directions reflects the geography of the strait. Air flows through the narrow gap between Europe and Africa, channeled by the mountains on either side. Local topography further complicates matters: the Rock itself creates wind shadows and acceleration zones. Pilots landing at Gibraltar Airport must contend with these effects, making it one of the more challenging airports in Europe. The runway crosses Winston Churchill Avenue, requiring traffic to stop when aircraft land or take off.
+
+May was chosen simply to provide pre-summer weather data. Gibraltar's Mediterranean climate means mild, pleasant conditions that month, with temperatures climbing toward but not yet reaching peak summer heat. The specific year (2023) holds no particular significance beyond being recent enough for the data to feel current. The data comes from weather APIs providing historical observations, typical of the sources that make meteorological data increasingly accessible for analysis and visualization.
+
+For **gt**, the dataset demonstrates time series formatting, weather data presentation, and the handling of multiple related numeric columns. Temperature formatting, wind direction encoding, and the diurnal patterns visible in hourly data all provide teaching opportunities.
+
 
 ## `rx_adsl` and `rx_addv`
 
