@@ -1032,6 +1032,12 @@ films |>
 
 The directors who return repeatedly to Cannes competition form a roster of international cinema's most celebrated figures. Their repeated presence reflects both the festival's loyalty to directors it has championed and these filmmakers' continued production of work deemed worthy of the world's most competitive showcase. For many, a Cannes premiere represents the peak of artistic recognition, the moment when a new work enters the conversation of global cinema.
 
+### Film as data
+
+The `films` dataset demonstrates that even cultural artifacts can be structured for analysis. Each film becomes a row with attributes: title, year, director, country, language. These attributes support queries that would be tedious to answer through casual browsing. Which directors have competed most often? How has the linguistic diversity of competition entries changed over time? What proportion of recent competitors are first-time Cannes directors versus returning favorites?
+
+For **gt** specifically, `films` demonstrates `fmt_flag()` and `fmt_country()` in realistic contexts. The country codes translate directly to flag icons, creating visual tables that communicate nationality at a glance. The categorical structure (years, directors, countries) provides natural grouping opportunities. The IMDB URLs demonstrate link formatting for external references. It is a dataset that makes beautiful tables almost by accident, because film data is inherently interesting to display.
+
 
 ## `rx_adsl` and `rx_addv`
 
