@@ -497,6 +497,29 @@ Solar zenith angles matter because they determine how much solar radiation reach
 
 When the sun sits directly overhead, sunlight travels through the minimum possible amount of atmosphere before reaching the surface. As the sun moves toward the horizon, light must traverse increasingly long atmospheric paths. This path length, often expressed as "air mass" affects both the intensity and spectral composition of sunlight reaching the ground. Ultraviolet radiation attenuates more strongly through longer path lengths, which is why sunburns are most severe around solar noon in summer at lower latitudes.
 
+```{r}
+#| echo: false
+sza |>
+  dplyr::filter(!is.na(sza)) |>
+  dplyr::filter(tst %in% c("0600", "0900", "1200", "1500", "1800")) |>
+  dplyr::filter(latitude %in% c(0, 20, 40, 60)) |>
+  dplyr::filter(month %in% c("jan", "apr", "jul", "oct")) |>
+  tidyr::pivot_wider(names_from = month, values_from = sza) |>
+  gt(rowname_col = "tst", groupname_col = "latitude") |>
+  fmt_number(decimals = 0) |>
+  sub_missing(missing_text = "—") |>
+  tab_header(
+    title = "Solar Zenith Angles Throughout the Day",
+    subtitle = "By latitude and season"
+  ) |>
+  cols_label(
+    jan = "Jan",
+    apr = "Apr",
+    jul = "Jul",
+    oct = "Oct"
+  )
+```
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
