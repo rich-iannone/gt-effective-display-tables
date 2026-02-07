@@ -339,6 +339,29 @@ The uncertainties in population data matter for policy and planning. A country t
 
 That said, the trends in population data are generally reliable even when the absolute numbers carry uncertainty. If the World Bank estimates that Nigeria's population doubled between 1990 and 2020, the actual growth was almost certainly substantial even if the precise figures might be revised. Trends matter more than point estimates for most analytical purposes, and the `countrypops` dataset captures these trends across the entire modern era of demographic record-keeping.
 
+```{r}
+#| echo: false
+countrypops |>
+  dplyr::filter(country_code_3 %in% c("DEU", "JPN", "ITA", "ESP", "KOR")) |>
+  dplyr::filter(year >= 1990) |>
+  dplyr::group_by(country_name) |>
+  dplyr::mutate(
+    pop_1990 = population[year == 1990],
+    index = population / pop_1990 * 100
+  ) |>
+  dplyr::filter(year %in% c(1990, 2000, 2010, 2020)) |>
+  dplyr::ungroup() |>
+  dplyr::select(country_name, year, index) |>
+  tidyr::pivot_wider(names_from = year, values_from = index) |>
+  gt(rowname_col = "country_name") |>
+  fmt_number(decimals = 1) |>
+  tab_header(
+    title = "Population Change in Aging Societies",
+    subtitle = "Index: 1990 = 100"
+  ) |>
+  tab_source_note("Values show population relative to 1990 baseline")
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
