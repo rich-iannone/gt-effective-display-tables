@@ -1143,6 +1143,7 @@ illness |>
 
 The normal ranges provide context for interpreting measurements. When day 9 values fall far outside these ranges, the severity becomes apparent. Bilirubin rising dramatically indicates liver failure. Creatinine elevation signals kidney involvement. The cascade of organ dysfunction visible in sequential laboratory values explains why this case study merited publication and why it serves as a teaching resource.
 
+The dataset thus serves as a benchmark: if you can recreate a published scientific table using **gt**, the package's formatting capabilities are proven sufficient for real-world use. The `illness` data provides that proof of concept while also documenting a tragic case that contributed to medical understanding of yellow fever progression.
 
 ## `rx_adsl` and `rx_addv`
 
