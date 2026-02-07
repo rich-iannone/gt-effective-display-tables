@@ -55,6 +55,64 @@ The menu reveals the character of the fictional establishment. Classic pizzas st
 
 Pricing follows intuitive logic. A basic cheese pizza costs less than one loaded with prosciutto and artichoke hearts. Size increases bring proportional price increases, though the per-square-inch cost typically decreases as you go larger (the eternal economic argument for ordering the bigger pizza). These pricing patterns create natural opportunities for analysis: which pizzas generate the most revenue? Which sizes sell best and for which types? How does day of week affect the popularity of the vegetarian options?
 
+### A pizza tier list
+
+Any discussion of pizza invites opinions about which pizzas are best. The following tier list represents one possible ranking of the `pizzaplace` menu, from essential classics to more adventurous options that may not suit every palate. Reasonable people will disagree, and that disagreement is part of what makes pizza culture endlessly entertaining.
+
+```{r}
+#| echo: false
+
+pizza_ingredients <- dplyr::tribble(
+  ~name, ~ingredients, ~tier, ~notes,
+  "The Pepperoni", "Mozzarella, Pepperoni, Tomato Sauce", "S", "The benchmark against which all pizzas are measured",
+  "The Big Meat", "Bacon, Pepperoni, Italian Sausage, Chorizo, Mozzarella, Tomato Sauce", "S", "Maximalist approach that somehow works",
+  "The Classic Deluxe", "Pepperoni, Mushrooms, Red Onions, Red Peppers, Bacon, Mozzarella, Tomato Sauce", "S", "Everything a pizza should be",
+  "The Barbecue Chicken", "Barbecued Chicken, Red Peppers, Green Peppers, Tomatoes, Red Onions, Mozzarella, Barbecue Sauce", "A", "Sweet and savory in perfect balance",
+  "The Hawaiian", "Sliced Ham, Pineapple, Mozzarella, Tomato Sauce", "A", "Controversial but undeniably popular",
+  "The Italian Capocollo", "Capocollo, Red Peppers, Tomatoes, Goat Cheese, Garlic, Oregano, Mozzarella, Tomato Sauce", "A", "Elevated ingredients lift the whole experience",
+  "The Calabrese", "Nduja, Italian Sausage, Pepperoni, Tomatoes, Red Onions, Mozzarella, Tomato Sauce", "A", "Spicy nduja provides serious depth",
+  "The Prosciutto", "Prosciutto, Arugula, Mozzarella, Tomato Sauce", "A", "Simple elegance, fresh and light",
+  "The Four Cheese", "Ricotta, Gorgonzola, Romano, Mozzarella, Tomato Sauce", "B", "For dedicated cheese enthusiasts only",
+  "The Vegetables", "Mushrooms, Tomatoes, Red Peppers, Green Peppers, Red Onions, Zucchini, Spinach, Garlic, Mozzarella, Tomato Sauce", "B", "The vegetable abundance can overwhelm",
+  "The Spinach Pesto", "Spinach, Artichokes, Tomatoes, Sun-dried Tomatoes, Garlic, Pesto Sauce, Mozzarella", "B", "Pesto base divides opinion",
+  "The Greek", "Kalamata Olives, Feta, Tomatoes, Red Onions, Red Peppers, Garlic, Mozzarella, Tomato Sauce", "B", "Mediterranean flavors work better as salad",
+  "The Brie Carre", "Brie, Prosciutto, Caramelized Onions, Pears, Thyme, Garlic, Mozzarella", "C", "Ambitious but confused identity",
+  "The Chicken Pesto", "Chicken, Tomatoes, Red Peppers, Spinach, Garlic, Pesto Sauce, Mozzarella", "C", "Pesto and chicken compete rather than complement",
+  "The Soppressata", "Soppressata, Fontina, Mozzarella, Garlic, Tomato Sauce", "C", "Underwhelming given premium ingredients"
+)
+
+pizza_ingredients |>
+  gt(groupname_col = "tier") |>
+  cols_label(
+    name = "Pizza",
+    ingredients = "Ingredients",
+    notes = "Assessment"
+  ) |>
+  tab_row_group(label = md("**S Tier** — Essential"), rows = tier == "S") |>
+  tab_row_group(label = md("**A Tier** — Excellent"), rows = tier == "A") |>
+  tab_row_group(label = md("**B Tier** — Good"), rows = tier == "B") |>
+  tab_row_group(label = md("**C Tier** — Passable"), rows = tier == "C") |>
+  row_group_order(groups = c(
+    md("**S Tier** — Essential"),
+    md("**A Tier** — Excellent"),
+    md("**B Tier** — Good"),
+    md("**C Tier** — Passable")
+  )) |>
+  tab_header(
+    title = "The Definitive pizzaplace Tier List",
+    subtitle = "A highly subjective ranking of 15 notable pizzas"
+  ) |>
+  tab_source_note("Rankings reflect one person's taste. YMMV.")
+```
+
+The S-tier pizzas represent the core of what a pizzeria should do well. The Pepperoni is the foundation, the pizza against which all others are implicitly compared. When someone says "let's get pizza", this is what most people imagine. The Big Meat takes maximalism seriously but avoids the trap of incoherence: bacon, pepperoni, sausage, and chorizo sound excessive, but they harmonize around a common meatiness (it really works!). The Classic Deluxe achieves balance, incorporating vegetables (mushrooms, peppers, onions) alongside meat without letting any single ingredient dominate.
+
+The A-tier pizzas represent successful experiments. The Hawaiian remains perpetually controversial, inspiring passionate defenses and equally passionate condemnations. But I'm a fan. The combination of salty ham and sweet pineapple against tangy tomato sauce works for a lot of people, and the dataset shows it selling consistently throughout the year. The Italian Capocollo and Calabrese elevate the genre through premium cured meats, offering pizzas that could credibly appear on a trattoria menu. The Prosciutto demonstrates that restraint can be a virtue: just ham, arugula, and cheese, but executed with quality ingredients.
+
+The B-tier pizzas are solid but not essential. The Four Cheese appeals to dedicated turophiles but can feel monotonous without the textural variety that vegetables or meats provide. The vegetable-heavy options (Vegetables, Greek, Spinach Pesto) often release too much moisture during cooking, resulting in soggy centers that undermine the crust. Don't get me wrong, they are fine pizzas but rarely anyone's first choice.
+
+The C-tier pizzas represent experiments that did not quite succeed. The Brie Carre attempts a French-inspired combination of brie, pears, and prosciutto that sounds sophisticated but tastes confused. The ingredients come from different culinary traditions and never fully integrate. These pizzas *do* seem to sell in this particular dataset, but they probably rarely inspire repeat orders or enthusiastic recommendations.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
