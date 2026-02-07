@@ -637,6 +637,26 @@ Radioactive decay follows several pathways depending on the nuclear configuratio
 
 For **gt** demonstrations, these scientific datasets showcase formatters like `fmt_scientific()`, `fmt_chem()`, and `fmt_units()`. They also demonstrate `from_column()` usage, where the number of decimal places might come from an adjacent precision column rather than being hard-coded. Scientific communication demands careful attention to significant figures and uncertainty, and these datasets provide realistic contexts for that attention.
 
+## `sp500`
+
+The `sp500` dataset contains daily stock market data for the S&P 500 index from 1950 through 2015: opening price, closing price, high, low, and trading volume for each trading day. With over 16,000 rows, it provides a substantial corpus of financial time series data.
+
+```{r}
+sp500 |>
+  dplyr::filter(date >= "2015-01-01") |>
+  dplyr::slice_head(n = 10) |>
+  gt(rowname_col = "date") |>
+  fmt_currency(columns = c(open, high, low, close), decimals = 2) |>
+  fmt_number(columns = volume, suffixing = TRUE) |>
+  cols_label(
+    open = "Open",
+    high = "High",
+    low = "Low",
+    close = "Close",
+    volume = "Volume"
+  )
+```
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
