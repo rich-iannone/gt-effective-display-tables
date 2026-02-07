@@ -6,7 +6,6 @@
 /* Function signature code blocks*/
 /* Target via the data-filename attribute that Quarto adds */
 .sourceCode[data-filename="Function Signature"] {
-  border-left: 3px solid #6c757d;
   background-color: #f8f9fa !important;
 }
 
@@ -26,7 +25,6 @@
 /* Dark mode support */
 .quarto-dark .sourceCode[data-filename="Function Signature"] {
   background-color: #2d2d2d !important;
-  border-left-color: #888;
 }
 
 .quarto-dark .sourceCode[data-filename="Function Signature"] code {
