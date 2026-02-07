@@ -633,6 +633,10 @@ nuclides |>
   tab_header(title = "Radioactive Decay Modes")
 ```
 
+Radioactive decay follows several pathways depending on the nuclear configuration. Beta-minus decay converts a neutron to a proton, moving the nucleus one step higher in atomic number. Alpha decay ejects a helium nucleus, reducing both atomic number and mass. Electron capture pulls an inner-shell electron into the nucleus. Each decay mode appears in the dataset, along with the half-life governing how quickly unstable nuclei transform.
+
+For **gt** demonstrations, these scientific datasets showcase formatters like `fmt_scientific()`, `fmt_chem()`, and `fmt_units()`. They also demonstrate `from_column()` usage, where the number of decimal places might come from an adjacent precision column rather than being hard-coded. Scientific communication demands careful attention to significant figures and uncertainty, and these datasets provide realistic contexts for that attention.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
