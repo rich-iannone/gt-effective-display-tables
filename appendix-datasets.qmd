@@ -421,6 +421,10 @@ Not every municipality grew. Some communities in northern and eastern Ontario lo
 
 For table-making, `towny` provides opportunities for population density calculations, before-after comparisons, and growth rate analysis across its six census years. The land area column enables density visualization. The municipality names work naturally as row labels in grouped tables organized by population tier or geographic region.
 
+## `peeps`
+
+The `peeps` dataset contains fictional personal information for 100 imaginary people: names, addresses, phone numbers, email addresses, and nationalities. These fake individuals were generated using an online tool that produces realistic-seeming demographic data, then verified for plausible formatting of addresses and contact information across different countries.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
