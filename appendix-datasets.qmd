@@ -294,6 +294,10 @@ The choice to create `gtcars` was motivated by a desire for a modern equivalent 
 
 For table-making purposes, `gtcars` provides natural groupings by manufacturer, multiple numeric columns suitable for formatting and comparison, and a mix of discrete and continuous variables. The manufacturer and model columns enable row grouping and stub labeling. The price column practically demands currency formatting. The horsepower and torque columns work well for bar chart visualizations within cells. It is a dataset that seems designed for beautiful tables because, in fact, it was.
 
+## `countrypops`
+
+The `countrypops` dataset tracks population estimates for countries worldwide from 1960 through the present (currently extending to 2024). The data comes from the World Bank, which compiles demographic estimates from national statistical offices, census data, and the United Nations Population Division. With over 13,000 rows covering more than 200 countries across six decades, it is one of the larger datasets in the **gt** collection.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
