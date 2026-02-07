@@ -1007,6 +1007,29 @@ The table above reveals which national cinemas have received the most recognitio
 
 The festival also reflects changing tastes and priorities in world cinema. In its early decades, Cannes emphasized European art cinema and established masters. The 1970s brought more adventurous programming, with controversial entries and recognition for directors working outside commercial constraints. Recent years have seen increased attention to women directors (historically underrepresented) and to cinemas from regions previously marginalized in international distribution.
 
+```{r}
+#| echo: false
+films |>
+  dplyr::group_by(director) |>
+  dplyr::summarize(
+    entries = n(),
+    years = paste(range(year), collapse = "-"),
+    .groups = "drop"
+  ) |>
+  dplyr::filter(entries >= 5) |>
+  dplyr::arrange(desc(entries)) |>
+  dplyr::slice_head(n = 10) |>
+  gt(rowname_col = "director") |>
+  cols_label(
+    entries = "Competition Entries",
+    years = "Years Active"
+  ) |>
+  tab_header(
+    title = "Most Frequent Cannes Competitors",
+    subtitle = "Directors with 5+ competition entries"
+  )
+```
+
 
 ## `rx_adsl` and `rx_addv`
 
