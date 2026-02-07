@@ -216,6 +216,8 @@ gtcars |>
   )
 ```
 
+The dataset was assembled from Motor Trend articles about grand touring vehicles, with additional research filling in gaps for fuel economy and torque figures. Most vehicles date from around 2015, reflecting when the source articles were published. The selection criteria emphasized true grand tourers: vehicles designed for high-speed, long-distance driving in comfort, typically with powerful engines, refined interiors, and substantial price tags.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
