@@ -1118,6 +1118,29 @@ illness |>
 
 The article is freely available under a Creative Commons license, making reproduction appropriate. The dataset was created specifically to test **gt**'s `fmt_units()` function and its ability to render scientific unit notation correctly. Medical laboratory results frequently include units like mL, μL, g/dL, U/L, and ×10³/μL that require careful formatting (the last of those being particularly tedious to typeset correctly without dedicated tooling). The question was whether **gt** could faithfully reproduce the original Table 1 from the article.
 
+### Reading laboratory values
+
+Medical laboratory tests generate data that require specialized interpretation. Each test has reference ranges defining normal values, and deviations above or below those ranges signal pathology. A white blood cell count of 3.0 × 10⁹/L might indicate leukopenia (low white cells), potentially signifying infection, bone marrow problems, or medication side effects. Liver enzymes elevated beyond normal ranges suggest hepatic damage. Reading the `illness` dataset means tracking multiple indicators as they evolve day by day through a fatal disease progression.
+
+```{r}
+#| echo: false
+illness |>
+  dplyr::filter(!is.na(norm_u) & !is.na(norm_l)) |>
+  dplyr::select(test, units, norm_l, norm_u) |>
+  dplyr::slice_head(n = 12) |>
+  gt(rowname_col = "test") |>
+  cols_label(
+    units = "Units",
+    norm_l = "Low",
+    norm_u = "High"
+  ) |>
+  tab_spanner(
+    label = "Normal Range",
+    columns = c(norm_l, norm_u)
+  ) |>
+  tab_header(title = "Laboratory Test Reference Ranges")
+```
+
 
 ## `rx_adsl` and `rx_addv`
 
