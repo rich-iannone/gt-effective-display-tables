@@ -152,3 +152,5 @@ Other datasets reflect personal curiosity. Ontario towns. The Paris Métro. Gibr
 
 For users of **gt**, the datasets provide reliable materials for learning and experimentation. The variety ensures that nearly any table type (financial, scientific, demographic, geographic, categorical) has relevant sample data available. The careful construction means edge cases are present: missing values, unusual formatting requirements, multi-valued fields. The documentation grounds each dataset in context that makes the data more meaningful to work with.
 
+Datasets are infrastructure. Good ones get used for years, appearing in examples, tutorials, homework assignments, and documentation. The eighteen datasets in **gt** aspire to that longevity. They are not throwaway data generated to fill a requirement but carefully assembled resources intended to remain useful across many versions and use cases. The stories behind them, now recorded here, add another layer of value: not just what the data contains but why it exists and where it came from.
+
