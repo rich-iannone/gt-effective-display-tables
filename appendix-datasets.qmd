@@ -113,6 +113,10 @@ The B-tier pizzas are solid but not essential. The Four Cheese appeals to dedica
 
 The C-tier pizzas represent experiments that did not quite succeed. The Brie Carre attempts a French-inspired combination of brie, pears, and prosciutto that sounds sophisticated but tastes confused. The ingredients come from different culinary traditions and never fully integrate. These pizzas *do* seem to sell in this particular dataset, but they probably rarely inspire repeat orders or enthusiastic recommendations.
 
+### What makes a good pizza
+
+The tier list above reflects accumulated pizza wisdom, but the principles underlying it deserve articulation. A good pizza balances several competing demands. The crust must be sturdy enough to support toppings without becoming soggy, yet thin and pliable enough to fold. The sauce should be present but not overwhelming, providing acidity and moisture without drowning the other flavors. The cheese needs to melt smoothly and brown slightly without becoming rubbery or releasing pools of grease. The toppings must be distributed evenly and cut to appropriate sizes so that each bite contains a representative sample. And freshness is non-negotiable. A pizza that has been languishing in a display case for hours, slowly drying out under a heat lamp, is a shadow of its former self. The crust toughens, the cheese congeals, and the toppings develop that dispiriting sheen of oxidation. At the extreme end of neglect, [one reviewer actually found mold growing on the underside of a display pizza](https://www.youtube.com/shorts/opoizv5lH0c), which is the sort of discovery that makes you reconsider every grab-and-go slice you have ever eaten.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
