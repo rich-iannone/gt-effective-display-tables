@@ -1116,6 +1116,8 @@ illness |>
   )
 ```
 
+The article is freely available under a Creative Commons license, making reproduction appropriate. The dataset was created specifically to test **gt**'s `fmt_units()` function and its ability to render scientific unit notation correctly. Medical laboratory results frequently include units like mL, μL, g/dL, U/L, and ×10³/μL that require careful formatting (the last of those being particularly tedious to typeset correctly without dedicated tooling). The question was whether **gt** could faithfully reproduce the original Table 1 from the article.
+
 
 ## `rx_adsl` and `rx_addv`
 
