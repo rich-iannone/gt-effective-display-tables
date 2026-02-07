@@ -659,6 +659,50 @@ sp500 |>
 
 Financial data demands specific formatting conventions: currency symbols, appropriate decimal precision, volume abbreviations. The `sp500` dataset exercises these requirements across decades of market history. Bull markets, bear markets, crashes, and recoveries all appear in the data. The 1987 Black Monday crash, the dot-com bubble, the 2008 financial crisis: each left its signature in closing prices and trading volumes.
 
+### Reading the market's history
+
+The S&P 500 tracks 500 large-cap American companies, weighted by market capitalization. It serves as the benchmark against which most US equity investments are measured. A fund that "beats the market" outperforms the S&P 500. An investor who wants "market returns" buys an index fund tracking the S&P 500. The index represents the collective judgment of millions of market participants about the value of corporate America.
+
+```{r}
+#| echo: false
+sp500 |>
+  dplyr::mutate(year = as.integer(format(date, "%Y"))) |>
+  dplyr::group_by(year) |>
+  dplyr::summarize(
+    trading_days = n(),
+    year_open = first(open),
+    year_close = last(close),
+    year_high = max(high),
+    year_low = min(low),
+    avg_volume = mean(volume),
+    .groups = "drop"
+  ) |>
+  dplyr::filter(year >= 2006 & year <= 2015) |>
+  dplyr::mutate(
+    return_pct = (year_close - year_open) / year_open * 100
+  ) |>
+  dplyr::select(year, year_open, year_close, return_pct, year_high, year_low) |>
+  gt(rowname_col = "year") |>
+  fmt_currency(columns = c(year_open, year_close, year_high, year_low), decimals = 0) |>
+  fmt_number(columns = return_pct, decimals = 1, force_sign = TRUE, pattern = "{x}%") |>
+  cols_label(
+    year_open = "Open",
+    year_close = "Close",
+    return_pct = "Return",
+    year_high = "Year High",
+    year_low = "Year Low"
+  ) |>
+  tab_header(
+    title = "S&P 500 Annual Summary",
+    subtitle = "2006-2015"
+  ) |>
+  data_color(
+    columns = return_pct,
+    palette = c("#D73027", "#FFFFFF", "#1A9850"),
+    domain = c(-40, 40)
+  )
+```
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
