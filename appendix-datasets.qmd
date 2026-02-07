@@ -1040,6 +1040,62 @@ For **gt** specifically, `films` demonstrates `fmt_flag()` and `fmt_country()` i
 
 The dataset updates annually as each new festival adds to the historical record. Every May, the Cannes competition announces its official selection, and those entries will appear in future versions of `films`. The ongoing maintenance reflects both practical utility (keeping examples current) and personal interest (following each year's festival with the attention of a devoted fan).
 
+### My Letterboxd
+
+The `films` dataset exists because I really enjoy movies, and that love extends well beyond festival competition entries. Below is a searchable, sortable table of every film I've watched (and mostly rated) on [Letterboxd](https://letterboxd.com/rich_i/). The data was assembled using scripts in this book's repository (`scripts/scrape-letterboxd.R`), which merge the Letterboxd data export files and fetch director information from individual film pages.
+
+```{r}
+letterboxd_films <- readr::read_csv("data/letterboxd_films.csv", show_col_types = FALSE)
+
+films_tbl <- 
+  letterboxd_films |>
+  dplyr::mutate(
+    director = if ("director" %in% names(letterboxd_films)) director else NA_character_
+  ) |>
+  dplyr::arrange(dplyr::desc(year), film_title) |>
+  dplyr::select(film_title, director, year, film_rating)
+
+films_tbl |>
+  gt() |>
+  cols_label(
+    film_title = "Film",
+    director = "Director",
+    year = "Year",
+    film_rating = "Rating"
+  ) |>
+  fmt(
+    columns = film_rating,
+    fns = function(x) {
+      dplyr::case_when(
+        is.na(x) ~ "",
+        x %% 1 == 0 ~ strrep("\u2605", x),
+        x %% 1 != 0 ~ paste0(strrep("\u2605", floor(x)), "\u00BD")
+      )
+    }
+  ) |>
+  sub_missing(missing_text = "") |>
+  cols_align(align = "center", columns = c(year, film_rating)) |>
+  cols_align(align = "left", columns = film_title) |>
+  tab_header(
+    title = md("**Rich's Letterboxd**"),
+    subtitle = md(paste0(
+      "All **", nrow(films_tbl), "** watched films (",
+      sum(!is.na(films_tbl$film_rating)), " rated)"
+    ))
+  ) |>
+  tab_source_note(
+    source_note = md(
+      "Source: [letterboxd.com/rich_i](https://letterboxd.com/rich_i/)"
+    )
+  ) |>
+  opt_interactive(
+    use_search = TRUE,
+    use_sorting = TRUE,
+    use_pagination = TRUE,
+    page_size_default = 25
+  )
+```
+
 
 ## `rx_adsl` and `rx_addv`
 
