@@ -854,6 +854,8 @@ The dataset updates periodically to reflect these changes. New stations appear a
 
 For **gt** demonstrations, the dataset provides geographic data with French language station names, offering opportunities to demonstrate locale handling and the presentation of transit network information. The ridership figures support ranking tables. The line assignments (stored as comma-separated values) demonstrate handling of multi-valued fields. The opening dates span over a century, creating interesting timelines. But beyond these technical uses, the dataset offers a window into one of humanity's great collective achievements: a transit system that moves millions of people daily, efficiently and reliably, through one of the world's most beautiful cities.
 
+## `gibraltar`
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
