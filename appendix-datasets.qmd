@@ -425,6 +425,19 @@ For table-making, `towny` provides opportunities for population density calculat
 
 The `peeps` dataset contains fictional personal information for 100 imaginary people: names, addresses, phone numbers, email addresses, and nationalities. These fake individuals were generated using an online tool that produces realistic-seeming demographic data, then verified for plausible formatting of addresses and contact information across different countries.
 
+```{r}
+peeps |>
+  dplyr::select(name_given, name_family, email, country) |>
+  dplyr::slice_sample(n = 6) |>
+  gt() |>
+  cols_label(
+    name_given = "First Name",
+    name_family = "Last Name",
+    email = "Email",
+    country = "Country"
+  )
+```
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
