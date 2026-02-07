@@ -520,6 +520,10 @@ sza |>
   )
 ```
 
+The seasonal pattern emerges clearly at mid and high latitudes. January brings high zenith angles in the Northern Hemisphere as the sun traces its winter arc low in the southern sky. July reverses the pattern, with the sun climbing high overhead at noon. At the equator, seasonal variation is minimal: the sun is always nearly overhead at midday. These patterns have shaped human civilization, determining growing seasons, driving migration patterns, and inspiring astronomical observations throughout history.
+
+Atmospheric chemists care about zenith angles because photochemical reactions require light. Photolysis rates vary with the intensity and spectrum of incoming solar radiation. A nitrogen dioxide molecule that might photolyze within seconds at tropical noon may persist for hours at polar twilight. Models simulating urban smog formation or stratospheric ozone depletion must account for these variations, typically by looking up appropriate photolysis rates from tables indexed by zenith angle and altitude.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
