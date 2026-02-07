@@ -1003,6 +1003,10 @@ films |>
   )
 ```
 
+The table above reveals which national cinemas have received the most recognition at Cannes. France dominates, unsurprisingly given that Cannes is a French festival on the French Riviera. The United States and Italy follow, both countries with robust film industries and strong traditions of auteur filmmaking. Japan's presence reflects the festival's long appreciation for directors like Kurosawa, Ozu, and more recently Kore-eda and Hamaguchi. The geographic diversity of competition entries has increased over time, with films from Korea, Iran, Thailand, and other countries appearing regularly in recent decades.
+
+The festival also reflects changing tastes and priorities in world cinema. In its early decades, Cannes emphasized European art cinema and established masters. The 1970s brought more adventurous programming, with controversial entries and recognition for directors working outside commercial constraints. Recent years have seen increased attention to women directors (historically underrepresented) and to cinemas from regions previously marginalized in international distribution.
+
 
 ## `rx_adsl` and `rx_addv`
 
