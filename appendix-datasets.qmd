@@ -427,13 +427,13 @@ The `peeps` dataset contains fictional personal information for 100 imaginary pe
 
 ```{r}
 peeps |>
-  dplyr::select(name_given, name_family, email, country) |>
+  dplyr::select(name_given, name_family, email_addr, country) |>
   dplyr::slice_sample(n = 6) |>
   gt() |>
   cols_label(
     name_given = "First Name",
     name_family = "Last Name",
-    email = "Email",
+    email_addr = "Email",
     country = "Country"
   )
 ```
