@@ -924,6 +924,8 @@ gibraltar |>
   )
 ```
 
+The May weather data captures Gibraltar in spring, before the intense heat of Mediterranean summer arrives. Temperatures climb through the afternoon hours and descend through the evening, following the familiar diurnal pattern. Humidity inversely tracks temperature, rising as the air cools. Wind direction matters at Gibraltar: the Levante wind blows from the east through the strait, often bringing fog as Mediterranean moisture condenses against the Rock. The Poniente arrives from the west, drier and clearer. These wind patterns shaped navigation through the strait for centuries of sailing ships.
+
 
 ## `rx_adsl` and `rx_addv`
 
