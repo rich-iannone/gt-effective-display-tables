@@ -1038,6 +1038,8 @@ The `films` dataset demonstrates that even cultural artifacts can be structured 
 
 For **gt** specifically, `films` demonstrates `fmt_flag()` and `fmt_country()` in realistic contexts. The country codes translate directly to flag icons, creating visual tables that communicate nationality at a glance. The categorical structure (years, directors, countries) provides natural grouping opportunities. The IMDB URLs demonstrate link formatting for external references. It is a dataset that makes beautiful tables almost by accident, because film data is inherently interesting to display.
 
+The dataset updates annually as each new festival adds to the historical record. Every May, the Cannes competition announces its official selection, and those entries will appear in future versions of `films`. The ongoing maintenance reflects both practical utility (keeping examples current) and personal interest (following each year's festival with the attention of a devoted fan).
+
 
 ## `rx_adsl` and `rx_addv`
 
