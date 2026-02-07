@@ -125,6 +125,16 @@ Finally, good pizza requires good ingredients. This seems obvious but explains w
 
 And yet, after all this talk of balance and restraint, it is worth acknowledging that pizza can abandon every one of these conventions and still be legitimate. A pizza can have no sauce. It can have no cheese. It can be nothing more than dough, olive oil, and anchovies. This sounds shocking to anyone raised on North American delivery pizza, but it is a perfectly valid expression of pizzadom with deep roots in Italian tradition. Pizza bianca, pizza marinara, and the various focaccia-adjacent flatbreads of southern Italy predate the mozzarella-laden versions by centuries. The rules above describe one tradition. Pizza is generous enough to accommodate others.
 
+### Why pizza data matters
+
+Pizza occupies a unique position in the landscape of consumer goods. It is simultaneously simple (bread, sauce, cheese, toppings) and infinitely variable. A pizzeria's menu encodes assumptions about its customers: their adventurousness, their price sensitivity, their dietary restrictions. Sales patterns encode behavior: when people eat, what they celebrate, how weather affects appetite.
+
+Part of my motivation for creating this dataset was to draw attention to pizza analytics as a legitimate field of inquiry. The phrase sounds ridiculous, and that is partly the point. If a dataset can make someone smile while also teaching them time series decomposition and category performance analysis, it has done more work than a dataset that only accomplishes the second thing. Nobody has ever felt intimidated by pizza data. Nobody has ever opened a CSV of pizza orders and thought "I am not qualified to analyze this". The approachability is a feature (not a frivolity!).
+
+The `pizzaplace` dataset serves as a sandbox for the kinds of analysis that businesses perform constantly. Revenue breakdowns, time series decomposition, category performance, seasonal adjustment. These techniques apply far beyond pizza. Anyone learning to analyze transactional data will find the patterns in `pizzaplace` transferable to retail, hospitality, and service industries generally. The dataset is large enough to be realistic (nearly 50,000 transactions) but small enough to process quickly on any modern computer.
+
+For **gt** specifically, `pizzaplace` demonstrates grouped data, aggregation, currency formatting, and the presentation of time-based information. A year of pizza sales can become a monthly summary table, a daily heatmap, a ranked list of bestsellers, or a comparison across categories. The richness of the underlying data supports dozens of different table designs.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
