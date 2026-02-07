@@ -657,6 +657,8 @@ sp500 |>
   )
 ```
 
+Financial data demands specific formatting conventions: currency symbols, appropriate decimal precision, volume abbreviations. The `sp500` dataset exercises these requirements across decades of market history. Bull markets, bear markets, crashes, and recoveries all appear in the data. The 1987 Black Monday crash, the dot-com bubble, the 2008 financial crisis: each left its signature in closing prices and trading volumes.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
