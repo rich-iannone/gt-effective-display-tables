@@ -372,6 +372,24 @@ For **gt** demonstrations, `countrypops` excels at time series comparisons, geog
 
 While `countrypops` takes a global view, `towny` focuses on a single Canadian province: Ontario. The dataset contains population figures for 414 municipalities, including data from every Canadian census between 1996 and 2021 (conducted every five years) plus various geographic and administrative attributes. It exists because I actually live in Ontario and wanted an excuse to know more about the places surrounding me.
 
+```{r}
+towny |>
+  dplyr::select(name, land_area_km2, population_2001, population_2021, density_2021) |>
+  dplyr::slice_max(population_2021, n = 10) |>
+  gt(rowname_col = "name") |>
+  fmt_integer(columns = c(population_2001, population_2021)) |>
+  fmt_number(columns = land_area_km2, decimals = 1) |>
+  fmt_number(columns = density_2021, decimals = 1) |>
+  cols_label(
+    land_area_km2 = "Area (km²)",
+    population_2001 = "Pop. 2001",
+    population_2021 = "Pop. 2021",
+    density_2021 = "Density"
+  )
+```
+
+The data comes from Statistics Canada and reveals patterns that might surprise those unfamiliar with Canadian geography. Toronto dominates, of course, but the surrounding municipalities (Mississauga, Brampton, Hamilton) have grown substantially over twenty years. Some smaller towns have declined as economic opportunities concentrated elsewhere. The dataset captures this quiet drama of population redistribution that plays out across every country's regions.
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
