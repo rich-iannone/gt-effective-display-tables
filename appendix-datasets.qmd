@@ -1098,6 +1098,24 @@ films_tbl |>
 
 One detail worth noting is that the star ratings used `fmt()` rather than a pre-formatted text column. This matters for interactive tables because `fmt()` changes only the *display* while preserving the underlying numeric values. When a user clicks the `Rating` column header to sort, the table sorts on the original numbers (`5`, `4.5`, `4`, ...) rather than on rendered text like "★★★★½", which would sort alphabetically and produce nonsensical results. It is a small trick but an important one whenever you need sortable columns with custom formatting in `opt_interactive()` tables!
 
+## `illness`
+
+The `illness` dataset takes a different approach than the others. Rather than modeling behavior or compiling reference data, it reproduces a single table from a published scientific article. The source is "A fatal yellow fever virus infection in China: description and lessons" from *Emerging Microbes & Infections* (July 2016), which documented laboratory test results for a patient who contracted yellow fever during travel to Angola.
+
+```{r}
+illness |>
+  dplyr::select(test, units, day_3, day_7, day_9) |>
+  dplyr::slice_head(n = 10) |>
+  gt(rowname_col = "test") |>
+  fmt_units(columns = units) |>
+  cols_label(
+    units = "Units",
+    day_3 = "Day 3",
+    day_7 = "Day 7",
+    day_9 = "Day 9"
+  )
+```
+
 
 ## `rx_adsl` and `rx_addv`
 
