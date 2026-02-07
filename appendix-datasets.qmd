@@ -814,6 +814,34 @@ Line 14 deserves special attention as the system's showcase. Opened in 1998, it 
 Several design principles distinguish the Paris Métro from less successful transit systems. First, the high density of stations means that walking to the Métro is almost always faster than driving to a parking lot. This convenience generates ridership that justifies the investment. Second, the integration with other modes is seamless. The same ticket works on Métro, RER, buses, and trams within Paris. Transfer stations connect lines at useful angles rather than requiring passengers to exit one system and enter another. Third, the frequency of service makes timetables irrelevant. During peak hours, trains arrive every two minutes on busy lines. Even late at night, waits rarely exceed ten minutes. Passengers simply show up and go.
 
 The signage and wayfinding deserve particular praise. Station names appear in a consistent typeface (Parisine, designed specifically for the Métro in 1996) on tiled walls visible from passing trains. Corridor signs point toward exits, transfers, and surface landmarks with clarity that serves tourists and commuters alike. The colored line numbers and terminus names provide all the information needed to navigate without consulting maps. Many transit systems aspire to this legibility but few achieve it so thoroughly.
+
+```{r}
+metro |>
+  dplyr::filter(!is.na(passengers)) |>
+  dplyr::group_by(lines) |>
+  dplyr::summarize(
+    stations = n(),
+    total_passengers = sum(passengers, na.rm = TRUE),
+    avg_passengers = mean(passengers, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  dplyr::slice_max(total_passengers, n = 10) |>
+  gt() |>
+  fmt_number(columns = c(total_passengers, avg_passengers), suffixing = TRUE) |>
+  cols_label(
+    lines = "Line(s)",
+    stations = "Station Count",
+    total_passengers = "Total Ridership",
+    avg_passengers = "Avg per Station"
+  ) |>
+  tab_header(
+    title = "Ridership by Line Assignment",
+    subtitle = "Stations grouped by their line connections"
+  )
+```
+
+The Métro also benefits from Paris's urban form. The city is dense and compact, with most destinations within walking distance of a station. Zoning never separated residential from commercial uses as strictly as in American cities, so people live near where they work and shop. The Métro did not create this urban form (it predates the Métro by centuries), but the two reinforce one another. Dense cities need mass transit, and mass transit makes density livable.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
