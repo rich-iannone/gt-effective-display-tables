@@ -534,6 +534,20 @@ These four datasets form a cluster of scientific reference data, each addressing
 
 The `constants` dataset contains 30 fundamental physical constants with their values, units, and uncertainties. These are the numbers that appear in physics and chemistry textbooks: the speed of light, Planck's constant, Avogadro's number, the gravitational constant. Each value comes with associated metadata specifying units and measurement precision.
 
+```{r}
+constants |>
+  dplyr::select(name, value, uncert, units) |>
+  dplyr::slice_head(n = 8) |>
+  gt() |>
+  fmt_scientific(columns = c(value, uncert)) |>
+  cols_label(
+    name = "Constant",
+    value = "Value",
+    uncert = "Uncertainty",
+    units = "Units"
+  )
+```
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
