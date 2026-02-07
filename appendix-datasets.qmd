@@ -770,6 +770,10 @@ dplyr::tibble(
   )
 ```
 
+The interwar period saw continued expansion but also financial difficulties. The 1930s depression slowed construction, and the network that had seemed destined for endless growth began to stabilize. World War II brought occupation and disruption. The Métro continued to operate (the Germans found it useful for moving troops and supplies), but expansion halted and maintenance suffered. Several stations were closed and converted to other uses, some serving as air raid shelters.
+
+Post-war reconstruction proceeded slowly. The immediate decades after 1945 focused on repairing damage and updating aging infrastructure rather than building new lines. The real transformation came in the 1960s and 1970s with the creation of the RER (Réseau Express Régional), a network of express lines that tunneled through central Paris but extended far into the suburbs. The RER was not technically part of the Métro but integrated seamlessly with it, allowing commuters to transfer between the dense inner-city network and the faster regional lines.
+
 ### What makes the Métro work
 
 Several design principles distinguish the Paris Métro from less successful transit systems. First, the high density of stations means that walking to the Métro is almost always faster than driving to a parking lot. This convenience generates ridership that justifies the investment. Second, the integration with other modes is seamless. The same ticket works on Métro, RER, buses, and trams within Paris. Transfer stations connect lines at useful angles rather than requiring passengers to exit one system and enter another. Third, the frequency of service makes timetables irrelevant. During peak hours, trains arrive every two minutes on busy lines. Even late at night, waits rarely exceed ten minutes. Passengers simply show up and go.
