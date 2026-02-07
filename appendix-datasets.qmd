@@ -299,8 +299,8 @@ The `gibraltar` dataset contains hourly weather observations from Gibraltar duri
 
 ```{r}
 gibraltar |>
-  slice_sample(n = 8) |>
-  select(date, time, temp, humidity, wind_speed, wind_dir) |>
+  dplyr::slice_sample(n = 8) |>
+  dplyr::select(date, time, temp, humidity, wind_speed, wind_dir) |>
   gt() |>
   fmt_number(columns = temp, decimals = 1) |>
   fmt_integer(columns = c(humidity, wind_speed)) |>
