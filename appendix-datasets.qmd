@@ -150,3 +150,5 @@ Looking across all eighteen datasets, certain patterns emerge. Many fill gaps wh
 
 Other datasets reflect personal curiosity. Ontario towns. The Paris Métro. Gibraltar's weather. Cannes films. These choices say something about my interests and the particular corners of the world that captured my attention. The datasets are better for this personal investment. Someone who cares about the Paris Métro will notice details that a disinterested compiler would miss.
 
+For users of **gt**, the datasets provide reliable materials for learning and experimentation. The variety ensures that nearly any table type (financial, scientific, demographic, geographic, categorical) has relevant sample data available. The careful construction means edge cases are present: missing values, unusual formatting requirements, multi-valued fields. The documentation grounds each dataset in context that makes the data more meaningful to work with.
+
