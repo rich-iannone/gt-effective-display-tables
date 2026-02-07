@@ -51,6 +51,10 @@ pizzaplace |>
   )
 ```
 
+The menu reveals the character of the fictional establishment. Classic pizzas stick to familiar territory: pepperoni, Hawaiian, the combinations everyone recognizes. The Supreme category ventures into more elaborate ingredient lists with names that promise indulgence. Veggie options cater to those avoiding meat, while the Chicken category builds meals around that particular protein. Each pizza comes in multiple sizes, though not every pizza is available in every size. The XL (and XXL!) option appears only for a certain pizza, and presumably that one pizza is popular enough to warrant the larger formats (could be that the ingredient mix works well at scale).
+
+Pricing follows intuitive logic. A basic cheese pizza costs less than one loaded with prosciutto and artichoke hearts. Size increases bring proportional price increases, though the per-square-inch cost typically decreases as you go larger (the eternal economic argument for ordering the bigger pizza). These pricing patterns create natural opportunities for analysis: which pizzas generate the most revenue? Which sizes sell best and for which types? How does day of week affect the popularity of the vegetarian options?
+
 
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
