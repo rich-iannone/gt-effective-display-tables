@@ -473,6 +473,24 @@ The email domains follow patterns typical of real email usage: major providers d
 
 Every person in the dataset is entirely fictional. The addresses do not correspond to real residences. The phone numbers should not connect to anyone. But the formatting follows authentic patterns for each country represented. A French address looks like a French address. A Japanese name follows Japanese naming conventions. This verisimilitude matters because formatting functions must handle real-world variation, and `peeps` provides test cases for that variation without compromising anyone's actual privacy.
 
+## `sza` (solar zenith angles)
+
+The `sza` dataset originates from atmospheric chemistry research, specifically from data tables published in textbooks by Pitts and Finlayson-Pitts. It records solar zenith angles (the angle between the sun and the vertical) across different latitudes and months. The original data came from a US government source that may no longer be online, but the values remain scientifically accurate and useful.
+
+```{r}
+sza |>
+  dplyr::filter(latitude %in% c(0, 30, 60), !is.na(sza)) |>
+  tidyr::pivot_wider(names_from = month, values_from = sza) |>
+  gt(rowname_col = "tst") |>
+  tab_row_group(label = "Equator (0°)", rows = latitude == 0) |>
+  tab_row_group(label = "Mid-latitude (30°)", rows = latitude == 30) |>
+  tab_row_group(label = "High latitude (60°)", rows = latitude == 60) |>
+  fmt_number(decimals = 1) |>
+  sub_missing(missing_text = "—") |>
+  cols_hide(columns = latitude) |>
+  tab_header(title = "Solar Zenith Angles by Latitude and Month")
+```
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
