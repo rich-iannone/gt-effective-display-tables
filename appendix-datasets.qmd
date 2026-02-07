@@ -703,6 +703,10 @@ sp500 |>
   )
 ```
 
+The years 2006 through 2015 illustrate the market's capacity for dramatic swings. 2008 stands out with its catastrophic decline during the financial crisis, when the index lost more than a third of its value. The subsequent years show gradual recovery, with the index reaching new highs by the early 2010s. Anyone who sold during the panic of 2008 locked in losses. Anyone who held through the crisis recovered and then some. The data tells both stories depending on which slices you examine.
+
+The dataset originated from a web search that turned up historical market data, possibly compiled from Kaggle or similar sources. The exact provenance matters less than the utility: a long time series of financial data in a format ready for analysis and visualization. For teaching purposes, the `sp500` dataset provides realistic data for demonstrating time series analysis, returns calculations, volatility measurement, and the kind of financial tables that appear in annual reports and investment presentations.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
