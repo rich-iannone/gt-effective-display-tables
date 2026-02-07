@@ -1096,6 +1096,8 @@ films_tbl |>
   )
 ```
 
+One detail worth noting is that the star ratings used `fmt()` rather than a pre-formatted text column. This matters for interactive tables because `fmt()` changes only the *display* while preserving the underlying numeric values. When a user clicks the `Rating` column header to sort, the table sorts on the original numbers (`5`, `4.5`, `4`, ...) rather than on rendered text like "★★★★½", which would sort alphabetically and produce nonsensical results. It is a small trick but an important one whenever you need sortable columns with custom formatting in `opt_interactive()` tables!
+
 
 ## `rx_adsl` and `rx_addv`
 
