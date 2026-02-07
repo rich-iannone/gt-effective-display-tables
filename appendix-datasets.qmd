@@ -579,6 +579,8 @@ constants |>
   tab_header(title = "Physical Constants by Measurement Precision")
 ```
 
+The measurement precision varies dramatically across constants. The fine-structure constant (approximately 1/137) has been measured to extraordinary precision through quantum electrodynamics experiments. The gravitational constant, despite being one of the first constants ever measured (by Cavendish in 1798), remains relatively imprecise because gravity is so weak that experiments must contend with tiny forces and correspondingly large relative uncertainties.
+
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
