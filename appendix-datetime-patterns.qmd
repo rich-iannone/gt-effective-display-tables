@@ -698,6 +698,10 @@ dplyr::tibble(
   )
 ```
 
+The strptime system predates CLDR by decades, originating in the C programming language's standard library and inherited by POSIX, Perl, Python, Ruby, and R. If you have written `strftime()` or `strptime()` calls in any of these languages, the `%`-prefixed codes will feel immediately familiar. The CLDR pattern system is more expressive (it supports locale-aware output, standalone versus formatting forms, and flexible day periods that strptime cannot represent) but strptime is simpler and sufficient for many common formatting tasks.
+
+When choosing between the two systems in **gt**, consider your requirements. If you need locale-sensitive output (month names in French, day periods in Japanese, grammatically correct quarter labels in Czech), use CLDR patterns. If you are formatting dates for a primarily English-speaking audience and want the comfort of `"%Y-%m-%d"` syntax, strptime works perfectly. The two systems produce identical results for straightforward formats like ISO 8601 dates; they diverge only when locale-specific behavior enters the picture.
+
 ### Date codes
 
 Format codes for year, month, day, and week components.
