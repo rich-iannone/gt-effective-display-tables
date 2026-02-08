@@ -471,6 +471,36 @@ tibble::tibble(
   tab_header(title = "CSS word-breaking strategies")
 ```
 
+### Building complex headers and footers with divs
+
+The `tab_header()` and `tab_source_note()` functions accept `html()` content, which means you can use `<div>` elements with CSS to create sophisticated layouts. This is particularly useful when a title needs to contain multiple pieces of information arranged side by side, or when a footer needs a left-aligned source and a right-aligned timestamp.
+
+A common pattern uses CSS flexbox to create a two-column header:
+
+```{r}
+exibble |>
+  dplyr::select(char, num, currency) |>
+  dplyr::slice_head(n = 4) |>
+  gt() |>
+  fmt_number(columns = num, decimals = 1) |>
+  fmt_currency(columns = currency) |>
+  cols_width(everything() ~ px(120)) |>
+  tab_header(
+    title = html(
+      "<div style='display: flex; justify-content: space-between; align-items: baseline;'>
+        <div style='font-size: 1.1em;'>Quarterly Summary</div>
+        <div style='font-size: 0.75em; color: #888;'>FY 2025 &middot; Q3</div>
+      </div>"
+    ),
+    subtitle = html(
+      "<div style='display: flex; justify-content: space-between;'>
+        <div>Eastern Region</div>
+        <div style='font-size: 0.85em; color: #666;'>Updated: 2025-09-15</div>
+      </div>"
+    )
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
