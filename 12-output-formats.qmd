@@ -409,6 +409,27 @@ tibble::tibble(
   tab_header(title = "Explicit line breaks with <br>")
 ```
 
+For more subtle control, HTML provides two additional mechanisms. The `<wbr>` tag (word break opportunity) suggests a point where the browser *may* break a long word if the line needs wrapping, but adds no visible character. The soft hyphen `&shy;` works similarly but inserts a visible hyphen when the break occurs:
+
+```{r}
+tibble::tibble(
+  technique = c("No break hints", "With <wbr> tags", "With &shy; soft hyphens"),
+  content = c(
+    "<span style='font-family:monospace;'>supercalifragilisticexpialidocious</span>",
+    "<span style='font-family:monospace;'>super<wbr>cali<wbr>fragilistic<wbr>expialidocious</span>",
+    "<span style='font-family:monospace;'>super&shy;cali&shy;fragilistic&shy;expialidocious</span>"
+  )
+) |>
+  gt() |>
+  fmt_passthrough(columns = content, escape = FALSE) |>
+  cols_width(everything() ~ px(180)) |>
+  cols_label(technique = "Technique", content = "Content") |>
+  tab_header(
+    title = "Word break strategies",
+    subtitle = "Narrow column forces wrapping"
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
