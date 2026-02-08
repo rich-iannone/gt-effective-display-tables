@@ -432,6 +432,25 @@ tibble::tibble(
 
 The `<wbr>` tag is especially useful for long identifiers, URLs, or file paths in table cells. It lets the browser break at sensible points without adding visible punctuation. Soft hyphens (`&shy;`) suit natural language words that follow standard hyphenation rules. Both tags are invisible when no break occurs, which is ideal since the break points are only suggestions.
 
+### CSS text layout properties
+
+CSS provides several properties that change how text flows within a cell. These properties can be applied through `tab_style()` with `css()` or through `opt_css()` when you need to target elements that `tab_style()` does not directly cover.
+
+The `text-wrap: balance` property distributes text evenly across multiple lines so that no line is dramatically longer than the others. This is epecially effective for table titles and subtitles where unbalanced wrapping can look awkward:
+
+```{r}
+exibble |>
+  dplyr::select(char, num) |>
+  dplyr::slice_head(n = 3) |>
+  gt() |>
+  tab_header(
+    title = html(
+      "<span style='text-wrap: balance;'>A Reasonably Long Table Title
+      That Would Otherwise Wrap Unevenly Across Multiple Lines</span>"
+    )
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
