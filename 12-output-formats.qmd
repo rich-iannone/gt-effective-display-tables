@@ -124,6 +124,10 @@ tibble::tibble(
   tab_header(title = "Non-breaking spaces resist collapsing")
 ```
 
+### Border resolution on shared edges
+
+When two adjacent cells each specify a border, they share that edge. The CSS specification resolves this conflict with a set of priority rules, and the result is often not what you might expect. The key rule: the wider (or more prominent) border wins. If one cell sets a 1-pixel border and its neighbor sets a 3-pixel border on the same shared edge, the 3-pixel border takes precedence.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
