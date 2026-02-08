@@ -318,6 +318,8 @@ tibble::tibble(
   )
 ```
 
+A few subtleties to keep in mind. The digit count is strict: `\u` requires exactly four hex digits and `\U` requires exactly eight. Writing `\uB0` instead of `\u00B0` is a syntax error. For supplementary plane characters, you must pad with leading zeros: `\U0001F355`, not `\U1F355`.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
