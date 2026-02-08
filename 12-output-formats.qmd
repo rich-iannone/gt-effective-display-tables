@@ -80,6 +80,10 @@ Different browsers may render CSS slightly differently. Test in major browsers (
 
 The `opt_*()` family of functions can enhance HTML structure for better accessibility. If the HTML will be printed, test print output and adjust styling as needed. Consider using `@media print` CSS rules for print-specific adjustments.
 
+## The quirks of HTML rendering
+
+HTML is the primary output for most **gt** tables, and understanding how browsers actually render table content will save you from puzzling results. HTML tables follow rules that can surprise anyone who assumes the output will faithfully reproduce whatever they typed. These quirks are not bugs. They are behaviors defined by the HTML and CSS specifications. Once you understand them, you can work with them rather than fighting against them.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
