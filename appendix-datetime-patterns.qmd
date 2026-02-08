@@ -529,6 +529,8 @@ dplyr::tibble(
   )
 ```
 
+Era designators are unnecessary for the vast majority of modern dates but become essential in two situations. First, historical datasets extending before the Common Era need some way to distinguish 44 BC from AD 44. Second, certain locales use non-Gregorian calendar eras. The Japanese calendar counts years from the accession of each emperor: 2024 is Reiwa 6 (令和6年). When formatting dates for Japanese users, the era designator conveys information that the Gregorian year alone cannot. The CLDR system handles this transparently: the same `"G"` pattern produces "AD" in English and the appropriate era name in Japanese, adapting automatically to the configured locale.
+
 ## Time zone patterns
 
 ### Specific non-location format (`z`)
