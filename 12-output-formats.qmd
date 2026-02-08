@@ -152,6 +152,8 @@ The shared edge between columns `a` and `b` shows the 3-pixel red border because
 
 ### Column width behavior
 
+Browsers allocate column widths using a content-based algorithm by default. Each column gets enough space to fit its widest non-breakable content, and any remaining table width is distributed proportionally. This automatic sizing usually produces reasonable results, but it means you cannot always predict exact column widths.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
