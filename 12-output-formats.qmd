@@ -533,6 +533,8 @@ exibble |>
 
 For more complex arrangements, you can nest divs further. A three-column footer, a header with an icon or badge, or a stacked layout with a main title above a row of metadata fields are all achievable. The key principle is that `html()` gives you the full power of HTML and CSS within any text-accepting **gt** function. The inner elements inherit some styling from **gt**'s table structure, but your inline styles take precedence for the properties you specify.
 
+One caution: these HTML layouts are specific to HTML output. If you need your table to also render in LaTeX, Word, or RTF, the `<div>` structures will not translate. For multi-format tables, keep headers and footers simple or use conditional logic to provide different content per format.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
