@@ -512,7 +512,7 @@ exibble |>
   gt() |>
   fmt_number(columns = num, decimals = 1) |>
   fmt_currency(columns = currency) |>
-  cols_width(everything() ~ px(120)) |>
+  cols_width(everything() ~ px(140)) |>
   tab_source_note(
     source_note = html(
       "<div style='display: flex; justify-content: space-between; width: 100%;'>
