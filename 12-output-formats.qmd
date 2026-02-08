@@ -266,6 +266,14 @@ tibble::tibble(
   )
 ```
 
+You can also use numeric entity references for any Unicode code point. The syntax `&#8594;` produces → (right arrow), and `&#x2192;` does the same using the hexadecimal form. Numeric references are especially useful for characters that lack named entities. For instance, `&#9733;` gives you a filled star (★) and `&#9734;` gives an outlined star (☆).
+
+In practice, the `html()` helper is more versatile than `md()` for entity work because Markdown processing can sometimes interfere with entity syntax. If you need a single symbol in a cell, `html("&times;")` is unambiguous. For longer content mixing text and entities, `html()` also works: `html("Temperature: 23&deg;C &plusmn; 0.5&deg;C")`.
+
+### Unicode code points in R strings
+
+R provides two escape sequences for inserting Unicode characters directly into strings. The lowercase `\u` takes exactly four hexadecimal digits and covers the Basic Multilingual Plane (code points U+0000 through U+FFFF), which includes most everyday characters. The uppercase `\U` takes exactly eight hexadecimal digits and can reach supplementary planes above U+FFFF, where emoji, musical symbols, and historic scripts live.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
