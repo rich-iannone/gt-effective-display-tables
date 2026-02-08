@@ -322,6 +322,8 @@ A few subtleties to keep in mind. The digit count is strict: `\u` requires exact
 
 Font support is the other major consideration. A Unicode code point may be perfectly valid, but if the font rendering the text does not include a glyph for that code point, you will see a replacement character (often a box or question mark). This is a font issue, not an encoding issue. System emoji fonts generally cover supplementary plane emoji, but specialized mathematical or historic script characters may need specific fonts. In **gt** tables, `tab_style()` with `cell_text(font = ...)` lets you specify fonts that include the characters you need.
 
+R handles Unicode strings natively in modern versions, and both `\u` and `\U` escapes work in any string context (column names, cell values, labels, titles). However, the console and the HTML renderer display these differently. The R console may show emoji as escape sequences on some systems, while the HTML output renders them correctly in the browser. For table work, what matters is the HTML rendering, and modern browsers handle the full Unicode range well.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
