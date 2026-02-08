@@ -455,6 +455,22 @@ Without `text-wrap: balance`, the browser fills each line to the maximum width b
 
 Other useful CSS text properties include `text-wrap: pretty`, which specifically avoids orphaned single words on the last line. The `word-break: break-all` property allows breaking within any word (useful for columns containing long codes or identifiers). And `overflow-wrap: break-word` breaks long words only when they would overflow their container, which is less aggressive than `break-all`:
 
+```{r}
+tibble::tibble(
+  property = c("Default", "word-break: break-all", "overflow-wrap: break-word"),
+  content = c(
+    "A verylongstringwithoutspaces can overflow",
+    "<span style='word-break: break-all;'>A verylongstringwithoutspaces can overflow</span>",
+    "<span style='overflow-wrap: break-word;'>A verylongstringwithoutspaces can overflow</span>"
+  )
+) |>
+  gt() |>
+  fmt_passthrough(columns = content, escape = FALSE) |>
+  cols_width(everything() ~ px(180)) |>
+  cols_label(property = "CSS Property", content = "Result") |>
+  tab_header(title = "CSS word-breaking strategies")
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
