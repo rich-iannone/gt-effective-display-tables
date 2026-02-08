@@ -154,6 +154,41 @@ The shared edge between columns `a` and `b` shows the 3-pixel red border because
 
 Browsers allocate column widths using a content-based algorithm by default. Each column gets enough space to fit its widest non-breakable content, and any remaining table width is distributed proportionally. This automatic sizing usually produces reasonable results, but it means you cannot always predict exact column widths.
 
+The `cols_width()` function lets you set explicit widths using `px()` or `pct()` values:
+
+```{r}
+exibble |>
+  dplyr::select(char, num, currency) |>
+  gt() |>
+  cols_width(
+    char ~ px(200),
+    num ~ px(120),
+    currency ~ px(120)
+  ) |>
+  tab_header(title = "Explicit column widths with cols_width()")
+```
+
+There is an important subtlety here. If you set a very small width on one column but leave others unsized, the browser will often ignore your small width. The automatic layout algorithm prioritizes fitting all content, and a column cannot shrink below the width of its widest word or number. This behavior changes when you set widths on *all* columns. Specifying every column width signals to the browser that you want a fixed layout, and **gt** responds by setting the CSS property `table-layout: fixed`. Under fixed layout, the browser respects your width declarations exactly, even if content overflows:
+
+```{r}
+exibble |>
+  dplyr::select(char, num, currency) |>
+  gt() |>
+  cols_width(
+    char ~ px(60),
+    num ~ px(200),
+    currency ~ px(200)
+  ) |>
+  tab_style(
+    style = css(overflow = "hidden", `text-overflow` = "ellipsis"),
+    locations = cells_body(columns = char)
+  ) |>
+  tab_header(
+    title = "Fixed layout with narrow column",
+    subtitle = "Content may overflow when all widths are set"
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
