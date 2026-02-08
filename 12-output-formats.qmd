@@ -189,6 +189,10 @@ exibble |>
   )
 ```
 
+You can also set `table-layout` explicitly through `tab_options(table.layout = "fixed")` without sizing every column, but the behavior is most predictable when every column has a declared width.
+
+The practical rule: if you want one or two columns to be a specific size, set widths on all columns. If you only need rough proportions, percentage values with `pct()` work well and are more forgiving than pixel values.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
