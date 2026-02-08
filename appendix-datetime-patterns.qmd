@@ -171,6 +171,8 @@ dplyr::tibble(
   )
 ```
 
+Week numbering varies across locales more than most people realize. ISO 8601 defines week 1 as the week containing the first Thursday of the year, with weeks starting on Monday. The United States traditionally starts weeks on Sunday and defines week 1 as the week containing January 1. These differences mean the same date can fall in different numbered weeks depending on locale settings. The `"w"` pattern respects the locale configuration, which is usually the right behavior for audience-facing output. For data interchange where consistency matters regardless of locale, pair `"Y"` (week-based year) with `"w"` (week number) to produce unambiguous ISO 8601 week dates.
+
 ## Day patterns
 
 ### Day of month (`d`)
