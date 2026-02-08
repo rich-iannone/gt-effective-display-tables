@@ -427,6 +427,8 @@ dplyr::tibble(
   )
 ```
 
+These four hour systems exist because different cultures and technical domains have historically told time in different ways. The 24-hour clock (`"H"`, ranging from 0 to 23) dominates in continental Europe, military and aviation contexts, and ISO 8601 timestamps; it is unambiguous and needs no AM/PM qualifier. The 12-hour clock (`"h"`, ranging from 1 to 12) pairs with AM/PM and prevails in everyday usage across the United States, the United Kingdom, India, and several other countries. The 1–24 clock (`"k"`, where midnight is 24:00 rather than 0:00) appears in some Japanese broadcasting schedules, where a program airing at "25:00" means 1:00 AM, a convention that avoids splitting a single evening's programming across two calendar dates. The 0–11 clock (`"K"`) is largely an implementation artifact that rarely appears in user-facing output. For most table work, `"HH:mm"` (24-hour) or `"h:mm a"` (12-hour with AM/PM) covers what you need; choose based on your audience's conventions.
+
 ### Minute (`m`)
 
 This is just the time part for the minute of the hour.
