@@ -324,6 +324,73 @@ Font support is the other major consideration. A Unicode code point may be perfe
 
 R handles Unicode strings natively in modern versions, and both `\u` and `\U` escapes work in any string context (column names, cell values, labels, titles). However, the console and the HTML renderer display these differently. The R console may show emoji as escape sequences on some systems, while the HTML output renders them correctly in the browser. For table work, what matters is the HTML rendering, and modern browsers handle the full Unicode range well.
 
+### The many kinds of space
+
+Not all spaces are created equal. Unicode defines more than a dozen space characters with different widths, line-breaking properties, and collapse behaviors. Understanding a handful of these will help you control spacing in table cells more precisely than regular spaces allow.
+
+```{r}
+tibble::tibble(
+  name = c(
+    "Regular space",
+    "Non-breaking space",
+    "En space",
+    "Em space",
+    "Thin space",
+    "Hair space",
+    "Figure space",
+    "Zero-width space"
+  ),
+  code_point = c(
+    "U+0020", "U+00A0", "U+2002", "U+2003",
+    "U+2009", "U+200A", "U+2007", "U+200B"
+  ),
+  html_entity = c(
+    "(regular space)", "&amp;nbsp;", "&amp;ensp;", "&amp;emsp;",
+    "&amp;thinsp;", "(none)", "(none)", "(none)"
+  ),
+  example = c(
+    "A<span style='background:#dde;'> </span>B",
+    "A<span style='background:#dde;'>\u00A0</span>B",
+    "A<span style='background:#dde;'>\u2002</span>B",
+    "A<span style='background:#dde;'>\u2003</span>B",
+    "A<span style='background:#dde;'>\u2009</span>B",
+    "A<span style='background:#dde;'>\u200A</span>B",
+    "A<span style='background:#dde;'>\u2007</span>B",
+    "A<span style='background:#dde;'>\u200B</span>B"
+  ),
+  behavior = c(
+    "Collapsible, allows line break",
+    "Does not collapse, prevents line break",
+    "Width of an 'n', allows line break",
+    "Width of an 'm', allows line break",
+    "About 1/5 of an em, allows line break",
+    "Thinnest visible space",
+    "Width of a digit, prevents line break",
+    "No width, but allows line break"
+  )
+) |>
+  gt() |>
+  fmt_passthrough(columns = example, escape = FALSE) |>
+  fmt_markdown(columns = html_entity) |>
+  cols_label(
+    name = "Name",
+    code_point = "Code Point",
+    html_entity = "HTML Entity",
+    example = "Between A and B",
+    behavior = "Behavior"
+  ) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = c(code_point, html_entity))
+  ) |>
+  tab_header(
+    title = "Unicode Space Characters",
+    subtitle = "The highlighted region shows the width of each space type"
+  )
+```
+
+The figure space (U+2007) deserves special attention for table work. Its width matches the width of a digit in the current font, making it ideal for aligning numbers that don't use a tabular (monospace digit) font. If you have a column with values like "3" and "42", placing a figure space before the single-digit numbers will align them visually. The non-breaking space (U+00A0) is probably the most useful overall: it prevents line breaks between words that should stay together (like "100 km" or "Dr. Smith") and does not collapse the way regular spaces do.
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
