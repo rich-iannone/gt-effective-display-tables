@@ -343,6 +343,8 @@ dplyr::tibble(
   )
 ```
 
+The progression from `"a"` through `"b"` to `"B"` reflects increasing sophistication in describing the human experience of time. The simple AM/PM distinction (`"a"`) suffices for most English-language contexts but perpetuates the confusion of whether 12:00 AM means noon or midnight (a question that has generated an astonishing amount of debate for something with a definitive answer: midnight). The noon-and-midnight-aware pattern (`"b"`) resolves this by substituting the actual words "noon" and "midnight" at those exact moments, which is unambiguous. The flexible day periods (`"B"`) go further still, replacing the binary AM/PM split with locale-specific phrases that describe parts of the day as people actually experience them. Japanese distinguishes early morning, morning, afternoon, evening, and night with specific terms. Chinese uses different divisions than English. Using `"B"` produces output that sounds natural to speakers of each language, rather than imposing the English-centric AM/PM convention on everyone.
+
 ## Hour, minute, and second patterns
 
 ### Hour 0–23 (`H`)
