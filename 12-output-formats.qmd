@@ -193,6 +193,77 @@ You can also set `table-layout` explicitly through `tab_options(table.layout = "
 
 The practical rule: if you want one or two columns to be a specific size, set widths on all columns. If you only need rough proportions, percentage values with `pct()` work well and are more forgiving than pixel values.
 
+### HTML entities with `md()` and `html()`
+
+Cell content in **gt** tables is plain text by default. To include special characters, symbols, or formatted text, wrap your content in `md()` (for Markdown) or `html()` (for raw HTML). Both approaches give you access to the full range of HTML entities: named sequences like `&times;` that the browser renders as their corresponding symbols.
+
+Here is a reference table of commonly useful HTML entities:
+
+```{r}
+tibble::tibble(
+  category = c(
+    rep("Punctuation", 5),
+    rep("Arrows", 4),
+    rep("Math", 8),
+    rep("Currency", 4),
+    rep("Symbols", 6)
+  ),
+  entity = c(
+    "&mdash;", "&ndash;", "&hellip;",
+    "&bull;", "&laquo; / &raquo;",
+    "&larr;", "&rarr;", "&uarr;", "&darr;",
+    "&times;", "&divide;", "&plusmn;",
+    "&ne;", "&le;", "&ge;",
+    "&infin;", "&radic;",
+    "&euro;", "&pound;", "&yen;", "&cent;",
+    "&deg;", "&micro;", "&copy;",
+    "&reg;", "&trade;", "&check;"
+  ),
+  rendered = c(
+    "&mdash;", "&ndash;", "&hellip;",
+    "&bull;", "&laquo; / &raquo;",
+    "&larr;", "&rarr;", "&uarr;", "&darr;",
+    "&times;", "&divide;", "&plusmn;",
+    "&ne;", "&le;", "&ge;",
+    "&infin;", "&radic;",
+    "&euro;", "&pound;", "&yen;", "&cent;",
+    "&deg;", "&micro;", "&copy;",
+    "&reg;", "&trade;", "&#10003;"
+  ),
+  description = c(
+    "Em dash", "En dash", "Horizontal ellipsis",
+    "Bullet", "Guillemets (angle quotes)",
+    "Left arrow", "Right arrow", "Up arrow", "Down arrow",
+    "Multiplication sign", "Division sign", "Plus-minus sign",
+    "Not equal to", "Less than or equal", "Greater than or equal",
+    "Infinity", "Square root",
+    "Euro sign", "Pound sign", "Yen sign", "Cent sign",
+    "Degree symbol", "Micro sign", "Copyright",
+    "Registered", "Trademark", "Check mark"
+  )
+) |>
+  gt(groupname_col = "category") |>
+  fmt_passthrough(columns = rendered, escape = FALSE) |>
+  cols_label(
+    entity = "Entity Code",
+    rendered = "Rendered",
+    description = "Description"
+  ) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = entity)
+  ) |>
+  tab_style(
+    style = cell_text(size = px(18)),
+    locations = cells_body(columns = rendered)
+  ) |>
+  cols_align(align = "center", columns = rendered) |>
+  tab_header(
+    title = "Useful HTML Entities for Tables",
+    subtitle = md("Use within `html()` or `md()` helpers")
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
