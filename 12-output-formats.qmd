@@ -274,6 +274,50 @@ In practice, the `html()` helper is more versatile than `md()` for entity work b
 
 R provides two escape sequences for inserting Unicode characters directly into strings. The lowercase `\u` takes exactly four hexadecimal digits and covers the Basic Multilingual Plane (code points U+0000 through U+FFFF), which includes most everyday characters. The uppercase `\U` takes exactly eight hexadecimal digits and can reach supplementary planes above U+FFFF, where emoji, musical symbols, and historic scripts live.
 
+```{r}
+tibble::tibble(
+  syntax = c(
+    '\\u00B0', '\\u2013', '\\u2014', '\\u00B1',
+    '\\u2264', '\\u2265', '\\u2260', '\\u221E',
+    '\\U0001F355', '\\U0001F4C8', '\\U0001F30D'
+  ),
+  character = c(
+    "\u00B0", "\u2013", "\u2014", "\u00B1",
+    "\u2264", "\u2265", "\u2260", "\u221E",
+    "\U0001F355", "\U0001F4C8", "\U0001F30D"
+  ),
+  name = c(
+    "Degree sign", "En dash", "Em dash", "Plus-minus sign",
+    "Less than or equal", "Greater than or equal",
+    "Not equal to", "Infinity",
+    "Pizza emoji", "Chart increasing", "Globe showing Europe-Africa"
+  ),
+  plane = c(
+    rep("BMP (`\\u`)", 8),
+    rep("Supplementary (`\\U`)", 3)
+  )
+) |>
+  gt(groupname_col = "plane", process_md = TRUE) |>
+  cols_label(
+    syntax = "Escape Syntax",
+    character = "Result",
+    name = "Name"
+  ) |>
+  tab_style(
+    style = cell_text(font = system_fonts(name = "monospace-code")),
+    locations = cells_body(columns = syntax)
+  ) |>
+  tab_style(
+    style = cell_text(size = px(20)),
+    locations = cells_body(columns = character)
+  ) |>
+  cols_align(align = "center", columns = character) |>
+  tab_header(
+    title = "Unicode Escapes in R",
+    subtitle = "`\\u` for BMP (4 hex digits), `\\U` for supplementary planes (8 hex digits)"
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
