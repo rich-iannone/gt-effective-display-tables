@@ -7,7 +7,7 @@ library(dplyr)
 
 Tables created with **gt** are presentation-ready, but where they're presented matters. A table destined for a web page has different constraints and capabilities than one heading into a PDF report or Word document. The **gt** package accommodates this diversity by supporting multiple output formats, each with its own rendering function and characteristics.
 
-This chapter explores the five primary output formats **gt** supports: HTML (for web and interactive documents), LaTeX (for PDF generation), RTF (for rich text documents), Word (for Microsoft Word documents), and PNG images (for static graphics). We'll examine how to generate each format, understand their respective strengths and limitations, and learn when to choose one over another.
+This chapter explores the five primary output formats **gt** supports: HTML (for web and interactive documents), LaTeX (for PDF generation), RTF (for rich text documents), Word (for Microsoft Word documents), and PNG images (for static graphics). We'll examine how to generate each format, understand their respective strengths and limitations, and learn when to choose one over another. Because HTML is **gt**'s native format and the one most people encounter first, we also take a deep dive into the quirks of HTML rendering: the white space collapse rules, border resolution behavior, column sizing mechanics, and the many ways to inject special characters, control text flow, and build complex layouts within table cells.
 
 ## HTML
 
