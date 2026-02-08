@@ -148,6 +148,10 @@ tibble::tibble(
   )
 ```
 
+The shared edge between columns `a` and `b` shows the 3-pixel red border because it is wider. The 1-pixel blue border on the right side of column `a` simply disappears. This behavior follows from the CSS `border-collapse: collapse` model that **gt** uses. The full priority order is: wider borders beat narrower ones, then by style (double beats solid beats dashed beats dotted), then by origin (cell beats row beats row group beats column beat column group beats table). Understanding this prevents confusion when applying borders to individual cells and wondering why some borders seem to vanish.
+
+### Column width behavior
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
