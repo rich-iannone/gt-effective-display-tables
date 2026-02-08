@@ -451,6 +451,10 @@ exibble |>
   )
 ```
 
+Without `text-wrap: balance`, the browser fills each line to the maximum width before wrapping, often leaving a single short word orphaned on the last line. Balanced wrapping distributes the text to produce lines of roughly equal length, creating a more polished appearance.
+
+Other useful CSS text properties include `text-wrap: pretty`, which specifically avoids orphaned single words on the last line. The `word-break: break-all` property allows breaking within any word (useful for columns containing long codes or identifiers). And `overflow-wrap: break-word` breaks long words only when they would overflow their container, which is less aggressive than `break-all`:
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
