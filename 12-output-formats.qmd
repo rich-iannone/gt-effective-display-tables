@@ -501,6 +501,36 @@ exibble |>
   )
 ```
 
+The outer `<div>` with `display: flex` and `justify-content: space-between` creates a flex container that pushes its children to opposite ends. The left `<div>` gets the main title text, and the right `<div>` gets supplementary information. This pattern is impossible with plain text and difficult to achieve with Markdown alone.
+
+The same technique works for source notes that need structured layouts:
+
+```{r}
+exibble |>
+  dplyr::select(char, num, currency) |>
+  dplyr::slice_head(n = 4) |>
+  gt() |>
+  fmt_number(columns = num, decimals = 1) |>
+  fmt_currency(columns = currency) |>
+  cols_width(everything() ~ px(120)) |>
+  tab_source_note(
+    source_note = html(
+      "<div style='display: flex; justify-content: space-between; width: 100%;'>
+        <div>Source: Company financial records</div>
+        <div style='color: #999;'>Confidential</div>
+      </div>"
+    )
+  ) |>
+  tab_source_note(
+    source_note = html(
+      "<div style='display: flex; justify-content: space-between; width: 100%;'>
+        <div style='font-style: italic;'>Figures in USD unless noted</div>
+        <div style='color: #999;'>Generated: 2025-09-15</div>
+      </div>"
+    )
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
