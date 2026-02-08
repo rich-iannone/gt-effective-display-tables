@@ -124,6 +124,8 @@ tibble::tibble(
   tab_header(title = "Non-breaking spaces resist collapsing")
 ```
 
+The `whitespace` parameter in `cell_text()` accepts several values. The `"normal"` value is the default collapsing behavior. The `"nowrap"` value collapses spaces but prevents line wrapping entirely. The `"pre"` value preserves all whitespace and newlines exactly (like a `<pre>` tag). The `"pre-wrap"` value preserves whitespace but allows wrapping at the edge of the cell. And `"pre-line"` collapses spaces but preserves explicit newlines. For most table work, `"pre-wrap"` offers the best balance: it keeps your intentional spacing while still allowing text to wrap naturally within the cell.
+
 ### Border resolution on shared edges
 
 When two adjacent cells each specify a border, they share that edge. The CSS specification resolves this conflict with a set of priority rules, and the result is often not what you might expect. The key rule: the wider (or more prominent) border wins. If one cell sets a 1-pixel border and its neighbor sets a 3-pixel border on the same shared edge, the 3-pixel border takes precedence.
