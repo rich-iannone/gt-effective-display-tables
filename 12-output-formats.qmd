@@ -128,6 +128,26 @@ tibble::tibble(
 
 When two adjacent cells each specify a border, they share that edge. The CSS specification resolves this conflict with a set of priority rules, and the result is often not what you might expect. The key rule: the wider (or more prominent) border wins. If one cell sets a 1-pixel border and its neighbor sets a 3-pixel border on the same shared edge, the 3-pixel border takes precedence.
 
+```{r}
+tibble::tibble(
+  a = c("Thin border", "Also thin"),
+  b = c("Thick border wins", "Also thick")
+) |>
+  gt() |>
+  tab_style(
+    style = cell_borders(sides = "right", weight = px(1), color = "blue"),
+    locations = cells_body(columns = a)
+  ) |>
+  tab_style(
+    style = cell_borders(sides = "left", weight = px(3), color = "red"),
+    locations = cells_body(columns = b)
+  ) |>
+  tab_header(
+    title = "Border conflict resolution",
+    subtitle = "The thicker red border wins on the shared edge"
+  )
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
