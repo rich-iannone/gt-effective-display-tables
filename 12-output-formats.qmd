@@ -84,6 +84,46 @@ The `opt_*()` family of functions can enhance HTML structure for better accessib
 
 HTML is the primary output for most **gt** tables, and understanding how browsers actually render table content will save you from puzzling results. HTML tables follow rules that can surprise anyone who assumes the output will faithfully reproduce whatever they typed. These quirks are not bugs. They are behaviors defined by the HTML and CSS specifications. Once you understand them, you can work with them rather than fighting against them.
 
+### White space collapse
+
+HTML collapses consecutive whitespace characters into a single space. This is one of the oldest rules in web rendering, dating back to the earliest browsers. If you put five spaces between two words, the browser renders one. Tabs, newlines, and spaces all collapse the same way. This matters in tables when you want to align content with spaces or preserve deliberate spacing within a cell.
+
+```{r}
+tibble::tibble(
+  label = c("Normal spacing", "Attempted wide spacing"),
+  content = c("Hello World", "Hello          World")
+) |>
+  gt() |>
+  tab_header(title = "White space collapses in HTML")
+```
+
+Both cells render identically because the browser collapses those extra spaces. To preserve whitespace, you have two main approaches. The first is to use `cell_text(whitespace = "pre")` with `tab_style()`, which tells the browser to preserve all whitespace exactly as written:
+
+```{r}
+tibble::tibble(
+  label = c("Normal spacing", "Preserved wide spacing"),
+  content = c("Hello World", "Hello          World")
+) |>
+  gt() |>
+  tab_style(
+    style = cell_text(whitespace = "pre"),
+    locations = cells_body(columns = content)
+  ) |>
+  tab_header(title = "Preserving whitespace with the 'pre' value")
+```
+
+The second approach is to use non-breaking spaces (`&nbsp;`) within `html()`. Each `&nbsp;` renders as a space that the browser cannot collapse:
+
+```{r}
+tibble::tibble(
+  label = c("Normal spacing", "Using &nbsp; entities"),
+  content = c("Hello World", "Hello&nbsp;&nbsp;&nbsp;&nbsp;World")
+) |>
+  gt() |>
+  fmt_passthrough(columns = content, escape = FALSE) |>
+  tab_header(title = "Non-breaking spaces resist collapsing")
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
