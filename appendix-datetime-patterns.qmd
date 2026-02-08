@@ -126,6 +126,10 @@ dplyr::tibble(
   )
 ```
 
+The formatting (`"M"`) and standalone (`"L"`) distinction carries the same linguistic motivation as quarters, and the same practical advice applies: use `"M"` when the month appears within a date expression and `"L"` when it appears as an isolated label (a calendar column header, a dropdown menu, a table grouping row). In English the two produce identical output. In Finnish, Ukrainian, and several other languages, the standalone form uses the nominative case while the formatting form uses the genitive or partitive case, producing visibly different text.
+
+The narrow form (`"MMMMM"` or `"LLLLL"`) reduces each month to a single letter. This creates obvious ambiguity ("J" could mean January, June, or July) so narrow months are suitable only when space is extremely constrained and the surrounding context resolves the ambiguity, such as tiny calendar grid headers where the column position implies the month.
+
 ## Week patterns
 
 ### Week of year (`w`)
