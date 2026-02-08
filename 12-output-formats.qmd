@@ -391,6 +391,24 @@ tibble::tibble(
 
 The figure space (U+2007) deserves special attention for table work. Its width matches the width of a digit in the current font, making it ideal for aligning numbers that don't use a tabular (monospace digit) font. If you have a column with values like "3" and "42", placing a figure space before the single-digit numbers will align them visually. The non-breaking space (U+00A0) is probably the most useful overall: it prevents line breaks between words that should stay together (like "100 km" or "Dr. Smith") and does not collapse the way regular spaces do.
 
+### Controlling line breaks and word breaks
+
+HTML offers several mechanisms for suggesting or preventing line breaks within cell content. The `<br>` tag forces an explicit line break and is the most common tool for creating multi-line cell content in **gt**:
+
+```{r}
+tibble::tibble(
+  pizza = c("The Classic Deluxe", "The Thai Chicken"),
+  ingredients = c(
+    "Pepperoni<br>Mushrooms<br>Red Onions<br>Red Peppers<br>Bacon",
+    "Chicken<br>Pineapple<br>Tomatoes<br>Red Peppers<br>Thai Sweet Chilli Sauce"
+  )
+) |>
+  gt() |>
+  fmt_passthrough(columns = ingredients, escape = FALSE) |>
+  cols_label(pizza = "Pizza", ingredients = "Ingredients") |>
+  tab_header(title = "Explicit line breaks with <br>")
+```
+
 ## LaTeX
 
 LaTeX is the standard for academic and technical document preparation, particularly for PDF generation. **gt** supports LaTeX output, enabling tables to be included in articles, books, reports, and presentations created with LaTeX or R Markdown/Quarto documents that render to PDF.
