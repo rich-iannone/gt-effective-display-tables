@@ -253,6 +253,8 @@ dplyr::tibble(
   )
 ```
 
+These day-counting patterns serve specialized communities. Day of year (`"D"`) appears in agriculture (growing degree day calculations reference the ordinal date), military communications (the Julian date format YYDDD remains standard in some branches), and satellite operations (orbital computations often index by day of year). Day of week in month (`"F"`) powers expressions like "the second Tuesday in November", the pattern behind recurring event scheduling and holiday calculations (U.S. Thanksgiving is the fourth Thursday in November). The modified Julian date (`"g"`) serves astronomy, geodesy, and satellite tracking, where a continuous day count avoids the headaches of leap years, month boundaries, and historical calendar reforms. Most table formatting will never need these patterns, but when the domain calls for them, nothing else substitutes.
+
 ## Weekday patterns
 
 ### Day of week name (`E`)
