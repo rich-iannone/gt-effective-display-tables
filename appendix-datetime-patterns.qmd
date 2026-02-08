@@ -78,6 +78,8 @@ dplyr::tibble(
   )
 ```
 
+The week-based year becomes important at the seams between calendar years. A date like December 31, 2018 might belong to ISO week 1 of *2019*, meaning `"Y"` would return 2019 while `"y"` returns 2018. This discrepancy surprises people who have never encountered ISO week numbering, and it has caused real bugs in reporting systems that mixed the two year types. Unless you are specifically constructing ISO week dates (common in European business reporting and manufacturing logistics), use `"y"` for the calendar year and leave `"Y"` alone.
+
 ## Quarter patterns
 
 ### Quarter of year (`Q` and `q`)
