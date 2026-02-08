@@ -56,6 +56,8 @@ dplyr::tibble(
   )
 ```
 
+The two-digit year `"yy"` persists on receipts, expiration dates, and informal documents where the century is obvious from context. The Y2K episode demonstrated the hazards of truncating years in systems that store or compare dates, but for display purposes the two-digit form remains acceptable when ambiguity is impossible. For table formatting, the full year `"y"` is nearly always the better default: it costs only two extra characters and eliminates any chance of misinterpretation.
+
 ### Week-based year (`Y`)
 
 The year in week-based calendars, where year transitions occur on week boundaries. This may differ from calendar year `"y"` near year transitions. Used with pattern `"w"` for ISO 8601 week dates.
