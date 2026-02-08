@@ -277,6 +277,8 @@ dplyr::tibble(
   )
 ```
 
+Choosing the right weekday width depends on available space and surrounding context. The abbreviated form (`"E"` through `"EEE"`, yielding "Wed") suits column headers in weekly schedules and compact table layouts. The wide form (`"EEEE"`, yielding "Wednesday") reads naturally in full sentences and spacious table cells. The narrow form (`"EEEEE"`, yielding "W") works only in highly constrained spaces like small calendar grids, and even then it creates ambiguity: Tuesday and Thursday both reduce to "T" in English. The short form (`"EEEEEE"`, yielding "We") offers a useful middle ground: two letters provide enough distinction to eliminate ambiguity while fitting tighter layouts than the three-letter abbreviation.
+
 ## Period patterns
 
 ### AM/PM (`a`)
