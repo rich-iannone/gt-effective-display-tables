@@ -102,6 +102,8 @@ dplyr::tibble(
   )
 ```
 
+Quarters appear throughout financial reporting, where earnings releases, regulatory filings, and fiscal planning all organize time into three-month blocks. A table of quarterly revenue figures will likely reach for `"QQQ"` (yielding "Q3") or `"QQQQ"` (yielding "3rd quarter") depending on the desired formality. The distinction between formatting and standalone forms matters primarily in languages where grammatical case changes with context. In Russian or Czech, the standalone form of "3rd quarter" takes a different grammatical ending than the same expression embedded within a complete date. English speakers will never notice the difference, but international applications should use the appropriate form.
+
 ## Month patterns
 
 ### Month (`M` and `L`)
