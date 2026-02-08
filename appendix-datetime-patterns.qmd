@@ -673,6 +673,8 @@ dplyr::tibble(
   )
 ```
 
+Choosing the right time zone format depends on who will read the output and what they need to do with it. For human readers needing to know the local time, the specific non-location format (`"z"`, producing "PDT" or "Pacific Daylight Time") communicates clearly. For recurring events like weekly meetings, the generic format (`"v"`, producing "Pacific Time") avoids the distraction of specifying daylight or standard time, since the meeting happens regardless of which is in effect. For machine-readable logs, API timestamps, and data interchange, the ISO 8601 formats (`"X"` or `"x"`) provide unambiguous numeric offsets that any parser can interpret. The location format (`"V"`, producing "America/Vancouver") is the most robust for storage and computation because it encodes the complete time zone rules including historical changes, but it may confuse non-technical readers. In tables, the short specific format (`"z"`) usually strikes the best balance between precision and readability.
+
 ## strptime format codes
 
 As an alternative to CLDR patterns, you can use strptime-style format codes. Each code starts with `%` and represents a specific date or time element.
