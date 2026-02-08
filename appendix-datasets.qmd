@@ -27,8 +27,46 @@ The dataset originally included plans for appetizers, side dishes, and beverages
 
 ```{r}
 #| echo: false
+
+pizza_names <- c(
+  classic_dlx = "The Classic Deluxe Pizza",
+  big_meat = "The Big Meat Pizza",
+  pepperoni = "The Pepperoni Pizza",
+  hawaiian = "The Hawaiian Pizza",
+  pep_msh_pep = "The Pepperoni, Mushroom, and Peppers Pizza",
+  ital_cpcllo = "The Italian Capocollo Pizza",
+  napolitana = "The Napolitana Pizza",
+  the_greek = "The Greek Pizza",
+  thai_ckn = "The Thai Chicken Pizza",
+  bbq_ckn = "The Barbecue Chicken Pizza",
+  southw_ckn = "The Southwest Chicken Pizza",
+  cali_ckn = "The California Chicken Pizza",
+  ckn_pesto = "The Chicken Pesto Pizza",
+  ckn_alfredo = "The Chicken Alfredo Pizza",
+  brie_carre = "The Brie Carre Pizza",
+  calabrese = "The Calabrese Pizza",
+  soppressata = "The Soppressata Pizza",
+  sicilian = "The Sicilian Pizza",
+  ital_supr = "The Italian Supreme Pizza",
+  peppr_salami = "The Pepper Salami Pizza",
+  prsc_argla = "The Prosciutto and Arugula Pizza",
+  spinach_supr = "The Spinach Supreme Pizza",
+  spicy_ital = "The Spicy Italian Pizza",
+  mexicana = "The Mexicana Pizza",
+  four_cheese = "The Four Cheese Pizza",
+  five_cheese = "The Five Cheese Pizza",
+  spin_pesto = "The Spinach Pesto Pizza",
+  veggie_veg = "The Vegetables + Vegetables Pizza",
+  green_garden = "The Green Garden Pizza",
+  mediterraneo = "The Mediterranean Pizza",
+  spinach_fet = "The Spinach and Feta Pizza",
+  ital_veggie = "The Italian Vegetables Pizza"
+)
+
 pizzaplace |>
   dplyr::distinct(type, name, size, price) |>
+  dplyr::mutate(size = factor(size, levels = c("S", "M", "L", "XL", "XXL"))) |>
+  dplyr::arrange(type, name, size) |>
   dplyr::group_by(type, name) |>
   dplyr::summarize(
     sizes = paste(size, collapse = ", "),
@@ -38,10 +76,20 @@ pizzaplace |>
     ),
     .groups = "drop"
   ) |>
-  dplyr::arrange(type, name) |>
+  dplyr::mutate(
+    pizza_label = paste0(
+      pizza_names[name],
+      "<br><span style='font-family: monospace; font-size: 0.85em; color: gray;'>",
+      name,
+      "</span>"
+    )
+  ) |>
+  dplyr::select(type, pizza_label, sizes, price_range) |>
+  dplyr::arrange(type, pizza_label) |>
   gt(groupname_col = "type") |>
+  fmt_markdown(columns = pizza_label) |>
   cols_label(
-    name = "Pizza",
+    pizza_label = "Pizza",
     sizes = "Available Sizes",
     price_range = "Price Range"
   ) |>
