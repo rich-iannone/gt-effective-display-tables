@@ -11336,7 +11336,7 @@ The `extract_cells()` function takes a **gt** table and returns formatted cell v
 
 ```{r}
 sales_table <- 
-  tibble::tibble(
+  dplyr::tibble(
     region = c("North", "South", "East", "West"),
     revenue = c(1234567, 987654, 1567890, 876543),
     growth = c(0.237, 0.156, 0.089, 0.312)
