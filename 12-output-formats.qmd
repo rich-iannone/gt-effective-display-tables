@@ -89,7 +89,7 @@ HTML is the primary output for most **gt** tables, and understanding how browser
 HTML collapses consecutive whitespace characters into a single space. This is one of the oldest rules in web rendering, dating back to the earliest browsers. If you put five spaces between two words, the browser renders one. Tabs, newlines, and spaces all collapse the same way. This matters in tables when you want to align content with spaces or preserve deliberate spacing within a cell.
 
 ```{r}
-tibble::tibble(
+dplyr::tibble(
   label = c("Normal spacing", "Attempted wide spacing"),
   content = c("Hello World", "Hello          World")
 ) |>
@@ -100,7 +100,7 @@ tibble::tibble(
 Both cells render identically because the browser collapses those extra spaces. To preserve whitespace, you have two main approaches. The first is to use `cell_text(whitespace = "pre")` with `tab_style()`, which tells the browser to preserve all whitespace exactly as written:
 
 ```{r}
-tibble::tibble(
+dplyr::tibble(
   label = c("Normal spacing", "Preserved wide spacing"),
   content = c("Hello World", "Hello          World")
 ) |>
@@ -115,7 +115,7 @@ tibble::tibble(
 The second approach is to use non-breaking spaces (`&nbsp;`) within `html()`. Each `&nbsp;` renders as a space that the browser cannot collapse:
 
 ```{r}
-tibble::tibble(
+dplyr::tibble(
   label = c("Normal spacing", "Using &nbsp; entities"),
   content = c("Hello World", "Hello&nbsp;&nbsp;&nbsp;&nbsp;World")
 ) |>
@@ -131,7 +131,7 @@ The `whitespace` parameter in `cell_text()` accepts several values. The `"normal
 When two adjacent cells each specify a border, they share that edge. The CSS specification resolves this conflict with a set of priority rules, and the result is often not what you might expect. The key rule: the wider (or more prominent) border wins. If one cell sets a 1-pixel border and its neighbor sets a 3-pixel border on the same shared edge, the 3-pixel border takes precedence.
 
 ```{r}
-tibble::tibble(
+dplyr::tibble(
   a = c("Thin border", "Also thin"),
   b = c("Thick border wins", "Also thick")
 ) |>
@@ -202,7 +202,9 @@ Cell content in **gt** tables is plain text by default. To include special chara
 Here is a reference table of commonly useful HTML entities:
 
 ```{r}
-tibble::tibble(
+#| echo: false
+
+dplyr::tibble(
   category = c(
     rep("Punctuation", 5),
     rep("Arrows", 4),
@@ -275,7 +277,9 @@ In practice, the `html()` helper is more versatile than `md()` for entity work b
 R provides two escape sequences for inserting Unicode characters directly into strings. The lowercase `\u` takes exactly four hexadecimal digits and covers the Basic Multilingual Plane (code points U+0000 through U+FFFF), which includes most everyday characters. The uppercase `\U` takes exactly eight hexadecimal digits and can reach supplementary planes above U+FFFF, where emoji, musical symbols, and historic scripts live.
 
 ```{r}
-tibble::tibble(
+#| echo: false
+
+dplyr::tibble(
   syntax = c(
     '\\u00B0', '\\u2013', '\\u2014', '\\u00B1',
     '\\u2264', '\\u2265', '\\u2260', '\\u221E',
@@ -329,7 +333,9 @@ R handles Unicode strings natively in modern versions, and both `\u` and `\U` es
 Not all spaces are created equal. Unicode defines more than a dozen space characters with different widths, line-breaking properties, and collapse behaviors. Understanding a handful of these will help you control spacing in table cells more precisely than regular spaces allow.
 
 ```{r}
-tibble::tibble(
+#| echo: false
+
+dplyr::tibble(
   name = c(
     "Regular space",
     "Non-breaking space",
@@ -396,7 +402,9 @@ The figure space (U+2007) deserves special attention for table work. Its width m
 HTML offers several mechanisms for suggesting or preventing line breaks within cell content. The `<br>` tag forces an explicit line break and is the most common tool for creating multi-line cell content in **gt**:
 
 ```{r}
-tibble::tibble(
+#| echo: false
+
+dplyr::tibble(
   pizza = c("The Classic Deluxe", "The Thai Chicken"),
   ingredients = c(
     "Pepperoni<br>Mushrooms<br>Red Onions<br>Red Peppers<br>Bacon",
@@ -412,7 +420,9 @@ tibble::tibble(
 For more subtle control, HTML provides two additional mechanisms. The `<wbr>` tag (word break opportunity) suggests a point where the browser *may* break a long word if the line needs wrapping, but adds no visible character. The soft hyphen `&shy;` works similarly but inserts a visible hyphen when the break occurs:
 
 ```{r}
-tibble::tibble(
+#| echo: false
+
+dplyr::tibble(
   technique = c("No break hints", "With <wbr> tags", "With &shy; soft hyphens"),
   content = c(
     "<span style='font-family:monospace;'>supercalifragilisticexpialidocious</span>",
@@ -456,7 +466,7 @@ Without `text-wrap: balance`, the browser fills each line to the maximum width b
 Other useful CSS text properties include `text-wrap: pretty`, which specifically avoids orphaned single words on the last line. The `word-break: break-all` property allows breaking within any word (useful for columns containing long codes or identifiers). And `overflow-wrap: break-word` breaks long words only when they would overflow their container, which is less aggressive than `break-all`:
 
 ```{r}
-tibble::tibble(
+dplyr::tibble(
   property = c("Default", "word-break: break-all", "overflow-wrap: break-word"),
   content = c(
     "A verylongstringwithoutspaces can overflow",
@@ -775,7 +785,7 @@ The `extract_cells()` function takes a **gt** table and returns formatted cell v
 
 ```{r}
 sales_table <- 
-  tibble::tibble(
+  dplyr::tibble(
     region = c("North", "South", "East", "West"),
     revenue = c(1234567, 987654, 1567890, 876543),
     growth = c(0.237, 0.156, 0.089, 0.312)
