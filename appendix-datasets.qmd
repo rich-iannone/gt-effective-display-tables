@@ -199,7 +199,7 @@ Each row and column in `exibble` was chosen to exercise different aspects of tab
 
 ```{r}
 #| echo: false
-tibble::tibble(
+dplyr::tibble(
   Column = c("num", "char", "currency", "date", "time", "datetime", "row", "group"),
   Type = c("numeric", "character", "numeric", "Date", "character", "POSIXct", "character", "character"),
   Purpose = c(
