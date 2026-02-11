@@ -15,7 +15,7 @@ ratings <- read_csv("data/ratings.csv", show_col_types = FALSE)
 cat(
   sprintf(
     "Watched: %d films\nRated: %d films\n",
-    nrow(watched), nrow(ratings)\
+    nrow(watched), nrow(ratings)
   )
 )
 
