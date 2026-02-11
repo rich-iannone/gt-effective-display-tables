@@ -15,7 +15,6 @@ Capote,2005,https://boxd.it/2atq,5,Bennett Miller
 Chungking Express,1994,https://boxd.it/1UDa,5,Wong Kar-Wai
 City of God,2002,https://boxd.it/2a2a,5,Fernando Meirelles
 Dead Ringers,1988,https://boxd.it/1Yqk,5,David Cronenberg
-Eat Drink Man Woman,1994,https://boxd.it/1Wem,5,Ang Lee
 Eternal Sunshine of the Spotless Mind,2004,https://boxd.it/6YK,5,Michel Gondry
 Exotica,1994,https://boxd.it/1DXW,5,Atom Egoyan
 Eyes Wide Shut,1999,https://boxd.it/2axs,5,Stanley Kubrick
@@ -33,6 +32,7 @@ Late Spring,1949,https://boxd.it/1DkK,5,Yasujirō Ozu
 Le Samouraï,1967,https://boxd.it/22ZI,5,Jean-Pierre Melville
 Mad Max: Fury Road,2015,https://boxd.it/2DjO,5,George Miller
 Man on Wire,2008,https://boxd.it/1ORK,5,James Marsh
+Metropolis,1927,https://boxd.it/71a,5,Fritz Lang
 Mon Oncle,1958,https://boxd.it/2apy,5,Jacques Tati
 Monsieur Hulot's Holiday,1953,https://boxd.it/29E8,5,Jacques Tati
 Mouchette,1967,https://boxd.it/28Bs,5,Robert Bresson
@@ -43,7 +43,6 @@ One Flew Over the Cuckoo's Nest,1975,https://boxd.it/2aeA,5,Miloš Forman
 PlayTime,1967,https://boxd.it/1WLK,5,Jacques Tati
 Psycho,1960,https://boxd.it/2ab2,5,Alfred Hitchcock
 Pulp Fiction,1994,https://boxd.it/29Pq,5,Quentin Tarantino
-Punch-Drunk Love,2002,https://boxd.it/20E4,5,Paul Thomas Anderson
 Ran,1985,https://boxd.it/1Tlu,5,Akira Kurosawa
 Rashomon,1950,https://boxd.it/2a9K,5,Akira Kurosawa
 Red Beard,1965,https://boxd.it/251m,5,Akira Kurosawa
@@ -60,6 +59,7 @@ The Curious Case of Benjamin Button,2008,https://boxd.it/23Fk,5,David Fincher
 The Fisher King,1991,https://boxd.it/2aWM,5,Terry Gilliam
 The Fly,1986,https://boxd.it/1YIe,5,David Cronenberg
 The Mother and the Whore,1973,https://boxd.it/HQe,5,Jean Eustache
+The Passion of Joan of Arc,1928,https://boxd.it/29DO,5,Carl Theodor Dreyer
 The Piano Teacher,2001,https://boxd.it/2886,5,Michael Haneke
 The Shining,1980,https://boxd.it/29Nu,5,Stanley Kubrick
 The Vanishing,1988,https://boxd.it/1ZTW,5,George Sluizer
@@ -90,6 +90,7 @@ Black Panther: Wakanda Forever,2022,https://boxd.it/igPu,4.5,Ryan Coogler
 Blade Runner,1982,https://boxd.it/2bcA,4.5,Ridley Scott
 Breaking the Waves,1996,https://boxd.it/2b1W,4.5,Lars von Trier
 Bring Me the Head of Alfredo Garcia,1974,https://boxd.it/1SIs,4.5,Sam Peckinpah
+Chinatown,1974,https://boxd.it/29vU,4.5,Roman Polanski
 Crash,1996,https://boxd.it/29n2,4.5,David Cronenberg
 Cure,1997,https://boxd.it/1blA,4.5,Kiyoshi Kurosawa
 Dead or Alive,1999,https://boxd.it/1U9u,4.5,Takashi Miike
@@ -102,15 +103,14 @@ Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,1964,https:
 Dreams,1990,https://boxd.it/1ROu,4.5,Akira Kurosawa
 Drive My Car,2021,https://boxd.it/sv94,4.5,Ryusuke Hamaguchi
 Early Summer,1951,https://boxd.it/E4G,4.5,Yasujirō Ozu
+Eat Drink Man Woman,1994,https://boxd.it/1Wem,4.5,Ang Lee
 Election,1999,https://boxd.it/1YEc,4.5,Alexander Payne
-Elf,2003,https://boxd.it/1VyK,4.5,Jon Favreau
 Everything Everywhere All at Once,2022,https://boxd.it/jUk4,4.5,"Daniel Scheinert, Daniel Kwan"
 F for Fake,1973,https://boxd.it/VxA,4.5,Orson Welles
 Face/Off,1997,https://boxd.it/29I0,4.5,John Woo
 Fat Choi Spirit,2002,https://boxd.it/gpK,4.5,"Johnnie To, Wai Ka-Fai"
 Finding Nemo,2003,https://boxd.it/72i,4.5,Andrew Stanton
 Fish Tank,2009,https://boxd.it/1xBg,4.5,Andrea Arnold
-Force Majeure,2014,https://boxd.it/7UcA,4.5,Ruben Östlund
 Ghost World,2001,https://boxd.it/28Dy,4.5,Terry Zwigoff
 Good Morning,1959,https://boxd.it/2lkk,4.5,Yasujirō Ozu
 Hearts and Minds,1974,https://boxd.it/WSE,4.5,Peter Davis
@@ -119,32 +119,31 @@ Ichi the Killer,2001,https://boxd.it/1Y1O,4.5,Takashi Miike
 In the Name of the Father,1993,https://boxd.it/20I6,4.5,Jim Sheridan
 Inglourious Basterds,2009,https://boxd.it/1JzG,4.5,Quentin Tarantino
 Iron Monkey,1993,https://boxd.it/1Rfk,4.5,Yuen Woo-Ping
-Knives Out,2019,https://boxd.it/jWEA,4.5,Rian Johnson
 Koyaanisqatsi,1982,https://boxd.it/1U9E,4.5,Godfrey Reggio
 L'Argent,1983,https://boxd.it/XIg,4.5,Robert Bresson
 L.A. Confidential,1997,https://boxd.it/27oC,4.5,Curtis Hanson
 Lady Vengeance,2005,https://boxd.it/248G,4.5,Park Chan-wook
 Live Flesh,1997,https://boxd.it/2aJ4,4.5,Pedro Almodóvar
+M,1931,https://boxd.it/29vq,4.5,Fritz Lang
 Magnolia,1999,https://boxd.it/2aze,4.5,Paul Thomas Anderson
 Malcolm X,1992,https://boxd.it/27WE,4.5,Spike Lee
 Memento,2000,https://boxd.it/2bcK,4.5,Christopher Nolan
-Mission: Impossible – Ghost Protocol,2011,https://boxd.it/psI,4.5,Brad Bird
-Moana,2016,https://boxd.it/8tfY,4.5,"John Musker, Ron Clements"
 Mulholland Drive,2001,https://boxd.it/297o,4.5,David Lynch
 Night on Earth,1991,https://boxd.it/2ayq,4.5,Jim Jarmusch
+Nosferatu,1922,https://boxd.it/29TM,4.5,F. W. Murnau
 Nostalgia,1983,https://boxd.it/28Qi,4.5,Andrei Tarkovsky
-Paddington,2014,https://boxd.it/3RKw,4.5,Paul King
 Panic Room,2002,https://boxd.it/2490,4.5,David Fincher
 Paprika,2006,https://boxd.it/23wW,4.5,Satoshi Kon
 Pecker,1998,https://boxd.it/1SVw,4.5,John Waters
 Platoon,1986,https://boxd.it/29BS,4.5,Oliver Stone
+Punch-Drunk Love,2002,https://boxd.it/20E4,4.5,Paul Thomas Anderson
 Raging Bull,1980,https://boxd.it/28yI,4.5,Martin Scorsese
 Raiders of the Lost Ark,1981,https://boxd.it/2bbs,4.5,Steven Spielberg
 Rear Window,1954,https://boxd.it/2a6Q,4.5,Alfred Hitchcock
 Requiem for a Dream,2000,https://boxd.it/29VI,4.5,Darren Aronofsky
-Rio,2011,https://boxd.it/NKc,4.5,Carlos Saldanha
 RoboCop,1987,https://boxd.it/22Wu,4.5,Paul Verhoeven
 Scenes from a Marriage,1974,https://boxd.it/4kJC,4.5,Ingmar Bergman
+Scott Pilgrim vs. the World,2010,https://boxd.it/1Aq6,4.5,Edgar Wright
 Se7en,1995,https://boxd.it/29zs,4.5,David Fincher
 Starship Troopers,1997,https://boxd.it/2a7k,4.5,Paul Verhoeven
 Straw Dogs,1971,https://boxd.it/2982,4.5,Sam Peckinpah
@@ -171,10 +170,10 @@ The Lord of the Rings: The Fellowship of the Ring,2001,https://boxd.it/2b5O,4.5,
 The Lord of the Rings: The Return of the King,2003,https://boxd.it/2b5u,4.5,Peter Jackson
 The Lord of the Rings: The Two Towers,2002,https://boxd.it/2b5E,4.5,Peter Jackson
 The Matrix,1999,https://boxd.it/2a1m,4.5,"Lana Wachowski, Lilly Wachowski"
-The Revenant,2015,https://boxd.it/8H5e,4.5,Alejandro González Iñárritu
 The Secret of NIMH,1982,https://boxd.it/1Tc8,4.5,Don Bluth
 The Seventh Seal,1957,https://boxd.it/2ahO,4.5,Ingmar Bergman
 The Silence of the Lambs,1991,https://boxd.it/2aHW,4.5,Jonathan Demme
+The Structure of Crystal,1969,https://boxd.it/5bjs,4.5,Krzysztof Zanussi
 The Third Man,1949,https://boxd.it/294E,4.5,Carol Reed
 The Trial,1962,https://boxd.it/25Xg,4.5,Orson Welles
 The Truman Show,1998,https://boxd.it/18U8,4.5,Peter Weir
@@ -190,21 +189,26 @@ Trainspotting,1996,https://boxd.it/29XY,4.5,Danny Boyle
 Twelve Monkeys,1995,https://boxd.it/2beQ,4.5,Terry Gilliam
 Twin Peaks: Fire Walk with Me,1992,https://boxd.it/27Qw,4.5,David Lynch
 Videodrome,1983,https://boxd.it/29uC,4.5,David Cronenberg
+WALL·E,2008,https://boxd.it/1VEo,4.5,Andrew Stanton
 Yi Yi,2000,https://boxd.it/1vCw,4.5,Edward Yang
 13 Assassins,2010,https://boxd.it/jqc,4,Takashi Miike
 25th Hour,2002,https://boxd.it/28LC,4,Spike Lee
 28 Days Later,2002,https://boxd.it/2aXU,4,Danny Boyle
 8 Mile,2002,https://boxd.it/2bew,4,Curtis Hanson
+8½,1963,https://boxd.it/2aqm,4,Federico Fellini
 A Fistful of Dollars,1964,https://boxd.it/2auo,4,Sergio Leone
 A Scene at the Sea,1991,https://boxd.it/1z10,4,Takeshi Kitano
 Adaptation.,2002,https://boxd.it/26mA,4,Spike Jonze
 All About My Mother,1999,https://boxd.it/2b9c,4,Pedro Almodóvar
 American Movie,1999,https://boxd.it/1Oty,4,Chris Smith
+Amores Perros,2000,https://boxd.it/2bfu,4,Alejandro González Iñárritu
 Amélie,2001,https://boxd.it/2aUc,4,Jean-Pierre Jeunet
 Another Round,2020,https://boxd.it/lkba,4,Thomas Vinterberg
 Apollo 13,1995,https://boxd.it/2a6G,4,Ron Howard
 Atanarjuat: The Fast Runner,2001,https://boxd.it/1Qyq,4,Zacharias Kunuk
+Audition,1999,https://boxd.it/1UHm,4,Takashi Miike
 Babel,2006,https://boxd.it/292o,4,Alejandro González Iñárritu
+Baby Driver,2017,https://boxd.it/bhF2,4,Edgar Wright
 Barfly,1987,https://boxd.it/1V2a,4,Barbet Schroeder
 Barton Fink,1991,https://boxd.it/2aFQ,4,Joel Coen
 Batman Begins,2005,https://boxd.it/2aIg,4,Christopher Nolan
@@ -220,6 +224,7 @@ Boyz n the Hood,1991,https://boxd.it/29Ug,4,John Singleton
 Breakfast at Tiffany's,1961,https://boxd.it/2aYS,4,Blake Edwards
 Buffalo '66,1998,https://boxd.it/1YC6,4,Vincent Gallo
 Bullitt,1968,https://boxd.it/29i2,4,Peter Yates
+Carrie,1976,https://boxd.it/20ZQ,4,Brian De Palma
 Casino,1995,https://boxd.it/2ads,4,Martin Scorsese
 Casino Royale,2006,https://boxd.it/1alk,4,Martin Campbell
 Cast Away,2000,https://boxd.it/20i8,4,Robert Zemeckis
@@ -230,6 +235,7 @@ Coffee and Cigarettes II,1989,https://boxd.it/7Ram,4,Jim Jarmusch
 "Crouching Tiger, Hidden Dragon",2000,https://boxd.it/2b1M,4,Ang Lee
 Dancer in the Dark,2000,https://boxd.it/71E,4,Lars von Trier
 Das Boot,1981,https://boxd.it/2av2,4,Wolfgang Petersen
+Dead Poets Society,1989,https://boxd.it/2aSg,4,Peter Weir
 Delicatessen,1991,https://boxd.it/29lK,4,"Jean-Pierre Jeunet, Marc Caro"
 Dick,1999,https://boxd.it/1KaC,4,Andrew Fleming
 Die Hard,1988,https://boxd.it/2a7u,4,John McTiernan
@@ -237,6 +243,9 @@ Down by Law,1986,https://boxd.it/28CA,4,Jim Jarmusch
 Drunken Master II,1994,https://boxd.it/1Si0,4,Lau Kar-Leung
 Dune,2021,https://boxd.it/fA7G,4,Denis Villeneuve
 E.T. the Extra-Terrestrial,1982,https://boxd.it/2a1G,4,Steven Spielberg
+Elf,2003,https://boxd.it/1VyK,4,Jon Favreau
+Enter the Dragon,1973,https://boxd.it/1YCA,4,Robert Clouse
+Erin Brockovich,2000,https://boxd.it/2al2,4,Steven Soderbergh
 Fahrenheit 9/11,2004,https://boxd.it/28a2,4,Michael Moore
 Faithless,2000,https://boxd.it/Klo,4,Liv Ullmann
 Fantastic Mr. Fox,2009,https://boxd.it/1WyQ,4,Wes Anderson
@@ -249,11 +258,10 @@ Ferris Bueller's Day Off,1986,https://boxd.it/1YPY,4,John Hughes
 Finding Dory,2016,https://boxd.it/4aAA,4,Andrew Stanton
 Fireworks,1997,https://boxd.it/22mQ,4,Takeshi Kitano
 Footloose,1984,https://boxd.it/288A,4,Herbert Ross
-Forrest Gump,1994,https://boxd.it/728,4,Robert Zemeckis
+Force Majeure,2014,https://boxd.it/7UcA,4,Ruben Östlund
 Four Nights of a Dreamer,1971,https://boxd.it/qRa,4,Robert Bresson
 Four Rooms,1995,https://boxd.it/73g,4,"Allison Anders, Alexandre Rockwell, Robert Rodriguez, Quentin Tarantino"
 Frankenstein,2025,https://boxd.it/Ecsg,4,Guillermo del Toro
-Freaky Friday,2003,https://boxd.it/1WwK,4,Mark Waters
 From Dusk Till Dawn,1996,https://boxd.it/29HQ,4,Robert Rodriguez
 Frozen,2013,https://boxd.it/3GNa,4,"Chris Buck, Jennifer Lee"
 Ghost Dog: The Way of the Samurai,1999,https://boxd.it/23Ne,4,Jim Jarmusch
@@ -282,10 +290,12 @@ In the Realm of the Senses,1976,https://boxd.it/22qS,4,Nagisa Ōshima
 Indiana Jones and the Last Crusade,1989,https://boxd.it/2baO,4,Steven Spielberg
 Inside Llewyn Davis,2013,https://boxd.it/34Ro,4,"Joel Coen, Ethan Coen"
 Insomnia,2002,https://boxd.it/2aB0,4,Christopher Nolan
+Iron Man,2008,https://boxd.it/28dA,4,Jon Favreau
 Irreversible,2002,https://boxd.it/29as,4,Gaspar Noé
 Isle of Dogs,2018,https://boxd.it/dZrW,4,Wes Anderson
 JFK,1991,https://boxd.it/29xm,4,Oliver Stone
 Jackie Brown,1997,https://boxd.it/2aVO,4,Quentin Tarantino
+Jaws,1975,https://boxd.it/2a5e,4,Steven Spielberg
 "Je T'Aime, Je T'Aime",1968,https://boxd.it/23P0,4,Alain Resnais
 Jules and Jim,1962,https://boxd.it/28rM,4,François Truffaut
 Kagemusha,1980,https://boxd.it/1SGG,4,Akira Kurosawa
@@ -293,11 +303,14 @@ Kapo,1960,https://boxd.it/Ou0,4,Gillo Pontecorvo
 Kids,1995,https://boxd.it/1YUY,4,Larry Clark
 Kill Bill: Vol. 1,2003,https://boxd.it/70w,4,Quentin Tarantino
 Kill Bill: Vol. 2,2004,https://boxd.it/2au4,4,Quentin Tarantino
+Knives Out,2019,https://boxd.it/jWEA,4,Rian Johnson
 L'Avventura,1960,https://boxd.it/23hs,4,Michelangelo Antonioni
 "La Commune (Paris, 1871)",2000,https://boxd.it/9rO,4,Peter Watkins
 La Dolce Vita,1960,https://boxd.it/2anC,4,Federico Fellini
 La Jetée,1962,https://boxd.it/29Sk,4,Chris Marker
+Lancelot of the Lake,1974,https://boxd.it/qR0,4,Robert Bresson
 Legally Blonde,2001,https://boxd.it/1ZNa,4,Robert Luketic
+Let the Right One In,2008,https://boxd.it/1Qr0,4,Tomas Alfredson
 Little Miss Sunshine,2006,https://boxd.it/29EW,4,"Valerie Faris, Jonathan Dayton"
 Little Shop of Horrors,1986,https://boxd.it/1Vqm,4,Frank Oz
 Lolita,1962,https://boxd.it/29Ag,4,Stanley Kubrick
@@ -316,6 +329,10 @@ Minority Report,2002,https://boxd.it/2aWi,4,Steven Spielberg
 Misery,1990,https://boxd.it/28gY,4,Rob Reiner
 Mission: Impossible,1996,https://boxd.it/29d2,4,Brian De Palma
 Mission: Impossible III,2006,https://boxd.it/29cI,4,J.J. Abrams
+Mission: Impossible – Fallout,2018,https://boxd.it/bSVc,4,Christopher McQuarrie
+Mission: Impossible – Ghost Protocol,2011,https://boxd.it/psI,4,Brad Bird
+Mission: Impossible – Rogue Nation,2015,https://boxd.it/5rI4,4,Christopher McQuarrie
+Moana,2016,https://boxd.it/8tfY,4,"John Musker, Ron Clements"
 Moneyball,2011,https://boxd.it/glS,4,Bennett Miller
 "Monsters, Inc.",2001,https://boxd.it/2a46,4,Pete Docter
 Moulin Rouge!,2001,https://boxd.it/29wI,4,Baz Luhrmann
@@ -326,11 +343,14 @@ My Left Foot: The Story of Christy Brown,1989,https://boxd.it/1WW4,4,Jim Sherida
 Napoleon Dynamite,2004,https://boxd.it/20wu,4,Jared Hess
 Natural Born Killers,1994,https://boxd.it/2aNg,4,Oliver Stone
 Nights of Cabiria,1957,https://boxd.it/1F7e,4,Federico Fellini
+Notorious,1946,https://boxd.it/2aDK,4,Alfred Hitchcock
 Ocean's Eleven,2001,https://boxd.it/2aZm,4,Steven Soderbergh
 Once Upon a Time... in Hollywood,2019,https://boxd.it/gH0O,4,Quentin Tarantino
 Ong-Bak,2003,https://boxd.it/1YZk,4,Prachya Pinkaew
+Onibaba,1964,https://boxd.it/252a,4,Kaneto Shindō
+Paddington,2014,https://boxd.it/3RKw,4,Paul King
 Paddington 2,2017,https://boxd.it/bCF8,4,Paul King
-Paris Je T'aime,2006,https://boxd.it/273a,4,"Sylvain Chomet, Tom Tykwer, Gurinder Chadha, Richard LaGravenese, Isabel Coixet, Nobuhiro Suwa, Frédéric Auburtin, Alfonso Cuarón, Gérard Depardieu, Walter Salles, Christopher Doyle, Wes Craven, Daniela Thomas, Vincenzo Natali, Oliver Schmitz, Gus Van Sant, Olivier Assayas, Alexander Payne, Joel Coen, Ethan Coen, Bruno Podalydès"
+Pandora's Box,1929,https://boxd.it/29jE,4,G.W. Pabst
 Pi,1998,https://boxd.it/2ajq,4,Darren Aronofsky
 Pickpocket,1959,https://boxd.it/29O8,4,Robert Bresson
 Pirates of the Caribbean: The Curse of the Black Pearl,2003,https://boxd.it/70G,4,Gore Verbinski
@@ -341,13 +361,15 @@ Rain Man,1988,https://boxd.it/2avw,4,Barry Levinson
 Raise the Red Lantern,1991,https://boxd.it/1WlC,4,Zhang Yimou
 Raising Arizona,1987,https://boxd.it/2avQ,4,Joel Coen
 Re-Animator,1985,https://boxd.it/28hM,4,Stuart Gordon
+Rebecca,1940,https://boxd.it/2aQa,4,Alfred Hitchcock
 Reservoir Dogs,1992,https://boxd.it/2agc,4,Quentin Tarantino
 Return of the Jedi,1983,https://boxd.it/27Vm,4,Richard Marquand
+Rififi,1955,https://boxd.it/29f8,4,Jules Dassin
+Rio,2011,https://boxd.it/NKc,4,Carlos Saldanha
 Ronin,1998,https://boxd.it/20wa,4,John Frankenheimer
 Rosemary's Baby,1968,https://boxd.it/29zM,4,Roman Polanski
 Run Lola Run,1998,https://boxd.it/2b8o,4,Tom Tykwer
 Rushmore,1998,https://boxd.it/1TAO,4,Wes Anderson
-Scott Pilgrim vs. the World,2010,https://boxd.it/1Aq6,4,Edgar Wright
 Scream,1996,https://boxd.it/24EC,4,Wes Craven
 Secretary,2002,https://boxd.it/1URc,4,Steven Shainberg
 Seven Years in Tibet,1997,https://boxd.it/29aC,4,Jean-Jacques Annaud
@@ -362,16 +384,19 @@ Slacker,1990,https://boxd.it/1OUu,4,Richard Linklater
 Speed,1994,https://boxd.it/28qk,4,Jan de Bont
 Speed Racer,2008,https://boxd.it/20UQ,4,"Lana Wachowski, Lilly Wachowski"
 Spider-Man,2002,https://boxd.it/2a8i,4,Sam Raimi
+Spider-Man: Across the Spider-Verse,2023,https://boxd.it/kSz4,4,"Kemp Powers, Justin K. Thompson, Joaquim Dos Santos"
 Spider-Man: No Way Home,2021,https://boxd.it/nwRw,4,Jon Watts
 Stolen Kisses,1968,https://boxd.it/2aL0,4,François Truffaut
 Strange Days,1995,https://boxd.it/2aGO,4,Kathryn Bigelow
 Stranger Than Fiction,2006,https://boxd.it/28Za,4,Marc Forster
+Strangers on a Train,1951,https://boxd.it/29tk,4,Alfred Hitchcock
 Strictly Ballroom,1992,https://boxd.it/1WkY,4,Baz Luhrmann
 Superbad,2007,https://boxd.it/20hO,4,Greg Mottola
 Swept Away,1974,https://boxd.it/17cY,4,Lina Wertmüller
 Swimming Pool,2003,https://boxd.it/2aDU,4,François Ozon
 Teenage Mutant Ninja Turtles: Mutant Mayhem,2023,https://boxd.it/mK0a,4,Jeff Rowe
 Terminator 2: Judgment Day,1991,https://boxd.it/2aGY,4,James Cameron
+The 39 Steps,1935,https://boxd.it/2aKc,4,Alfred Hitchcock
 The 400 Blows,1959,https://boxd.it/2b1C,4,François Truffaut
 The Abyss,1989,https://boxd.it/26mK,4,James Cameron
 "The Adventures of Priscilla, Queen of the Desert",1994,https://boxd.it/26mg,4,Stephan Elliott
@@ -409,18 +434,21 @@ The Man Who Fell to Earth,1976,https://boxd.it/298w,4,Nicolas Roeg
 The Man Who Wasn't There,2001,https://boxd.it/1Vqc,4,Joel Coen
 The Matrix Reloaded,2003,https://boxd.it/2a1c,4,"Lana Wachowski, Lilly Wachowski"
 The Night Porter,1974,https://boxd.it/1tsk,4,Liliana Cavani
+The Passengers of the Night,2022,https://boxd.it/xPBi,4,Mikhaël Hers
 The Prestige,2006,https://boxd.it/293w,4,Christopher Nolan
 The Princess Bride,1987,https://boxd.it/26EY,4,Rob Reiner
+The Revenant,2015,https://boxd.it/8H5e,4,Alejandro González Iñárritu
+The Rules of the Game,1939,https://boxd.it/29Es,4,Jean Renoir
 The Shawshank Redemption,1994,https://boxd.it/2aHi,4,Frank Darabont
 The Social Network,2010,https://boxd.it/17ue,4,David Fincher
 The Son's Room,2001,https://boxd.it/1TPE,4,Nanni Moretti
 The Spanish Prisoner,1997,https://boxd.it/1nZW,4,David Mamet
-The Structure of Crystal,1969,https://boxd.it/5bjs,4,Krzysztof Zanussi
 The Sweet Hereafter,1997,https://boxd.it/1WNm,4,Atom Egoyan
 The Tailor of Panama,2001,https://boxd.it/26BA,4,John Boorman
 The Talented Mr. Ripley,1999,https://boxd.it/2924,4,Anthony Minghella
 The Terminator,1984,https://boxd.it/2aQY,4,James Cameron
 The Usual Suspects,1995,https://boxd.it/29XE,4,Bryan Singer
+The Wizard of Oz,1939,https://boxd.it/29Xu,4,Victor Fleming
 Thelma & Louise,1991,https://boxd.it/28Ew,4,Ridley Scott
 To Live,1994,https://boxd.it/1j6S,4,Zhang Yimou
 Tokyo Drifter,1966,https://boxd.it/OTY,4,Seijun Suzuki
@@ -435,6 +463,7 @@ Volver,2006,https://boxd.it/2aQO,4,Pedro Almodóvar
 Wake Up Dead Man,2025,https://boxd.it/uAKS,4,Rian Johnson
 Werner Herzog Eats His Shoe,1980,https://boxd.it/3pcw,4,Les Blank
 Who Framed Roger Rabbit,1988,https://boxd.it/29ry,4,Robert Zemeckis
+Withnail & I,1987,https://boxd.it/1Qa4,4,Bruce Robinson
 Women on the Verge of a Nervous Breakdown,1988,https://boxd.it/24GI,4,Pedro Almodóvar
 Wreck-It Ralph,2012,https://boxd.it/2TTS,4,Rich Moore
 Yojimbo,1961,https://boxd.it/1SRY,4,Akira Kurosawa
@@ -443,6 +472,7 @@ Zatoichi,2003,https://boxd.it/2aMs,4,Takeshi Kitano
 21 Grams,2003,https://boxd.it/2ajK,3.5,Alejandro González Iñárritu
 24 Hour Party People,2002,https://boxd.it/26nI,3.5,Michael Winterbottom
 28 Weeks Later,2007,https://boxd.it/28Bi,3.5,Juan Carlos Fresnadillo
+A Christmas Story,1983,https://boxd.it/29sw,3.5,Bob Clark
 A Few Good Men,1992,https://boxd.it/29nw,3.5,Rob Reiner
 A Scanner Darkly,2006,https://boxd.it/25jK,3.5,Richard Linklater
 Affliction,1997,https://boxd.it/1iAM,3.5,Paul Schrader
@@ -459,11 +489,14 @@ Annie Hall,1977,https://boxd.it/29M2,3.5,Woody Allen
 Aquaman,2018,https://boxd.it/9ru0,3.5,James Wan
 Avatar,2009,https://boxd.it/1Efm,3.5,James Cameron
 BASEketball,1998,https://boxd.it/1OVs,3.5,David Zucker
+Baby Mama,2008,https://boxd.it/1ZQe,3.5,Michael McCullers
 Back to the Future Part II,1989,https://boxd.it/2aYI,3.5,Robert Zemeckis
 Basic Instinct,1992,https://boxd.it/2asM,3.5,Paul Verhoeven
 Batman,1989,https://boxd.it/2aIU,3.5,Tim Burton
+Be Kind Rewind,2008,https://boxd.it/23Au,3.5,Michel Gondry
 Bed and Board,1970,https://boxd.it/2aKw,3.5,François Truffaut
 Beijing Bicycle,2001,https://boxd.it/1Rtm,3.5,Wang Xiaoshuai
+Benedetta,2021,https://boxd.it/gdNQ,3.5,Paul Verhoeven
 Beverly Hills Cop,1984,https://boxd.it/2baE,3.5,Martin Brest
 Big,1988,https://boxd.it/271S,3.5,Penny Marshall
 Big Trouble in Little China,1986,https://boxd.it/21em,3.5,John Carpenter
@@ -471,10 +504,12 @@ Billy Elliot,2000,https://boxd.it/2bdy,3.5,Stephen Daldry
 Billy Liar,1963,https://boxd.it/1tGQ,3.5,John Schlesinger
 Black Widow,2021,https://boxd.it/hWV8,3.5,Cate Shortland
 Blade,1998,https://boxd.it/1a8A,3.5,Stephen Norrington
+Borat Subsequent Moviefilm,2020,https://boxd.it/rNS0,3.5,Jason Woliner
 Bowfinger,1999,https://boxd.it/1U3w,3.5,Frank Oz
 Braindead,1992,https://boxd.it/29Gy,3.5,Peter Jackson
 Bridget Jones's Diary,2001,https://boxd.it/29WQ,3.5,Sharon Maguire
 Camouflage,1977,https://boxd.it/4tms,3.5,Krzysztof Zanussi
+Cape Fear,1991,https://boxd.it/28vu,3.5,Martin Scorsese
 Cars,2006,https://boxd.it/29ho,3.5,John Lasseter
 Cars 2,2011,https://boxd.it/H4Y,3.5,John Lasseter
 Catch Me If You Can,2002,https://boxd.it/29VS,3.5,Steven Spielberg
@@ -488,8 +523,10 @@ Christine,1983,https://boxd.it/1ZRQ,3.5,John Carpenter
 Clerks,1994,https://boxd.it/2706,3.5,Kevin Smith
 Cliffhanger,1993,https://boxd.it/1YU0,3.5,Renny Harlin
 Clockers,1995,https://boxd.it/1D7w,3.5,Spike Lee
+Coco,2017,https://boxd.it/bYJQ,3.5,Lee Unkrich
 Cold Fever,1995,https://boxd.it/2dhC,3.5,Fridrik Thor Fridriksson
 Collateral,2004,https://boxd.it/28F0,3.5,Michael Mann
+Coming to America,1988,https://boxd.it/1Ygu,3.5,John Landis
 Dances with Wolves,1990,https://boxd.it/2a4K,3.5,Kevin Costner
 Dark Phoenix,2019,https://boxd.it/anyO,3.5,Simon Kinberg
 Dead Man Walking,1995,https://boxd.it/29OC,3.5,Tim Robbins
@@ -503,12 +540,18 @@ Elephant,2003,https://boxd.it/287i,3.5,Gus Van Sant
 Enola Holmes 2,2022,https://boxd.it/vfDe,3.5,Harry Bradbeer
 Eternals,2021,https://boxd.it/j36o,3.5,Chloé Zhao
 Finch,2021,https://boxd.it/iXBq,3.5,Miguel Sapochnik
+Fist of Fury,1972,https://boxd.it/1TaG,3.5,Lo Wei
+Forrest Gump,1994,https://boxd.it/728,3.5,Robert Zemeckis
+Freaky Friday,2003,https://boxd.it/1WwK,3.5,Mark Waters
 Get Carter,1971,https://boxd.it/28HU,3.5,Mike Hodges
 Get Shorty,1995,https://boxd.it/20Ga,3.5,Barry Sonnenfeld
+Ghost,1990,https://boxd.it/2aLE,3.5,Jerry Zucker
 Ghostbusters,1984,https://boxd.it/g2w,3.5,Ivan Reitman
 "Girl, Interrupted",1999,https://boxd.it/25ds,3.5,James Mangold
 GoldenEye,1995,https://boxd.it/29KU,3.5,Martin Campbell
 Gosford Park,2001,https://boxd.it/239e,3.5,Robert Altman
+Guardians of the Galaxy,2014,https://boxd.it/3VH2,3.5,James Gunn
+Guardians of the Galaxy Vol. 3,2023,https://boxd.it/fVNI,3.5,James Gunn
 Hairspray,1988,https://boxd.it/1UKK,3.5,John Waters
 Hannibal,2001,https://boxd.it/1XVc,3.5,Ridley Scott
 Harold & Kumar Go to White Castle,2004,https://boxd.it/1Ueu,3.5,Danny Leiner
@@ -520,18 +563,25 @@ Home Alone,1990,https://boxd.it/29Fg,3.5,Chris Columbus
 Hot Fuzz,2007,https://boxd.it/2416,3.5,Edgar Wright
 House of Flying Daggers,2004,https://boxd.it/1YoI,3.5,Zhang Yimou
 Indiana Jones and the Temple of Doom,1984,https://boxd.it/2bb8,3.5,Steven Spielberg
+Inside Out,2015,https://boxd.it/4KHC,3.5,Pete Docter
+Interview with the Vampire,1994,https://boxd.it/29XO,3.5,Neil Jordan
 Ip Man,2008,https://boxd.it/1NrQ,3.5,Wilson Yip
+Iron Man 3,2013,https://boxd.it/2cBQ,3.5,Shane Black
 Jackass Number Two,2006,https://boxd.it/1SyM,3.5,Jeff Tremaine
 Jackass: The Movie,2002,https://boxd.it/1Zo0,3.5,Jeff Tremaine
+Ju Dou,1990,https://boxd.it/YrK,3.5,Zhang Yimou
 Juno,2007,https://boxd.it/210a,3.5,Jason Reitman
 Jurassic Park,1993,https://boxd.it/2aA2,3.5,Steven Spielberg
 Kick the Moon,2001,https://boxd.it/2d44,3.5,Kim Sang-jin
 King Kong,2005,https://boxd.it/2aLa,3.5,Peter Jackson
+Kung Fu Hustle,2004,https://boxd.it/1YBi,3.5,Stephen Chow
 Labyrinth,1986,https://boxd.it/1POC,3.5,Jim Henson
+Lady and the Tramp,1955,https://boxd.it/1Wv8,3.5,"Hamilton Luske, Wilfred Jackson, Clyde Geronimi"
 Lady in the Water,2006,https://boxd.it/1Y1E,3.5,M. Night Shyamalan
 Last Night,1998,https://boxd.it/1KLe,3.5,Don McKellar
 Lethal Weapon,1987,https://boxd.it/29e0,3.5,Richard Donner
 Lightyear,2022,https://boxd.it/qV1G,3.5,Angus MacLane
+Lilo & Stitch,2002,https://boxd.it/1TAY,3.5,"Chris Sanders, Dean DeBlois"
 Living in Oblivion,1995,https://boxd.it/1ZeO,3.5,Tom DiCillo
 Lord of the Flies,1963,https://boxd.it/1Xqy,3.5,Peter Brook
 Love on the Run,1979,https://boxd.it/2aKm,3.5,François Truffaut
@@ -539,9 +589,12 @@ Lush: A Far from Home Movie,2024,https://boxd.it/uXAQ,3.5,Phil King
 Madame Bovary,1991,https://boxd.it/26Dc,3.5,Claude Chabrol
 Meet the Parents,2000,https://boxd.it/28vE,3.5,Jay Roach
 Mighty Aphrodite,1995,https://boxd.it/1TPu,3.5,Woody Allen
+Minions,2015,https://boxd.it/6jCO,3.5,"Kyle Balda, Pierre Coffin"
 Minions: The Rise of Gru,2022,https://boxd.it/fz9w,3.5,Kyle Balda
 Moonstruck,1987,https://boxd.it/27zg,3.5,Norman Jewison
 My Big Fat Greek Wedding,2002,https://boxd.it/20k4,3.5,Joel Zwick
+My Bloody Valentine,1981,https://boxd.it/131M,3.5,George Mihalka
+My Own Private Idaho,1991,https://boxd.it/2ak4,3.5,Gus Van Sant
 Mystic River,2003,https://boxd.it/2aAG,3.5,Clint Eastwood
 Naked Lunch,1991,https://boxd.it/26ow,3.5,David Cronenberg
 Nosferatu the Vampyre,1979,https://boxd.it/21J0,3.5,Werner Herzog
@@ -549,19 +602,25 @@ Nosferatu the Vampyre,1979,https://boxd.it/21J0,3.5,Werner Herzog
 Ocean's Thirteen,2007,https://boxd.it/2aEy,3.5,Steven Soderbergh
 Ocean's Twelve,2004,https://boxd.it/2aZ2,3.5,Steven Soderbergh
 Office Space,1999,https://boxd.it/28Em,3.5,Mike Judge
+Paris Je T'aime,2006,https://boxd.it/273a,3.5,"Sylvain Chomet, Tom Tykwer, Gurinder Chadha, Richard LaGravenese, Isabel Coixet, Nobuhiro Suwa, Frédéric Auburtin, Alfonso Cuarón, Gérard Depardieu, Walter Salles, Christopher Doyle, Wes Craven, Daniela Thomas, Vincenzo Natali, Oliver Schmitz, Gus Van Sant, Olivier Assayas, Alexander Payne, Joel Coen, Ethan Coen, Bruno Podalydès"
 Pineapple Express,2008,https://boxd.it/1WRS,3.5,David Gordon Green
 Pirates of the Caribbean: Dead Man's Chest,2006,https://boxd.it/2bfk,3.5,Gore Verbinski
 Pollock,2000,https://boxd.it/1RPC,3.5,Ed Harris
+Ring,1998,https://boxd.it/26tw,3.5,Hideo Nakata
 Ripley's Game,2002,https://boxd.it/1UZg,3.5,Liliana Cavani
 Rocky,1976,https://boxd.it/28Uk,3.5,John G. Avildsen
 Rogue One: A Star Wars Story,2016,https://boxd.it/aPvy,3.5,Gareth Edwards
 Roxanne,1987,https://boxd.it/1TuG,3.5,Fred Schepisi
+Rumble in the Bronx,1995,https://boxd.it/1fi6,3.5,Stanley Tong Gwai-Lai
 Scarface,1983,https://boxd.it/2b7g,3.5,Brian De Palma
 Serial Mom,1994,https://boxd.it/1Tty,3.5,John Waters
 Shakespeare in Love,1998,https://boxd.it/27Pe,3.5,John Madden
+Shall We Dance?,1996,https://boxd.it/1UhS,3.5,Masayuki Suō
 Shallow Grave,1994,https://boxd.it/1XyW,3.5,Danny Boyle
 Shang-Chi and the Legend of the Ten Rings,2021,https://boxd.it/kLDI,3.5,Destin Daniel Cretton
 Shaolin Soccer,2001,https://boxd.it/1T86,3.5,Stephen Chow
+Sherlock Holmes,2009,https://boxd.it/1W2A,3.5,Guy Ritchie
+Sherlock Holmes: A Game of Shadows,2011,https://boxd.it/k3S,3.5,Guy Ritchie
 Shine,1996,https://boxd.it/20MC,3.5,Scott Hicks
 Shoeshine,1987,https://boxd.it/7bEE,3.5,Tom Abrams
 Shutter Island,2010,https://boxd.it/1U82,3.5,Martin Scorsese
@@ -571,8 +630,10 @@ Sleepers,1996,https://boxd.it/29xw,3.5,Barry Levinson
 Snatch,2000,https://boxd.it/2b7U,3.5,Guy Ritchie
 Solo: A Star Wars Story,2018,https://boxd.it/bGWs,3.5,Ron Howard
 Spartacus,1960,https://boxd.it/29bq,3.5,Stanley Kubrick
+Spellbound,1945,https://boxd.it/24Ji,3.5,Alfred Hitchcock
 Spider-Man 2,2004,https://boxd.it/2a88,3.5,Sam Raimi
 Spider-Man 3,2007,https://boxd.it/2a7Y,3.5,Sam Raimi
+Spider-Man: Far From Home,2019,https://boxd.it/fegG,3.5,Jon Watts
 Stand by Me,1986,https://boxd.it/2aOe,3.5,Rob Reiner
 Star Trek,2009,https://boxd.it/1Q6c,3.5,J.J. Abrams
 Star Wars,1977,https://boxd.it/72s,3.5,George Lucas
@@ -585,7 +646,9 @@ The Accused,1988,https://boxd.it/1VbQ,3.5,Jonathan Kaplan
 The Blues Brothers,1980,https://boxd.it/2adi,3.5,John Landis
 The Bourne Identity,2002,https://boxd.it/26EO,3.5,Doug Liman
 The Brown Bunny,2003,https://boxd.it/1RnI,3.5,Vincent Gallo
+The Dark Knight Rises,2012,https://boxd.it/H3m,3.5,Christopher Nolan
 The Departed,2006,https://boxd.it/28MA,3.5,Martin Scorsese
+The Devil Wears Prada,2006,https://boxd.it/2awE,3.5,David Frankel
 The Doors,1991,https://boxd.it/1W18,3.5,Oliver Stone
 The Elephant Man,1980,https://boxd.it/27LQ,3.5,David Lynch
 The Fabulous Baker Boys,1989,https://boxd.it/1VaI,3.5,Steve Kloves
@@ -596,9 +659,16 @@ The Goonies,1985,https://boxd.it/1YVC,3.5,Richard Donner
 The Green Hornet,2011,https://boxd.it/10TQ,3.5,Michel Gondry
 The Guardians of the Galaxy Holiday Special,2022,https://boxd.it/t77K,3.5,James Gunn
 The Hanging Garden,1997,https://boxd.it/1cHi,3.5,Thom Fitzgerald
+The Hangover,2009,https://boxd.it/1GjK,3.5,Todd Phillips
 The Idiots,1998,https://boxd.it/2amu,3.5,Lars von Trier
+The Karate Kid,1984,https://boxd.it/27Wk,3.5,John G. Avildsen
+The Lego Batman Movie,2017,https://boxd.it/azp0,3.5,Chris McKay
 The Matrix Revolutions,2003,https://boxd.it/2a12,3.5,"Lana Wachowski, Lilly Wachowski"
+The Mummy,1999,https://boxd.it/2a7a,3.5,Stephen Sommers
+The Muppets,2011,https://boxd.it/1zg,3.5,James Bobin
+The Naked Gun: From the Files of Police Squad!,1988,https://boxd.it/18YE,3.5,David Zucker
 The NeverEnding Story,1984,https://boxd.it/1dE0,3.5,Wolfgang Petersen
+The Nightmare Before Christmas,1993,https://boxd.it/1YzQ,3.5,Henry Selick
 The Northman,2022,https://boxd.it/nK2s,3.5,Robert Eggers
 The Out-of-Towners,1970,https://boxd.it/1Dt8,3.5,Arthur Hiller
 The Polar Express,2004,https://boxd.it/23am,3.5,Robert Zemeckis
@@ -611,29 +681,38 @@ The Super Mario Bros. Movie,2023,https://boxd.it/i8C8,3.5,"Michael Jelenic, Aaro
 The Untouchables,1987,https://boxd.it/2b6i,3.5,Brian De Palma
 The Wedding Singer,1998,https://boxd.it/1USO,3.5,Frank Coraci
 The X-Files,1998,https://boxd.it/29ta,3.5,Rob Bowman
-This Is the End,2013,https://boxd.it/3GB4,3.5,"Seth Rogen, Evan Goldberg"
 Thor,2011,https://boxd.it/1WQU,3.5,Kenneth Branagh
 Three Kings,1999,https://boxd.it/21IG,3.5,David O. Russell
 Time and Tide,2000,https://boxd.it/Gpw,3.5,Tsui Hark
 Tomb Raider,2018,https://boxd.it/bgbA,3.5,Roar Uthaug
 Top Gun,1986,https://boxd.it/29JC,3.5,Tony Scott
 Topsy-Turvy,1999,https://boxd.it/Nbc,3.5,Mike Leigh
+Toy Story 3,2010,https://boxd.it/1WRe,3.5,Lee Unkrich
+Toy Story 4,2019,https://boxd.it/9ALu,3.5,Josh Cooley
+Trading Places,1983,https://boxd.it/28sK,3.5,John Landis
 Traffic,2000,https://boxd.it/27Ue,3.5,Steven Soderbergh
 Trespass,1992,https://boxd.it/1BbQ,3.5,Walter Hill
 Tron,1982,https://boxd.it/2b9w,3.5,Steven Lisberger
+Tropic Thunder,2008,https://boxd.it/20WM,3.5,Ben Stiller
 Trouble Every Day,2001,https://boxd.it/115M,3.5,Claire Denis
 True Lies,1994,https://boxd.it/19pq,3.5,James Cameron
 Twister,1996,https://boxd.it/29S0,3.5,Jan de Bont
+UHF,1989,https://boxd.it/1SFI,3.5,Jay Levey
+Un Chien Andalou,1929,https://boxd.it/29Y8,3.5,Luis Buñuel
 Unbreakable,2000,https://boxd.it/1XV2,3.5,M. Night Shyamalan
 Walk Hard: The Dewey Cox Story,2007,https://boxd.it/21wK,3.5,Jake Kasdan
 Wall Street,1987,https://boxd.it/1VFG,3.5,Oliver Stone
 Watchmen,2009,https://boxd.it/1QE4,3.5,Zack Snyder
+Westfront 1918,1930,https://boxd.it/2ODK,3.5,G.W. Pabst
+What's Eating Gilbert Grape,1993,https://boxd.it/28xg,3.5,Lasse Hallström
+Where the Wild Things Are,2009,https://boxd.it/1K0C,3.5,Spike Jonze
 Willow,1988,https://boxd.it/29t0,3.5,Ron Howard
 Working Girl,1988,https://boxd.it/25ha,3.5,Mike Nichols
 X-Men,2000,https://boxd.it/1a7s,3.5,Bryan Singer
 X2,2003,https://boxd.it/1a7i,3.5,Bryan Singer
 Y Tu Mamá También,2001,https://boxd.it/28QM,3.5,Alfonso Cuarón
 Your Friends & Neighbors,1998,https://boxd.it/2GfA,3.5,Neil LaBute
+Zootopia,2016,https://boxd.it/84xS,3.5,"Byron Howard, Rich Moore"
 eXistenZ,1999,https://boxd.it/27Ni,3.5,David Cronenberg
 48 Hrs.,1982,https://boxd.it/2b18,3,Walter Hill
 50 First Dates,2004,https://boxd.it/285c,3,Peter Segal
@@ -651,93 +730,137 @@ Baghead,2008,https://boxd.it/22C0,3,"Jay Duplass, Mark Duplass"
 Baise-moi,2000,https://boxd.it/25Fc,3,"Virginie Despentes, Coralie Trinh Thi"
 Batman Forever,1995,https://boxd.it/2ara,3,Joel Schumacher
 Bend It Like Beckham,2002,https://boxd.it/2am0,3,Gurinder Chadha
+Black Panther,2018,https://boxd.it/8MHs,3,Ryan Coogler
+Black Rain,1989,https://boxd.it/24NY,3,Ridley Scott
 Bloodsport,1988,https://boxd.it/1Tee,3,Newt Arnold
 Blow,2001,https://boxd.it/24Mm,3,Ted Demme
 Bruce Almighty,2003,https://boxd.it/2aCC,3,Tom Shadyac
 Bullet Train,2022,https://boxd.it/qW26,3,David Leitch
 Can't Hardly Wait,1998,https://boxd.it/1MWI,3,"Harry Elfont, Deborah Kaplan"
+Captain America: The First Avenger,2011,https://boxd.it/28b0,3,Joe Johnston
+Captain Marvel,2019,https://boxd.it/9vSA,3,"Ryan Fleck, Anna Boden"
 Celebrity,1998,https://boxd.it/1YBM,3,Woody Allen
 Changing Lanes,2002,https://boxd.it/28Fa,3,Roger Michell
+Chef,2014,https://boxd.it/6lCG,3,Jon Favreau
 Childstar,2004,https://boxd.it/YDm,3,Don McKellar
 Clerks II,2006,https://boxd.it/26ZC,3,Kevin Smith
+Cobra,1986,https://boxd.it/1XDM,3,George P. Cosmatos
 Commando,1985,https://boxd.it/1UTs,3,Mark L. Lester
 Conan the Barbarian,1982,https://boxd.it/1YOm,3,John Milius
 Constantine,2005,https://boxd.it/2a7E,3,Francis Lawrence
 Crank,2006,https://boxd.it/27MY,3,"Brian Taylor, Mark Neveldine"
 Crash,2004,https://boxd.it/28q0,3,Paul Haggis
+Cyrus,2010,https://boxd.it/14zA,3,"Jay Duplass, Mark Duplass"
+Deadpool,2016,https://boxd.it/9fOC,3,Tim Miller
+Deadpool 2,2018,https://boxd.it/dlLM,3,David Leitch
+Death on the Nile,2022,https://boxd.it/ifpg,3,Kenneth Branagh
 Demolition Man,1993,https://boxd.it/1XVm,3,Marco Brambilla
 Desperado,1995,https://boxd.it/20Bk,3,Robert Rodriguez
+Despicable Me,2010,https://boxd.it/1DD8,3,"Pierre Coffin, Chris Renaud"
+Despicable Me 3,2017,https://boxd.it/azpu,3,"Pierre Coffin, Kyle Balda"
+Dirty Dancing,1987,https://boxd.it/2baY,3,Emile Ardolino
 Doctor Strange,2016,https://boxd.it/8MH8,3,Scott Derrickson
 Doctor Strange in the Multiverse of Madness,2022,https://boxd.it/gaTc,3,Sam Raimi
 DodgeBall: A True Underdog Story,2004,https://boxd.it/1YAY,3,Rawson Marshall Thurber
 Dogma,1999,https://boxd.it/284e,3,Kevin Smith
 Dolores Claiborne,1995,https://boxd.it/1SKo,3,Taylor Hackford
+Encanto,2021,https://boxd.it/kPRu,3,"Byron Howard, Jared Bush"
 Falling Down,1993,https://boxd.it/194M,3,Joel Schumacher
+Field of Dreams,1989,https://boxd.it/26VK,3,Phil Alden Robinson
 First Blood,1982,https://boxd.it/28U0,3,Ted Kotcheff
 Flatliners,1990,https://boxd.it/28D4,3,Joel Schumacher
 Fulltime Killer,2001,https://boxd.it/1YjS,3,"Johnnie To, Wai Ka-Fai"
+Funny People,2009,https://boxd.it/1CRy,3,Judd Apatow
 Gangs of New York,2002,https://boxd.it/25FG,3,Martin Scorsese
+Garden State,2004,https://boxd.it/2asW,3,Zach Braff
 Gattaca,1997,https://boxd.it/29Du,3,Andrew Niccol
+Get Him to the Greek,2010,https://boxd.it/1gyk,3,Nicholas Stoller
 Gremlins,1984,https://boxd.it/29gg,3,Joe Dante
-Hardcore Henry,2015,https://boxd.it/aAIM,3,Ilya Naishuller
+Guardians of the Galaxy Vol. 2,2017,https://boxd.it/8MxC,3,James Gunn
+Harry Potter and the Philosopher's Stone,2001,https://boxd.it/29QS,3,Chris Columbus
 Heavy Metal,1981,https://boxd.it/1SZI,3,"Gerald Potterton, John Bruno, John Halas, Julian Harris, Jimmy T. Murakami, Barrie Nelson, Paul Sabella, Jack Stokes, Pino Van Lamsweerde, Harold Whitaker"
 Horrible Bosses,2011,https://boxd.it/Ba2,3,Seth Gordon
+How to Train Your Dragon,2010,https://boxd.it/1WRy,3,"Chris Sanders, Dean DeBlois"
+Inception,2010,https://boxd.it/1skk,3,Christopher Nolan
 Iron Man 2,2010,https://boxd.it/1WZM,3,Jon Favreau
+Jackass 3D,2010,https://boxd.it/1KpM,3,Jeff Tremaine
+Jackass Presents: Bad Grandpa,2013,https://boxd.it/6e3u,3,Jeff Tremaine
 Jade,1995,https://boxd.it/1SUe,3,William Friedkin
 Jerry and Tom,1998,https://boxd.it/2EQu,3,Saul Rubinek
 Jersey Girl,2004,https://boxd.it/1Yqa,3,Kevin Smith
+John Carter,2012,https://boxd.it/FQ2,3,Andrew Stanton
+John Wick,2014,https://boxd.it/7dEc,3,Chad Stahelski
 John Wick: Chapter 2,2017,https://boxd.it/ayGu,3,Chad Stahelski
+John Wick: Chapter 3 – Parabellum,2019,https://boxd.it/gmFw,3,Chad Stahelski
 Ju-on: The Grudge,2002,https://boxd.it/1SY6,3,Takashi Shimizu
 Judgment Night,1993,https://boxd.it/736,3,Stephen Hopkins
+Jumanji,1995,https://boxd.it/1ZLI,3,Joe Johnston
+Jungle Cruise,2021,https://boxd.it/g4YK,3,Jaume Collet-Serra
 Knocked Up,2007,https://boxd.it/23yS,3,Judd Apatow
 Krull,1983,https://boxd.it/29sG,3,Peter Yates
+Kung Fu Panda,2008,https://boxd.it/1Yws,3,"Mark Osborne, John Stevenson"
 L.A. Story,1991,https://boxd.it/27qe,3,Mick Jackson
 Layer Cake,2004,https://boxd.it/23LC,3,Matthew Vaughn
+Legend,1985,https://boxd.it/1SCY,3,Ridley Scott
+Life Is Beautiful,1997,https://boxd.it/29Wm,3,Roberto Benigni
+Limitless,2011,https://boxd.it/Aly,3,Neil Burger
 "Lock, Stock and Two Smoking Barrels",1998,https://boxd.it/2b92,3,Guy Ritchie
 Lucky Number Slevin,2006,https://boxd.it/2aVu,3,Paul McGuigan
 Mallrats,1995,https://boxd.it/26ZW,3,Kevin Smith
 Maximum Overdrive,1986,https://boxd.it/1XnO,3,Stephen King
+Megamind,2010,https://boxd.it/16Sk,3,Tom McGrath
 Men at Work,1990,https://boxd.it/1WUM,3,Emilio Estevez
+Men in Black,1997,https://boxd.it/2a0I,3,Barry Sonnenfeld
 Mission: Impossible II,2000,https://boxd.it/29cS,3,John Woo
 Monster's Ball,2001,https://boxd.it/28Uu,3,Marc Forster
 National Lampoon's Vacation,1983,https://boxd.it/1Uvq,3,Harold Ramis
 Novocaine,2001,https://boxd.it/1CTa,3,David Atkins
+Ocean's Eight,2018,https://boxd.it/eaai,3,Gary Ross
 One Fine Day,1996,https://boxd.it/211i,3,Michael Hoffman
 Open Your Eyes,1997,https://boxd.it/27TU,3,Alejandro Amenábar
-Passengers,2016,https://boxd.it/8lFu,3,Morten Tyldum
+Orange County,2002,https://boxd.it/1SVc,3,Jake Kasdan
 Phone Booth,2002,https://boxd.it/285G,3,Joel Schumacher
 Pleasantville,1998,https://boxd.it/26uY,3,Gary Ross
 Psycho,1998,https://boxd.it/1Ugg,3,Gus Van Sant
+Puss in Boots,2011,https://boxd.it/eL34,3,Chris Miller
 Ralph Breaks the Internet,2018,https://boxd.it/edAy,3,"Phil Johnston, Rich Moore"
 Rambo: First Blood Part II,1985,https://boxd.it/28TQ,3,George P. Cosmatos
 Red Dragon,2002,https://boxd.it/1Yrs,3,Brett Ratner
 Renaissance,2006,https://boxd.it/1YO2,3,Christian Volckman
 Renfield,2023,https://boxd.it/o8vy,3,Chris McKay
 Ride with the Devil,1999,https://boxd.it/1APq,3,Ang Lee
+Rio 2,2014,https://boxd.it/5jfy,3,Carlos Saldanha
 Robin Hood: Men in Tights,1993,https://boxd.it/20H8,3,Mel Brooks
 Robots,2005,https://boxd.it/1Xve,3,Chris Wedge
 Scanners,1981,https://boxd.it/1YqE,3,David Cronenberg
+Scent of a Woman,1992,https://boxd.it/1YAu,3,Martin Brest
 Secret Window,2004,https://boxd.it/28xq,3,David Koepp
-Sherlock Holmes,2009,https://boxd.it/1W2A,3,Guy Ritchie
 Shopgirl,2005,https://boxd.it/26zu,3,Anand Tucker
 Sleepy Hollow,1999,https://boxd.it/26u0,3,Tim Burton
 Sliding Doors,1998,https://boxd.it/1WNG,3,Peter Howitt
 Smokin' Aces,2006,https://boxd.it/20Ri,3,Joe Carnahan
 Spider,2002,https://boxd.it/1YeI,3,David Cronenberg
+Spider-Man: Homecoming,2017,https://boxd.it/aboM,3,Jon Watts
 Spy Game,2001,https://boxd.it/28Fk,3,Tony Scott
+Stages of Mourning,2004,https://boxd.it/7RbE,3,Sarah Pucill
 Star Trek II: The Wrath of Khan,1982,https://boxd.it/2b0u,3,Nicholas Meyer
+Star Wars: The Force Awakens,2015,https://boxd.it/4vru,3,J.J. Abrams
 Star Wars: The Last Jedi,2017,https://boxd.it/5xme,3,Rian Johnson
+Step Brothers,2008,https://boxd.it/1SsE,3,Adam McKay
 Superman,2025,https://boxd.it/E9IU,3,James Gunn
 Superman II,1980,https://boxd.it/204q,3,Richard Lester
+Tangled,2010,https://boxd.it/15gO,3,"Byron Howard, Nathan Greno"
 Team America: World Police,2004,https://boxd.it/24QS,3,Trey Parker
 That Thing You Do!,1996,https://boxd.it/1Yig,3,Tom Hanks
 The 'Burbs,1989,https://boxd.it/1SDi,3,Joe Dante
 The 40 Year Old Virgin,2005,https://boxd.it/21hK,3,Judd Apatow
+The Amazing Spider-Man,2012,https://boxd.it/27PI,3,Marc Webb
+The Amazing Spider-Man 2,2014,https://boxd.it/3utM,3,Marc Webb
 The Beach,2000,https://boxd.it/27T6,3,Danny Boyle
 The Bourne Supremacy,2004,https://boxd.it/26EE,3,Paul Greengrass
 The Butterfly Effect,2004,https://boxd.it/27M0,3,"Eric Bress, J. Mackye Gruber"
-The Dark Knight Rises,2012,https://boxd.it/H3m,3,Christopher Nolan
 The Devil's Own,1997,https://boxd.it/24he,3,Alan J. Pakula
+The Hangover Part II,2011,https://boxd.it/PZI,3,Todd Phillips
 The House Bunny,2008,https://boxd.it/1RyG,3,Fred Wolf
 The Illusionist,2006,https://boxd.it/28H6,3,Neil Burger
 The Insider,1999,https://boxd.it/1ZoE,3,Michael Mann
@@ -745,15 +868,19 @@ The Island,2005,https://boxd.it/28qE,3,Michael Bay
 The Italian Job,2003,https://boxd.it/1Y86,3,F. Gary Gray
 The Last Samurai,2003,https://boxd.it/29ZA,3,Edward Zwick
 The Lost City,2022,https://boxd.it/sg0Q,3,"Aaron Nee, Adam Nee"
+The Lover,1992,https://boxd.it/1UU6,3,Jean-Jacques Annaud
 The Martian,2015,https://boxd.it/8SeG,3,Ridley Scott
 The Mask,1994,https://boxd.it/29rS,3,Chuck Russell
 The Mission,1986,https://boxd.it/1TTw,3,Roland Joffé
 The Money Pit,1986,https://boxd.it/1Wc6,3,Richard Benjamin
 The Mosquito Coast,1986,https://boxd.it/1UAA,3,Peter Weir
+The Most Dangerous Game,1932,https://boxd.it/27Gc,3,"Irving Pichel, Ernest B. Schoedsack"
 The Passion of the Christ,2004,https://boxd.it/29ZK,3,Mel Gibson
+The Princess Diaries,2001,https://boxd.it/1XCO,3,Garry Marshall
 The Saint,1997,https://boxd.it/1Xkq,3,Phillip Noyce
 The Shipping News,2001,https://boxd.it/21Ho,3,Lasse Hallström
 The Simpsons Movie,2007,https://boxd.it/6YU,3,David Silverman
+The Song of Styrene,1957,https://boxd.it/LPE,3,Alain Resnais
 The Terminal,2004,https://boxd.it/2a2O,3,Steven Spielberg
 The Thomas Crown Affair,1999,https://boxd.it/29im,3,John McTiernan
 The Thursday Murder Club,2025,https://boxd.it/rXju,3,Chris Columbus
@@ -762,7 +889,10 @@ The Vanishing,1993,https://boxd.it/28pm,3,George Sluizer
 The Wings of the Dove,1997,https://boxd.it/P8a,3,Iain Softley
 The Witches of Eastwick,1987,https://boxd.it/2272,3,George Miller
 There's Something About Mary,1998,https://boxd.it/2aae,3,"Bobby Farrelly, Peter Farrelly"
+This Is 40,2012,https://boxd.it/39WI,3,Judd Apatow
+This Is the End,2013,https://boxd.it/3GB4,3,"Seth Rogen, Evan Goldberg"
 Thor: Love and Thunder,2022,https://boxd.it/mMAY,3,Taika Waititi
+Thor: Ragnarok,2017,https://boxd.it/8MHi,3,Taika Waititi
 Thunderbolts*,2025,https://boxd.it/BfbQ,3,Jake Schreier
 Titan A.E.,2000,https://boxd.it/20W8,3,"Don Bluth, Gary Goldman"
 Tremors,1990,https://boxd.it/1YSe,3,Ron Underwood
@@ -776,25 +906,38 @@ Waydowntown,2000,https://boxd.it/1P9a,3,Gary Burns
 Wedding Crashers,2005,https://boxd.it/1Yte,3,David Dobkin
 Welcome to Collinwood,2002,https://boxd.it/1Z8c,3,"Anthony Russo, Joe Russo"
 Wild Things,1998,https://boxd.it/29Zq,3,John McNaughton
+X-Men: First Class,2011,https://boxd.it/FOA,3,Matthew Vaughn
 Young Guns,1988,https://boxd.it/1SEq,3,Christopher Cain
 Zoolander,2001,https://boxd.it/1YMA,3,Ben Stiller
 A.I. Artificial Intelligence,2001,https://boxd.it/29Ve,2.5,Steven Spielberg
 Ant-Man and the Wasp: Quantumania,2023,https://boxd.it/nL2y,2.5,Peyton Reed
 Armageddon,1998,https://boxd.it/2b9Q,2.5,Michael Bay
+Avengers: Age of Ultron,2015,https://boxd.it/3qi6,2.5,Joss Whedon
+Avengers: Endgame,2019,https://boxd.it/9vE4,2.5,"Joe Russo, Anthony Russo"
+Avengers: Infinity War,2018,https://boxd.it/9vEe,2.5,"Anthony Russo, Joe Russo"
 Back to the Future Part III,1990,https://boxd.it/2aTS,2.5,Robert Zemeckis
+Bad Teacher,2011,https://boxd.it/yXA,2.5,Jake Kasdan
 Batman Returns,1992,https://boxd.it/2awa,2.5,Tim Burton
 Black Adam,2022,https://boxd.it/fup0,2.5,Jaume Collet-Serra
+Broken Arrow,1996,https://boxd.it/1Z9u,2.5,John Woo
+Click,2006,https://boxd.it/1YVM,2.5,Frank Coraci
 Diabolique,1996,https://boxd.it/1UV4,2.5,Jeremiah S. Chechik
-First Knight,1995,https://boxd.it/21zY,2.5,Jerry Zucker
+Final Destination,2000,https://boxd.it/1YrC,2.5,James Wong
 Full Frontal,2002,https://boxd.it/1MEu,2.5,Steven Soderbergh
+Hardcore Henry,2015,https://boxd.it/aAIM,2.5,Ilya Naishuller
 Home Alone 2: Lost in New York,1992,https://boxd.it/29F6,2.5,Chris Columbus
+Hulk,2003,https://boxd.it/27PS,2.5,Ang Lee
 Intolerable Cruelty,2003,https://boxd.it/1T7i,2.5,Joel Coen
 Jay and Silent Bob Strike Back,2001,https://boxd.it/26ZM,2.5,Kevin Smith
 Johnny Mnemonic,1995,https://boxd.it/1XBQ,2.5,Robert Longo
+Lakeview Terrace,2008,https://boxd.it/1Qv2,2.5,Neil LaBute
 Love Actually,2003,https://boxd.it/2aeU,2.5,Richard Curtis
 Meet Joe Black,1998,https://boxd.it/2aEI,2.5,Martin Brest
 Meet the Fockers,2004,https://boxd.it/29NE,2.5,Jay Roach
 Nacho Libre,2006,https://boxd.it/1YTG,2.5,Jared Hess
+Nobody,2021,https://boxd.it/mLqS,2.5,Ilya Naishuller
+Over the Top,1987,https://boxd.it/2852,2.5,Menahem Golan
+Passengers,2016,https://boxd.it/8lFu,2.5,Morten Tyldum
 Predator 2,1990,https://boxd.it/2aY4,2.5,Stephen Hopkins
 Raw Deal,1986,https://boxd.it/27rw,2.5,John Irvin
 Ready Player One,2018,https://boxd.it/aZes,2.5,Steven Spielberg
@@ -803,106 +946,22 @@ Sahara,2005,https://boxd.it/20XK,2.5,Breck Eisner
 Serendipity,2001,https://boxd.it/1XPy,2.5,Peter Chelsom
 Star Wars: Episode I – The Phantom Menace,1999,https://boxd.it/27Vc,2.5,George Lucas
 Star Wars: Episode II – Attack of the Clones,2002,https://boxd.it/27V2,2.5,George Lucas
+Star Wars: The Rise of Skywalker,2019,https://boxd.it/5xlK,2.5,J.J. Abrams
 Terminator 3: Rise of the Machines,2003,https://boxd.it/2aES,2.5,Jonathan Mostow
-The Da Vinci Code,2006,https://boxd.it/2a3i,2.5,Ron Howard
 The Day the Earth Stood Still,2008,https://boxd.it/1WQ6,2.5,Scott Derrickson
+The Flash,2023,https://boxd.it/9twC,2.5,Andy Muschietti
 The Grudge,2004,https://boxd.it/27Jq,2.5,Takashi Shimizu
 The Hunt for Red October,1990,https://boxd.it/28lk,2.5,John McTiernan
-The Lover,1992,https://boxd.it/1UU6,2.5,Jean-Jacques Annaud
 The River Wild,1994,https://boxd.it/1Zr4,2.5,Curtis Hanson
+Zombieland,2009,https://boxd.it/1En6,2.5,Ruben Fleischer
 Above the Law,1988,https://boxd.it/1YN4,2,Andrew Davis
+First Knight,1995,https://boxd.it/21zY,2,Jerry Zucker
+Judge Dredd,1995,https://boxd.it/1Yzm,2,Danny Cannon
+Rambo III,1988,https://boxd.it/28TG,2,Peter MacDonald
 Solarbabies,1986,https://boxd.it/1a4y,2,Alan Johnson
 The Avengers,1998,https://boxd.it/1YYG,2,Jeremiah S. Chechik
 The Brothers Grimm,2005,https://boxd.it/24kW,2,Terry Gilliam
+The Da Vinci Code,2006,https://boxd.it/2a3i,2,Ron Howard
 The Day After Tomorrow,2004,https://boxd.it/2aog,2,Roland Emmerich
 The Tourist,2010,https://boxd.it/17Hs,2,Florian Henckel von Donnersmarck
 Under Siege,1992,https://boxd.it/1ZLy,2,Andrew Davis
-Avengers: Age of Ultron,2015,https://boxd.it/3qi6,NA,Joss Whedon
-Avengers: Endgame,2019,https://boxd.it/9vE4,NA,"Joe Russo, Anthony Russo"
-Avengers: Infinity War,2018,https://boxd.it/9vEe,NA,"Anthony Russo, Joe Russo"
-Baby Driver,2017,https://boxd.it/bhF2,NA,Edgar Wright
-Baby Mama,2008,https://boxd.it/1ZQe,NA,Michael McCullers
-Bad Teacher,2011,https://boxd.it/yXA,NA,Jake Kasdan
-Be Kind Rewind,2008,https://boxd.it/23Au,NA,Michel Gondry
-Black Panther,2018,https://boxd.it/8MHs,NA,Ryan Coogler
-Borat Subsequent Moviefilm,2020,https://boxd.it/rNS0,NA,Jason Woliner
-Captain America: The First Avenger,2011,https://boxd.it/28b0,NA,Joe Johnston
-Captain Marvel,2019,https://boxd.it/9vSA,NA,"Ryan Fleck, Anna Boden"
-Chef,2014,https://boxd.it/6lCG,NA,Jon Favreau
-Click,2006,https://boxd.it/1YVM,NA,Frank Coraci
-Cyrus,2010,https://boxd.it/14zA,NA,"Jay Duplass, Mark Duplass"
-Deadpool,2016,https://boxd.it/9fOC,NA,Tim Miller
-Deadpool 2,2018,https://boxd.it/dlLM,NA,David Leitch
-Death on the Nile,2022,https://boxd.it/ifpg,NA,Kenneth Branagh
-Despicable Me,2010,https://boxd.it/1DD8,NA,"Pierre Coffin, Chris Renaud"
-Despicable Me 3,2017,https://boxd.it/azpu,NA,"Pierre Coffin, Kyle Balda"
-Dirty Dancing,1987,https://boxd.it/2baY,NA,Emile Ardolino
-Encanto,2021,https://boxd.it/kPRu,NA,"Byron Howard, Jared Bush"
-Funny People,2009,https://boxd.it/1CRy,NA,Judd Apatow
-Get Him to the Greek,2010,https://boxd.it/1gyk,NA,Nicholas Stoller
-Guardians of the Galaxy,2014,https://boxd.it/3VH2,NA,James Gunn
-Guardians of the Galaxy Vol. 2,2017,https://boxd.it/8MxC,NA,James Gunn
-Guardians of the Galaxy Vol. 3,2023,https://boxd.it/fVNI,NA,James Gunn
-How to Train Your Dragon,2010,https://boxd.it/1WRy,NA,"Chris Sanders, Dean DeBlois"
-Inception,2010,https://boxd.it/1skk,NA,Christopher Nolan
-Inside Out,2015,https://boxd.it/4KHC,NA,Pete Docter
-Iron Man,2008,https://boxd.it/28dA,NA,Jon Favreau
-Iron Man 3,2013,https://boxd.it/2cBQ,NA,Shane Black
-Jackass 3D,2010,https://boxd.it/1KpM,NA,Jeff Tremaine
-Jackass Presents: Bad Grandpa,2013,https://boxd.it/6e3u,NA,Jeff Tremaine
-John Carter,2012,https://boxd.it/FQ2,NA,Andrew Stanton
-John Wick,2014,https://boxd.it/7dEc,NA,Chad Stahelski
-John Wick: Chapter 3 – Parabellum,2019,https://boxd.it/gmFw,NA,Chad Stahelski
-Jungle Cruise,2021,https://boxd.it/g4YK,NA,Jaume Collet-Serra
-Kung Fu Panda,2008,https://boxd.it/1Yws,NA,"Mark Osborne, John Stevenson"
-Lakeview Terrace,2008,https://boxd.it/1Qv2,NA,Neil LaBute
-Limitless,2011,https://boxd.it/Aly,NA,Neil Burger
-M,1931,https://boxd.it/29vq,NA,Fritz Lang
-Megamind,2010,https://boxd.it/16Sk,NA,Tom McGrath
-Metropolis,1927,https://boxd.it/71a,NA,Fritz Lang
-Minions,2015,https://boxd.it/6jCO,NA,"Kyle Balda, Pierre Coffin"
-Mission: Impossible – Fallout,2018,https://boxd.it/bSVc,NA,Christopher McQuarrie
-Mission: Impossible – Rogue Nation,2015,https://boxd.it/5rI4,NA,Christopher McQuarrie
-Nobody,2021,https://boxd.it/mLqS,NA,Ilya Naishuller
-Notorious,1946,https://boxd.it/2aDK,NA,Alfred Hitchcock
-Ocean's Eight,2018,https://boxd.it/eaai,NA,Gary Ross
-Puss in Boots,2011,https://boxd.it/eL34,NA,Chris Miller
-Rebecca,1940,https://boxd.it/2aQa,NA,Alfred Hitchcock
-Ring,1998,https://boxd.it/26tw,NA,Hideo Nakata
-Rio 2,2014,https://boxd.it/5jfy,NA,Carlos Saldanha
-Rumble in the Bronx,1995,https://boxd.it/1fi6,NA,Stanley Tong Gwai-Lai
-Shall We Dance?,1996,https://boxd.it/1UhS,NA,Masayuki Suō
-Sherlock Holmes: A Game of Shadows,2011,https://boxd.it/k3S,NA,Guy Ritchie
-Spellbound,1945,https://boxd.it/24Ji,NA,Alfred Hitchcock
-Spider-Man: Across the Spider-Verse,2023,https://boxd.it/kSz4,NA,"Kemp Powers, Justin K. Thompson, Joaquim Dos Santos"
-Spider-Man: Far From Home,2019,https://boxd.it/fegG,NA,Jon Watts
-Spider-Man: Homecoming,2017,https://boxd.it/aboM,NA,Jon Watts
-Star Wars: The Force Awakens,2015,https://boxd.it/4vru,NA,J.J. Abrams
-Star Wars: The Rise of Skywalker,2019,https://boxd.it/5xlK,NA,J.J. Abrams
-Step Brothers,2008,https://boxd.it/1SsE,NA,Adam McKay
-Tangled,2010,https://boxd.it/15gO,NA,"Byron Howard, Nathan Greno"
-The 39 Steps,1935,https://boxd.it/2aKc,NA,Alfred Hitchcock
-The Amazing Spider-Man,2012,https://boxd.it/27PI,NA,Marc Webb
-The Amazing Spider-Man 2,2014,https://boxd.it/3utM,NA,Marc Webb
-The Flash,2023,https://boxd.it/9twC,NA,Andy Muschietti
-The Hangover,2009,https://boxd.it/1GjK,NA,Todd Phillips
-The Hangover Part II,2011,https://boxd.it/PZI,NA,Todd Phillips
-The Lego Batman Movie,2017,https://boxd.it/azp0,NA,Chris McKay
-The Most Dangerous Game,1932,https://boxd.it/27Gc,NA,"Irving Pichel, Ernest B. Schoedsack"
-The Muppets,2011,https://boxd.it/1zg,NA,James Bobin
-The Passion of Joan of Arc,1928,https://boxd.it/29DO,NA,Carl Theodor Dreyer
-The Rules of the Game,1939,https://boxd.it/29Es,NA,Jean Renoir
-The Song of Styrene,1957,https://boxd.it/LPE,NA,Alain Resnais
-The Wizard of Oz,1939,https://boxd.it/29Xu,NA,Victor Fleming
-This Is 40,2012,https://boxd.it/39WI,NA,Judd Apatow
-Thor: Ragnarok,2017,https://boxd.it/8MHi,NA,Taika Waititi
-Toy Story 3,2010,https://boxd.it/1WRe,NA,Lee Unkrich
-Toy Story 4,2019,https://boxd.it/9ALu,NA,Josh Cooley
-Tropic Thunder,2008,https://boxd.it/20WM,NA,Ben Stiller
-UHF,1989,https://boxd.it/1SFI,NA,Jay Levey
-Un Chien Andalou,1929,https://boxd.it/29Y8,NA,Luis Buñuel
-WALL·E,2008,https://boxd.it/1VEo,NA,Andrew Stanton
-Where the Wild Things Are,2009,https://boxd.it/1K0C,NA,Spike Jonze
-X-Men: First Class,2011,https://boxd.it/FOA,NA,Matthew Vaughn
-Zombieland,2009,https://boxd.it/1En6,NA,Ruben Fleischer
-Zootopia,2016,https://boxd.it/84xS,NA,"Byron Howard, Rich Moore"
