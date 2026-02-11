@@ -848,6 +848,7 @@ dplyr::tibble(
     columns = color,
     fn = function(x) x
   ) |>
+  fmt(columns = color, fns = function(x) "") |>
   cols_width(color ~ px(30)) |>
   tab_header(
     title = "Paris Métro Lines",
