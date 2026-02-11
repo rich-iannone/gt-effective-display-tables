@@ -1127,8 +1127,7 @@ films_tbl |>
   tab_header(
     title = md("**Rich's Letterboxd**"),
     subtitle = md(paste0(
-      "All **", nrow(films_tbl), "** watched films (",
-      sum(!is.na(films_tbl$film_rating)), " rated)"
+      "All **", nrow(films_tbl), "** watched films."
     ))
   ) |>
   tab_source_note(
