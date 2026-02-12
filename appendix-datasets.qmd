@@ -1062,6 +1062,7 @@ For **gt**, the dataset demonstrates time series formatting, weather data presen
 The `films` dataset is a labor of love: a comprehensive record of every film that has competed for the Palme d'Or at the Cannes Film Festival. It contains 1,607 entries spanning the festival's history, with each row recording a film's title (in both English and original language), director, year, country of origin, spoken languages, and IMDB link.
 
 ```{r}
+#| echo: false
 films |>
   dplyr::filter(year == 2019) |>
   dplyr::select(title, director, countries_of_origin) |>
