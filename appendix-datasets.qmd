@@ -392,7 +392,7 @@ gtcars |>
     msrp = "MSRP"
   ) |>
   tab_header(
-    title = md("Most Expensive Cars in gtcars &#x1F4B0;"),
+    title = md("Most Expensive Cars in `gtcars` &#x1F4B0;"),
     subtitle = "Top 10 by manufacturer's suggested retail price"
   )
 ```
