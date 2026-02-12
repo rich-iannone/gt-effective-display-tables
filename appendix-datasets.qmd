@@ -189,6 +189,8 @@ For **gt** specifically, `pizzaplace` demonstrates grouped data, aggregation, cu
 The name `exibble` is a portmanteau of "example tibble" and it serves exactly that purpose. This tiny dataset of eight rows exists to demonstrate **gt**'s formatting capabilities without the distraction of meaningful content. Each column represents a different data type: numeric values, character strings, currency amounts, dates, times, datetimes, and logical values. Missing values appear in strategic locations to demonstrate `sub_missing()` and related substitution functions.
 
 ```{r}
+#| echo: false
+
 exibble |>
   gt() |>
   tab_header(
@@ -218,6 +220,7 @@ Each row and column in `exibble` was chosen to exercise different aspects of tab
 
 ```{r}
 #| echo: false
+
 dplyr::tibble(
   Column = c("num", "char", "currency", "date", "time", "datetime", "row", "group"),
   Type = c("numeric", "character", "numeric", "Date", "character", "POSIXct", "character", "character"),
