@@ -479,11 +479,16 @@ peeps |>
   dplyr::select(name_given, name_family, email_addr, country) |>
   dplyr::slice_sample(n = 6) |>
   gt() |>
+  fmt_country(columns = country) |>
+  cols_add(flag = country) |>
+  fmt_flag(columns = flag) |>
+  cols_move(columns = flag, after = country) |>
   cols_label(
     name_given = "First Name",
     name_family = "Last Name",
     email_addr = "Email",
-    country = "Country"
+    country = "Country",
+    flag = ""
   )
 ```
 
