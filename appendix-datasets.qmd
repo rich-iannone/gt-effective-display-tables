@@ -423,6 +423,7 @@ For **gt** demonstrations, `countrypops` excels at time series comparisons, geog
 While `countrypops` takes a global view, `towny` focuses on a single Canadian province: Ontario. The dataset contains population figures for 414 municipalities, including data from every Canadian census between 1996 and 2021 (conducted every five years) plus various geographic and administrative attributes. It exists because I actually live in Ontario and wanted an excuse to know more about the places surrounding me.
 
 ```{r}
+#| echo: false
 towny |>
   dplyr::select(name, land_area_km2, population_2001, population_2021, density_2021) |>
   dplyr::slice_max(population_2021, n = 10) |>
