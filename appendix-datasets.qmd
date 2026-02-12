@@ -687,18 +687,58 @@ For **gt** demonstrations, these scientific datasets showcase formatters like `f
 The `sp500` dataset contains daily stock market data for the S&P 500 index from 1950 through 2015: opening price, closing price, high, low, and trading volume for each trading day. With over 16,000 rows, it provides a substantial corpus of financial time series data.
 
 ```{r}
-sp500 |>
-  dplyr::filter(date >= "2015-01-01") |>
-  dplyr::slice_head(n = 10) |>
+#| echo: false
+crash_week <-
+  sp500 |>
+  dplyr::filter(date >= "1987-10-14", date <= "1987-10-23") |>
+  dplyr::arrange(date) |>
+  dplyr::mutate(day = format(date, "%A")) |>
+  dplyr::select(date, day, open, high, low, close, volume)
+
+weekend_row <- dplyr::tibble(
+  date = as.Date("1987-10-17"), day = "Weekend",
+  open = NA_real_, high = NA_real_, low = NA_real_,
+  close = NA_real_, volume = NA_real_
+)
+
+dplyr::bind_rows(
+  crash_week |> dplyr::filter(date <= "1987-10-16"),
+  weekend_row,
+  crash_week |> dplyr::filter(date >= "1987-10-19")
+) |>
   gt(rowname_col = "date") |>
   fmt_currency(columns = c(open, high, low, close), decimals = 2) |>
   fmt_number(columns = volume, suffixing = TRUE) |>
+  sub_missing(missing_text = "—") |>
   cols_label(
+    day = "Day",
     open = "Open",
     high = "High",
     low = "Low",
     close = "Close",
     volume = "Volume"
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "#f0f0f0"),
+      cell_text(style = "italic")
+    ),
+    locations = cells_body(rows = day == "Weekend")
+  ) |>
+  tab_style(
+    style = cell_text(color = "#D73027", weight = "bold"),
+    locations = cells_body(rows = date == as.Date("1987-10-19"))
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "#f0f0f0"),
+      cell_text(style = "italic")
+    ),
+    locations = cells_stub(rows = day == "Weekend")
+  ) |>
+  tab_header(
+    title = "Black Monday and the Week That Shook Wall Street",
+    subtitle = "S&P 500 daily prices, October 14\u201323, 1987"
   )
 ```
 
