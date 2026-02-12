@@ -435,6 +435,10 @@ towny |>
     population_2001 = "Pop. 2001",
     population_2021 = "Pop. 2021",
     density_2021 = "Density"
+  ) |>
+  tab_header(
+    title = "Ontario's Largest Municipalities",
+    subtitle = "Population and density for the top 10, 2001 vs. 2021"
   )
 ```
 
