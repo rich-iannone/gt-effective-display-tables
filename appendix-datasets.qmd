@@ -70,9 +70,10 @@ pizzaplace |>
   dplyr::group_by(type, name) |>
   dplyr::summarize(
     sizes = paste(size, collapse = ", "),
-    price_range = paste0(
-      "$", sprintf("%.2f", min(price)), 
-      " - $", sprintf("%.2f", max(price))
+    price_range = dplyr::if_else(
+      min(price) == max(price),
+      sprintf("$%.2f", min(price)),
+      paste0("$", sprintf("%.2f", min(price)), "\u2013$", sprintf("%.2f", max(price)))
     ),
     .groups = "drop"
   ) |>
