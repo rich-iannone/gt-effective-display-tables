@@ -588,7 +588,9 @@ The `peeps` dataset contains fictional personal information for 100 imaginary pe
 
 ```{r}
 #| echo: false
+
 set.seed(23)
+
 peeps |>
   dplyr::select(name_given, name_family, email_addr, country) |>
   dplyr::slice_sample(n = 6) |>
@@ -624,6 +626,8 @@ Every person in the dataset is entirely fictional. The addresses do not correspo
 The `sza` dataset originates from atmospheric chemistry research, specifically from data tables published in textbooks by Pitts and Finlayson-Pitts. It records solar zenith angles (the angle between the sun and the vertical) across different latitudes and months. The original data came from a US government source that may no longer be online, but the values remain scientifically accurate and useful.
 
 ```{r}
+#| echo: false
+
 sza |>
   dplyr::filter(latitude %in% c(0, 30, 60), !is.na(sza)) |>
   tidyr::pivot_wider(names_from = month, values_from = sza) |>
@@ -650,6 +654,7 @@ When the sun sits directly overhead, sunlight travels through the minimum possib
 
 ```{r}
 #| echo: false
+
 sza |>
   dplyr::filter(!is.na(sza)) |>
   dplyr::filter(tst %in% c("0600", "0900", "1200", "1500", "1800")) |>
@@ -691,6 +696,7 @@ The `constants` dataset contains 30 fundamental physical constants with their va
 
 ```{r}
 #| echo: false
+
 constants |>
   dplyr::filter(name %in% c(
     "speed of light in vacuum", "Planck constant",
@@ -721,6 +727,7 @@ Physical constants occupy a peculiar position in science. They are measured quan
 
 ```{r}
 #| echo: false
+
 constants |>
   dplyr::filter(!is.na(value) & !is.na(uncert)) |>
   dplyr::mutate(
@@ -754,7 +761,9 @@ The `reactions` dataset catalogs 1,344 atmospheric chemical reactions with their
 
 ```{r}
 #| echo: false
+
 set.seed(23)
+
 reactions |>
   dplyr::filter(!is.na(OH_k298)) |>
   dplyr::slice_sample(n = 8) |>
@@ -778,6 +787,7 @@ The `nuclides` dataset compiles nuclear data for isotopes: half-lives, decay mod
 
 ```{r}
 #| echo: false
+
 nuclides |>
   dplyr::filter(!is.na(half_life) & half_life > 0) |>
   dplyr::filter(decay_1 %in% c("B-", "B+", "A", "EC")) |>
@@ -811,6 +821,7 @@ The `sp500` dataset contains daily stock market data for the S&P 500 index from 
 
 ```{r}
 #| echo: false
+
 crash_week <-
   sp500 |>
   dplyr::filter(date >= "1987-10-14", date <= "1987-10-23") |>
@@ -876,6 +887,7 @@ The S&P 500 tracks 500 large-cap American companies, weighted by market capitali
 
 ```{r}
 #| echo: false
+
 sp500 |>
   dplyr::mutate(year = as.integer(format(date, "%Y"))) |>
   dplyr::arrange(date) |>
@@ -924,6 +936,8 @@ The dataset originated from a web search that turned up historical market data, 
 The Paris Métro is one of the world's great urban transit systems. Opened in 1900, it has grown to 16 lines serving 308 stations across the city and surrounding communes. The `metro` dataset captures this network: station names, locations, line assignments, opening dates, and ridership figures.
 
 ```{r}
+#| echo: false
+
 metro |>
   dplyr::select(name, lines, passengers) |>
   dplyr::slice_max(passengers, n = 10) |>
@@ -952,6 +966,7 @@ The guiding philosophy was density: stations placed close together (often just 5
 
 ```{r}
 #| echo: false
+
 dplyr::tibble(
   decade = c("1900s", "1910s", "1920s", "1930s", "1940s", "1950s", "1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s"),
   stations_opened = c(65, 85, 60, 25, 5, 15, 12, 8, 18, 10, 8, 14, 10),
@@ -992,6 +1007,7 @@ Today's Métro comprises 16 lines totaling over 220 kilometers of track. The num
 
 ```{r}
 #| echo: false
+
 dplyr::tibble(
   line = c("1", "2", "3", "3bis", "4", "5", "6", "7", "7bis", "8", "9", "10", "11", "12", "13", "14"),
   color = c("#FFCD00", "#003CA6", "#837902", "#6EC4E8", "#CF009E", "#FF7E2E", "#6ECA97", "#FA9ABA", "#6ECA97", "#E19BDF", "#B6BD00", "#C9910D", "#704B1C", "#007852", "#6EC4E8", "#62259D"),
@@ -1039,6 +1055,7 @@ The signage and wayfinding deserve particular praise. Station names appear in a 
 
 ```{r}
 #| echo: false
+
 metro |>
   dplyr::filter(!is.na(passengers)) |>
   dplyr::group_by(lines) |>
@@ -1081,6 +1098,7 @@ The `gibraltar` dataset contains hourly weather observations from Gibraltar duri
 
 ```{r}
 #| echo: false
+
 gibraltar |>
   dplyr::filter(date == "2023-05-01", time >= "06:00", time <= "14:00") |>
   dplyr::select(time, temp, humidity, wind_speed, wind_dir, condition) |>
@@ -1111,6 +1129,7 @@ The Rock of Gibraltar rises 426 meters above sea level, a dramatic limestone for
 
 ```{r}
 #| echo: false
+
 gibraltar |>
   dplyr::mutate(
     hour = as.integer(sub(":.*", "", time)),
@@ -1156,6 +1175,7 @@ The May weather data captures Gibraltar in spring, before the intense heat of Me
 
 ```{r}
 #| echo: false
+
 gibraltar |>
   dplyr::count(wind_dir) |>
   dplyr::arrange(desc(n)) |>
@@ -1179,6 +1199,7 @@ The `films` dataset is a labor of love: a comprehensive record of every film tha
 
 ```{r}
 #| echo: false
+
 films |>
   dplyr::filter(year == 2019) |>
   dplyr::select(title, director, countries_of_origin) |>
@@ -1203,6 +1224,7 @@ Construction required extensive research spanning months of work. The festival's
 
 ```{r}
 #| echo: false
+
 films |>
   dplyr::count(year, name = "films") |>
   dplyr::filter(year >= 1970) |>
@@ -1225,6 +1247,7 @@ The Cannes Film Festival has operated since 1946 (with a brief predecessor event
 
 ```{r}
 #| echo: false
+
 films |>
   dplyr::filter(!grepl(",", countries_of_origin)) |>
   dplyr::count(countries_of_origin, sort = TRUE) |>
@@ -1244,6 +1267,7 @@ The festival also reflects changing tastes and priorities in world cinema. In it
 
 ```{r}
 #| echo: false
+
 films |>
   dplyr::group_by(director) |>
   dplyr::summarize(
@@ -1281,6 +1305,7 @@ The `films` dataset exists because I really enjoy movies, and that love extends 
 
 ```{r}
 #| echo: false
+
 letterboxd_films <- readr::read_csv("data/letterboxd_films.csv", show_col_types = FALSE)
 
 films_tbl <- 
@@ -1338,6 +1363,8 @@ One detail worth noting is that the star ratings used `fmt()` for formatting rat
 The `illness` dataset takes a different approach than the others. Rather than modeling behavior or compiling reference data, it reproduces a single table from a published scientific article. The source is "A fatal yellow fever virus infection in China: description and lessons" from *Emerging Microbes & Infections* (July 2016), which documented laboratory test results for a patient who contracted yellow fever during travel to Angola.
 
 ```{r}
+#| echo: false
+
 illness |>
   dplyr::select(test, units, day_3, day_7, day_9) |>
   dplyr::slice_head(n = 10) |>
@@ -1359,6 +1386,7 @@ Medical laboratory tests generate data that require specialized interpretation. 
 
 ```{r}
 #| echo: false
+
 illness |>
   dplyr::filter(!is.na(norm_u) & !is.na(norm_l)) |>
   dplyr::select(test, units, norm_l, norm_u) |>
@@ -1387,6 +1415,8 @@ These two datasets represent **gt**'s connection to the pharmaceutical industry,
 `rx_adsl` contains subject-level data (ADSL format) for 182 participants in a fictional clinical trial. `rx_addv` provides protocol deviation records (ADDV format) with 910 entries documenting when and how trial participants deviated from study protocols. Both datasets use standard variable names and coding conventions that pharmaceutical statisticians will immediately recognize.
 
 ```{r}
+#| echo: false
+
 rx_adsl |>
   dplyr::select(USUBJID, AGE, SEX, ETHNIC, TRTA) |>
   dplyr::slice_head(n = 8) |>
@@ -1406,6 +1436,7 @@ Pharmaceutical data follows conventions that seem arcane to outsiders but enable
 
 ```{r}
 #| echo: false
+
 rx_adsl |>
   dplyr::group_by(TRTA) |>
   dplyr::summarize(
@@ -1431,6 +1462,7 @@ The treatment arms in clinical trials typically include the experimental treatme
 
 ```{r}
 #| echo: false
+
 rx_addv |>
   dplyr::count(DVCAT) |>
   dplyr::arrange(desc(n)) |>
