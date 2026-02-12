@@ -999,14 +999,18 @@ The `films` dataset is a labor of love: a comprehensive record of every film tha
 
 ```{r}
 films |>
-  dplyr::filter(year >= 2020) |>
-  dplyr::select(title, director, countries_of_origin, year) |>
-  dplyr::slice_head(n = 10) |>
-  gt(groupname_col = "year") |>
+  dplyr::filter(year == 2019) |>
+  dplyr::select(title, director, countries_of_origin) |>
+  gt() |>
+  fmt_country(columns = countries_of_origin, sep = ", ") |>
   cols_label(
     title = "Film",
     director = "Director",
     countries_of_origin = "Country"
+  ) |>
+  tab_header(
+    title = "Cannes Film Festival 2019",
+    subtitle = "Official Competition"
   )
 ```
 
