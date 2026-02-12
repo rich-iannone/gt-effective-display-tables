@@ -476,6 +476,7 @@ For table-making, `towny` provides opportunities for population density calculat
 The `peeps` dataset contains fictional personal information for 100 imaginary people: names, addresses, phone numbers, email addresses, and nationalities. These fake individuals were generated using an online tool that produces realistic-seeming demographic data, then verified for plausible formatting of addresses and contact information across different countries.
 
 ```{r}
+#| echo: false
 set.seed(23)
 peeps |>
   dplyr::select(name_given, name_family, email_addr, country) |>
@@ -491,7 +492,8 @@ peeps |>
     email_addr = "Email",
     country = "Country",
     flag = ""
-  )
+  ) |>
+  tab_header(title = "A Random Selection of Peeps")
 ```
 
 The international scope was intentional. `peeps` was created specifically to demonstrate formatters like `fmt_email()`, `fmt_country()`, and `fmt_flag()`. Having people from various countries ensures that flag icons and country name formatting can be shown in realistic contexts. An address book or contact directory table should contain international entries, and `peeps` provides exactly that.
