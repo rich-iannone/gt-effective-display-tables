@@ -552,9 +552,13 @@ sza |>
   dplyr::filter(tst %in% c("0600", "0900", "1200", "1500", "1800")) |>
   dplyr::filter(latitude %in% c(0, 20, 40, 60)) |>
   dplyr::filter(month %in% c("jan", "apr", "jul", "oct")) |>
+  dplyr::mutate(
+    latitude = paste0(latitude, "\u00BAN"),
+    tst = paste0(substr(tst, 1, 2), ":", substr(tst, 3, 4))
+  ) |>
   tidyr::pivot_wider(names_from = month, values_from = sza) |>
   gt(rowname_col = "tst", groupname_col = "latitude") |>
-  fmt_number(decimals = 0) |>
+  fmt_number(decimals = 0, pattern = "{x}\u00B0") |>
   sub_missing(missing_text = "—") |>
   tab_header(
     title = "Solar Zenith Angles Throughout the Day",
