@@ -872,6 +872,7 @@ Several design principles distinguish the Paris Métro from less successful tran
 The signage and wayfinding deserve particular praise. Station names appear in a consistent typeface (Parisine, designed specifically for the Métro in 1996) on tiled walls visible from passing trains. Corridor signs point toward exits, transfers, and surface landmarks with clarity that serves tourists and commuters alike. The colored line numbers and terminus names provide all the information needed to navigate without consulting maps. Many transit systems aspire to this legibility but few achieve it so thoroughly.
 
 ```{r}
+#| echo: false
 metro |>
   dplyr::filter(!is.na(passengers)) |>
   dplyr::group_by(lines) |>
