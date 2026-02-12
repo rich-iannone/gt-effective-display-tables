@@ -357,33 +357,28 @@ The grand touring concept originated in 1950s Europe, when wealthy motorists beg
 ```{r}
 #| echo: false
 gtcars |>
-  dplyr::group_by(mfr) |>
-  dplyr::summarize(
-    models = n(),
-    avg_hp = mean(hp),
-    avg_msrp = mean(msrp),
-    avg_mpg = mean((mpg_c + mpg_h) / 2),
-    .groups = "drop"
-  ) |>
-  dplyr::arrange(desc(avg_msrp)) |>
+  dplyr::select(mfr, model, msrp) |>
+  dplyr::arrange(desc(msrp)) |>
   head(10) |>
-  gt(rowname_col = "mfr") |>
-  fmt_integer(columns = c(models, avg_hp)) |>
-  fmt_currency(columns = avg_msrp, decimals = 0) |>
-  fmt_number(columns = avg_mpg, decimals = 1) |>
+  gt() |>
+  fmt_currency(columns = msrp, decimals = 0) |>
+  data_color(
+    columns = msrp,
+    palette = c("#E8F5E9", "#1B5E20"),
+    domain = NULL
+  ) |>
   cols_label(
-    models = "Models",
-    avg_hp = "Avg HP",
-    avg_msrp = "Avg Price",
-    avg_mpg = "Avg MPG"
+    mfr = "Manufacturer",
+    model = "Model",
+    msrp = "MSRP"
   ) |>
   tab_header(
-    title = "Manufacturers by Average Price",
-    subtitle = "From the gtcars dataset"
+    title = md("Most Expensive Cars in gtcars &#x1F4B0;"),
+    subtitle = "Top 10 by manufacturer's suggested retail price"
   )
 ```
 
-Ferrari commands the highest average prices in the dataset, followed by the other Italian marques and the boutique British manufacturers. The German manufacturers (BMW, Mercedes, Audi) cluster at somewhat lower price points but offer more models, representing a broader range from accessible sports cars to top-tier performance vehicles. American manufacturers appear in the dataset primarily through Ford (the GT supercar) and Chevrolet (the Corvette), carrying on a different tradition of performance cars with a more democratic price structure.
+The top ten most expensive cars in the dataset tell a clear story about where the money goes. Ferrari dominates the list with five entries, led by the LaFerrari at over $1.4 million (more than three times the price of any other car in the dataset). The Ford GT makes a surprising appearance at number two, representing America's answer to European exotica. A Lambo, two Rolls-Royces, and Aston Martin round out the list, each occupying a different niche of the ultra-luxury market. Notably absent from the top ten are the German manufacturers, whose cars offer serious performance at comparatively accessible price points.
 
 ```{r}
 #| echo: false
