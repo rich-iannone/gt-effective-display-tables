@@ -572,7 +572,7 @@ For **gt**, the `sza` dataset demonstrates heatmap-style coloring (values natura
 
 ## `constants`, `reactions`, `photolysis`, and `nuclides`
 
-These four datasets form a cluster of scientific reference data, each addressing a gap in publicly available resources. While the underlying information exists in various forms (government pages, textbooks, specialized databases), it had not been consolidated into convenient R data frames. The **gt** package provided an opportunity to change that.
+These four datasets form a cluster of scientific reference data, each addressing a gap in publicly available resources. While the underlying information exists in various forms (government pages, textbooks, specialized databases), it had not been consolidated into convenient data frames. The **gt** package provided an opportunity to change that.
 
 The `constants` dataset contains 30 fundamental physical constants with their values, units, and uncertainties. These are the numbers that appear in physics and chemistry textbooks: the speed of light, Planck's constant, Avogadro's number, the gravitational constant. Each value comes with associated metadata specifying units and measurement precision.
 
