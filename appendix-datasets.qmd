@@ -249,20 +249,103 @@ Datasets like `exibble` just don't get a lot of attention, however, they are ess
 The `gtcars` dataset contains specifications for 47 luxury and performance automobiles, with an emphasis on grand touring vehicles. The name works on two levels: these are GT (grand tourer) cars, and the dataset lives in a package called **gt**. The wordplay is intentional but understated. I try not to make a big deal about it.
 
 ```{r}
+#| echo: false
+
+# Helper to create inline SVG logo for manufacturer row group labels
+mfr_logo <- function(mfr_name, svg_file, height = 18) {
+  svg_text <- paste(
+    readLines(paste0("assets/logos/", svg_file), warn = FALSE),
+    collapse = " "
+  )
+  svg_text <- gsub('<\\?xml[^?]*\\?>', '', svg_text)
+  svg_text <- gsub('<!--.*?-->', '', svg_text)
+  svg_text <- gsub(' width="[^"]*"', '', svg_text)
+  svg_text <- gsub(' height="[^"]*"', '', svg_text)
+  svg_text <- sub(
+    '<svg ',
+    paste0('<svg height="', height, '" width="', height, '" '),
+    svg_text
+  )
+  html(paste0(
+    '<span style="display: inline-flex; align-items: center; gap: 6px;">',
+    svg_text,
+    '<span>', mfr_name, '</span>',
+    '</span>'
+  ))
+}
+
 gtcars |>
-  dplyr::select(mfr, model, year, hp, trq, mpg_c, mpg_h, msrp) |>
-  dplyr::slice_head(n = 10) |>
-  gt(rowname_col = "model", groupname_col = "mfr") |>
+  dplyr::filter(ctry_origin %in% c("Germany", "Italy")) |>
+  dplyr::select(ctry_origin, mfr, model, hp, trq, mpg_c, mpg_h, msrp) |>
+  dplyr::arrange(factor(ctry_origin, levels = c("Germany", "Italy")), mfr, model) |>
+  gt(rowname_col = "model") |>
+  tab_row_group(
+    label = mfr_logo("Audi", "audi.svg"),
+    rows = mfr == "Audi", id = "Audi"
+  ) |>
+  tab_row_group(
+    label = mfr_logo("BMW", "bmw.svg"),
+    rows = mfr == "BMW", id = "BMW"
+  ) |>
+  tab_row_group(
+    label = mfr_logo("Mercedes-Benz", "merc.svg"),
+    rows = mfr == "Mercedes-Benz", id = "Mercedes-Benz"
+  ) |>
+  tab_row_group(
+    label = mfr_logo("Porsche", "porsche.svg"),
+    rows = mfr == "Porsche", id = "Porsche"
+  ) |>
+  tab_row_group(
+    label = mfr_logo("Ferrari", "ferrari.svg"),
+    rows = mfr == "Ferrari", id = "Ferrari"
+  ) |>
+  tab_row_group(
+    label = mfr_logo("Lamborghini", "lamborghini.svg"),
+    rows = mfr == "Lamborghini", id = "Lamborghini"
+  ) |>
+  tab_row_group(
+    label = mfr_logo("Maserati", "maserati.svg"),
+    rows = mfr == "Maserati", id = "Maserati"
+  ) |>
+  row_group_order(
+    groups = c(
+      "Audi", "BMW", "Mercedes-Benz", "Porsche",
+      "Ferrari", "Lamborghini", "Maserati"
+    )
+  ) |>
   fmt_integer(columns = c(hp, trq)) |>
   fmt_currency(columns = msrp, decimals = 0) |>
+  cols_hide(columns = c(ctry_origin, mfr)) |>
   cols_label(
-    year = "Year",
     hp = "HP",
     trq = "Torque",
-    mpg_c = "MPG (city)",
-    mpg_h = "MPG (hwy)",
+    mpg_c = "City",
+    mpg_h = "Hwy",
     msrp = "MSRP"
-  )
+  ) |>
+  tab_spanner(
+    label = "MPG",
+    columns = c(mpg_c, mpg_h)
+  ) |>
+  cols_width(
+    stub() ~ px(160),
+    c(hp, trq, mpg_c, mpg_h) ~ px(75),
+    msrp ~ px(100)
+  ) |>
+  tab_style(
+    style = cell_fill(color = "#EBF5FB"),
+    locations = cells_body(rows = ctry_origin == "Germany")
+  ) |>
+  tab_style(
+    style = cell_fill(color = "#FEF9E7"),
+    locations = cells_body(rows = ctry_origin == "Italy")
+  ) |>
+  tab_header(
+    title = "German and Italian Grand Tourers",
+    subtitle = "Precision engineering meets Mediterranean passion"
+  ) |>
+  opt_all_caps() |>
+  opt_vertical_padding(scale = 0.5)
 ```
 
 The dataset was assembled from Motor Trend articles about grand touring vehicles, with additional research filling in gaps for fuel economy and torque figures. Most vehicles date from around 2015, reflecting when the source articles were published. The selection criteria emphasized true grand tourers: vehicles designed for high-speed, long-distance driving in comfort, typically with powerful engines, refined interiors, and substantial price tags.
