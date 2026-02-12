@@ -536,6 +536,11 @@ sza |>
   fmt_number(decimals = 1) |>
   sub_missing(missing_text = "—") |>
   cols_hide(columns = latitude) |>
+  cols_label(
+    jan = "Jan", feb = "Feb", mar = "Mar", apr = "Apr",
+    may = "May", jun = "Jun", jul = "Jul", aug = "Aug",
+    sep = "Sep", oct = "Oct", nov = "Nov", dec = "Dec"
+  ) |>
   tab_header(title = "Solar Zenith Angles by Latitude and Month")
 ```
 
