@@ -17,7 +17,7 @@ The inspiration for this dataset came from Plateau Pizza, a real establishment i
 
 The dataset borrowed liberally from Plateau Pizza's menu. Their category structure (Classic, Supreme, Veggie and Vegan, Chicken) was adopted directly. Many pizza names and ingredient combinations came straight from their website, though some were embellished and others invented entirely. The fictional additions drew inspiration from Food Network recipes and local salumist offerings that seemed appropriately gourmet. Pricing followed a similar pattern: real prices served as the baseline, then adjustments were made based on perceived ingredient costs. The fancier cheeses and cured meats commanded premium prices, as they should.
 
-What makes `pizzaplace` genuinely interesting is not the menu but the simulation that generated a year's worth of orders. The modeling script (preserved in the gt package's source repository at `data-raw/05-pizzaplace.R`) creates synthetic customers who arrive throughout each day with realistic patterns. Barret Schloerke contributed refinements to the behavioral model, adding nuance to timing and preference distributions. Weekends see more traffic than weekdays, reflecting the work-leisure split that governs so much of consumer behavior. Holidays disrupt normal patterns in expected ways.
+What makes `pizzaplace` interesting is not the menu but the simulation that generated a year's worth of orders. The modeling script (preserved in the gt package's source repository at `data-raw/05-pizzaplace.R`) creates synthetic customers who arrive throughout each day with realistic patterns. Barret Schloerke contributed refinements to the behavioral model, adding nuance to timing and preference distributions. Weekends see more traffic than weekdays, reflecting the work-leisure split that governs so much of consumer behavior. Holidays disrupt normal patterns in expected ways.
 
 The simulation also includes what might be called narrative events. A kitchen fire at one point disrupts operations. These partially catastrophic incidents add verisimilitude to what would otherwise be suspiciously smooth data. Real businesses experience interruptions, equipment failures, staff shortages, and the occasional minor disaster. The `pizzaplace` data reflects this messiness, making it more valuable for realistic analysis exercises than perfectly clean synthetic data would be.
 
@@ -973,7 +973,7 @@ metro |>
   tab_header(title = "Busiest Paris Métro Stations")
 ```
 
-The dataset exists because I genuinely admire the Paris Métro. Among the world's subway systems, it stands out for its density, connectivity, and integration with other transit modes (RER commuter rail, buses, trams, and high-speed TGV connections). The wayfinding and signage are exemplary. The expansion plans are ambitious and consistently executed. It represents what urban transit can be when treated as essential infrastructure rather than an afterthought.
+The dataset exists because I really admire the Paris Métro. Among the world's subway systems, it stands out for its density, connectivity, and integration with other transit modes (RER commuter rail, buses, trams, and high-speed TGV connections). The wayfinding and signage are exemplary. The expansion plans are ambitious and consistently executed. It represents what urban transit can be when treated as essential infrastructure rather than an afterthought.
 
 ### A brief history of the Métro
 
