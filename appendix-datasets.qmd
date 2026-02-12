@@ -1110,13 +1110,15 @@ The Cannes Film Festival has operated since 1946 (with a brief predecessor event
 ```{r}
 #| echo: false
 films |>
+  dplyr::filter(!grepl(",", countries_of_origin)) |>
   dplyr::count(countries_of_origin, sort = TRUE) |>
   dplyr::slice_head(n = 12) |>
   gt(rowname_col = "countries_of_origin") |>
+  fmt_country(columns = countries_of_origin) |>
   cols_label(n = "Films in Competition") |>
   tab_header(
     title = "Countries by Cannes Competition Entries",
-    subtitle = "All-time totals across festival history"
+    subtitle = "Single-country productions across festival history"
   )
 ```
 
