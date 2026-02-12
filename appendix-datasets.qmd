@@ -931,9 +931,13 @@ sp500 |>
   cols_label(
     year_open = "Open",
     year_close = "Close",
-    return_pct = "Return",
+    return_pct = md("Annual<br>Return"),
     year_high = "Year High",
     year_low = "Year Low"
+  ) |>
+  cols_width(
+    stub() ~ px(50),
+    everything() ~ px(100)
   ) |>
   tab_header(
     title = "S&P 500 Annual Summary",
