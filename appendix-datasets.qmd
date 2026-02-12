@@ -588,6 +588,8 @@ constants |>
   dplyr::slice_head(n = 8) |>
   gt() |>
   fmt_scientific(columns = c(value, uncert)) |>
+  fmt_units(columns = units) |>
+  sub_missing(missing_text = "") |>
   cols_label(
     name = "Constant",
     value = "Value",
