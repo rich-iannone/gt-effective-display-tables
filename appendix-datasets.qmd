@@ -906,21 +906,27 @@ For **gt** demonstrations, the dataset provides geographic data with French lang
 The `gibraltar` dataset contains hourly weather observations from Gibraltar during May 2023: temperature, humidity, wind speed, cloud cover, and other meteorological variables. It provides 744 rows representing each hour of a single month in this small but fascinating territory.
 
 ```{r}
-set.seed(23)
+#| echo: false
 gibraltar |>
-  dplyr::slice_sample(n = 8) |>
-  dplyr::select(date, time, temp, humidity, wind_speed, wind_dir) |>
+  dplyr::filter(date == "2023-05-01", time >= "06:00", time <= "14:00") |>
+  dplyr::select(time, temp, humidity, wind_speed, wind_dir, condition) |>
   gt() |>
   fmt_number(columns = temp, decimals = 1) |>
-  fmt_integer(columns = c(humidity, wind_speed)) |>
+  fmt_percent(columns = humidity, decimals = 0) |>
+  fmt_number(columns = wind_speed, decimals = 1) |>
   cols_label(
-    date = "Date",
-    time = "Time", 
+    time = "Time",
     temp = "Temp (°C)",
-    humidity = "Humidity %",
+    humidity = "Humidity",
     wind_speed = "Wind (km/h)",
-    wind_dir = "Direction"
-  )
+    wind_dir = "Direction",
+    condition = "Condition"
+  ) |>
+  tab_header(
+    title = "Gibraltar Morning Weather",
+    subtitle = "May 1, 2023: fog clearing to fair skies"
+  ) |>
+  opt_vertical_padding(scale = 0.5)
 ```
 
 Gibraltar sits at the southern tip of the Iberian Peninsula, a British Overseas Territory of barely seven square kilometers guarding the entrance to the Mediterranean Sea. It is the kind of place that captures the imagination precisely because it seems improbable: a limestone promontory with its own airport runway crossing the main road, Barbary macaques roaming the upper rock, and a rather complex history.
