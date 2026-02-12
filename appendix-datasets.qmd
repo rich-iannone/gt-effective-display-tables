@@ -1161,6 +1161,7 @@ The dataset updates annually as each new festival adds to the historical record.
 The `films` dataset exists because I really enjoy movies, and that love extends well beyond festival competition entries. Below is a searchable, sortable table of every film I've watched (and mostly rated) on [Letterboxd](https://letterboxd.com/rich_i/). The data was assembled using scripts in this book's repository (`scripts/scrape-letterboxd.R`), which merge the Letterboxd data export files and fetch director information from individual film pages.
 
 ```{r}
+#| echo: false
 letterboxd_films <- readr::read_csv("data/letterboxd_films.csv", show_col_types = FALSE)
 
 films_tbl <- 
@@ -1211,7 +1212,7 @@ films_tbl |>
   )
 ```
 
-One detail worth noting is that the star ratings used `fmt()` rather than a pre-formatted text column. This matters for interactive tables because `fmt()` changes only the *display* while preserving the underlying numeric values. When a user clicks the `Rating` column header to sort, the table sorts on the original numbers (`5`, `4.5`, `4`, ...) rather than on rendered text like "★★★★½", which would sort alphabetically and produce nonsensical results. It is a small trick but an important one whenever you need sortable columns with custom formatting in `opt_interactive()` tables!
+One detail worth noting is that the star ratings used `fmt()` for formatting rather than a pre-formatted text column. This matters for interactive tables because `fmt()` changes only the *display* while preserving the underlying numeric values. When a user clicks the `Rating` column header to sort, the table sorts on the original numbers (`5`, `4.5`, `4`, ...) rather than on rendered text like "★★★★½", which would sort alphabetically and produce nonsensical results. It is a small trick but an important one whenever you need sortable columns with custom formatting in `opt_interactive()` tables!
 
 ## `illness`
 
