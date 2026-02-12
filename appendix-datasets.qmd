@@ -843,11 +843,11 @@ crash_week <-
     day = format(date, "%A"),
     label = as.character(date)
   ) |>
-  dplyr::select(label, day, open, high, low, close, volume)
+  dplyr::select(label, day, open, close, volume)
 
 weekend_row <- dplyr::tibble(
-  label = "Weekend", day = "",
-  open = NA_real_, high = NA_real_, low = NA_real_,
+  label = "The Weekend", day = "",
+  open = NA_real_,
   close = NA_real_, volume = NA_real_
 )
 
@@ -857,23 +857,25 @@ dplyr::bind_rows(
   crash_week |> dplyr::filter(label >= "1987-10-19")
 ) |>
   gt(rowname_col = "label") |>
-  fmt_currency(columns = c(open, high, low, close), decimals = 2) |>
+  fmt_currency(columns = c(open, close), decimals = 2) |>
   fmt_number(columns = volume, suffixing = TRUE) |>
   sub_missing(missing_text = "") |>
   cols_label(
     day = "Day",
     open = "Open",
-    high = "High",
-    low = "Low",
     close = "Close",
     volume = "Volume"
+  ) |>
+  cols_width(
+    day ~ px(100),
+    everything() ~ px(130)
   ) |>
   tab_style(
     style = list(
       cell_fill(color = "#f0f0f0"),
       cell_text(style = "italic")
     ),
-    locations = cells_body(rows = label == "Weekend")
+    locations = cells_body(rows = label == "The Weekend")
   ) |>
   tab_style(
     style = cell_text(color = "#D73027", weight = "bold"),
@@ -884,7 +886,11 @@ dplyr::bind_rows(
       cell_fill(color = "#f0f0f0"),
       cell_text(style = "italic")
     ),
-    locations = cells_stub(rows = label == "Weekend")
+    locations = cells_stub(rows = label == "The Weekend")
+  ) |>
+  tab_style(
+    style = cell_borders(sides = "right", style = "hidden"),
+    locations = cells_stub(rows = 4)
   ) |>
   tab_header(
     title = "Black Monday and the Week That Shook Wall Street",
