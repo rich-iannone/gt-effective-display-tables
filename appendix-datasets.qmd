@@ -892,7 +892,7 @@ dplyr::tibble(
     automated = "Automated"
   ) |>
   fmt_number(columns = length_km, decimals = 1) |>
-  fmt_tf(columns = automated) |>
+  fmt_tf(columns = automated, tf_style = "check-mark") |>
   data_color(
     columns = color,
     fn = function(x) x
