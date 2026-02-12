@@ -368,12 +368,14 @@ Population counts are harder to obtain than one might assume. Only a handful of 
 countrypops |>
   dplyr::filter(year == 2023) |>
   dplyr::slice_max(population, n = 15) |>
-  dplyr::select(country_name, country_code_3, population) |>
-  gt(rowname_col = "country_name") |>
-  fmt_number(columns = population, suffixing = TRUE) |>
-  fmt_flag(columns = country_code_3) |>
+  dplyr::mutate(flag = country_code_3) |>
+  dplyr::select(country_code_3, flag, population) |>
+  gt(rowname_col = "country_code_3") |>
+  fmt_number(columns = population, n_sigfig = 3, suffixing = TRUE) |>
+  fmt_flag(columns = flag) |>
+  fmt_country(columns = country_code_3) |>
   cols_label(
-    country_code_3 = "",
+    flag = "",
     population = "Population (2023)"
   ) |>
   cols_width(country_code_3 ~ px(40)) |>
