@@ -189,7 +189,25 @@ For **gt** specifically, `pizzaplace` demonstrates grouped data, aggregation, cu
 The name `exibble` is a portmanteau of "example tibble" and it serves exactly that purpose. This tiny dataset of eight rows exists to demonstrate **gt**'s formatting capabilities without the distraction of meaningful content. Each column represents a different data type: numeric values, character strings, currency amounts, dates, times, datetimes, and logical values. Missing values appear in strategic locations to demonstrate `sub_missing()` and related substitution functions.
 
 ```{r}
-gt(exibble)
+exibble |>
+  gt() |>
+  tab_header(
+    title = md("The `exibble` dataset"),
+    subtitle = "8 rows and 9 columns."
+  ) |>
+  tab_style(style = cell_fill(color = "#F8F8F8"), locations = cells_body(columns = num)) |>
+  tab_style(style = cell_fill(color = "#F2F2F2"), locations = cells_body(columns = char)) |>
+  tab_style(style = cell_fill(color = "#ECECEC"), locations = cells_body(columns = fctr)) |>
+  tab_style(style = cell_fill(color = "#E6E6E6"), locations = cells_body(columns = date)) |>
+  tab_style(style = cell_fill(color = "#E0E0E0"), locations = cells_body(columns = time)) |>
+  tab_style(style = cell_fill(color = "#DADADA"), locations = cells_body(columns = datetime)) |>
+  tab_style(style = cell_fill(color = "#D4D4D4"), locations = cells_body(columns = currency)) |>
+  tab_style(style = cell_fill(color = "#CECECE"), locations = cells_body(columns = row)) |>
+  tab_style_body(
+    style = cell_text(color = "red3", weight = "bold"),
+    fn = function(x) is.na(x)
+  ) |>
+  tab_style(style = cell_fill(color = "#C8C8C8"), locations = cells_body(columns = group))
 ```
 
 The column names are deliberately generic (`num`, `char`, `currency`, `date`, `time`, `datetime`) because the content does not matter. What matters is having every common data type available in a single compact dataset. When documenting a date formatter, you need a date column. When showing number formatting options, you need numbers. When explaining how to handle NA values, you need NA values in predictable locations.
@@ -228,6 +246,7 @@ The `row` and `group` columns transform `exibble` from a formatting showcase int
 
 ```{r}
 #| echo: false
+
 exibble |>
   gt(rowname_col = "row", groupname_col = "group") |>
   fmt_number(columns = num, decimals = 2) |>
