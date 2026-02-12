@@ -540,22 +540,25 @@ While `countrypops` takes a global view, `towny` focuses on a single Canadian pr
 #| echo: false
 
 towny |>
-  dplyr::select(name, land_area_km2, population_2001, population_2021, density_2021) |>
+  dplyr::select(name, population_2001, density_2001, population_2021, density_2021) |>
   dplyr::slice_max(population_2021, n = 10) |>
   gt(rowname_col = "name") |>
   fmt_integer(columns = c(population_2001, population_2021)) |>
-  fmt_number(columns = land_area_km2, decimals = 1) |>
-  fmt_number(columns = density_2021, decimals = 1) |>
+  fmt_number(columns = c(density_2001, density_2021), decimals = 1) |>
   cols_label(
-    land_area_km2 = "Area (km²)",
-    population_2001 = "Pop. 2001",
-    population_2021 = "Pop. 2021",
+    population_2001 = "Population",
+    density_2001 = "Density",
+    population_2021 = "Population",
     density_2021 = "Density"
   ) |>
+  tab_spanner(label = "2001", columns = c(population_2001, density_2001)) |>
+  tab_spanner(label = "2021", columns = c(population_2021, density_2021)) |>
+  cols_width(everything() ~ px(110)) |>
   tab_header(
     title = "Ontario's Largest Municipalities",
     subtitle = "Population and density for the top 10, 2001 vs. 2021."
-  )
+  ) |>
+  tab_source_note("Density is measured in persons per km².")
 ```
 
 The data comes from Statistics Canada and reveals patterns that might surprise those unfamiliar with Canadian geography. Toronto dominates, of course, but the surrounding municipalities (Mississauga, Brampton, Hamilton) have grown substantially over twenty years. Some smaller towns have declined as economic opportunities concentrated elsewhere. The dataset captures this quiet drama of population redistribution that plays out across every country's regions.
