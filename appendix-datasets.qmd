@@ -577,18 +577,28 @@ These four datasets form a cluster of scientific reference data, each addressing
 The `constants` dataset contains 30 fundamental physical constants with their values, units, and uncertainties. These are the numbers that appear in physics and chemistry textbooks: the speed of light, Planck's constant, Avogadro's number, the gravitational constant. Each value comes with associated metadata specifying units and measurement precision.
 
 ```{r}
+#| echo: false
 constants |>
+  dplyr::filter(name %in% c(
+    "speed of light in vacuum", "Planck constant",
+    "elementary charge", "Boltzmann constant",
+    "Avogadro constant", "fine-structure constant",
+    "electron mass", "proton mass",
+    "Bohr radius", "Newtonian constant of gravitation"
+  )) |>
   dplyr::select(name, value, uncert, units) |>
-  dplyr::slice_head(n = 8) |>
-  gt() |>
+  gt(rowname_col = "name") |>
   fmt_scientific(columns = c(value, uncert)) |>
   fmt_units(columns = units) |>
   sub_missing(missing_text = "") |>
   cols_label(
-    name = "Constant",
     value = "Value",
     uncert = "Uncertainty",
     units = "Units"
+  ) |>
+  tab_header(
+    title = "Numbers That Define the Universe",
+    subtitle = "Ten fundamental physical constants"
   )
 ```
 
@@ -1068,7 +1078,7 @@ films |>
   )
 ```
 
-The dataset exists because I am a devoted cinephile. My letterboxd account (letterboxd.com/rich_i/) tracks viewing habits and provides an ongoing record of films watched and opinions formed. Film festivals provide endless opportunities for discovery, surfacing works that might never reach mainstream distribution. The Cannes Film Festival, as the most prestigious venue for international cinema, seemed like essential data that should exist in an accessible format. But no such dataset was publicly available. The only solution was to create one.
+The dataset exists because I really like watching movies. My letterboxd account (letterboxd.com/rich_i/) tracks my viewing history and provides an ongoing record of films watched and opinions formed (manifesting in star ratings). Film festivals provide endless opportunities for discovery, surfacing works that might never reach mainstream distribution. The Cannes Film Festival, as the most prestigious venue for international cinema, seemed like essential data that should exist in an accessible format. But no such dataset was publicly available. The only logical solution was to create one.
 
 ### Building the Cannes dataset
 
