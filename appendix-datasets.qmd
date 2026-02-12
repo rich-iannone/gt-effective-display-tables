@@ -378,6 +378,7 @@ The grand touring concept originated in 1950s Europe, when wealthy motorists beg
 
 ```{r}
 #| echo: false
+
 gtcars |>
   dplyr::select(mfr, model, msrp) |>
   dplyr::arrange(desc(msrp)) |>
@@ -456,6 +457,8 @@ For table-making purposes, `gtcars` provides natural groupings by manufacturer, 
 The `countrypops` dataset tracks population estimates for countries worldwide from 1960 through the present (currently extending to 2024). The data comes from the World Bank, which compiles demographic estimates from national statistical offices, census data, and the United Nations Population Division. With over 13,000 rows covering more than 200 countries across six decades, it is one of the larger datasets in the **gt** collection.
 
 ```{r}
+#| echo: false
+
 countrypops |>
   dplyr::filter(country_code_3 %in% c("USA", "CHN", "IND", "BRA", "NGA")) |>
   dplyr::filter(year %in% c(1960, 1980, 2000, 2020)) |>
@@ -474,6 +477,7 @@ Population counts are harder to obtain than one might assume. Only a handful of 
 
 ```{r}
 #| echo: false
+
 countrypops |>
   dplyr::filter(year == 2023) |>
   dplyr::slice_max(population, n = 15) |>
@@ -500,6 +504,7 @@ That said, the trends in population data are generally reliable even when the ab
 
 ```{r}
 #| echo: false
+
 countrypops |>
   dplyr::filter(country_code_3 %in% c("DEU", "JPN", "ITA", "ESP", "KOR")) |>
   dplyr::filter(year >= 1990) |>
@@ -533,6 +538,7 @@ While `countrypops` takes a global view, `towny` focuses on a single Canadian pr
 
 ```{r}
 #| echo: false
+
 towny |>
   dplyr::select(name, land_area_km2, population_2001, population_2021, density_2021) |>
   dplyr::slice_max(population_2021, n = 10) |>
@@ -558,6 +564,7 @@ Ontario municipality names offer their own entertainment. Some are indigenous pl
 
 ```{r}
 #| echo: false
+
 towny |>
   dplyr::mutate(
     growth_rate = (population_2021 - population_2001) / population_2001 * 100
