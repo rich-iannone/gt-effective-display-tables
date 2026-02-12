@@ -715,6 +715,7 @@ The S&P 500 tracks 500 large-cap American companies, weighted by market capitali
 #| echo: false
 sp500 |>
   dplyr::mutate(year = as.integer(format(date, "%Y"))) |>
+  dplyr::arrange(date) |>
   dplyr::group_by(year) |>
   dplyr::summarize(
     trading_days = n(),
