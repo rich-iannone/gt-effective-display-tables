@@ -606,7 +606,7 @@ With a summarized, filtered, and pivoted version of the `pizzaplace` dataset, we
 pizzaplace |>
   dplyr::select(name, date, type, price) |>
   dplyr::group_by(name, date, type) |>
-  dplyr::summarize(revenue = sum(price), sold = n(), .groups = "drop") |>
+  dplyr::summarize(revenue = sum(price), sold = dplyr::n(), .groups = "drop") |>
   dplyr::filter(date %in% c("2015-01-01", "2015-01-02", "2015-01-03")) |>
   dplyr::filter(type %in% c("classic", "veggie")) |>
   tidyr::pivot_wider(
@@ -997,7 +997,6 @@ pizzaplace |>
   ) |>
   tab_options(
     summary_row.background.color = "gray95",
-    row_group.background.color = "#FFEFDB",
     row_group.as_column = TRUE
   ) |>
   tab_stub_indent(
