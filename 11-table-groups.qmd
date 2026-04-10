@@ -376,7 +376,7 @@ summary_table <-
   gtcars |>
   dplyr::group_by(mfr) |>
   dplyr::summarize(
-    n_models = n(),
+    n_models = dplyr::n(),
     avg_hp = mean(hp),
     avg_price = mean(msrp),
     .groups = "drop"
@@ -427,7 +427,7 @@ year_tables <- lapply(years, function(yr) {
     dplyr::filter(year == yr) |>
     dplyr::group_by(mfr) |>
     dplyr::summarize(
-      models = n(),
+      models = dplyr::n(),
       avg_hp = mean(hp),
       .groups = "drop"
     ) |>
