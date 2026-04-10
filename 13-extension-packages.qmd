@@ -187,7 +187,7 @@ Sparklines are miniature line charts that show the shape of data over time or ac
 car_summary <- mtcars |>
   group_by(cyl) |>
   summarize(
-    n = n(),
+    n = dplyr::n(),
     avg_mpg = mean(mpg),
     mpg_data = list(mpg),
     hp_data = list(hp),
@@ -242,7 +242,7 @@ Sometimes you want to show not just the values themselves but their distribution
 mtcars |>
   group_by(cyl) |>
   summarize(
-    n = n(),
+    n = dplyr::n(),
     mean_mpg = mean(mpg),
     mpg_dist = list(mpg),
     .groups = "drop"
