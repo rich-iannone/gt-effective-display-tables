@@ -672,7 +672,7 @@ gtcars |>
  dplyr::summarize(
    min_hp = min(hp),
    max_hp = max(hp),
-   n_models = n(),
+   n_models = dplyr::n(),
    .groups = "drop"
  ) |>
  dplyr::slice_head(n = 8) |>
