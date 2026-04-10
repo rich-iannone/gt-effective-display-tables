@@ -483,7 +483,7 @@ That puts the spanner in the intended level. If there aren't free locations avai
 
 ### `tab_spanner_delim()`
 
-The `cols_spanner_delim()` function can take specially-crafted column names and generate one or more spanner column labels (along with relabeling the column labels).
+The `tab_spanner_delim()` function can take specially-crafted column names and generate one or more spanner column labels (along with relabeling the column labels).
 
 Here is the function's signature:
 
