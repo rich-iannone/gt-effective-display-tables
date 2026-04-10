@@ -479,9 +479,9 @@ countrypops |>
   arrange(country_name, year) |>
   group_by(country_name, country_code_2) |>
   summarize(
-    pop_1960 = first(population),
-    pop_2024 = last(population),
-    years = n(),
+    pop_1960 = dplyr::first(population),
+    pop_2024 = dplyr::last(population),
+    years = dplyr::n(),
     .groups = "drop"
   ) |>
   filter(!is.na(pop_1960), !is.na(pop_2024)) |>
