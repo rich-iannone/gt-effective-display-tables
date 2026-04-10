@@ -416,7 +416,7 @@ gtcars |>
   )) |>
   dplyr::group_by(power_tier) |>
   dplyr::summarize(
-    count = n(),
+    count = dplyr::n(),
     avg_torque = mean(trq),
     avg_price = mean(msrp),
     .groups = "drop"
@@ -754,8 +754,8 @@ constants |>
   ) |>
   dplyr::group_by(precision_class) |>
   dplyr::summarize(
-    count = n(),
-    example = first(name),
+    count = dplyr::n(),
+    example = dplyr::first(name),
     .groups = "drop"
   ) |>
   gt(rowname_col = "precision_class") |>
@@ -806,7 +806,7 @@ nuclides |>
   dplyr::filter(decay_1 %in% c("B-", "B+", "A", "EC")) |>
   dplyr::group_by(decay_1) |>
   dplyr::summarize(
-    count = n(),
+    count = dplyr::n(),
     .groups = "drop"
   ) |>
   dplyr::mutate(
@@ -912,9 +912,9 @@ sp500 |>
   dplyr::arrange(date) |>
   dplyr::group_by(year) |>
   dplyr::summarize(
-    trading_days = n(),
-    year_open = first(open),
-    year_close = last(close),
+    trading_days = dplyr::n(),
+    year_open = dplyr::first(open),
+    year_close = dplyr::last(close),
     year_high = max(high),
     year_low = min(low),
     avg_volume = mean(volume),
@@ -1083,7 +1083,7 @@ metro |>
   dplyr::filter(!is.na(passengers)) |>
   dplyr::group_by(lines) |>
   dplyr::summarize(
-    stations = n(),
+    stations = dplyr::n(),
     total_passengers = sum(passengers, na.rm = TRUE),
     avg_passengers = mean(passengers, na.rm = TRUE),
     .groups = "drop"
@@ -1294,7 +1294,7 @@ The festival also reflects changing tastes and priorities in world cinema. In it
 films |>
   dplyr::group_by(director) |>
   dplyr::summarize(
-    entries = n(),
+    entries = dplyr::n(),
     years = paste(range(year), collapse = "-"),
     .groups = "drop"
   ) |>
@@ -1463,7 +1463,7 @@ Pharmaceutical data follows conventions that seem arcane to outsiders but enable
 rx_adsl |>
   dplyr::group_by(TRTA) |>
   dplyr::summarize(
-    subjects = n(),
+    subjects = dplyr::n(),
     avg_age = mean(AGE, na.rm = TRUE),
     pct_female = mean(SEX == "F", na.rm = TRUE) * 100,
     ethnicities = n_distinct(ETHNIC),
