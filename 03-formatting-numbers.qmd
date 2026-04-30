@@ -1030,7 +1030,7 @@ Let's format age group intervals into readable ranges:
 
 ```{r}
 dplyr::tibble(
-  age_group = c("[0,18)", "[18,35)", "[35,50)", "[50,65)", "[65,Inf)"),
+  age_group = c("(0,18]", "(18,35]", "(35,50]", "(50,65]", "(65,Inf]"),
   count = c(150, 340, 280, 195, 120)
 ) |>
   gt() |>
