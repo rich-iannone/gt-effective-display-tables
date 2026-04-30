@@ -45,7 +45,7 @@ exibble |>
 
 The `NA` values are now displayed as em-dashes (the `"---"` default for `missing_text` signifies an em dash), a common typographic convention for missing data that's cleaner than displaying `"NA"`.
 
-You can customize the replacement text for different contexts:
+You can customize the replacement text for specified columns:
 
 ```{r}
 exibble |>
@@ -56,26 +56,49 @@ exibble |>
   sub_missing(columns = currency, missing_text = "---")
 ```
 
-Different columns now display their missing values differently: numeric columns show `"N/A"`, character columns show `"(none)"`, and currency columns show an em-dash. This contextual approach can make your tables more intuitive.
+Each column now displays its missing values differently: `num` shows `"N/A"`, `char` shows `"(none)"`, and `currency` shows an em dash. This contextual approach can make your tables more intuitive.
+
+You can also target columns by type using tidyselect helpers like `where()`. This is useful when you want a consistent missing-value indicator for all columns of a particular class:
+ 
+```{r}
+exibble |>
+  dplyr::select(num, char, currency) |>
+  gt() |>
+  sub_missing(columns = where(is.numeric), missing_text = md("*missing*")) |>
+  sub_missing(columns = where(is.character), missing_text = "(empty)")
+```
+
+Here, all numeric columns receive *missing* text for missing values and all character columns show `"(empty)"` (though there's only a single character column in this example). Selecting by class means you don't need to enumerate column names, which is especially handy for wider datasets.
 
 The `rows` argument lets you target specific rows:
 
 ```{r}
-exibble |>
-  dplyr::select(row, num, char) |>
+small_vals_tbl <-
+  dplyr::tibble(
+    item = c("A", "B", "C", "D", "E"),
+    score = c(
+      10, NA, 25, NA, NA
+    ),
+    status = c(
+      "done", NA, "done", NA, "done"
+    )
+  )
+
+small_vals_tbl |>
   gt() |>
   sub_missing(
     columns = everything(),
-    rows = row %in% c("row_1", "row_2"),
+    rows = item %in% c("B", "C", "D"),
     missing_text = "pending"
   ) |>
   sub_missing(
     columns = everything(),
+    rows = item == "E",
     missing_text = "---"
   )
 ```
 
-This applies different substitutions based on row context, with early rows showing `"pending"` and others showing an em-dash.
+This applies different substitutions based on row context. Missing values in rows `"B"`, `"C"`, and `"D"` show `"pending"`, while the missing value in row `"E"` shows an em dash.
 
 ### `sub_zero()`
 
