@@ -930,7 +930,7 @@ dplyr::tibble(
   fmt_index(columns = rank, case = "lower", pattern = "{x}.")
 ```
 
-The numeric ranks are now expressed as uppercase letters, suitable for use in lists or references.
+The numeric ranks are now expressed as lowercase letters, suitable for use in lists or references.
 
 ### `fmt_roman()`
 
