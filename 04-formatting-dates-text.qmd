@@ -955,7 +955,7 @@ Let's format a table of physical quantities with their SI units:
 ```{r}
 dplyr::tibble(
   quantity = c("Acceleration", "Energy", "Pressure", "Density"),
-  unit = c("m/s^2", "kg*m^2/s^2", "N/m^2", "kg/m^3")
+  unit = c("m / s^2", "kg m^2 / s^2", "N / m^2", "kg / m^3")
 ) |>
   gt() |>
   fmt_units(columns = unit)
@@ -969,21 +969,21 @@ The units notation uses a simple but expressive syntax. Here are the key element
 #| echo: false
 
 dplyr::tibble(
-  Notation = c("`^`", "`_`", "`*`", "`/`", "`()`", "`{{}}`", "`-`"),
-  Meaning = c("Superscript (exponent)", "Subscript", "Multiplication (·)", "Division (per)", "Grouping", "Subscript text", "Minus in exponent"),
-  `Example Input` = c("`m^2`", "`x_0`", "`kg*m`", "`m/s`", "`J/(kg*K)`", "`x_{{avg}}`", "`m^-1`"),
-  `Renders As` = c("m²", "x₀", "kg·m", "m/s", "J/(kg·K)", "x<sub>avg</sub>", "m⁻¹")
+  Notation = c("`^`", "`_`", "`()`", "`-`"),
+  Meaning = c("Superscript (exponent)", "Subscript", "Grouping", "Minus in exponent"),
+  `Example Input` = c("`m^2`", "`x_0`", "`J / (kg K)`", "`m^-1`"),
+  `Renders As` = `Example Input`
 ) |>
   gt() |>
   fmt_markdown(columns = c(Notation, `Example Input`)) |>
-  fmt_markdown(columns = `Renders As`)
+  fmt_units(columns = `Renders As`)
 ```
 
 These elements can be combined to express complex units:
 
 ```{r}
 dplyr::tibble(
-  notation = c("m/s^2", "kg*m^2/s^2", "W/(m^2*K)", "mol^-1", "m^3/(kg*s^2)"),
+  notation = c("m/s^2", "kg m^2 / s^2", "W / (m^2 K)", "mol^-1", "m^3 / (kg s^2 )"),
   description = c(
     "Acceleration", 
     "Energy (Joules)", 
@@ -998,14 +998,14 @@ dplyr::tibble(
   cols_label(notation = "Rendered Unit", description = "Physical Quantity")
 ```
 
-The notation is intuitive for anyone familiar with scientific writing. You write units almost as you would speak them. So "meters per second squared" becomes `m/s^2`, and "watts per square meter kelvin" becomes `W/(m^2*K)`.
+The notation is intuitive for anyone familiar with scientific writing. You write units almost as you would speak them. So "meters per second squared" becomes `m / s^2`, and "watts per square meter kelvin" becomes `W / (m^2 K)`.
 
 The unit notation supports a rich syntax for complex expressions:
 
 ```{r}
 dplyr::tibble(
   quantity = c("Heat capacity", "Thermal conductivity", "Viscosity"),
-  unit = c("J/(kg*K)", "W/(m*K)", "kg/(m*s)")
+  unit = c("J / (kg K)", "W / (m K)", "kg / (m s)")
 ) |>
   gt() |>
   fmt_units(columns = unit)
