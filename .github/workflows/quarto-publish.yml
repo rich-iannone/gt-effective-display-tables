@@ -42,23 +42,8 @@ jobs:
             any::gtsummary
             any::broom
             any::broom.helpers
-            any::gtExtras
-            any::svglite
             any::patchwork
             any::ggplot2
-
-      - name: Patch and reinstall gtExtras (gt no longer exports %>%)
-        run: |
-          tmp <- tempdir()
-          download.packages("gtExtras", destdir = tmp, type = "source")
-          src <- list.files(tmp, pattern = "gtExtras.*\\.tar\\.gz", full.names = TRUE)
-          untar(src, exdir = tmp)
-          pkg_dir <- file.path(tmp, "gtExtras")
-          ns_file <- file.path(pkg_dir, "NAMESPACE")
-          ns <- readLines(ns_file)
-          writeLines(ns[ns != 'importFrom(gt,"%>%")'], ns_file)
-          install.packages(pkg_dir, repos = NULL, type = "source")
-        shell: Rscript {0}
 
       - name: Render Quarto Project
         uses: quarto-dev/quarto-actions/render@v2
