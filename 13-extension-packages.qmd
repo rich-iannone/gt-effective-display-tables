@@ -145,6 +145,7 @@ One of **gtExtras**' most immediately useful features is its collection of theme
 ```{r}
 #| label: gtextras-themes
 
+library(magrittr)
 library(gtExtras)
 
 # Create a simple summary table
