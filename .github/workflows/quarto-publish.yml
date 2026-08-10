@@ -47,6 +47,14 @@ jobs:
             any::patchwork
             any::ggplot2
 
+      - name: Patch gtExtras NAMESPACE (gt no longer exports %>%)
+        run: |
+          ns_file <- system.file("NAMESPACE", package = "gtExtras")
+          ns <- readLines(ns_file)
+          ns <- ns[ns != "importFrom(gt,\"%>%\")"]
+          writeLines(ns, ns_file)
+        shell: Rscript {0}
+
       - name: Render Quarto Project
         uses: quarto-dev/quarto-actions/render@v2
 
