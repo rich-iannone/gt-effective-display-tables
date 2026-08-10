@@ -47,12 +47,17 @@ jobs:
             any::patchwork
             any::ggplot2
 
-      - name: Patch gtExtras NAMESPACE (gt no longer exports %>%)
+      - name: Patch and reinstall gtExtras (gt no longer exports %>%)
         run: |
-          ns_file <- system.file("NAMESPACE", package = "gtExtras")
+          tmp <- tempdir()
+          download.packages("gtExtras", destdir = tmp, type = "source")
+          src <- list.files(tmp, pattern = "gtExtras.*\\.tar\\.gz", full.names = TRUE)
+          untar(src, exdir = tmp)
+          pkg_dir <- file.path(tmp, "gtExtras")
+          ns_file <- file.path(pkg_dir, "NAMESPACE")
           ns <- readLines(ns_file)
-          ns <- ns[ns != "importFrom(gt,\"%>%\")"]
-          writeLines(ns, ns_file)
+          writeLines(ns[ns != 'importFrom(gt,"%>%")'], ns_file)
+          install.packages(pkg_dir, repos = NULL, type = "source")
         shell: Rscript {0}
 
       - name: Render Quarto Project
